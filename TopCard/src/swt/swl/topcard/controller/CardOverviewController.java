@@ -11,7 +11,10 @@ public class CardOverviewController {
     public CardOverviewController() {
     }
     
-    public void setMainApp(MainApp mainApp) {
+    public CardOverviewController(String loginName) {
+	}
+
+	public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 }
