@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+
 public class LoginWindowController {
 
     @FXML
@@ -23,7 +24,7 @@ public class LoginWindowController {
     	}
     	try(Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF" , "gruppe_f")){
     		Statement stmt = conn.createStatement();
-    		ResultSet result = stmt.executeQuery("Select UserName from User");
+    		ResultSet result = stmt.executeQuery("Select LoginName from User");
     		String loginName = userNameTextField.getText();
     		while(result.next()){
     			String userName = result.getString("LoginName");
