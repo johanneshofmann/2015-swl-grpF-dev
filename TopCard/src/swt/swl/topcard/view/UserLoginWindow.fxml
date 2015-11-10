@@ -4,11 +4,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="214.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.LoginWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="214.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.LoginWindowController">
    <children>
-      <Button fx:id="loginButton" layoutX="187.0" layoutY="153.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="39.0" prefWidth="107.0" text="Login" />
-      <Label layoutX="14.0" layoutY="6.0" prefHeight="27.0" prefWidth="248.0" text="Please enter your UserName." />
-      <Pane layoutX="-141.0" layoutY="-425.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="loginButton" layoutX="70.0" layoutY="122.0" mnemonicParsing="false" onAction="#loginButtonClicked" prefHeight="39.0" prefWidth="107.0" text="Login" />
+      <Label layoutX="70.0" layoutY="34.0" prefHeight="27.0" prefWidth="248.0" text="Please enter your UserName." />
       <TextField fx:id="userNameTextField" layoutX="70.0" layoutY="81.0" promptText="UserName" />
    </children>
 </Pane>
