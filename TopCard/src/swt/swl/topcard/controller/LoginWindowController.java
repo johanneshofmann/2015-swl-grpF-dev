@@ -6,16 +6,32 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import swt.swl.topcard.model.LoginModel;
+
 
 public class LoginWindowController {
 
+	private LoginModel model;
+
+	@FXML
+    private Button loginButton,registrateButton;
+
     @FXML
     private TextField userNameTextField;
-    @FXML
-    private Button loginButton;
+
+	public LoginWindowController() {
+		model = new LoginModel();
+	}
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
+    	model.checkDatabase(userNameTextField.getText());
+    }
+
+    @FXML
+    void registrateButtonClicked(ActionEvent event) {
+
+    }
 
     	try{
     		Class.forName("com.mysql.jdbc.Driver");
@@ -29,10 +45,15 @@ public class LoginWindowController {
     		while(result.next()){
     			String userName = result.getString("LoginName");
     			if(userName.equals(loginName)){
+    				return true;
     				new MainWindowController(loginName);
     				System.out.println("LoginName accepted. Access granted");
     				break;
     			}
+    		}
+    		return false;
+
+    		if(!isInDatabase){
 
     		}
 
