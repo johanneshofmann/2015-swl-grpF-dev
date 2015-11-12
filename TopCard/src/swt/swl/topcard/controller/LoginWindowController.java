@@ -29,7 +29,7 @@ public class LoginWindowController {
     		while(result.next()){
     			String userName = result.getString("LoginName");
     			if(userName.equals(loginName)){
-    				new CardOverviewController(loginName);
+    				new MainWindowController(loginName);
     				System.out.println("LoginName accepted. Access granted");
     				break;
     			}

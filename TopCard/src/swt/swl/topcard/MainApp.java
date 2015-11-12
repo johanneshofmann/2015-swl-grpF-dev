@@ -2,7 +2,7 @@ package swt.swl.topcard;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import swt.swl.topcard.controller.CardOverviewController;
+import swt.swl.topcard.controller.MainWindowController;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -66,9 +66,9 @@ public class MainApp extends Application {
             AnchorPane cardOverview = (AnchorPane) loader.load();
 
             // TODO:
-            rootLayout.setCenter(cardOverview);
+            //rootLayout.setCenter(cardOverview);
 
-            CardOverviewController controller = loader.getController();
+            MainWindowController controller = loader.getController();
             //controller.setMainApp(this);
 		}
 		catch(Exception e)

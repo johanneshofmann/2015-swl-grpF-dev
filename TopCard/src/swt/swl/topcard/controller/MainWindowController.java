@@ -4,14 +4,14 @@ import swt.swl.topcard.MainApp;
 
 
 
-public class CardOverviewController {
+public class MainWindowController {
 	
     private MainApp mainApp;
 
-    public CardOverviewController() {
+    public MainWindowController() {
     }
     
-    public CardOverviewController(String loginName) {
+    public MainWindowController(String loginName) {
 	}
 
 	public void setMainApp(MainApp mainApp) {
