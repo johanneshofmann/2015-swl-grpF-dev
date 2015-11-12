@@ -29,7 +29,7 @@ public class LoginWindowController {
     void loginButtonClicked(ActionEvent event) {
     	boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
     	if(isInDatabase){
-    		//new MainWindowController();
+    		//remove: new MainWindowController();
     	}else{
     		mainApp.getPrimaryStage().setScene(NEUESCENE);
     	}
