@@ -2,8 +2,6 @@ package swt.swl.topcard.controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 

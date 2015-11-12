@@ -3,10 +3,7 @@ package swt.swl.topcard;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import swt.swl.topcard.controller.LoginWindowController;
-import swt.swl.topcard.controller.MainWindowController;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
