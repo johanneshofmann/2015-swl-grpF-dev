@@ -66,7 +66,7 @@ public class MainApp extends Application {
             AnchorPane cardOverview = (AnchorPane) loader.load();
 
             // TODO:
-            rootLayout.setCenter(cardOverview);
+            //rootLayout.setCenter(cardOverview);
 
             CardOverviewController controller = loader.getController();
             //controller.setMainApp(this);
