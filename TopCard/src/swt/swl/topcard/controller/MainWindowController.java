@@ -1,20 +1,29 @@
 package swt.swl.topcard.controller;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 
 
 
 public class MainWindowController {
-	
-    private MainApp mainApp;
-
-    public MainWindowController() {
-    }
+    public MainApp mainApp;
+    private Pane rootLayout;
+    private String loginName;
     
     public MainWindowController(String loginName) {
-	}
+    	this.loginName=loginName;
+    	try{
+			FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/MainWindowView.fxml"));
+            rootLayout = (Pane) loader.load();
 
-	public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
+            Scene scene = new Scene(rootLayout);
+            mainApp.getPrimaryStage().setScene(scene);
+            mainApp.getPrimaryStage().show();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }
