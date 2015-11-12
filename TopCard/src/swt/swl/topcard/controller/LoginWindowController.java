@@ -11,18 +11,32 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import swt.swl.topcard.MainApp;
 
+import swt.swl.topcard.model.LoginModel;
+
 
 public class LoginWindowController {
+<<<<<<< HEAD
 	private Stage primaryStage;
 	private Pane rootLayout;
 	
+=======
+
+	private LoginModel model;
+
+	@FXML
+    private Button loginButton,registrateButton;
+
+>>>>>>> origin/master
     @FXML
     private TextField userNameTextField;
-    @FXML
-    private Button loginButton;
+
+	public LoginWindowController() {
+		model = new LoginModel();
+	}
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
+<<<<<<< HEAD
 
     	try{
     		Class.forName("com.mysql.jdbc.Driver");
@@ -48,7 +62,19 @@ public class LoginWindowController {
 
     	}catch (SQLException e) {
     		e.printStackTrace();
+=======
+    	boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
+    	if(isInDatabase){
+    		new MainWindowController();
+    	}else{
+    		
+>>>>>>> origin/master
     	}
+    		
+    }
+    @FXML
+    void registrateButtonClicked(ActionEvent event) {
+
     }
     
     private void createMainWindowView(){
