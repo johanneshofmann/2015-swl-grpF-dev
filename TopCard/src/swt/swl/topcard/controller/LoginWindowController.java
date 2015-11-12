@@ -26,7 +26,6 @@ public class LoginWindowController {
 	@FXML
     private Button loginButton,registrateButton;
 
->>>>>>> origin/master
     @FXML
     private TextField userNameTextField;
 
@@ -36,39 +35,12 @@ public class LoginWindowController {
 
     @FXML
     void loginButtonClicked(ActionEvent event) {
-<<<<<<< HEAD
 
-    	try{
-    		Class.forName("com.mysql.jdbc.Driver");
-    	}catch(ClassNotFoundException e){
-    		e.printStackTrace();
-    	}
-    	try(Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF" , "gruppe_f")){
-    		Statement stmt = conn.createStatement();
-    		ResultSet result = stmt.executeQuery("Select LoginName from User");
-    		String loginName = userNameTextField.getText();
-    		while(result.next()){
-    			String userName = result.getString("LoginName");
-    			if(userName.equals(loginName)){
-    				//new MainWindowController(loginName);
-    				createMainWindowView();
-    				this.primaryStage.close();
-    				System.out.println("LoginName accepted. Access granted");
-    				break;
-    			}
-
-    		}
-
-
-    	}catch (SQLException e) {
-    		e.printStackTrace();
-=======
     	boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
     	if(isInDatabase){
     		new MainWindowController();
     	}else{
     		
->>>>>>> origin/master
     	}
     		
     }
