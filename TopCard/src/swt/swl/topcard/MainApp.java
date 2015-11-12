@@ -2,6 +2,7 @@ package swt.swl.topcard;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import swt.swl.topcard.controller.LoginWindowController;
 import swt.swl.topcard.controller.MainWindowController;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -41,7 +42,7 @@ public class MainApp extends Application {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UserLoginWindow.fxml"));
             rootLayout = (Pane) loader.load();
-
+            ((LoginWindowController) loader.getController()).setMainApp(this);
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
