@@ -1,6 +1,5 @@
 package swt.swl.topcard.controller;
 
-import java.sql.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +14,9 @@ import swt.swl.topcard.model.LoginModel;
 
 
 public class LoginWindowController {
-<<<<<<< HEAD
 	private Stage primaryStage;
 	private Pane rootLayout;
 	
-=======
 
 	private LoginModel model;
 
@@ -38,7 +35,8 @@ public class LoginWindowController {
 
     	boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
     	if(isInDatabase){
-    		new MainWindowController();
+    		//new MainWindowController();
+    		createMainWindowView();
     	}else{
     		
     	}
