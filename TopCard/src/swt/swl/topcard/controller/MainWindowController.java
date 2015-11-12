@@ -1,29 +1,51 @@
 package swt.swl.topcard.controller;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
-import swt.swl.topcard.MainApp;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+
 
 
 
 public class MainWindowController {
-    public MainApp mainApp;
-    private Pane rootLayout;
-    private String loginName;
-    
+	@FXML
+	private Button start;
+	@FXML
+	private Button Search;
+	@FXML
+	private Button createNewRq;
+	@FXML
+	private MenuItem toVote;
+	@FXML
+	private MenuItem myRqCards;
+   
+	@FXML
+	void startButtonClicked(ActionEvent event){
+	   
+	}
+	@FXML
+	void createNewRqbuttonClicked(ActionEvent event){
+	   
+	}
+	@FXML
+	void searchbittonClicked(ActionEvent event){
+	   
+	}
+	@FXML
+	void toVoteButtonClicked(ActionEvent event){
+	   
+	}
+	@FXML
+	void myRqCardsbuttonClicked(ActionEvent event){
+	   
+	}
+   
+   
     public MainWindowController(String loginName) {
-    	this.loginName=loginName;
-    	try{
-			FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/MainWindowView.fxml"));
-            rootLayout = (Pane) loader.load();
-
-            Scene scene = new Scene(rootLayout);
-            mainApp.getPrimaryStage().setScene(scene);
-            mainApp.getPrimaryStage().show();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+    	
+    	
 	}
 }
