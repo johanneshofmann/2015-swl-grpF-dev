@@ -24,9 +24,6 @@ public class MainApp extends Application {
 
 			//Initialize root layout
 			this.initRootLayout();
-
-			//Show CardOverview;
-			// TODO: this.showCardOverview();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -54,26 +51,8 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-
-	public void showCardOverview()
-	{
-		try
-
-
-		{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/CardOverview.fxml"));
-            AnchorPane cardOverview = (AnchorPane) loader.load();
-
-            // TODO:
-            //rootLayout.setCenter(cardOverview);
-
-            MainWindowController controller = loader.getController();
-            //controller.setMainApp(this);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+	public Stage getPrimaryStage() {
+		return primaryStage;
 	}
+
 }
