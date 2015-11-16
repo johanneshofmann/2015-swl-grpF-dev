@@ -80,7 +80,6 @@ public class LoginWindowController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((RegistrationController) loader.getController()).setModel(this.model);
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();

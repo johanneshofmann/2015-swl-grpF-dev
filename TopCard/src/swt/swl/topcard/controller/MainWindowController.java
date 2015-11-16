@@ -1,8 +1,10 @@
 package swt.swl.topcard.controller;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import swt.swl.topcard.MainApp;
+import swt.swl.topcard.model.LoginModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -10,29 +12,32 @@ import javafx.fxml.FXML;
 
 
 public class MainWindowController {
+	
 	private MainApp mainApp;
 	
 	@FXML
 	private Button start;
 	@FXML
-	private Button Search;
+	private Button search;
 	@FXML
 	private Button createNewRq;
 	@FXML
 	private MenuItem toVote;
 	@FXML
 	private MenuItem myRqCards;
+	@FXML
+	private MenuButton showRQCards;
    
 	@FXML
 	void startButtonClicked(ActionEvent event){
 	   
 	}
 	@FXML
-	void createNewRqbuttonClicked(ActionEvent event){
+	void createNewRqButtonClicked(ActionEvent event){
 	   
 	}
 	@FXML
-	void searchbittonClicked(ActionEvent event){
+	void searchButtonClicked(ActionEvent event){
 	   
 	}
 	@FXML
@@ -40,13 +45,12 @@ public class MainWindowController {
 	   
 	}
 	@FXML
-	void myRqCardsbuttonClicked(ActionEvent event){
+	void myRqCardsButtonClicked(ActionEvent event){
 	   
 	}
-   
-   
-    public MainWindowController(String loginName) {
-    	
-    	
+	
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
 	}
+	
 }

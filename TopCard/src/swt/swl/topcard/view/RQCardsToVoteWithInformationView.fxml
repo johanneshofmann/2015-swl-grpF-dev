@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <TableView prefHeight="351.0" prefWidth="302.0">
+               <columns>
+                  <TableColumn fx:id="requirementCardsTable" prefWidth="301.0" text="Requirement Cards to Vote:" />
+               </columns>
+            </TableView>
+         </children>
+      </HBox>
+   </children>
+</Pane>
