@@ -12,7 +12,6 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private Pane rootLayout;
 
-	@Override
 	public void start(Stage primaryStage) {
 		try {
 			// Initialize primary stage
