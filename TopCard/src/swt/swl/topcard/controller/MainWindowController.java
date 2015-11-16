@@ -2,6 +2,7 @@ package swt.swl.topcard.controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
+import swt.swl.topcard.MainApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -9,6 +10,8 @@ import javafx.fxml.FXML;
 
 
 public class MainWindowController {
+	private MainApp mainApp;
+	
 	@FXML
 	private Button start;
 	@FXML
