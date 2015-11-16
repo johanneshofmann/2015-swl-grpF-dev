@@ -45,7 +45,7 @@ public class LoginModel {
 			Statement stmt = conn.createStatement();
 			
 			int countInsert = stmt.executeUpdate("insert into User values (" + ID + ", '" + firstName + "', '" + lastName + "', '" + loginName + "');");
-
+			ID++;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
