@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Observable;
 
-public class LoginModel {
+public class LoginModel extends Observable {
 	
-	private int ID = 1000;
+	private int ID = (int)Math.random()*100000;
 	
 	public LoginModel(){
 		try {
@@ -48,10 +49,15 @@ public class LoginModel {
 			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ID + ", '" + firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');"; 
 			stmt.executeUpdate(sqlInsert);
 			ID++;
+			triggerNotification("insert");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	private void triggerNotification(String message){
+		setChanged();
+		notifyObservers(message);
+	}
 
 }

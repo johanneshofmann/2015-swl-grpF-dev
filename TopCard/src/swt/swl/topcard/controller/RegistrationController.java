@@ -31,6 +31,7 @@ public class RegistrationController {
 
 		} else {
 			model.insertUserIntoDatabase(firstName,lastName,loginName);
+			new Alert(AlertType.INFORMATION, "Registration successful.");
 		}
 	}
 

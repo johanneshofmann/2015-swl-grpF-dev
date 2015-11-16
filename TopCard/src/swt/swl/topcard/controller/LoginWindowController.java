@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +15,7 @@ import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 
-public class LoginWindowController {
+public class LoginWindowController implements Observer{
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
@@ -25,6 +28,7 @@ public class LoginWindowController {
 
 	public LoginWindowController() {
 		model = new LoginModel();
+		model.addObserver(this);
 	}
 
 	@FXML
@@ -82,5 +86,21 @@ public class LoginWindowController {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void update(Observable o, Object message) {
+		
+		switch (message.toString()) {
+		case "insert":
+			
+			break;
+		case "isInDatabase":
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 }
