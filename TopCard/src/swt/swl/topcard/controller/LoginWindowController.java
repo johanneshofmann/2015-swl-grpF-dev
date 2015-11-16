@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import swt.swl.topcard.MainApp;
 
 import swt.swl.topcard.model.LoginModel;
@@ -17,7 +16,6 @@ import swt.swl.topcard.model.LoginModel;
 public class LoginWindowController {
 	private LoginModel model;
 	private MainApp mainApp;
-	private Stage primaryStage;
 	private Pane rootLayout;
 
 	@FXML
@@ -45,21 +43,20 @@ public class LoginWindowController {
 				createRegistrationView();
 			} else {
 				// do nothing..
-				primaryStage.close();
+				mainApp.getPrimaryStage().close();
 			}
 		}
 	}
 
 	private void createRegistrationView() {
 		try {
-			primaryStage = mainApp.getPrimaryStage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RegistrationController) loader.getController()).setModel(this.model);
 			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,14 +73,13 @@ public class LoginWindowController {
 
 	private void createMainWindowView() {
 		try {
-			primaryStage = mainApp.getPrimaryStage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RegistrationController) loader.getController()).setModel(this.model);
 			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.show();
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

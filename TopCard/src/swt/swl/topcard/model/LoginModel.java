@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 public class LoginModel {
 	
@@ -44,9 +45,9 @@ public class LoginModel {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			stmt.executeUpdate("insert into User values (" + ID + ", '" + firstName + "', '" + lastName + "', '" + loginName + "');");
+			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ID + ", '" + firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');"; 
+			stmt.executeUpdate(sqlInsert);
 			ID++;
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
