@@ -9,19 +9,19 @@ import java.time.LocalDateTime;
 import java.util.Observable;
 
 public class LoginModel extends Observable {
-	
-	private int ID = (int)Math.random()*100000;
-	
-	public LoginModel(){
+
+	private int ID;
+
+	public LoginModel() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		ID = (int) (Math.random() * 100000);
 	}
 
 	public boolean checkDatabase(String loginName) {
-
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -46,16 +46,18 @@ public class LoginModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ID + ", '" + firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');"; 
+			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ID + ", '"
+					+ firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
 			stmt.executeUpdate(sqlInsert);
 			ID++;
-			triggerNotification("insert");
+			triggerNotification(loginName);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void triggerNotification(String message){
+
+	private void triggerNotification(String message) {
 		setChanged();
 		notifyObservers(message);
 	}
