@@ -41,8 +41,7 @@ public class LoginModel {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
-			stmt.executeQuery("Insert into User values ('" + firstName + "', '" + lastName + "', '" + loginName + "');");
-
+			stmt.executeQuery("Insert into User values ('" + firstName + "', '" + lastName + "', '" + loginName + "');");	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

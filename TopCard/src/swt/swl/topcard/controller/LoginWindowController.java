@@ -54,7 +54,7 @@ public class LoginWindowController {
 		try {
 			primaryStage = mainApp.getPrimaryStage();
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/RegistrationView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RegistrationController) loader.getController()).setModel(this.model);
 			Scene scene = new Scene(rootLayout);
@@ -78,7 +78,7 @@ public class LoginWindowController {
 		try {
 			primaryStage = mainApp.getPrimaryStage();
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("view/MainWindowView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RegistrationController) loader.getController()).setModel(this.model);
 			Scene scene = new Scene(rootLayout);
