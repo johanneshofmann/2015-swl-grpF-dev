@@ -1,14 +1,16 @@
 package swt.swl.topcard.controller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import swt.swl.topcard.MainApp;
-
 
 import swt.swl.topcard.model.LoginModel;
 
@@ -17,7 +19,7 @@ public class LoginWindowController {
 	private MainApp mainApp;
 	private Stage primaryStage;
 	private Pane rootLayout;
-	
+
 	@FXML
 	private Button loginButton, registrateButton;
 
@@ -31,19 +33,41 @@ public class LoginWindowController {
 	@FXML
 	void loginButtonClicked(ActionEvent event) {
 
+		boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
 
-    	boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
-    	if(isInDatabase){
-    		createMainWindowView();
-    	}else{
-    		
-    	}
-    		
-    }
+		if (isInDatabase) {
+			createMainWindowView();
+		} else {
+			Alert al = new Alert(AlertType.CONFIRMATION, "Not registrated. Registrate now ? ");
+			al.showAndWait();
+			String confirmation = al.getResult().getText();
+			if (confirmation.equals("OK")) {
+				createRegistrationView();
+			} else {
+				// do nothing..
+				primaryStage.close();
+			}
+		}
+	}
+
+	private void createRegistrationView() {
+		try {
+			primaryStage = mainApp.getPrimaryStage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
+			rootLayout = (Pane) loader.load();
+			((RegistrationController) loader.getController()).setModel(this.model);
+			Scene scene = new Scene(rootLayout);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	void registrateButtonClicked(ActionEvent event) {
-
+		createRegistrationView();
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -54,7 +78,7 @@ public class LoginWindowController {
 		try {
 			primaryStage = mainApp.getPrimaryStage();
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(LoginWindowController.class.getResource("view/MainWindowView.fxml"));
+			loader.setLocation(getClass().getResource("view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
@@ -62,6 +86,6 @@ public class LoginWindowController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

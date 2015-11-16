@@ -8,13 +8,17 @@ import java.sql.Statement;
 
 public class LoginModel {
 
-	public boolean checkDatabase(String loginName) {
-
+	public LoginModel(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean checkDatabase(String loginName) {
+
+
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
@@ -32,5 +36,17 @@ public class LoginModel {
 		return false;
 	}
 
-	
+	public void insertUserIntoDatabase(String firstName, String lastName, String loginName) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+			stmt.executeQuery("Insert into User values ('" + firstName + "', '" + lastName + "', '" + loginName + "');");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 }
