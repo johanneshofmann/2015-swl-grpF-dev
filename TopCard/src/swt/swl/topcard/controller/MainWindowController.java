@@ -103,4 +103,4 @@ public class MainWindowController {
 		this.loginName = loginName;
 	}
 }
->>>>>>> Stashed changes
+
