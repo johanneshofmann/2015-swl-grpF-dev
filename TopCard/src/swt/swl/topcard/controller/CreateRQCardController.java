@@ -37,7 +37,7 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-
+		//TODO:
 	}
 
 	/**

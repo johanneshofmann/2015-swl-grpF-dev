@@ -6,7 +6,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model.MainWindowModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,11 +22,11 @@ public class MainWindowController {
 	private MenuItem toVote,myRqCards;
 	@FXML
 	private MenuButton showRQCards;
-	
+
 	public MainWindowController(){
 		model = new MainWindowModel();
 	}
-	
+
 	@FXML
 	void startButtonClicked(ActionEvent event) {
 		//TODO:
