@@ -7,7 +7,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
+
+import javax.jws.Oneway;
+
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
@@ -37,7 +41,9 @@ public class MainWindowController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
-			setLeftPane((Pane) loader.load());
+			Pane rootLayout = (Pane) loader.load();
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
 			
 		} catch (Exception e) {
@@ -102,5 +108,6 @@ public class MainWindowController {
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
+	
 }
 

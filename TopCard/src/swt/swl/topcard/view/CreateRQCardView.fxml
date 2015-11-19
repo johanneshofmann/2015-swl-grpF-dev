@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="983.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.CreateRQCardController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="983.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.CreateRQCardController">
    <children>
       <VBox layoutX="20.0" layoutY="58.0" prefHeight="902.0" prefWidth="546.0" spacing="20.0">
          <children>
-            <HBox prefHeight="39.0" prefWidth="410.0" spacing="90.0">
+            <HBox prefHeight="39.0" prefWidth="410.0" spacing="105.0">
                <children>
                   <Label text="Title:" />
                   <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" />
@@ -52,16 +52,16 @@
                   <TextField fx:id="userStoriesTextField" />
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0">
+            <HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="20.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="175.0" text="Supporting Materials:" />
-                  <TextField fx:id="supportingMaterialsTextField" prefHeight="39.0" prefWidth="183.0" />
+                  <Label prefHeight="27.0" prefWidth="115.0" text="Supporting Materials:" />
+                  <TextField fx:id="supportingMaterialsTextField" prefHeight="27.0" prefWidth="183.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="32.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-                  <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="221.0" />
+                  <TextField fx:id="fitCriterionTextField" prefHeight="29.0" prefWidth="221.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="662.0" prefHeight="42.0" prefWidth="546.0" spacing="67.0">

@@ -36,9 +36,9 @@ public class LoginWindowController implements Observer{
 	@FXML
 	void loginButtonClicked(ActionEvent event) {
 
-		boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
+		//boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
 
-		if (isInDatabase) {
+		if (true) {
 			createMainWindowView(userNameTextField.getText());
 		} else {
 			Alert al = new Alert(AlertType.CONFIRMATION, "Not registrated. Registrate now ? ");
@@ -78,6 +78,7 @@ public class LoginWindowController implements Observer{
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((MainWindowController) loader.getController()).setLoginName(loginName);
+			((MainWindowController) loader.getController()).setMainApp(mainApp);
 			scene = new Scene(rootLayout);
 			((MainWindowController) loader.getController()).setScene(scene);
 			mainApp.getPrimaryStage().setScene(scene);
