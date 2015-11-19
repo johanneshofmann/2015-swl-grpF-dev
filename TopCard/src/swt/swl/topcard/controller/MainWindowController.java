@@ -39,7 +39,7 @@ public class MainWindowController {
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CardEditor.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
 			((MainWindowController) loader.getController()).setLoginName(loginName);
 			Scene scene = new Scene(rootLayout);
