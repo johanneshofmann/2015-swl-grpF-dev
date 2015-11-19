@@ -27,11 +27,11 @@ public class RegistrationController {
 		
 		if (firstName.isEmpty() || lastName.isEmpty()
 				|| loginName.isEmpty()) {
-			new Alert(AlertType.INFORMATION, "Field(s) should not be empty.");
+			new Alert(AlertType.WARNING, "Field(s) should not be empty.").showAndWait();
 
 		} else {
 			model.insertUserIntoDatabase(firstName,lastName,loginName);
-			new Alert(AlertType.INFORMATION, "Registration successful.");
+			new Alert(AlertType.INFORMATION, "Registration successful.").showAndWait();
 		}
 	}
 
