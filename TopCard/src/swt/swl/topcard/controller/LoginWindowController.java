@@ -1,9 +1,7 @@
 package swt.swl.topcard.controller;
 
-import java.awt.Event;
 import java.util.Observable;
 import java.util.Observer;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

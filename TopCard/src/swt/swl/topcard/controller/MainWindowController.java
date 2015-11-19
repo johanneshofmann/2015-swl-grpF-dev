@@ -6,12 +6,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.LoginModel;
-
-import javax.jws.Oneway;
-
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
