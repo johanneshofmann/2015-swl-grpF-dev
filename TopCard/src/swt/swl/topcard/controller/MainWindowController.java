@@ -53,6 +53,7 @@ public class MainWindowController {
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
 			((MainWindowController) loader.getController()).setLoginName(loginName);
+			((MainWindowController) loader.getController()).setMainApp(this.mainApp);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -103,4 +104,3 @@ public class MainWindowController {
 		this.loginName = loginName;
 	}
 }
->>>>>>> Stashed changes
