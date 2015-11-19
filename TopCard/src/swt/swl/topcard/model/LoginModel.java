@@ -61,5 +61,4 @@ public class LoginModel extends Observable {
 		setChanged();
 		notifyObservers(message);
 	}
-
 }

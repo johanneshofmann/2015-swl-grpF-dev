@@ -3,6 +3,7 @@ package swt.swl.topcard.controller;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,8 @@ import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 
-public class LoginWindowController implements Observer{
+public class LoginWindowController implements Observer {
+
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
@@ -45,8 +47,7 @@ public class LoginWindowController implements Observer{
 			if (confirmation.equals("OK")) {
 				createRegistrationView();
 			} else {
-				// do nothing..
-				mainApp.getPrimaryStage().close();
+				Platform.exit();
 			}
 		}
 	}
@@ -60,6 +61,7 @@ public class LoginWindowController implements Observer{
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,19 +81,18 @@ public class LoginWindowController implements Observer{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((MainWindowController) loader.getController()).setLoginName(loginName);
+			((MainWindowController) loader.getController()).getModel().setLoginName(loginName);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void update(Observable o, Object message) {
-	
-			createMainWindowView(message.toString());
+
+		createMainWindowView(message.toString());
 	}
 }
