@@ -1,0 +1,17 @@
+commit 946d5c764d547a20b6aaf046df62b3a5abbae4d4
+Author: Moritz März <moritz.maerz@stud.uni-bamberg.de>
+Date:   Mon Nov 16 20:26:35 2015 +0100
+
+    ignore class files
+
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..fd0ec54
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,2 @@
++
++*.class
+diff --git a/TopCard/bin/swt/swl/topcard/controller/LoginWindowController.class b/TopCard/bin/swt/swl/topcard/controller/LoginWindowController.class
+index 994b157..22f54f8 100644
+Binary files a/TopCard/bin/swt/swl/topcard/controller/LoginWindowController.class and b/TopCard/bin/swt/swl/topcard/controller/LoginWindowController.class differ
