@@ -1,9 +1,9 @@
 package swt.swl.topcard.controller;
 
+import java.awt.Event;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +16,11 @@ import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 
-public class LoginWindowController implements Observer {
-
+public class LoginWindowController implements Observer{
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
+	private Scene scene;
 
 	@FXML
 	private Button loginButton, registrateButton;
@@ -47,9 +47,15 @@ public class LoginWindowController implements Observer {
 			if (confirmation.equals("OK")) {
 				createRegistrationView();
 			} else {
-				Platform.exit();
+				// do nothing..
+				mainApp.getPrimaryStage().close();
 			}
 		}
+	}
+
+	@FXML
+	void registrateButtonClicked(ActionEvent event) {
+		createRegistrationView();
 	}
 
 	private void createRegistrationView() {
@@ -61,15 +67,9 @@ public class LoginWindowController implements Observer {
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@FXML
-	void registrateButtonClicked(ActionEvent event) {
-		createRegistrationView();
 	}
 
 	private void createMainWindowView(String loginName) {
@@ -77,27 +77,33 @@ public class LoginWindowController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((MainWindowController) loader.getController()).getModel().setLoginName(loginName);
-			((MainWindowController) loader.getController()).setMainApp(this.mainApp);
-			Scene scene = new Scene(rootLayout);
+			((MainWindowController) loader.getController()).setLoginName(loginName);
+			scene = new Scene(rootLayout);
+			((MainWindowController) loader.getController()).setScene(scene);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override
 	public void update(Observable o, Object message) {
-
-		createMainWindowView(message.toString());
-	}
-
-	public MainApp getMainApp() {
-		return mainApp;
+	
+			createMainWindowView(message.toString());
 	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
+
+	public Scene getScene() {
+		return scene;
+	}
+
+	public void setScene(Scene scene) {
+		this.scene = scene;
+	}
 }
+

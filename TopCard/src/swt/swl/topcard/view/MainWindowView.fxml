@@ -16,6 +16,14 @@
       <Button fx:id="start" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Start" textAlignment="CENTER" />
       <Button fx:id="createNewRq" layoutX="159.0" layoutY="3.0" mnemonicParsing="false" onAction="#createNewRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Create new RQ" />
       <Button fx:id="search" layoutX="459.0" layoutY="3.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
-      <Pane layoutX="1.0" layoutY="44.0" prefHeight="358.0" prefWidth="600.0" />
+      <Pane layoutX="1.0" layoutY="44.0" prefHeight="358.0" prefWidth="600.0">
+         <children>
+            <HBox prefHeight="358.0" prefWidth="607.0">
+               <children>
+                  <Pane fx:id="mainWindowPainLeft" prefHeight="358.0" prefWidth="305.0" />
+                  <Pane fx:id="mainWindowPainRight" prefHeight="358.0" prefWidth="305.0" />
+               </children>
+            </HBox>
+         </children></Pane>
    </children>
 </Pane>

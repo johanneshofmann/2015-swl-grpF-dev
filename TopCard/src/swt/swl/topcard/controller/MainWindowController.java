@@ -6,44 +6,56 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.MainWindowModel;
+import swt.swl.topcard.model.LoginModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 
 public class MainWindowController {
 
-	private MainWindowModel model;
 	private MainApp mainApp;
+	private String loginName;
+	private Scene scene;
 
 	@FXML
-	private Button start,search,createNewRq;
+	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private MenuItem toVote,myRqCards;
+	private Button start;
+	@FXML
+	private Button search;
+	@FXML
+	private Button createNewRq;
+	@FXML
+	private MenuItem toVote;
+	@FXML
+	private MenuItem myRqCards;
 	@FXML
 	private MenuButton showRQCards;
 
-	public MainWindowController(){
-		model = new MainWindowModel();
-	}
-
 	@FXML
 	void startButtonClicked(ActionEvent event) {
-		//TODO:
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
+			setLeftPane((Pane) loader.load());
+			mainApp.getPrimaryStage().show();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void createNewRqButtonClicked(ActionEvent event) {
-
+		
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((CreateRQCardController) loader.getController()).setModel(this.model);
+			((MainWindowController) loader.getController()).setLoginName(loginName);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,24 +63,44 @@ public class MainWindowController {
 
 	@FXML
 	void searchButtonClicked(ActionEvent event) {
-		//TODO:
+
 	}
 
 	@FXML
 	void toVoteButtonClicked(ActionEvent event) {
-		//TODO:
+
 	}
 
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
-		// TODO:
+
+	}
+	
+	void setScene(Scene scene) {
+		this.scene=scene;
+	}
+
+	public void setLeftPane(Pane leftPane){
+		mainWindowPainLeft = leftPane;
+	}
+	public void setRightPane(Pane rightPane){
+		mainWindowPainRight = rightPane;
+	}
+	
+	public MainWindowController(){
+		
 	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 
-	public MainWindowModel getModel() {
-		return this.model;
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 }
+>>>>>>> Stashed changes
