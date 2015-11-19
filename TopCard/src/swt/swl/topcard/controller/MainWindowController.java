@@ -19,7 +19,6 @@ public class MainWindowController {
 
 	private MainApp mainApp;
 	private String loginName;
-	private Scene scene;
 
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
@@ -80,17 +79,6 @@ public class MainWindowController {
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
 
-	}
-	
-	void setScene(Scene scene) {
-		this.scene=scene;
-	}
-
-	public void setLeftPane(Pane leftPane){
-		mainWindowPainLeft = leftPane;
-	}
-	public void setRightPane(Pane rightPane){
-		mainWindowPainRight = rightPane;
 	}
 	
 	public MainWindowController(){
