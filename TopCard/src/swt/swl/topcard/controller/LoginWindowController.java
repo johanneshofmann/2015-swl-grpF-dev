@@ -72,16 +72,13 @@ public class LoginWindowController implements Observer {
 		createRegistrationView();
 	}
 
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-	}
-
 	private void createMainWindowView(String loginName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((MainWindowController) loader.getController()).getModel().setLoginName(loginName);
+			((MainWindowController) loader.getController()).setMainApp(this.mainApp);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -94,5 +91,13 @@ public class LoginWindowController implements Observer {
 	public void update(Observable o, Object message) {
 
 		createMainWindowView(message.toString());
+	}
+
+	public MainApp getMainApp() {
+		return mainApp;
+	}
+
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
 	}
 }
