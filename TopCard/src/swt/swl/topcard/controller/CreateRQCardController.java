@@ -54,12 +54,12 @@ public class CreateRQCardController {
 
 		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
 				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
-				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
+				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()|| supportingMaterialsTextField.getText().isEmpty()) {
 			new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.").showAndWait();
 		} else {
 			model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
 					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
-					fitCriterionTextField.getText());
+					fitCriterionTextField.getText(),supportingMaterialsTextField.getText(),frozenChoiceBox.isSelected());
 		}
 	}
 

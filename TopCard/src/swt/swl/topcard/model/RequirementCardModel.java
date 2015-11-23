@@ -24,14 +24,28 @@ public class RequirementCardModel extends Observable {
 
 
 	public void insertRQIntoDatabase(String title, String description, String rationale, String source,
-			String userStories, String fitCriterion) {
+			String userStories, String fitCriterion, String supportingMaterials,boolean isFrozen) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
-		//	int ownerID = stmt.executeQuery("calculate owner ID ..?");
+			Statement stmt1 = conn.createStatement();
+			ResultSet result = stmt.executeQuery("select ID from User where LoginName='" + loginName + "'");
+			ResultSet rQCardID = stmt1.executeQuery("select max(Requirement) from Requirement");
+			int ownerID = 0;
+			int rQCardIDInt = 0;
+			if(result.next() && rQCardID.next()) {
+				ownerID = result.getInt(1);
+				rQCardIDInt = rQCardID.getInt(1);
+			}
 
-			String sqlInsert = "insert into Requirement(ID,Title,Description,Rationale,Source,FitCriterion) values (" + 1 + ", '"
-					+ title + "', '" + description + "', '" + rationale + "', '" + source + "');";
+			//convert ifFrozen boolean to int:
+			int isFrozenInt = 0;
+			if(isFrozen){
+				isFrozenInt = 1;
+			}
+			String sqlInsert = "insert into Requirement(Title,MajorVersion,MinorVersion, OwnerID, Requirement, Description, Rationale, Source, FitCriterion, SupportingMaterials, IsFrozen) values ('"
+					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rQCardIDInt + ", '" + description + "', '"
+					+ rationale + "', '" + source + "', '" + fitCriterion + "', '" + supportingMaterials + "', " + isFrozenInt + ")";
 			stmt.executeUpdate(sqlInsert);
 
 			triggerNotification(loginName);
@@ -40,6 +54,7 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
+
 	
 	public void getRequirements(){
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
