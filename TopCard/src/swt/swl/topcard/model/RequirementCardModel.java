@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.Observable;
 
-public class MainWindowModel extends Observable {
+public class RequirementCardModel extends Observable {
 
 	private String loginName;
 
