@@ -43,8 +43,8 @@ public class LoginModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "insert into User(FirstName,LastName,LoginName,CreatedAt) values (" + ", '"
-					+ firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
+			String sqlInsert = "insert into User(FirstName,LastName,LoginName,CreatedAt) values (" + ", '" + firstName
+					+ "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
 			stmt.executeUpdate(sqlInsert);
 			triggerNotification(loginName);
 

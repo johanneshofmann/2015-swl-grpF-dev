@@ -52,9 +52,14 @@ public class RequirementCardController implements Observer {
 		this.observableList = FXCollections.observableArrayList();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
+	}
+	
+	public void initialize()
+	{
 		//Create TableColumnFactory
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
 		requirementCardsTable.setItems(observableList);
+		this.rqModel.getRequirements();
 	}
 
 	@FXML

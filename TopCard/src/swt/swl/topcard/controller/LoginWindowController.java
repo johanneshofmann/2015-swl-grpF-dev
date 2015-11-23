@@ -77,6 +77,7 @@ public class LoginWindowController implements Observer{
 			rootLayout = (Pane) loader.load();
 			((RequirementCardController) loader.getController()).setLoginName(loginName);
 			((RequirementCardController) loader.getController()).setMainApp(mainApp);
+			((RequirementCardController)loader.getController()).initialize();
 			scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
