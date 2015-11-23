@@ -37,7 +37,7 @@ public class LoginWindowController implements Observer{
 		boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
 
 		if (isInDatabase) {
-			createMainWindowView(userNameTextField.getText());
+			createRequirementCardView(userNameTextField.getText());
 		} else {
 			Alert al = new Alert(AlertType.CONFIRMATION, "Not registrated. Registrate now ? ");
 			al.showAndWait();
@@ -70,10 +70,10 @@ public class LoginWindowController implements Observer{
 		}
 	}
 
-	private void createMainWindowView(String loginName) {
+	private void createRequirementCardView(String loginName) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/MainWindowView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((MainWindowController) loader.getController()).setLoginName(loginName);
 			((MainWindowController) loader.getController()).setMainApp(mainApp);
@@ -89,7 +89,7 @@ public class LoginWindowController implements Observer{
 	@Override
 	public void update(Observable o, Object message) {
 	
-			createMainWindowView(message.toString());
+			createRequirementCardView(message.toString());
 	}
 
 	public void setMainApp(MainApp mainApp) {
