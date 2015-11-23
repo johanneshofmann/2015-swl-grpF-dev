@@ -35,7 +35,10 @@ public class LoginWindowController implements Observer{
 	void loginButtonClicked(ActionEvent event) {
 
 		boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 		if (isInDatabase) {
 			createRequirementCardView(userNameTextField.getText());
 		} else {
