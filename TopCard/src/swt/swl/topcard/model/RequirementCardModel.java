@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.Observable;
 
 public class RequirementCardModel extends Observable {
@@ -12,6 +11,15 @@ public class RequirementCardModel extends Observable {
 	private String loginName;
 
 	// loginName is set when the registrationView is created.
+
+	public RequirementCardModel() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public void insertRQIntoDatabase(String title, String description, String rationale, String source,
 			String userStories, String fitCriterion) {
@@ -30,6 +38,7 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
+	
 
 	private void triggerNotification(String message) {
 		setChanged();

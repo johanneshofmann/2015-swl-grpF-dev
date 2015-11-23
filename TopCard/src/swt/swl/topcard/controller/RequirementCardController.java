@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,10 +14,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
+import swt.swl.topcard.model.LoginModel;
+import swt.swl.topcard.model.RequirementCardModel;
 
-public class RequirementCardController {
+public class RequirementCardController implements Observer {
 	private MainApp mainApp;
 	private String loginName;
+	private RequirementCardModel rqModel;
+	
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
@@ -33,6 +40,11 @@ public class RequirementCardController {
 	private TableView<String> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
+
+	public RequirementCardController(){
+		rqModel = new RequirementCardModel();
+		rqModel.addObserver(this);
+	}
 
 	@FXML
 	void startButtonClicked(ActionEvent event) {
@@ -79,6 +91,7 @@ public class RequirementCardController {
 	void myRqCardsButtonClicked(ActionEvent event) {
 
 	}
+	
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
@@ -88,5 +101,11 @@ public class RequirementCardController {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -18,7 +18,6 @@ public class LoginModel extends Observable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		ID = (int) (Math.random() * 100000);
 	}
 
 	public boolean checkDatabase(String loginName) {
@@ -46,10 +45,9 @@ public class LoginModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ID + ", '"
+			String sqlInsert = "insert into User(FirstName,LastName,LoginName,CreatedAt) values (" + ", '"
 					+ firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
 			stmt.executeUpdate(sqlInsert);
-			ID++;
 			triggerNotification(loginName);
 
 		} catch (SQLException e) {
