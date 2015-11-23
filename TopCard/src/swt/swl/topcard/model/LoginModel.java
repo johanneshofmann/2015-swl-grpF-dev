@@ -10,8 +10,6 @@ import java.util.Observable;
 
 public class LoginModel extends Observable {
 
-	private int ID;
-
 	public LoginModel() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
