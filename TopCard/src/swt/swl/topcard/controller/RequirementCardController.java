@@ -3,6 +3,8 @@ package swt.swl.topcard.controller;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,16 +14,18 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model.RequirementCardSimple;
 
 public class RequirementCardController implements Observer {
 	private MainApp mainApp;
 	private String loginName;
 	private RequirementCardModel rqModel;
-	
+
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
@@ -37,13 +41,20 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private MenuButton showRQCards;
 	@FXML
-	private TableView<String> requirementCardsTable;
+	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
+	
+	private ObservableList<RequirementCardSimple> observableList;
 
 	public RequirementCardController(){
 		rqModel = new RequirementCardModel();
+		this.observableList = FXCollections.observableArrayList();
+		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
+		//Create TableColumnFactory
+		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
+		requirementCardsTable.setItems(observableList);
 	}
 
 	@FXML
