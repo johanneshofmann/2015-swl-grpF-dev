@@ -79,4 +79,14 @@ public class RequirementCardController {
 	void myRqCardsButtonClicked(ActionEvent event) {
 
 	}
+	public void setMainApp(MainApp mainApp) {
+		this.mainApp = mainApp;
+	}
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 }
