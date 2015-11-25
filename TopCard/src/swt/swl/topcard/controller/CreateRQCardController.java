@@ -59,7 +59,7 @@ public class CreateRQCardController {
 		} else {
 			model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
 					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
-					fitCriterionTextField.getText());
+					fitCriterionTextField.getText(),supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
 		}
 	}
 

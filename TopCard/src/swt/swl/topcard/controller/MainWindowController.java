@@ -51,8 +51,7 @@ public class MainWindowController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((MainWindowController) loader.getController()).setLoginName(loginName);
-			((MainWindowController) loader.getController()).setMainApp(this.mainApp);
+			//((CreateRQCardController) loader.getController()).setMainApp(this.mainApp);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
