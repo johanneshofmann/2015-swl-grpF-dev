@@ -84,6 +84,7 @@ public class RequirementCardController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
+			((CreateRQCardController) loader.getController()).setModel(this.rqModel);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
