@@ -25,15 +25,17 @@ public class RequirementCardModel extends Observable {
 			String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-			Statement stmt1 = conn.createStatement();
-			ResultSet result = stmt.executeQuery("select ID from User where LoginName='" + loginName + "'");
-			ResultSet rQCardID = stmt1.executeQuery("select max(Requirement) from Requirement");
+
+			Statement stmt$0 = conn.createStatement();
+			Statement stmt$1 = conn.createStatement();
+
+			ResultSet userID = stmt$0.executeQuery("select ID from User where LoginName='" + loginName + "'");
+			ResultSet rQCardID = stmt$1.executeQuery("select max(Requirement) from Requirement");
 			int ownerID = 0;
-			int rQCardIDInt = 0;
-			if (result.next() && rQCardID.next()) {
-				ownerID = result.getInt(1);
-				rQCardIDInt = rQCardID.getInt(1);
+			int rqCardIDInt = 0;
+			if (userID.next() && rQCardID.next()) {
+				ownerID = userID.getInt(1);
+				rqCardIDInt = rQCardID.getInt(1);
 			}
 
 			// convert ifFrozen boolean to int:
@@ -42,13 +44,14 @@ public class RequirementCardModel extends Observable {
 				isFrozenInt = 1;
 			}
 
-			String sqlInsert = "insert into Requirement(Title, MajorVersion, MinorVersion, Description, Rationale, Source, FitCriterion) values ('"
-					+ title + "', " + 1 + ", " + 1 + ", " + description + "', '" + rationale + "', '" + source + "', '"
-					+ fitCriterion + "', '" + supportingMaterials + "', " + isFrozenInt + ")";
+			String sqlInsert = "insert into Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen) values ('"
+					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
+					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
+					+ isFrozenInt + ")";
 
-			stmt.executeUpdate(sqlInsert);
+			stmt$0.executeUpdate(sqlInsert);
 
-			triggerNotification(loginName);
+			triggerNotification(this.loginName);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,14 +65,13 @@ public class RequirementCardModel extends Observable {
 
 			String allRequirements = "select Title from Requirement";
 			ResultSet resultset = stmt.executeQuery(allRequirements);
+			observableArray.clear();
 			while (resultset.next()) {
 				observableArray.add(new RequirementCardSimple(resultset.getString(1)));
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		triggerNotification(observableArray);
 	}
 
 	private void triggerNotification(Object message) {

@@ -25,6 +25,7 @@ public class RequirementCardController implements Observer {
 	private MainApp mainApp;
 	private String loginName;
 	private RequirementCardModel rqModel;
+	private LoginWindowController loginController;
 
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
@@ -44,34 +45,32 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
-	
+
 	private ObservableList<RequirementCardSimple> observableList;
 
-	public RequirementCardController(){
+	public RequirementCardController() {
 		rqModel = new RequirementCardModel();
+		rqModel.setLoginName(loginName);
 		this.observableList = FXCollections.observableArrayList();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
 	}
-	
-	public void initialize()
-	{
-		//Create TableColumnFactory
+
+	public void initialize() {
+		// Create TableColumnFactory
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
-		requirementCardsTable.setItems(observableList);
 		this.rqModel.getRequirements();
+		requirementCardsTable.setItems(observableList);
+
 	}
 
 	@FXML
 	void startButtonClicked(ActionEvent event) {
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
+			initialize();
+			mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 			mainApp.getPrimaryStage().show();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,7 +78,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	void createNewRqButtonClicked(ActionEvent event) {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
@@ -107,10 +106,20 @@ public class RequirementCardController implements Observer {
 	void myRqCardsButtonClicked(ActionEvent event) {
 
 	}
-	
+
+	@Override
+	public void update(Observable o, Object update) {
+		if (update == null) {
+			System.out.println("update null.");
+		}
+		startButtonClicked(new ActionEvent());
+		System.out.println("Insert complete!");
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
+
 	public String getLoginName() {
 		return loginName;
 	}
@@ -119,9 +128,11 @@ public class RequirementCardController implements Observer {
 		this.loginName = loginName;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+		this.loginName = loginName;
+		this.mainApp = mainApp;
+		this.loginController = loginWindowController;
 		
 	}
+
 }

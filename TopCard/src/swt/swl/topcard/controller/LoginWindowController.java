@@ -75,8 +75,7 @@ public class LoginWindowController implements Observer{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((RequirementCardController) loader.getController()).setLoginName(loginName);
-			((RequirementCardController) loader.getController()).setMainApp(mainApp);
+			((RequirementCardController) loader.getController()).setData(loginName,mainApp,this);
 			((RequirementCardController)loader.getController()).initialize();
 			scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
@@ -97,7 +96,7 @@ public class LoginWindowController implements Observer{
 		this.mainApp = mainApp;
 	}
 
-	public Scene getScene() {
+	public Scene getRequirementCardViewScene() {
 		return scene;
 	}
 
