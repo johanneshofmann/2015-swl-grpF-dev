@@ -45,6 +45,7 @@ public class CreateRQCardController {
 	 * checks weather title, description,rationale,source,fitCriterion or
 	 * userstories is empty,
 	 *
+	 *
 	 * @throws new
 	 *             Alert if one is empty and returns to editable View.
 	 * @param event
