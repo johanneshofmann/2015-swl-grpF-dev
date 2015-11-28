@@ -4,16 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class SearchRQCardController {
 
-	//Nodes for MVC :
+	// Nodes for MVC :
 
 	private RequirementCardModel model;
 	private RequirementCardController rqCardController;
@@ -29,8 +31,8 @@ public class SearchRQCardController {
 	private TextArea descriptionTextArea, rationaleTextArea;
 
 	@FXML
-	private TextField titleTextField, ownerTextField, sourceTextField, userStoriesTextField, supportingMaterialsTextField,
-			fitCriterionTextField;
+	private TextField titleTextField, ownerTextField, sourceTextField, userStoriesTextField,
+			supportingMaterialsTextField, fitCriterionTextField;
 
 	@FXML
 	private CheckBox frozenChoiceBox;
@@ -39,21 +41,20 @@ public class SearchRQCardController {
 	private Button closeButton, searchButton;
 
 	@FXML
-	private Slider descriptionPreciseSmallerSlider, descriptionPreciseEvenSlider, descriptionPreciseBiggerSlider,
-			descriptionUnderstandableSmallerSlider, descriptionUnderstandableEvenSlider,
-			descriptionUnderstandableBiggerSlider;
+	private CheckBox descriptionCorrectCheckBox, descriptionCompleteCheckBox, descriptionAtomicCheckBox,
+			rationaleTraceableCheckBox, rationaleCorrectCheckBox, rationaleConsistentCheckBox;
+	@FXML
+	private Button descriptionPreciseButton, descriptionUnderstandableButton, rationalePreciseButton,
+			rationaleUnderstandableButton;;
 
 	@FXML
-	private CheckBox descriptionCorrectCheckBox, descriptionCompleteCheckBox, descriptionAtomicCheckBox;
+	private HBox descriptionUnderstandableHBox, descriptionPreciseHBox, rationalePreciseHBox,
+			rationaleUnderstandableHBox;
 
 	@FXML
-	private Slider rationalePreciseSmallerSlider, rationalePreciseEvenSlider, rationalePreciseBiggerSlider,
-			rationaleUnderstandableSmallerSlider, rationaleUnderstandableEvenSlider,
-			rationaleUnderstandableBiggerSlider;
-
-	@FXML
-	private CheckBox rationaleUnderstandableTraceableCheckBox, rationaleUnderstandableCorrectCheckBox,
-			rationaleUnderstandableConsistentCheckBox;
+	private ComboBox<String> descriptionUnderstandableCompareComboBox,
+			descriptionUnderstandableNumberComboBoxrationaleUnderstandableCompareComboBox,
+			rationaleUnderstandableNumberComboBox, descriptionPreciseCompareComboBox, descriptionPreciseNumberComboBox;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
@@ -63,12 +64,35 @@ public class SearchRQCardController {
 	@FXML
 	void searchButtonClicked(ActionEvent event) {
 
+		//TODO:
 	}
-
 
 	public void setData(RequirementCardModel model, RequirementCardController controller) {
 		this.model = model;
 		this.rqCardController = controller;
 	}
 
+	@FXML
+	void descriptionPreciseButtonClicked(ActionEvent event) {
+		descriptionPreciseButton.setVisible(false);
+		descriptionPreciseHBox.setVisible(true);
+	}
+
+	@FXML
+	void descriptionUnderstandableButtonClicked(ActionEvent event) {
+		descriptionUnderstandableButton.setVisible(false);
+		descriptionUnderstandableHBox.setVisible(true);
+	}
+
+	@FXML
+	void rationalePreciseButtonClicked(ActionEvent event) {
+		rationalePreciseButton.setVisible(false);
+		rationalePreciseHBox.setVisible(true);
+	}
+
+	@FXML
+	void rationaleUnderstandableButtonClicked(ActionEvent event) {
+		rationaleUnderstandableButton.setVisible(false);
+		rationaleUnderstandableHBox.setVisible(true);
+	}
 }
