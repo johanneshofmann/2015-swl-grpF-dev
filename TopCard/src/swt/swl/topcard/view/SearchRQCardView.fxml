@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="983.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.SearchRQCardController">
+   <children>
+      <VBox layoutX="14.0" layoutY="55.0" prefHeight="902.0" prefWidth="708.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="39.0" prefWidth="410.0" spacing="157.0">
+               <children>
+                  <Label text="Title:" />
+                  <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="410.0" spacing="139.0">
+               <children>
+                  <Label text="Owner:" />
+                  <TextField fx:id="ownerTextField" layoutX="138.0" layoutY="10.0" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox prefHeight="39.0" prefWidth="358.0" spacing="77.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="121.0" text="Modulname:" />
+                  <MenuButton fx:id="modulNameChoiceBox" mnemonicParsing="false" prefHeight="39.0" prefWidth="224.0">
+                    <items>
+                      <MenuItem fx:id="modul1MenuItem" mnemonicParsing="false" text="Modul 1" />
+                      <MenuItem fx:id="modul2MenuItem" mnemonicParsing="false" text="Modul 2" />
+                        <MenuItem fx:id="modul3MenuItem" mnemonicParsing="false" text="Modul .." />
+                        <MenuItem fx:id="modul4MenuItem" mnemonicParsing="false" text="Modul n" />
+                    </items>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="188.0" prefWidth="564.0" spacing="30.0">
+               <children>
+                  <MenuButton mnemonicParsing="false" prefHeight="39.0" prefWidth="168.0" style="-fx-background-radius: 15;" text="Description:">
+                     <items>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Precise">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionPreciseSmallerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionPreciseEvenSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionPreciseBiggerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                 </items>
+                              </MenuButton>
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Understandable">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionUnderstandableSmallerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionUnderstandableEvenSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="descriptionUnderstandableBiggerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                 </items>
+                              </MenuButton>
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="descriptionCorrectCheckBox" mnemonicParsing="false" text="Correct" />
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="descriptionCompleteCheckBox" mnemonicParsing="false" text="Complete" />
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="descriptionAtomicCheckBox" mnemonicParsing="false" text="Atomic" />
+                           </graphic>
+                        </MenuItem>
+                     </items>
+                  </MenuButton>
+                  <TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="189.0" prefWidth="416.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="118.0" prefWidth="546.0" spacing="35.0">
+               <children>
+                  <MenuButton mnemonicParsing="false" prefHeight="39.0" prefWidth="163.0" style="-fx-background-radius: 15;" text="Rationale:">
+                     <items>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Precise">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationalePreciseSmallerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationalePreciseEvenSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationalePreciseBiggerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                 </items>
+                              </MenuButton>
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Understandable">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationaleUnderstandableSmallerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationaleUnderstandableEvenSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false">
+                                       <graphic>
+                                          <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
+                                             <items>
+                                                <MenuItem mnemonicParsing="false">
+                                                   <graphic>
+                                                      <Slider fx:id="rationaleUnderstandableBiggerSlider" majorTickUnit="1.0" max="10.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="21.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                                                   </graphic>
+                                                </MenuItem>
+                                             </items>
+                                          </MenuButton>
+                                       </graphic>
+                                    </MenuItem>
+                                 </items>
+                              </MenuButton>
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="rationaleUnderstandableTraceableCheckBox" mnemonicParsing="false" text="Traceable" />
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="rationaleUnderstandableCorrectCheckBox" mnemonicParsing="false" text="Correct" />
+                           </graphic>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false">
+                           <graphic>
+                              <CheckBox fx:id="rationaleUnderstandableConsistentCheckBox" mnemonicParsing="false" text="Consistent" />
+                           </graphic>
+                        </MenuItem>
+                     </items>
+                  </MenuButton>
+                  <TextArea fx:id="rationaleTextArea" prefHeight="111.0" prefWidth="415.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="124.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
+                  <TextField fx:id="sourceTextField" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="99.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
+                  <TextField fx:id="userStoriesTextField" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="22.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="178.0" text="Supporting Materials:" />
+                  <TextField fx:id="supportingMaterialsTextField" prefHeight="39.0" prefWidth="226.0" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="100.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="101.0" text="Fit criterion:" />
+                  <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="228.0" style="-fx-background-radius: 15;" />
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="662.0" prefHeight="42.0" prefWidth="546.0" spacing="140.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="72.0" text="Frozen? " />
+                  <CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="12.0" style="-fx-background-radius: 50;" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="549.0" spacing="18.0">
+               <children>
+                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="69.0" prefWidth="189.0" style="-fx-background-radius: 15;" text="Close without saving" />
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="69.0" prefWidth="149.0" style="-fx-background-radius: 15;" text="Search" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="943.0" text="_____________________________________________________________________________________________________________________________" />
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="257.0" text="Search Requirement Card: " underline="true" />
+   </children>
+</Pane>

@@ -95,9 +95,9 @@ public class RequirementCardController implements Observer {
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((CreateRQCardController) loader.getController()).setModel(this.rqModel);
+			((SearchRQCardController) loader.getController()).setData(this.rqModel,this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -118,7 +118,7 @@ public class RequirementCardController implements Observer {
 
 	@Override
 	public void update(Observable o, Object update) {
-		
+
 		if (update.toString().equals(loginName)) {
 
 			startButtonClicked(new ActionEvent());
