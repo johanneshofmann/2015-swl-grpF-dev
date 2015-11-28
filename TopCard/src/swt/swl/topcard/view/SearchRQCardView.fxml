@@ -38,11 +38,11 @@
                <children>
                   <MenuButton mnemonicParsing="false" prefHeight="39.0" prefWidth="168.0" style="-fx-background-radius: 15;" text="Description:">
                      <items>
-                        <MenuItem mnemonicParsing="false">
+                        <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
                               <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Precise">
                                  <items>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
                                              <items>
@@ -55,7 +55,7 @@
                                           </MenuButton>
                                        </graphic>
                                     </MenuItem>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
                                              <items>
@@ -68,7 +68,7 @@
                                           </MenuButton>
                                        </graphic>
                                     </MenuItem>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
                                              <items>
@@ -85,11 +85,11 @@
                               </MenuButton>
                            </graphic>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false">
+                        <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
                               <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="Understandable">
                                  <items>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&lt;">
                                              <items>
@@ -102,7 +102,7 @@
                                           </MenuButton>
                                        </graphic>
                                     </MenuItem>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="=">
                                              <items>
@@ -115,7 +115,7 @@
                                           </MenuButton>
                                        </graphic>
                                     </MenuItem>
-                                    <MenuItem mnemonicParsing="false">
+                                    <MenuItem disable="true" mnemonicParsing="false">
                                        <graphic>
                                           <MenuButton mnemonicParsing="false" style="-fx-background-radius: 15;" text="&gt;">
                                              <items>
@@ -132,17 +132,17 @@
                               </MenuButton>
                            </graphic>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false">
+                        <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
                               <CheckBox fx:id="descriptionCorrectCheckBox" mnemonicParsing="false" text="Correct" />
                            </graphic>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false">
+                        <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
                               <CheckBox fx:id="descriptionCompleteCheckBox" mnemonicParsing="false" text="Complete" />
                            </graphic>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false">
+                        <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
                               <CheckBox fx:id="descriptionAtomicCheckBox" mnemonicParsing="false" text="Atomic" />
                            </graphic>
