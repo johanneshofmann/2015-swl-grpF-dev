@@ -9,9 +9,11 @@ import java.util.Observable;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
-	private String loginName;
-	private ObservableList<RequirementCardSimple> observableArray;
+
 	// loginName is set when the registrationView is created.
+	private String loginName;
+
+	private ObservableList<RequirementCardSimple> observableArray;
 
 	public RequirementCardModel() {
 		try {
@@ -51,7 +53,7 @@ public class RequirementCardModel extends Observable {
 
 			stmt$0.executeUpdate(sqlInsert);
 
-			triggerNotification(this.loginName);
+			triggerNotification(loginName);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,5 +91,33 @@ public class RequirementCardModel extends Observable {
 
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
 		this.observableArray = observableArray;
+	}
+
+	public void getMyOrToVoteRequirements(boolean myRq) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			ResultSet ownerID = stmt.executeQuery("select ID from User where LoginName= '" + loginName + "'");
+			int ownerIDInt = 0;
+			while (ownerID.next()) {
+				ownerIDInt = ownerID.getInt(1);
+			}
+			Statement stmt$2 = conn.createStatement();
+			String sql = null;
+			if (myRq) {
+				sql = "Select Title from Requirement where OwnerID =" + ownerIDInt;
+			} else {
+				sql = "Select Title from Requirement where OwnerID !=" + ownerIDInt;
+			}
+			ResultSet requirements = stmt$2.executeQuery(sql);
+			observableArray.clear();
+			while (requirements.next()) {
+				observableArray.add(new RequirementCardSimple(requirements.getString(1)));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

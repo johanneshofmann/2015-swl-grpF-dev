@@ -17,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model.RequirementCardSimple;
 
@@ -50,7 +49,6 @@ public class RequirementCardController implements Observer {
 
 	public RequirementCardController() {
 		rqModel = new RequirementCardModel();
-		rqModel.setLoginName(loginName);
 		this.observableList = FXCollections.observableArrayList();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
@@ -95,25 +93,37 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void searchButtonClicked(ActionEvent event) {
 
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((CreateRQCardController) loader.getController()).setModel(this.rqModel);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void toVoteButtonClicked(ActionEvent event) {
-
+		rqModel.getMyOrToVoteRequirements(false);
 	}
 
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
-
+		rqModel.getMyOrToVoteRequirements(true);
 	}
 
 	@Override
 	public void update(Observable o, Object update) {
-		if (update == null) {
-			System.out.println("update null.");
+		
+		if (update.toString().equals(loginName)) {
+
+			startButtonClicked(new ActionEvent());
+			System.out.println("Insert complete!");
 		}
-		startButtonClicked(new ActionEvent());
-		System.out.println("Insert complete!");
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -132,7 +142,8 @@ public class RequirementCardController implements Observer {
 		this.loginName = loginName;
 		this.mainApp = mainApp;
 		this.loginController = loginWindowController;
-		
+		rqModel.setLoginName(loginName);
+
 	}
 
 }
