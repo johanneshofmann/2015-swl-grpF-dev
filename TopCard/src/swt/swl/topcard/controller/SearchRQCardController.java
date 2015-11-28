@@ -53,9 +53,8 @@ public class SearchRQCardController {
 
 	@FXML
 	private ComboBox<String> descriptionUnderstandableCompareComboBox,
-			descriptionUnderstandableNumberComboBoxrationaleUnderstandableCompareComboBox,
+			descriptionUnderstandableNumberComboBox,rationaleUnderstandableCompareComboBox,
 			rationaleUnderstandableNumberComboBox, descriptionPreciseCompareComboBox, descriptionPreciseNumberComboBox;
-
 	@FXML
 	void closeWindow(ActionEvent event) {
 		rqCardController.startButtonClicked(new ActionEvent());

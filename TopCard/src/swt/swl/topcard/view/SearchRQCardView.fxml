@@ -64,17 +64,17 @@
                      <items>
                         <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
-                              <CheckBox fx:id="rationaleUnderstandableTraceableCheckBox" mnemonicParsing="false" text="Traceable" />
+                              <CheckBox fx:id="rationaleTraceableCheckBox" mnemonicParsing="false" text="Traceable" />
                            </graphic>
                         </MenuItem>
                         <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
-                              <CheckBox fx:id="rationaleUnderstandableCorrectCheckBox" mnemonicParsing="false" text="Correct" />
+                              <CheckBox fx:id="rationaleCorrectCheckBox" mnemonicParsing="false" text="Correct" />
                            </graphic>
                         </MenuItem>
                         <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
-                              <CheckBox fx:id="rationaleUnderstandableConsistentCheckBox" mnemonicParsing="false" text="Consistent" />
+                              <CheckBox fx:id="rationaleConsistentCheckBox" mnemonicParsing="false" text="Consistent" />
                            </graphic>
                         </MenuItem>
                      </items>
