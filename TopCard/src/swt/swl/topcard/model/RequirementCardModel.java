@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Observable;
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -116,6 +118,125 @@ public class RequirementCardModel extends Observable {
 				observableArray.add(new RequirementCardSimple(requirements.getString(1)));
 
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
+		// TODO:
+
+		filterTitle(title);
+		filterOwner(owner, title);
+		filterFitCriterion(fitCriterion, title, owner);
+		filterSource(source);
+		filterSupportingMaterials(supportingMaterials);
+
+
+	}
+
+	private void filterSupportingMaterials(String supportingMaterials) {
+		// TODO Auto-generated method stub
+		if(supportingMaterials == null){
+			return;
+		}
+		
+	}
+
+	private void filterSource(String source) {
+		// TODO Auto-generated method stub
+		if(source == null){
+			return;
+		}
+	}
+
+	private void filterFitCriterion(String fitCriterion, String title, String owner) {
+		if (fitCriterion == null) {
+			return;
+		}
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			int ownerID = 1111111;
+			if (owner != null) {
+
+				Statement stmt$ = conn.createStatement();
+				ResultSet r = stmt$.executeQuery("Select ID from User where LoginName = '" + owner + "'");
+				while (r.next()) {
+					ownerID = r.getInt(1);
+				}
+			}
+			String sql = null;
+			if (owner == null && title != null) {
+				sql = "select Title from Requirement where Title = '" + title + "'and FitCriterion= '" + fitCriterion
+						+ "'";
+			} else if (owner == null && title == null) {
+				sql = "select Title from Requirement where FitCriterion = '" + fitCriterion + "'";
+			} else if (owner != null && title == null) {
+				sql = "select Title from Requirement where FitCriterion='" + fitCriterion + "' and OwnerID=" + ownerID;
+			} else if (owner != null && title != null) {
+				sql = "select Title from Requirement where FitCriterion='" + fitCriterion + "' and OwnerID=" + ownerID
+						+ "and Title='" + title + "'";
+			}
+			ResultSet res = stmt.executeQuery(sql);
+			observableArray.clear();
+			while (res.next()) {
+				observableArray.add(new RequirementCardSimple(res.getString(1)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void filterOwner(String owner, String title) {
+		if (owner == null) {
+			return;
+		}
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			ResultSet r = stmt.executeQuery("Select ID from User where LoginName = '" + owner + "'");
+			int ownerID = 1111111;
+			while (r.next()) {
+				ownerID = r.getInt(1);
+
+			}
+			String sql = null;
+			if (title == null) {
+				sql = "select Title from Requirement where OwnerID = " + ownerID;
+			} else {
+				sql = "select Title from Requirement where OwnerID = " + ownerID + "and Title = '" + title + "'";
+			}
+			ResultSet res = stmt.executeQuery(sql);
+			while (res.next()) {
+				observableArray.add(new RequirementCardSimple(res.getString(1)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void filterTitle(String title) {
+
+		if (title == null) {
+			return;
+		}
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			ResultSet res = stmt.executeQuery("select Title from Requirement where Title='" + title + "'");
+
+			observableArray.clear();
+
+			while (res.next()) {
+				observableArray.add(new RequirementCardSimple(res.getString(1)));
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,7 @@
 package swt.swl.topcard.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -7,7 +9,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -52,27 +53,70 @@ public class SearchRQCardController {
 			rationaleUnderstandableHBox;
 
 	@FXML
-	private ComboBox<String> descriptionUnderstandableCompareComboBox,
-			descriptionUnderstandableNumberComboBox,rationaleUnderstandableCompareComboBox,
-			rationaleUnderstandableNumberComboBox, descriptionPreciseCompareComboBox, descriptionPreciseNumberComboBox;
+	private ComboBox<String> descriptionUnderstandableCompareComboBox, descriptionUnderstandableNumberComboBox,
+			rationaleUnderstandableCompareComboBox, rationaleUnderstandableNumberComboBox,
+			rationalePreciseCompareComboBox, rationalePreciseNumberComboBox, descriptionPreciseCompareComboBox,
+			descriptionPreciseNumberComboBox;
+
+	public SearchRQCardController() {
+
+		
+	}
+
+	private void initialteComboBoxes() {
+
+		ObservableList<String> compare = FXCollections.observableArrayList("<", "=", ">");
+		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
+				"9", "10");
+		descriptionUnderstandableCompareComboBox.setItems(compare);
+		descriptionUnderstandableNumberComboBox.setItems(numbers);
+		rationaleUnderstandableCompareComboBox.setItems(compare);
+		rationaleUnderstandableNumberComboBox.setItems(numbers);
+		descriptionPreciseCompareComboBox.setItems(compare);
+		descriptionPreciseNumberComboBox.setItems(numbers);
+		rationalePreciseCompareComboBox.setItems(compare);
+		rationalePreciseNumberComboBox.setItems(numbers);
+	}
+
 	@FXML
 	void closeWindow(ActionEvent event) {
-		rqCardController.startButtonClicked(new ActionEvent());
+		rqCardController.showAgain();
 	}
 
 	@FXML
 	void searchButtonClicked(ActionEvent event) {
 
-		//TODO:
-	}
+		String title = null;
+		String owner = null;
+		String fitCriterion = null;
+		String source = null;
+		String supportingMaterials = null;
 
-	public void setData(RequirementCardModel model, RequirementCardController controller) {
-		this.model = model;
-		this.rqCardController = controller;
+		if (!titleTextField.getText().isEmpty()) {
+			title = titleTextField.getText();
+		}
+		if (!ownerTextField.getText().isEmpty()) {
+			owner = ownerTextField.getText();
+		}
+		if (!fitCriterionTextField.getText().isEmpty()) {
+			fitCriterion = fitCriterionTextField.getText();
+		}
+		if (!sourceTextField.getText().isEmpty()) {
+			source = sourceTextField.getText();
+		}
+		if (supportingMaterialsTextField.getText().isEmpty()) {
+			supportingMaterials = supportingMaterialsTextField.getText();
+		}
+
+		model.search(title, owner, fitCriterion, source, supportingMaterials);
+		
+		//redirect
+		rqCardController.showAgain();
 	}
 
 	@FXML
 	void descriptionPreciseButtonClicked(ActionEvent event) {
+		initialteComboBoxes();
 		descriptionPreciseButton.setVisible(false);
 		descriptionPreciseHBox.setVisible(true);
 	}
@@ -93,5 +137,10 @@ public class SearchRQCardController {
 	void rationaleUnderstandableButtonClicked(ActionEvent event) {
 		rationaleUnderstandableButton.setVisible(false);
 		rationaleUnderstandableHBox.setVisible(true);
+	}
+
+	public void setData(RequirementCardModel model, RequirementCardController controller) {
+		this.model = model;
+		this.rqCardController = controller;
 	}
 }

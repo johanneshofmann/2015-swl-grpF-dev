@@ -62,16 +62,15 @@ public class RequirementCardController implements Observer {
 
 	}
 
+	public void showAgain(){
+		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
+		mainApp.getPrimaryStage().show();
+	}
 	@FXML
 	void startButtonClicked(ActionEvent event) {
-		try {
-			initialize();
-			mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
-			mainApp.getPrimaryStage().show();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		initialize();
+		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
+		mainApp.getPrimaryStage().show();
 	}
 
 	@FXML
@@ -81,7 +80,7 @@ public class RequirementCardController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((CreateRQCardController) loader.getController()).setModel(this.rqModel);
+			((CreateRQCardController) loader.getController()).setData(this.rqModel, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -97,7 +96,7 @@ public class RequirementCardController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((SearchRQCardController) loader.getController()).setData(this.rqModel,this);
+			((SearchRQCardController) loader.getController()).setData(this.rqModel, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();

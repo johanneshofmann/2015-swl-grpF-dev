@@ -141,8 +141,8 @@
       <HBox fx:id="descriptionPreciseHBox" layoutX="643.0" layoutY="253.0" prefHeight="42.0" prefWidth="343.0" spacing="10.0" visible="false">
          <children>
             <Label prefHeight="27.0" prefWidth="162.0" text="Precise Vote Score:" />
-            <ComboBox fx:id="descriptionPreciseCompareComboBox" prefHeight="39.0" prefWidth="78.0" />
-            <ComboBox fx:id="descriptionPreciseNumberComboBox" layoutX="119.0" layoutY="10.0" prefHeight="39.0" prefWidth="71.0" />
+            <ComboBox fx:id="rationalePreciseCompareComboBox" prefHeight="39.0" prefWidth="78.0" />
+            <ComboBox fx:id="rationalePreciseNumberComboBox" layoutX="119.0" layoutY="10.0" prefHeight="39.0" prefWidth="71.0" />
          </children>
       </HBox>
       <HBox fx:id="rationaleUnderstandableHBox" layoutX="643.0" layoutY="500.0" prefHeight="42.0" prefWidth="480.0" spacing="10.0" visible="false">

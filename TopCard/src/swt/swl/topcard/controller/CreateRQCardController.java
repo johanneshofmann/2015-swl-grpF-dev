@@ -15,6 +15,7 @@ import swt.swl.topcard.model.RequirementCardModel;
 public class CreateRQCardController {
 
 	private RequirementCardModel model;
+	private RequirementCardController mainController;
 
 	@FXML
 	private MenuButton modulNameChoiceBox;
@@ -37,7 +38,7 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		//TODO:
+		mainController.startButtonClicked(new ActionEvent());
 	}
 
 	/**
@@ -65,8 +66,9 @@ public class CreateRQCardController {
 		}
 	}
 
-	public void setModel(RequirementCardModel model) {
-		this.model = model;
+	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
+		this.model = rqModel;
+		this.mainController = requirementCardController;
 	}
 
 }
