@@ -17,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model.RequirementCardSimple;
 
@@ -25,6 +24,7 @@ public class RequirementCardController implements Observer {
 	private MainApp mainApp;
 	private String loginName;
 	private RequirementCardModel rqModel;
+	private LoginWindowController loginController;
 
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
@@ -44,47 +44,43 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
-	
+
 	private ObservableList<RequirementCardSimple> observableList;
 
-	public RequirementCardController(){
+	public RequirementCardController() {
 		rqModel = new RequirementCardModel();
 		this.observableList = FXCollections.observableArrayList();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
 	}
-	
-	public void initialize()
-	{
-		//Create TableColumnFactory
+
+	public void initialize() {
+		// Create TableColumnFactory
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
-		requirementCardsTable.setItems(observableList);
 		this.rqModel.getRequirements();
+		requirementCardsTable.setItems(observableList);
+
 	}
 
+	public void showAgain(){
+		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
+		mainApp.getPrimaryStage().show();
+	}
 	@FXML
 	void startButtonClicked(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		initialize();
+		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
+		mainApp.getPrimaryStage().show();
 	}
 
 	@FXML
 	void createNewRqButtonClicked(ActionEvent event) {
-		
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((MainWindowController) loader.getController()).setLoginName(loginName);
+			((CreateRQCardController) loader.getController()).setData(this.rqModel, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -96,21 +92,43 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void searchButtonClicked(ActionEvent event) {
 
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((SearchRQCardController) loader.getController()).setData(this.rqModel, this);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	void toVoteButtonClicked(ActionEvent event) {
-
+		rqModel.getMyOrToVoteRequirements(false);
 	}
 
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
-
+		rqModel.getMyOrToVoteRequirements(true);
 	}
-	
+
+	@Override
+	public void update(Observable o, Object update) {
+
+		if (update.toString().equals(loginName)) {
+
+			startButtonClicked(new ActionEvent());
+			System.out.println("Insert complete!");
+		}
+	}
+
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
+
 	public String getLoginName() {
 		return loginName;
 	}
@@ -119,9 +137,12 @@ public class RequirementCardController implements Observer {
 		this.loginName = loginName;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+		this.loginName = loginName;
+		this.mainApp = mainApp;
+		this.loginController = loginWindowController;
+		rqModel.setLoginName(loginName);
+
 	}
+
 }

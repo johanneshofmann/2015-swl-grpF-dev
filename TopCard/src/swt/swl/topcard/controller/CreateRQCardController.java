@@ -15,6 +15,7 @@ import swt.swl.topcard.model.RequirementCardModel;
 public class CreateRQCardController {
 
 	private RequirementCardModel model;
+	private RequirementCardController mainController;
 
 	@FXML
 	private MenuButton modulNameChoiceBox;
@@ -37,13 +38,14 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		//TODO:
+		mainController.startButtonClicked(new ActionEvent());
 	}
 
 	/**
 	 *
 	 * checks weather title, description,rationale,source,fitCriterion or
 	 * userstories is empty,
+	 *
 	 *
 	 * @throws new
 	 *             Alert if one is empty and returns to editable View.
@@ -59,12 +61,14 @@ public class CreateRQCardController {
 		} else {
 			model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
 					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
-					fitCriterionTextField.getText());
+					fitCriterionTextField.getText(),supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+			new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 		}
 	}
 
-	public void setModel(RequirementCardModel model) {
-		this.model = model;
+	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
+		this.model = rqModel;
+		this.mainController = requirementCardController;
 	}
 
 }
