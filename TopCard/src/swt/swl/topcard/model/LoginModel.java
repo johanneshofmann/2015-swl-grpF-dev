@@ -53,6 +53,21 @@ public class LoginModel extends Observable {
 		}
 	}
 
+	// only invoked for testing..
+	public void deleteUserFromDatabase(String loginName){
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			String sqlInsert = "delete from User where LoginName ='" + loginName + "'";
+			stmt.executeUpdate(sqlInsert);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void triggerNotification(String message) {
 		setChanged();
 		notifyObservers(message);

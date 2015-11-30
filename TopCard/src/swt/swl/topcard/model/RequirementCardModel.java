@@ -61,6 +61,24 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
+	public void deleteRqFromDatabase(String title){
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt$0 = conn.createStatement();
+			Statement stmt$1 = conn.createStatement();
+
+			ResultSet rqID = stmt$0.executeQuery("select Requiremet from Requirement where Title='" + title + "'");
+			int rqCardID = 0;
+			if (rqID.next()) {
+				rqCardID = rqID.getInt(1);
+			}
+			stmt$1.executeQuery("delete from Requirement where Requirement= " + rqCardID);
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void getRequirements() {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
