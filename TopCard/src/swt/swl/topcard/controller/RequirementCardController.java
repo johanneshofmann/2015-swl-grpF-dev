@@ -62,10 +62,11 @@ public class RequirementCardController implements Observer {
 
 	}
 
-	public void showAgain(){
+	public void showAgain() {
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
+
 	@FXML
 	void startButtonClicked(ActionEvent event) {
 		initialize();
@@ -118,10 +119,11 @@ public class RequirementCardController implements Observer {
 	@Override
 	public void update(Observable o, Object update) {
 
-		if (update.toString().equals(loginName)) {
-
-			startButtonClicked(new ActionEvent());
-			System.out.println("Insert complete!");
+		if (update != null) {
+			if (update.toString().equals(loginName)) {
+				startButtonClicked(new ActionEvent());
+				System.out.println("Insert complete!");
+			}
 		}
 	}
 
@@ -143,6 +145,14 @@ public class RequirementCardController implements Observer {
 		this.loginController = loginWindowController;
 		rqModel.setLoginName(loginName);
 
+	}
+
+	public RequirementCardModel getRqModel() {
+		return rqModel;
+	}
+
+	public void setRqModel(RequirementCardModel rqModel) {
+		this.rqModel = rqModel;
 	}
 
 }

@@ -68,12 +68,13 @@ public class RequirementCardModel extends Observable {
 			Statement stmt$0 = conn.createStatement();
 			Statement stmt$1 = conn.createStatement();
 
-			ResultSet rqID = stmt$0.executeQuery("select Requiremet from Requirement where Title='" + title + "'");
+			ResultSet rqID = stmt$0.executeQuery("select Requirement from Requirement where Title='" + title + "'");
 			int rqCardID = 0;
-			if (rqID.next()) {
+			while (rqID.next()) {
 				rqCardID = rqID.getInt(1);
+				stmt$1.executeUpdate("delete from Requirement where Requirement= " + rqCardID);
 			}
-			stmt$1.executeQuery("delete from Requirement where Requirement= " + rqCardID);
+			
 
 		}catch (SQLException e) {
 			e.printStackTrace();
