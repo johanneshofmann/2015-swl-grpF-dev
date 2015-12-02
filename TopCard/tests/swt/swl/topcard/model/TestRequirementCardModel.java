@@ -48,7 +48,7 @@ public class TestRequirementCardModel {
 		RequirementCardSimple addedRqCard = new RequirementCardSimple(title);
 		boolean inArray = false;
 		for(RequirementCardSimple rq : rqModel.getObservableArray()){
-			if(rq.equals(addedRqCard)){
+			if(rq.getTitle().equals(addedRqCard.getTitle())){
 				inArray=true;
 			}
 		}
