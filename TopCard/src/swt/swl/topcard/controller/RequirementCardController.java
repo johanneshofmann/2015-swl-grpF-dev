@@ -6,6 +6,7 @@ import java.util.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.RequirementCardModel;
@@ -59,7 +61,19 @@ public class RequirementCardController implements Observer {
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
+		addEventHandlerToTableView();
+	}
 
+	private void addEventHandlerToTableView() {
+		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					editRqCardClicked(requirementCardsTable.getSelectionModel().getSelectedItem().getTitle());
+				}
+			}
+		});
 	}
 
 	public void showAgain() {
@@ -124,6 +138,20 @@ public class RequirementCardController implements Observer {
 				startButtonClicked(new ActionEvent());
 				System.out.println("Insert complete!");
 			}
+		}
+	}
+
+	public void editRqCardClicked(String toEdit) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((EditRqCardController) loader.getController()).setData(this.rqModel, this, toEdit);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

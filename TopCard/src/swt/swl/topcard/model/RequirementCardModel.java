@@ -61,7 +61,35 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
-	public void deleteRqFromDatabase(String title){
+
+	public String[] getDataFromSelectedRq(String selected) {
+
+		String[] selectedItemValues = new String[6];
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet resSet = stmt.executeQuery(
+					"Select Description,Rationale,Source,SupportingMaterials,FitCriterion,IsFrozen from Requirement where Title = '"
+							+ selected + "'");
+
+			if (resSet.next()) {
+				selectedItemValues[0] = resSet.getString(1); // Description
+				selectedItemValues[1] = resSet.getString(2); // Rationale
+				selectedItemValues[2] = resSet.getString(3); // Source
+				selectedItemValues[3] = resSet.getString(4); // SupportingMaterials
+				selectedItemValues[4] = resSet.getString(5); // FitCriterion
+				selectedItemValues[5] = "" + resSet.getInt(6);// isFrozen
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return selectedItemValues;
+	}
+
+	public void deleteRqFromDatabase(String title) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
@@ -74,9 +102,8 @@ public class RequirementCardModel extends Observable {
 				rqCardID = rqID.getInt(1);
 				stmt$1.executeUpdate("delete from Requirement where Requirement= " + rqCardID);
 			}
-			
 
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -151,20 +178,19 @@ public class RequirementCardModel extends Observable {
 		filterSource(source);
 		filterSupportingMaterials(supportingMaterials);
 
-
 	}
 
 	private void filterSupportingMaterials(String supportingMaterials) {
 		// TODO Auto-generated method stub
-		if(supportingMaterials == null){
+		if (supportingMaterials == null) {
 			return;
 		}
-		
+
 	}
 
 	private void filterSource(String source) {
 		// TODO Auto-generated method stub
-		if(source == null){
+		if (source == null) {
 			return;
 		}
 	}
