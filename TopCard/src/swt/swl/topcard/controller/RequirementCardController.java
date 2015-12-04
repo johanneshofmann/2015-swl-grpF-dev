@@ -70,7 +70,8 @@ public class RequirementCardController implements Observer {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-					editRqCardClicked(requirementCardsTable.getSelectionModel().getSelectedItem().getTitle());
+					String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
+					openRequirement(rqTitle);
 				}
 			}
 		});
@@ -130,6 +131,9 @@ public class RequirementCardController implements Observer {
 		rqModel.getMyOrToVoteRequirements(true);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void update(Observable o, Object update) {
 
@@ -141,18 +145,37 @@ public class RequirementCardController implements Observer {
 		}
 	}
 
-	public void editRqCardClicked(String toEdit) {
+	/**
+	 *
+	 * @param rqTitle
+	 */
+	private void openRequirement(String rqTitle) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteOrEditRqCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((EditRqCardController) loader.getController()).setData(this.rqModel, this, toEdit);
+			((VoteOrEditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
+			((VoteOrEditRqCardController) loader.getController()).initializeNodes(rqTitle);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 *
+	 * @param loginName
+	 * @param mainApp
+	 * @param loginWindowController
+	 */
+	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+		this.loginName = loginName;
+		this.mainApp = mainApp;
+		this.loginController = loginWindowController;
+		rqModel.setLoginName(loginName);
+
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -165,14 +188,6 @@ public class RequirementCardController implements Observer {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
-	}
-
-	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
-		this.loginName = loginName;
-		this.mainApp = mainApp;
-		this.loginController = loginWindowController;
-		rqModel.setLoginName(loginName);
-
 	}
 
 	public RequirementCardModel getRqModel() {

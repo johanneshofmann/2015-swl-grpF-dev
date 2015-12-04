@@ -34,9 +34,9 @@ public class LoginWindowController implements Observer{
 	@FXML
 	void loginButtonClicked(ActionEvent event) {
 
-		boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
+		//boolean isInDatabase = model.checkDatabase(userNameTextField.getText());
 
-		if (isInDatabase) {
+		if (true) {
 			createRequirementCardView(userNameTextField.getText());
 		} else {
 			Alert al = new Alert(AlertType.CONFIRMATION, "Not registrated. Registrate now ? ");

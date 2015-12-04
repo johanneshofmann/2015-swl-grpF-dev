@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Observable;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -23,6 +21,32 @@ public class RequirementCardModel extends Observable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean checkUserName(String requirement) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+			Statement stmt$1 = conn.createStatement();
+
+			ResultSet equals = stmt.executeQuery("Select OwnerID from Requirement where Title = '" + requirement + "'");
+			String result = null;
+			if (equals.next()) {
+				ResultSet IDToLoginName = stmt$1
+						.executeQuery("Select LoginName from User where ID = " + equals.getInt(1));
+				if (IDToLoginName.next()) {
+					result = IDToLoginName.getString(1);
+				}
+			}
+			if (result != null) {
+				return (loginName.equals(result) ? true : false);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void insertRQIntoDatabase(String title, String description, String rationale, String source,
@@ -62,26 +86,62 @@ public class RequirementCardModel extends Observable {
 		}
 	}
 
-	public String[] getDataFromSelectedRq(String selected) {
+	/**
+	 * Stores all Data for showing an overview from a selected Requirement Card
+	 * in a String[] and returns it.<br>
+	 *
+	 * @param selected,
+	 *            the selected Item from the RqCardTableView
+	 * @returns String[] containing all data of a selected requirement,
+	 *          including <br>
+	 *          <ul>
+	 *          <li>[0]OwnerName,</li>
+	 *          <li>[1]ModuleName</li>
+	 *          <li>[2]Requirement(number)</li>
+	 *          <li>[3]Description,</li>
+	 *          <li>[4]Rationale,</li>
+	 *          <li>[5]Source,</li>
+	 *          <li>[6]UserStories</li>
+	 *          <li>[7]SupportingMaterials,</li>
+	 *          <li>[8]FitCriterion,</li>
+	 *          <li>[9]IsFrozen,</li>
+	 *          <li>[10]CreatedAt</li>
+	 *          <li>[11]LastUpdatedAt</li>
+	 *          </ul>
+	 */
+	public String[] getOverviewDataFromSelectedRq(String selected) {
 
-		String[] selectedItemValues = new String[6];
+		String[] selectedItemValues = new String[12];
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
-			Statement stmt = conn.createStatement();
+			Statement getRqCardData = conn.createStatement();
+			Statement getOwnerName = conn.createStatement();
 
-			ResultSet resSet = stmt.executeQuery(
-					"Select Description,Rationale,Source,SupportingMaterials,FitCriterion,IsFrozen from Requirement where Title = '"
+			ResultSet rQCardData = getRqCardData.executeQuery(
+					"Select OwnerID,ModulName,Requirement,Description,Rationale,Source,UserStories,SupportingMaterials,FitCriterion,IsFrozen,CreatedAt, LastUpdatedAt from Requirement where Title = '"
 							+ selected + "'");
 
-			if (resSet.next()) {
-				selectedItemValues[0] = resSet.getString(1); // Description
-				selectedItemValues[1] = resSet.getString(2); // Rationale
-				selectedItemValues[2] = resSet.getString(3); // Source
-				selectedItemValues[3] = resSet.getString(4); // SupportingMaterials
-				selectedItemValues[4] = resSet.getString(5); // FitCriterion
-				selectedItemValues[5] = "" + resSet.getInt(6);// isFrozen
+			if (rQCardData.next()) {
+				selectedItemValues[0] = "" + rQCardData.getInt(1); // ownerID
+
+				int ownerID = Integer.parseInt(selectedItemValues[0]);
+				ResultSet ownerName = getOwnerName.executeQuery("Select LoginName from User where ID = " + ownerID);
+				if (ownerName.next()) {
+					selectedItemValues[0] = ownerName.getString(1); // ownerName
+				}
+				selectedItemValues[1] = rQCardData.getString(2); // ModulName
+				selectedItemValues[2] = "" + rQCardData.getInt(3); // Requirement[Number]
+				selectedItemValues[3] = rQCardData.getString(4); // Description
+				selectedItemValues[4] = rQCardData.getString(5); // Rationale
+				selectedItemValues[5] = rQCardData.getString(6); // Source
+				selectedItemValues[6] = rQCardData.getString(7); // UserStories
+				selectedItemValues[7] = rQCardData.getString(8); // SupportingMaterials
+				selectedItemValues[8] = rQCardData.getString(9); // FitCriterion
+				selectedItemValues[9] = "" + rQCardData.getInt(10);// isFrozen
+				selectedItemValues[10] = rQCardData.getString(11); // CreatedAt
+				selectedItemValues[11] = rQCardData.getString(12); // LastModifiedAt
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,6 +149,11 @@ public class RequirementCardModel extends Observable {
 		return selectedItemValues;
 	}
 
+	/**
+	 *
+	 *
+	 * @param title
+	 */
 	public void deleteRqFromDatabase(String title) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -127,18 +192,6 @@ public class RequirementCardModel extends Observable {
 	private void triggerNotification(Object message) {
 		setChanged();
 		notifyObservers(message);
-	}
-
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
-	public ObservableList<RequirementCardSimple> getObservableArray() {
-		return observableArray;
-	}
-
-	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
-		this.observableArray = observableArray;
 	}
 
 	public void getMyOrToVoteRequirements(boolean myRq) {
@@ -285,5 +338,17 @@ public class RequirementCardModel extends Observable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public ObservableList<RequirementCardSimple> getObservableArray() {
+		return observableArray;
+	}
+
+	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
+		this.observableArray = observableArray;
 	}
 }
