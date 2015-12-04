@@ -19,7 +19,7 @@
             <HBox prefHeight="34.0" prefWidth="546.0" spacing="60.0">
                <children>
                   <Label text="ModuleName(s):" />
-                  <TextField fx:id="moduleNamesTextField" editable="false" prefWidth="0.0" />
+                  <TextField fx:id="moduleNamesTextField" editable="false" minWidth="0.0" prefWidth="222.0" />
                   <MenuButton fx:id="modulNamesMenuButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="157.0" text="ModulNames">
                     <items>
                       <MenuItem disable="true" mnemonicParsing="false">
@@ -104,5 +104,9 @@
       <Label layoutX="557.0" layoutY="91.0" prefHeight="27.0" prefWidth="149.0" text="Last Modified At:" />
       <Label layoutX="557.0" layoutY="55.0" prefHeight="27.0" prefWidth="101.0" text="Created At : " />
       <Label fx:id="requirementCardNumberLabel" layoutX="280.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" />
+      <Label layoutX="687.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" text=", MinorVersion:" />
+      <Label layoutX="456.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" text="MajorVersion" />
+      <Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" />
+      <Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" />
    </children>
 </Pane>
