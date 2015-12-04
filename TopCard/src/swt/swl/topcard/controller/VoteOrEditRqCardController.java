@@ -21,11 +21,11 @@ public class VoteOrEditRqCardController {
 	private boolean vote$ = false;
 
 	public VoteOrEditRqCardController() {
-		fillTextFields();
 	}
 
 	@FXML
-	private Label requirementCardNumberLabel, createdAtLabel, lastModifiedAtLabel, voteOrEditRequirementLabel;
+	private Label requirementCardNumberLabel, createdAtLabel, lastModifiedAtLabel, voteOrEditRequirementLabel,
+			majorVersionLabel, minorVersionLabel;
 	@FXML
 	private MenuButton modulNameChoiceBox, modulNamesMenuButton;
 
@@ -68,22 +68,26 @@ public class VoteOrEditRqCardController {
 
 		// assign it to the displayed Nodes:
 		ownerTextField.setText(data[0]);
-		moduleNamesTextField.setText(data[1]);
+		// TODO: moduleNamesTextField.setText(data[1]);
 		requirementCardNumberLabel.setText(data[2]);
 		descriptionTextArea.setText(data[3]);
 		rationaleTextArea.setText(data[4]);
 		sourceTextField.setText(data[5]);
-		userStoriesTextField.setText(data[6]);
+		// TODO: userStoriesTextField.setText(data[6]);
 		supportingMaterialsTextField.setText(data[7]);
 		fitCriterionTextField.setText(data[8]);
-		if (Integer.parseInt(data[9]) == 1) {
+		if (Integer.parseInt(data[8]) == 1) {
 			frozenChoiceBox.setSelected(true);
 		}
 		createdAtLabel.setText(data[10]);
 		lastModifiedAtLabel.setText(data[11]);
+		titleTextField.setText(data[12]);
+		majorVersionLabel.setText(data[13]);
+		minorVersionLabel.setText(data[14]);
 	}
 
 	public void initializeNodes(String rqTitle) {
+		fillTextFields();
 
 		ownerTextField.setEditable(false);
 		titleTextField.setEditable(false);
@@ -110,8 +114,21 @@ public class VoteOrEditRqCardController {
 			voteOrEditButton.setText("Vote >");
 			modulNamesMenuButton.setVisible(true);
 			moduleNamesTextField.setPrefWidth(0);
+			changeEditable();
 
 		}
+	}
+
+	private void changeEditable(){
+		descriptionTextArea.setEditable(false);
+		rationaleTextArea.setEditable(false);
+		titleTextField.setEditable(false);
+		ownerTextField.setEditable(false);
+		moduleNamesTextField.setEditable(false);
+		sourceTextField.setEditable(false);
+		userStoriesTextField.setEditable(false);
+		supportingMaterialsTextField.setEditable(false); 
+		fitCriterionTextField.setEditable(false);
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,

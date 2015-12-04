@@ -111,7 +111,7 @@ public class RequirementCardModel extends Observable {
 	 */
 	public String[] getOverviewDataFromSelectedRq(String selected) {
 
-		String[] selectedItemValues = new String[12];
+		String[] selectedItemValues = new String[15];
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -120,7 +120,7 @@ public class RequirementCardModel extends Observable {
 			Statement getOwnerName = conn.createStatement();
 
 			ResultSet rQCardData = getRqCardData.executeQuery(
-					"Select OwnerID,ModulName,Requirement,Description,Rationale,Source,UserStories,SupportingMaterials,FitCriterion,IsFrozen,CreatedAt, LastUpdatedAt from Requirement where Title = '"
+					"Select OwnerID,Requirement,Description,Rationale,Source,SupportingMaterials,FitCriterion,IsFrozen,CreatedAt, LastModifiedAt,Title,MajorVersion,MinorVersion from Requirement where Title = '"
 							+ selected + "'");
 
 			if (rQCardData.next()) {
@@ -131,17 +131,20 @@ public class RequirementCardModel extends Observable {
 				if (ownerName.next()) {
 					selectedItemValues[0] = ownerName.getString(1); // ownerName
 				}
-				selectedItemValues[1] = rQCardData.getString(2); // ModulName
-				selectedItemValues[2] = "" + rQCardData.getInt(3); // Requirement[Number]
-				selectedItemValues[3] = rQCardData.getString(4); // Description
-				selectedItemValues[4] = rQCardData.getString(5); // Rationale
-				selectedItemValues[5] = rQCardData.getString(6); // Source
-				selectedItemValues[6] = rQCardData.getString(7); // UserStories
-				selectedItemValues[7] = rQCardData.getString(8); // SupportingMaterials
-				selectedItemValues[8] = rQCardData.getString(9); // FitCriterion
-				selectedItemValues[9] = "" + rQCardData.getInt(10);// isFrozen
-				selectedItemValues[10] = rQCardData.getString(11); // CreatedAt
-				selectedItemValues[11] = rQCardData.getString(12); // LastModifiedAt
+				// TODO: selectedItemValues[1] = rQCardData.getString(2); // ModulName
+				selectedItemValues[2] = "" + rQCardData.getInt(2); // Requirement[Number]
+				selectedItemValues[3] = rQCardData.getString(3); // Description
+				selectedItemValues[4] = rQCardData.getString(4); // Rationale
+				selectedItemValues[5] = rQCardData.getString(5); // Source
+				//TODO: selectedItemValues[6] = rQCardData.getString(6); // UserStories
+				selectedItemValues[7] = rQCardData.getString(6); // SupportingMaterials
+				selectedItemValues[8] = rQCardData.getString(7); // FitCriterion
+				selectedItemValues[9] = "" + rQCardData.getInt(8);// isFrozen
+				selectedItemValues[10] = rQCardData.getTimestamp(9).toString(); // CreatedAt
+				selectedItemValues[11] = rQCardData.getString(10); // LastModifiedAt
+				selectedItemValues[12] = rQCardData.getString(11); // Title
+				selectedItemValues[13] = "" + rQCardData.getInt(12); // MajorVersion
+				selectedItemValues[14] = "" + rQCardData.getInt(13); // MinorVersion
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

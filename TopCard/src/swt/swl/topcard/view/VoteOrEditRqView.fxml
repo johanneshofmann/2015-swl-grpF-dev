@@ -106,7 +106,7 @@
       <Label fx:id="requirementCardNumberLabel" layoutX="280.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" />
       <Label layoutX="687.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" text=", MinorVersion:" />
       <Label layoutX="456.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" text="MajorVersion" />
-      <Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" />
-      <Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="114.0" />
+      <Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
+      <Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
    </children>
 </Pane>

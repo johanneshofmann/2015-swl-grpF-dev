@@ -152,7 +152,7 @@ public class RequirementCardController implements Observer {
 	private void openRequirement(String rqTitle) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteOrEditRqCardView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteOrEditRqView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
 			((VoteOrEditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
 			((VoteOrEditRqCardController) loader.getController()).initializeNodes(rqTitle);
