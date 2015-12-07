@@ -48,6 +48,7 @@ public class VoteOrEditRqCardController {
 		Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Close without saving ?");
 		closeConfirmation.showAndWait();
 		ButtonType choice = closeConfirmation.getResult();
+		closeConfirmation.close();
 		if (choice == ButtonType.OK) {
 			closeConfirmation.close();event.consume();mainController.repaint();
 			

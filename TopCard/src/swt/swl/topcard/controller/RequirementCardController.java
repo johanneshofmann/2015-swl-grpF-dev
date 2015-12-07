@@ -84,6 +84,8 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
+		//main
+		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
