@@ -1,6 +1,8 @@
 package swt.swl.topcard.controller;
 
 import swt.swl.topcard.model.RequirementCardModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,17 +22,14 @@ public class ShowAndVoteRqCardController {
 	private String toVote;
 
 	@FXML
-	private ComboBox<?> dPreciseBox, dUnderstandableBox;
+	private ComboBox<String> dPreciseBox, dUnderstandableBox, rPreciseBox, rUnderstandableBox;;
 
 	@FXML
-	private ChoiceBox<?> dCorrectBox, dCompleteBox, dAtomicBox, rCompleteBox, rTraceableBox, rConsistentBox;
+	private ChoiceBox<String> dCorrectBox, dCompleteBox, dAtomicBox, rCompleteBox, rTraceableBox, rConsistentBox;
 
 	@FXML
 	private VBox voteRationale, voteRationaleVBoxContainingComboBoxes, voteDescription,
 			voteDescriptionVBoxContainingComboBoxes;
-
-	@FXML
-	private ComboBox<?> rPreciseBox, rUnderstandableBox;
 
 	@FXML
 	private Label sourceLabel, storyLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
@@ -40,7 +39,7 @@ public class ShowAndVoteRqCardController {
 	private CheckBox frozenChoiceBox;
 
 	@FXML
-	private Button closeButton, voteOrEditButton;
+	private Button closeButton, voteButton, voteDescriptionButton, voteRationaleButton;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
@@ -58,11 +57,53 @@ public class ShowAndVoteRqCardController {
 	}
 
 	@FXML
-	void voteOrEditButtonClicked(ActionEvent event) {
+	public void voteRationaleButtonClicked() {
+		voteRationaleButton.setVisible(false);
 		voteRationale.setVisible(true);
 		voteRationaleVBoxContainingComboBoxes.setVisible(true);
+	}
+
+	@FXML
+	public void voteDescriptionButtonClicked() {
+		voteDescriptionButton.setVisible(false);
 		voteDescription.setVisible(true);
 		voteDescriptionVBoxContainingComboBoxes.setVisible(true);
+	}
+
+	@FXML
+	void voteButtonClicked(ActionEvent event) {
+		String[] selectedItems = new String[10];
+		selectedItems [0] = dPreciseBox.getSelectionModel().getSelectedItem();
+		selectedItems [1] = dUnderstandableBox.getSelectionModel().getSelectedItem();
+		selectedItems [2] = dCorrectBox.getSelectionModel().getSelectedItem();
+		selectedItems [3] = dCompleteBox.getSelectionModel().getSelectedItem();
+		selectedItems [4] = dAtomicBox.getSelectionModel().getSelectedItem();
+		
+		selectedItems [5] = rPreciseBox.getSelectionModel().getSelectedItem();
+		selectedItems [6] = rUnderstandableBox.getSelectionModel().getSelectedItem();
+		selectedItems [7] = rTraceableBox.getSelectionModel().getSelectedItem();
+		selectedItems [8] = rCompleteBox.getSelectionModel().getSelectedItem();
+		selectedItems [9] = rConsistentBox.getSelectionModel().getSelectedItem();
+		
+		model.newVoteSubmitted(toVote, selectedItems);
+	}
+
+	private void fillComboBoxes() {
+		ObservableList<String> choice = FXCollections.observableArrayList("Yes", "No", "?");
+		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
+				"9", "10");
+
+		dPreciseBox.setItems(numbers);
+		dUnderstandableBox.setItems(numbers);
+		rPreciseBox.setItems(numbers);
+		rUnderstandableBox.setItems(numbers);
+		dCorrectBox.setItems(choice);
+		dCompleteBox.setItems(choice);
+		dAtomicBox.setItems(choice);
+		rCompleteBox.setItems(choice);
+		rTraceableBox.setItems(choice);
+		rConsistentBox.setItems(choice);
+
 	}
 
 	public void fillLabels() {
@@ -99,6 +140,7 @@ public class ShowAndVoteRqCardController {
 		voteRationaleVBoxContainingComboBoxes.setVisible(false);
 		voteDescription.setVisible(false);
 		voteDescriptionVBoxContainingComboBoxes.setVisible(false);
+		fillComboBoxes();
 	}
 
 }

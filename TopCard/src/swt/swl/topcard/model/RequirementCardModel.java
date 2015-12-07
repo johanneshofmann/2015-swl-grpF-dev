@@ -1,10 +1,13 @@
 package swt.swl.topcard.model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Observable;
 import javafx.collections.ObservableList;
 
@@ -131,12 +134,14 @@ public class RequirementCardModel extends Observable {
 				if (ownerName.next()) {
 					selectedItemValues[0] = ownerName.getString(1); // ownerName
 				}
-				// TODO: selectedItemValues[1] = rQCardData.getString(2); // ModulName
+				// TODO: selectedItemValues[1] = rQCardData.getString(2); //
+				// ModulName
 				selectedItemValues[2] = "" + rQCardData.getInt(2); // Requirement[Number]
 				selectedItemValues[3] = rQCardData.getString(3); // Description
 				selectedItemValues[4] = rQCardData.getString(4); // Rationale
 				selectedItemValues[5] = rQCardData.getString(5); // Source
-				//TODO: selectedItemValues[6] = rQCardData.getString(6); // UserStories
+				// TODO: selectedItemValues[6] = rQCardData.getString(6); //
+				// UserStories
 				selectedItemValues[7] = rQCardData.getString(6); // SupportingMaterials
 				selectedItemValues[8] = rQCardData.getString(7); // FitCriterion
 				selectedItemValues[9] = "" + rQCardData.getInt(8);// isFrozen
@@ -223,6 +228,38 @@ public class RequirementCardModel extends Observable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void newVoteSubmitted(String requirement, String[] selectedItems) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement getReqID = conn.createStatement();
+
+			ResultSet reqID = getReqID.executeQuery("select ID from Requirement where Title ='" + requirement + "'");
+			int reqIDInt = 0;
+			if (reqID.next()) {
+				reqIDInt = reqID.getInt(1);
+			}
+			Statement getUserID = conn.createStatement();
+			ResultSet ownerID = getUserID.executeQuery("select ID from User where LoginName= '" + loginName + "'");
+			int userIDInt = 0;
+			if (ownerID.next()) {
+				userIDInt = ownerID.getInt(1);
+			}
+
+			Statement insert = conn.createStatement();
+			insert.executeUpdate(
+					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleCorrect,RationaleConsistent,CreatedAt)    values ("
+							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ","
+							+ selectedItems[2] + "," + selectedItems[3] + "," + selectedItems[4] + ","
+							+ selectedItems[5] + "," + selectedItems[6] + "," + selectedItems[7] + ","
+							+ selectedItems[8] + "," + selectedItems[9] + ","
+							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + ")");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
@@ -354,4 +391,5 @@ public class RequirementCardModel extends Observable {
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
 		this.observableArray = observableArray;
 	}
+
 }

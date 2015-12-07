@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -8,19 +9,18 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="983.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.ShowAndVoteRqCardController">
    <children>
-      <VBox layoutX="20.0" layoutY="58.0" prefHeight="902.0" prefWidth="749.0" spacing="20.0">
+      <VBox layoutX="20.0" layoutY="58.0" prefHeight="758.0" prefWidth="449.0" spacing="20.0">
          <children>
             <HBox prefHeight="39.0" prefWidth="406.0" spacing="161.0">
                <children>
                   <Label text="Title:" />
-                  <Label fx:id="titleLabel" prefHeight="27.0" prefWidth="201.0" text="titleLabel" />
-                  <Label prefHeight="27.0" prefWidth="101.0" text="Created At : " />
+                  <Label fx:id="titleLabel" prefHeight="27.0" prefWidth="201.0" />
                </children>
             </HBox>
             <HBox prefHeight="34.0" prefWidth="546.0" spacing="87.0">
                <children>
                   <Label text="ModuleName(s):" />
-                  <Label fx:id="modulLabel" prefHeight="27.0" prefWidth="201.0" text="modulLabel" />
+                  <Label fx:id="modulLabel" prefHeight="27.0" prefWidth="201.0" />
                </children>
             </HBox>
             <HBox prefHeight="34.0" prefWidth="546.0" spacing="92.0">
@@ -29,51 +29,16 @@
                   <Label fx:id="ownerLabel" prefHeight="27.0" prefWidth="201.0" text="ownerLabel" />
                </children>
             </HBox>
-            <HBox prefHeight="189.0" prefWidth="717.0" spacing="72.0">
+            <HBox prefHeight="133.0" prefWidth="749.0" spacing="105.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="121.0" text="Description:" />
+                  <Label prefHeight="27.0" prefWidth="84.0" text="Description:" />
                   <Label fx:id="descriptionLabel" prefHeight="27.0" prefWidth="201.0" text="descriptionLabel" />
-                  <VBox fx:id="voteDescription" prefHeight="189.0" prefWidth="143.0">
-                     <children>
-                        <Label prefHeight="27.0" prefWidth="201.0" text="precise:" />
-                        <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" text="understandable:" />
-                        <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="201.0" text="correct:" />
-                        <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="132.0" text="complete:" />
-                        <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="201.0" text="atomic:" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <ComboBox fx:id="dPreciseBox" prefWidth="150.0" />
-                        <ComboBox fx:id="dUnderstandableBox" prefWidth="150.0" />
-                        <ChoiceBox fx:id="dCorrectBox" prefWidth="150.0" />
-                        <ChoiceBox fx:id="dCompleteBox" prefWidth="150.0" />
-                        <ChoiceBox fx:id="dAtomicBox" prefWidth="150.0" />
-                     </children>
-                  </VBox>
                </children>
             </HBox>
-            <HBox prefHeight="118.0" prefWidth="546.0" spacing="34.0">
+            <HBox prefHeight="118.0" prefWidth="638.0" spacing="120.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="159.0" text="Rationale:" />
+                  <Label prefHeight="27.0" prefWidth="68.0" text="Rationale:" />
                   <Label fx:id="rationaleLabel" prefHeight="27.0" prefWidth="201.0" text="rationaleLabel" />
-                  <VBox fx:id="voteRationale" prefHeight="118.0" prefWidth="180.0">
-                     <children>
-                        <Label prefHeight="27.0" prefWidth="201.0" text="precise:" />
-                        <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" text="understandable:" />
-                        <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="201.0" text="traceable:" />
-                        <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="201.0" text="complete:" />
-                        <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="201.0" text="consistent:" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <ComboBox fx:id="rPreciseBox" prefWidth="150.0" />
-                        <ComboBox fx:id="rUnderstandableBox" prefWidth="150.0" />
-                        <ChoiceBox fx:id="rTraceableBox" prefWidth="150.0" />
-                        <ChoiceBox fx:id="rCompleteBox" prefWidth="150.0" />
-                     </children>
-                  </VBox>
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="117.0">
@@ -94,7 +59,7 @@
                   <Label fx:id="supportLabel" prefHeight="27.0" prefWidth="201.0" text="supportLabel" />
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="89.0">
+            <HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="87.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
                   <Label fx:id="fitCriterionLabel" prefHeight="27.0" prefWidth="201.0" text="fitCriterionLabel" />
@@ -104,12 +69,6 @@
                <children>
                   <Label prefHeight="27.0" prefWidth="72.0" text="Frozen? " />
                   <CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" />
-               </children>
-            </HBox>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="549.0" spacing="50.0">
-               <children>
-                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
-                  <Button fx:id="voteOrEditButton" mnemonicParsing="false" onAction="#voteOrEditButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
                </children>
             </HBox>
          </children>
@@ -124,5 +83,54 @@
       <Label layoutX="575.0" layoutY="15.0" prefHeight="27.0" prefWidth="101.0" text="MajorVersion" />
       <Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
       <Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
+      <VBox fx:id="voteDescription" layoutX="615.0" layoutY="217.0" prefHeight="139.0" prefWidth="107.0">
+         <children>
+            <Label prefHeight="27.0" prefWidth="60.0" text="precise:" />
+            <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="115.0" text="understandable:" />
+            <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="75.0" text="correct:" />
+            <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="82.0" text="complete:" />
+            <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="76.0" text="atomic:" />
+         </children>
+      </VBox>
+      <VBox fx:id="voteDescriptionVBoxContainingComboBoxes" layoutX="748.0" layoutY="222.0" prefHeight="130.0" prefWidth="60.0">
+         <children>
+            <ComboBox fx:id="dPreciseBox" prefWidth="150.0" />
+            <ComboBox fx:id="dUnderstandableBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="dCorrectBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="dCompleteBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="dAtomicBox" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <VBox fx:id="voteRationaleVBoxContainingComboBoxes" layoutX="748.0" layoutY="374.0" prefHeight="130.0" prefWidth="60.0">
+         <children>
+            <ComboBox fx:id="rPreciseBox" prefWidth="150.0" />
+            <ComboBox fx:id="rUnderstandableBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="rTraceableBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="rCompleteBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="rConsistentBox" layoutX="10.0" layoutY="88.0" prefWidth="150.0" />
+         </children>
+      </VBox>
+      <VBox fx:id="voteRationale" layoutX="615.0" layoutY="374.0" prefHeight="130.0" prefWidth="107.0">
+         <children>
+            <Label prefHeight="27.0" prefWidth="201.0" text="precise:" />
+            <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" text="understandable:" />
+            <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="201.0" text="traceable:" />
+            <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="201.0" text="complete:" />
+            <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="201.0" text="consistent:" />
+         </children>
+      </VBox>
+      <Button fx:id="voteButton" layoutX="617.0" layoutY="887.0" mnemonicParsing="false" onAction="#voteButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
+      <Button fx:id="closeButton" layoutX="385.0" layoutY="887.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
+      <Button fx:id="voteRationaleButton" layoutX="456.0" layoutY="385.0" mnemonicParsing="false" onAction="#voteRationaleButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Rationale">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="voteDescriptionButton" layoutX="456.0" layoutY="238.0" mnemonicParsing="false" onAction="#voteDescriptionButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Description">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="568.0" layoutY="64.0" prefHeight="27.0" prefWidth="101.0" text="Created At : " />
    </children>
 </Pane>
