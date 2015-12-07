@@ -1,8 +1,10 @@
 package swt.swl.topcard.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import swt.swl.topcard.model.ModuleModel;
 
 public class CreateModuleController {
@@ -21,10 +23,26 @@ public class CreateModuleController {
 	@FXML
 	protected void create()
 	{
-		// TODO
-		// 0. Check whether a string has been entered in the textfield
-		// 1. Check whether module with the name exists
-		// 2. Add module to the database
+		// 0. Check whether a string has been entered in the text field
+		if(!this.moduleNameTextField.getText().isEmpty())
+		{
+			// 1. Check whether module with the name exists
+			String value = this.moduleNameTextField.getText();
+			if(!model.hasModule(value))
+			{
+				// 2. Add module to the database
+				model.insertModule(value);
+				new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
+			}
+			else
+			{
+				new Alert(AlertType.WARNING, "Module with the name " + value + "already exists.").showAndWait();
+			}
+		}
+		else
+		{
+			new Alert(AlertType.WARNING, "Module name is empty.").showAndWait();
+		}
 	}
 	
 	@FXML
@@ -32,6 +50,4 @@ public class CreateModuleController {
 	{
 		//TODO close
 	}
-	
-	
 }

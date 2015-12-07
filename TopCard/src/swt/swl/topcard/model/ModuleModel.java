@@ -39,11 +39,11 @@ public class ModuleModel extends Observable{
 		}
 	}
 	
-	public void hasModule(String text)
+	public Boolean hasModule(String text)
 	{
 		String query = "SELECT * FROM Module WHERE Text=?";
 		ResultSet resultSet = DatabaseHelper.executeQuery(query, text);
-		ResultSetUtil.contains(resultSet, 1, text);
+		return ResultSetUtil.contains(resultSet, 1, text);
 	}
 	
 	public void insertModule(String text)
