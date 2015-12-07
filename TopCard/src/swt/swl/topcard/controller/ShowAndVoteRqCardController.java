@@ -20,24 +20,22 @@ public class ShowAndVoteRqCardController {
 	private String toVote;
 
 	@FXML
-	private VBox voteDescription;
-
-	@FXML
 	private ComboBox<?> dPreciseBox, dUnderstandableBox;
 
 	@FXML
-	private ChoiceBox<?> dCorrectBox, dCompleteBox, dAtomicBox;
+	private ChoiceBox<?> dCorrectBox, dCompleteBox, dAtomicBox, rCompleteBox, rTraceableBox, rConsistentBox;
 
 	@FXML
-	private VBox voteRationale;
+	private VBox voteRationale, voteRationaleVBoxContainingComboBoxes, voteDescription,
+			voteDescriptionVBoxContainingComboBoxes;
 
 	@FXML
-	private ComboBox<?> rPreciseBox, rUnderstandableBox, rTraceableBox, rCompleteBox;
+	private ComboBox<?> rPreciseBox, rUnderstandableBox;
 
 	@FXML
 	private Label sourceLabel, storyLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
-			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel,
-			ownerLabel,descriptionLabel,rationaleLabel;
+			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel, ownerLabel,
+			descriptionLabel, rationaleLabel;
 	@FXML
 	private CheckBox frozenChoiceBox;
 
@@ -50,9 +48,10 @@ public class ShowAndVoteRqCardController {
 		closeConfirmation.showAndWait();
 		ButtonType choice = closeConfirmation.getResult();
 		if (choice == ButtonType.OK) {
-			closeConfirmation.close();event.consume();mainController.repaint();
-			
-			
+			closeConfirmation.close();
+			event.consume();
+			mainController.repaint();
+
 		} else {
 			event.consume();
 		}
@@ -60,7 +59,10 @@ public class ShowAndVoteRqCardController {
 
 	@FXML
 	void voteOrEditButtonClicked(ActionEvent event) {
-
+		voteRationale.setVisible(true);
+		voteRationaleVBoxContainingComboBoxes.setVisible(true);
+		voteDescription.setVisible(true);
+		voteDescriptionVBoxContainingComboBoxes.setVisible(true);
 	}
 
 	public void fillLabels() {
@@ -93,6 +95,10 @@ public class ShowAndVoteRqCardController {
 		this.mainController = requirementCardController;
 		this.toVote = toVote;
 		fillLabels();
+		voteRationale.setVisible(false);
+		voteRationaleVBoxContainingComboBoxes.setVisible(false);
+		voteDescription.setVisible(false);
+		voteDescriptionVBoxContainingComboBoxes.setVisible(false);
 	}
 
 }

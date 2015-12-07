@@ -71,7 +71,6 @@ public class RequirementCardController implements Observer {
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 					String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
-					openEditView(rqTitle);
 
 					if (rqModel.checkUserName(rqTitle)) {
 						openEditView(rqTitle);
@@ -156,7 +155,7 @@ public class RequirementCardController implements Observer {
 	private void openVoteView(String rqTitle) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRqCardView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRQCard.fxml"));
 			Pane rootLayout = (Pane) loader.load();
 			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
 			Scene scene = new Scene(rootLayout);
