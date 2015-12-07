@@ -71,7 +71,13 @@ public class RequirementCardController implements Observer {
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 					String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
-					openRequirement(rqTitle);
+					openEditView(rqTitle);
+
+					if (rqModel.checkUserName(rqTitle)) {
+						openEditView(rqTitle);
+					} else {
+						openVoteView(rqTitle);
+					}
 				}
 			}
 		});
@@ -145,17 +151,30 @@ public class RequirementCardController implements Observer {
 		}
 	}
 
+	private void openVoteView(String rqTitle) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRqCardView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 *
 	 * @param rqTitle
 	 */
-	private void openRequirement(String rqTitle) {
+	private void openEditView(String rqTitle) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteOrEditRqView.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((VoteOrEditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
-			((VoteOrEditRqCardController) loader.getController()).initializeNodes(rqTitle);
+			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();

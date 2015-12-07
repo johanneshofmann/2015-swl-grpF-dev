@@ -1,16 +1,21 @@
 package swt.swl.topcard.controller;
 
+import java.util.Optional;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
 
@@ -60,7 +65,6 @@ public class SearchRQCardController {
 
 	public SearchRQCardController() {
 
-		
 	}
 
 	private void initialteComboBoxes() {
@@ -80,7 +84,14 @@ public class SearchRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		rqCardController.repaint();
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without searching?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			rqCardController.repaint();
+		} else {
+			event.consume();
+		}
+
 	}
 
 	@FXML
@@ -109,8 +120,8 @@ public class SearchRQCardController {
 		}
 
 		model.search(title, owner, fitCriterion, source, supportingMaterials);
-		
-		//redirect
+
+		// redirect
 		rqCardController.repaint();
 	}
 
