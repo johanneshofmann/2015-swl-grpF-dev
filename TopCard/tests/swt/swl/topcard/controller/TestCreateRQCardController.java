@@ -12,10 +12,5 @@ public class TestCreateRQCardController {
 	public TestCreateRQCardController() {
 		mainController = mock(RequirementCardController.class);
 	}
-	@Test
-	void testcloseWindow() {
-		
-		mainController.startButtonClicked(new ActionEvent());
-		verify(mainController).startButtonClicked(new ActionEvent());
-	}
+
 }

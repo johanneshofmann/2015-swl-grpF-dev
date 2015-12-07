@@ -42,8 +42,14 @@ public class LoginModel extends Observable {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
+			Statement stmt$2 = conn.createStatement();
+			ResultSet r = stmt$2.executeQuery("select max(ID) from User");
+			int ownerID = 99;
+			if(r.next()){
+				ownerID = r.getInt(1)+1;
+			}
 
-			String sqlInsert = "insert into User(FirstName,LastName,LoginName,CreatedAt) values (" + ", '" + firstName
+			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ownerID + ", '" + firstName
 					+ "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
 			stmt.executeUpdate(sqlInsert);
 			triggerNotification(loginName);

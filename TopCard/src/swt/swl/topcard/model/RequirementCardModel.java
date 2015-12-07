@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Observable;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -23,6 +21,32 @@ public class RequirementCardModel extends Observable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean checkUserName(String requirement) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+			Statement stmt$1 = conn.createStatement();
+
+			ResultSet equals = stmt.executeQuery("Select OwnerID from Requirement where Title = '" + requirement + "'");
+			String result = null;
+			if (equals.next()) {
+				ResultSet IDToLoginName = stmt$1
+						.executeQuery("Select LoginName from User where ID = " + equals.getInt(1));
+				if (IDToLoginName.next()) {
+					result = IDToLoginName.getString(1);
+				}
+			}
+			if (result != null) {
+				return (loginName.equals(result) ? true : false);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public void insertRQIntoDatabase(String title, String description, String rationale, String source,
@@ -61,21 +85,93 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
-	public void deleteRqFromDatabase(String title){
+
+	/**
+	 * Stores all Data for showing an overview from a selected Requirement Card
+	 * in a String[] and returns it.<br>
+	 *
+	 * @param selected,
+	 *            the selected Item from the RqCardTableView
+	 * @returns String[] containing all data of a selected requirement,
+	 *          including <br>
+	 *          <ul>
+	 *          <li>[0]OwnerName,</li>
+	 *          <li>[1]ModuleName</li>
+	 *          <li>[2]Requirement(number)</li>
+	 *          <li>[3]Description,</li>
+	 *          <li>[4]Rationale,</li>
+	 *          <li>[5]Source,</li>
+	 *          <li>[6]UserStories</li>
+	 *          <li>[7]SupportingMaterials,</li>
+	 *          <li>[8]FitCriterion,</li>
+	 *          <li>[9]IsFrozen,</li>
+	 *          <li>[10]CreatedAt</li>
+	 *          <li>[11]LastUpdatedAt</li>
+	 *          </ul>
+	 */
+	public String[] getOverviewDataFromSelectedRq(String selected) {
+
+		String[] selectedItemValues = new String[15];
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement getRqCardData = conn.createStatement();
+			Statement getOwnerName = conn.createStatement();
+
+			ResultSet rQCardData = getRqCardData.executeQuery(
+					"Select OwnerID,Requirement,Description,Rationale,Source,SupportingMaterials,FitCriterion,IsFrozen,CreatedAt, LastModifiedAt,Title,MajorVersion,MinorVersion from Requirement where Title = '"
+							+ selected + "'");
+
+			if (rQCardData.next()) {
+				selectedItemValues[0] = "" + rQCardData.getInt(1); // ownerID
+
+				int ownerID = Integer.parseInt(selectedItemValues[0]);
+				ResultSet ownerName = getOwnerName.executeQuery("Select LoginName from User where ID = " + ownerID);
+				if (ownerName.next()) {
+					selectedItemValues[0] = ownerName.getString(1); // ownerName
+				}
+				// TODO: selectedItemValues[1] = rQCardData.getString(2); // ModulName
+				selectedItemValues[2] = "" + rQCardData.getInt(2); // Requirement[Number]
+				selectedItemValues[3] = rQCardData.getString(3); // Description
+				selectedItemValues[4] = rQCardData.getString(4); // Rationale
+				selectedItemValues[5] = rQCardData.getString(5); // Source
+				//TODO: selectedItemValues[6] = rQCardData.getString(6); // UserStories
+				selectedItemValues[7] = rQCardData.getString(6); // SupportingMaterials
+				selectedItemValues[8] = rQCardData.getString(7); // FitCriterion
+				selectedItemValues[9] = "" + rQCardData.getInt(8);// isFrozen
+				selectedItemValues[10] = rQCardData.getTimestamp(9).toString(); // CreatedAt
+				selectedItemValues[11] = rQCardData.getString(10); // LastModifiedAt
+				selectedItemValues[12] = rQCardData.getString(11); // Title
+				selectedItemValues[13] = "" + rQCardData.getInt(12); // MajorVersion
+				selectedItemValues[14] = "" + rQCardData.getInt(13); // MinorVersion
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return selectedItemValues;
+	}
+
+	/**
+	 *
+	 *
+	 * @param title
+	 */
+	public void deleteRqFromDatabase(String title) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
 			Statement stmt$0 = conn.createStatement();
 			Statement stmt$1 = conn.createStatement();
 
-			ResultSet rqID = stmt$0.executeQuery("select Requiremet from Requirement where Title='" + title + "'");
+			ResultSet rqID = stmt$0.executeQuery("select Requirement from Requirement where Title='" + title + "'");
 			int rqCardID = 0;
-			if (rqID.next()) {
+			while (rqID.next()) {
 				rqCardID = rqID.getInt(1);
+				stmt$1.executeUpdate("delete from Requirement where Requirement= " + rqCardID);
 			}
-			stmt$1.executeQuery("delete from Requirement where Requirement= " + rqCardID);
 
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -99,18 +195,6 @@ public class RequirementCardModel extends Observable {
 	private void triggerNotification(Object message) {
 		setChanged();
 		notifyObservers(message);
-	}
-
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
-	}
-
-	public ObservableList<RequirementCardSimple> getObservableArray() {
-		return observableArray;
-	}
-
-	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
-		this.observableArray = observableArray;
 	}
 
 	public void getMyOrToVoteRequirements(boolean myRq) {
@@ -150,20 +234,19 @@ public class RequirementCardModel extends Observable {
 		filterSource(source);
 		filterSupportingMaterials(supportingMaterials);
 
-
 	}
 
 	private void filterSupportingMaterials(String supportingMaterials) {
 		// TODO Auto-generated method stub
-		if(supportingMaterials == null){
+		if (supportingMaterials == null) {
 			return;
 		}
-		
+
 	}
 
 	private void filterSource(String source) {
 		// TODO Auto-generated method stub
-		if(source == null){
+		if (source == null) {
 			return;
 		}
 	}
@@ -258,5 +341,17 @@ public class RequirementCardModel extends Observable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public ObservableList<RequirementCardSimple> getObservableArray() {
+		return observableArray;
+	}
+
+	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
+		this.observableArray = observableArray;
 	}
 }

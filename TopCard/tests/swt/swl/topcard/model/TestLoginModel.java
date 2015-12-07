@@ -40,14 +40,23 @@ public class TestLoginModel {
 		assertEquals(true, toCheck);
 
 		// remove after checking ..
-		afterInsertUserIntoDatabaseUserShouldBeIntoDatabase();
+		loginModel.deleteUserFromDatabase(loginName);
 	}
 
 	@Test
-	public void afterUserWasDeletedFromDatabaseUserShouldBeRemoved(String loginName) {
+	public void ifUserWasDeletedFromDatabaseUserShouldBeRemovedAfterwards() {
 		
+		// first insert user : 
+		
+		String firstName = "firstName";
+		String lastName = "lastName";
+		String loginName = "loginName";
+
+		loginModel.insertUserIntoDatabase(firstName, lastName, loginName);
+		
+		// then remove it:
 		loginModel.deleteUserFromDatabase(loginName);
-		
+
 		boolean stillInDatabase = loginModel.checkDatabase(loginName);
 		
 		assertEquals(false, stillInDatabase);

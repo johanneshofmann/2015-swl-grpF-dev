@@ -80,7 +80,7 @@ public class SearchRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		rqCardController.showAgain();
+		rqCardController.repaint();
 	}
 
 	@FXML
@@ -111,7 +111,7 @@ public class SearchRQCardController {
 		model.search(title, owner, fitCriterion, source, supportingMaterials);
 		
 		//redirect
-		rqCardController.showAgain();
+		rqCardController.repaint();
 	}
 
 	@FXML

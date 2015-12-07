@@ -6,6 +6,7 @@ import java.util.Observer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.RequirementCardModel;
@@ -59,13 +61,27 @@ public class RequirementCardController implements Observer {
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
-
+		addEventHandlerToTableView();
 	}
 
-	public void showAgain(){
+	private void addEventHandlerToTableView() {
+		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
+					openRequirement(rqTitle);
+				}
+			}
+		});
+	}
+
+	public void repaint() {
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
+
 	@FXML
 	void startButtonClicked(ActionEvent event) {
 		initialize();
@@ -115,14 +131,51 @@ public class RequirementCardController implements Observer {
 		rqModel.getMyOrToVoteRequirements(true);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void update(Observable o, Object update) {
 
-		if (update.toString().equals(loginName)) {
-
-			startButtonClicked(new ActionEvent());
-			System.out.println("Insert complete!");
+		if (update != null) {
+			if (update.toString().equals(loginName)) {
+				startButtonClicked(new ActionEvent());
+				System.out.println("Insert complete!");
+			}
 		}
+	}
+
+	/**
+	 *
+	 * @param rqTitle
+	 */
+	private void openRequirement(String rqTitle) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteOrEditRqView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((VoteOrEditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
+			((VoteOrEditRqCardController) loader.getController()).initializeNodes(rqTitle);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *
+	 * @param loginName
+	 * @param mainApp
+	 * @param loginWindowController
+	 */
+	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+		this.loginName = loginName;
+		this.mainApp = mainApp;
+		this.loginController = loginWindowController;
+		rqModel.setLoginName(loginName);
+
 	}
 
 	public void setMainApp(MainApp mainApp) {
@@ -137,12 +190,12 @@ public class RequirementCardController implements Observer {
 		this.loginName = loginName;
 	}
 
-	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
-		this.loginName = loginName;
-		this.mainApp = mainApp;
-		this.loginController = loginWindowController;
-		rqModel.setLoginName(loginName);
+	public RequirementCardModel getRqModel() {
+		return rqModel;
+	}
 
+	public void setRqModel(RequirementCardModel rqModel) {
+		this.rqModel = rqModel;
 	}
 
 }
