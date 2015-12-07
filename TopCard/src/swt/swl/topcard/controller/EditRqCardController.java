@@ -2,7 +2,6 @@ package swt.swl.topcard.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import swt.swl.topcard.model.RequirementCardModel;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -12,55 +11,54 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import swt.swl.topcard.model.RequirementCardModel;
 
-public class VoteOrEditRqCardController {
+public class EditRqCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
 	private String toEdit;
-	private boolean vote$ = false;
-
-	public VoteOrEditRqCardController() {
-	}
 
 	@FXML
-	private Label requirementCardNumberLabel, createdAtLabel, lastModifiedAtLabel, voteOrEditRequirementLabel,
-			majorVersionLabel, minorVersionLabel;
+	private MenuButton modulNamesMenuButton;
+
 	@FXML
-	private MenuButton modulNameChoiceBox, modulNamesMenuButton;
+	private CheckBox modul1CheckBox, modul2CheckBox, modul3CheckBox, frozenChoiceBox;
 
 	@FXML
 	private TextArea descriptionTextArea, rationaleTextArea;
 
 	@FXML
-	private TextField titleTextField, ownerTextField, moduleNamesTextField, sourceTextField, userStoriesTextField,
+	private TextField titleTextField, ownerTextField, sourceTextField, userStoriesTextField,
 			supportingMaterialsTextField, fitCriterionTextField;
 
 	@FXML
-	private CheckBox frozenChoiceBox, modul1CheckBox, modul2CheckBox, modul3CheckBox;
+	private Button closeButton, editButton;
 
 	@FXML
-	private Button closeButton, voteOrEditButton;
+	private Label createdAtLabel, lastModifiedAtLabel, requirementCardNumberLabel, majorVersionLabel, minorVersionLabel;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-
 		Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Close without saving ?");
 		closeConfirmation.showAndWait();
 		ButtonType choice = closeConfirmation.getResult();
-		closeConfirmation.close();
 		if (choice == ButtonType.OK) {
 			mainController.repaint();
+			event.consume();
+			closeConfirmation.close();
 		} else {
 			event.consume();
 		}
 	}
 
 	@FXML
-	void voteOrEditButtonClicked(ActionEvent event) {
+	void editButtonClicked(ActionEvent event) {
 
-		// if(edit): model.delete, then insert new OR model.insert with
+		// model.delete, then insert new OR model.insert with
 		// newMinorVersion ?
+
+		// TODO:
 	}
 
 	private void fillTextFields() {
@@ -77,7 +75,7 @@ public class VoteOrEditRqCardController {
 		// TODO: userStoriesTextField.setText(data[6]);
 		supportingMaterialsTextField.setText(data[7]);
 		fitCriterionTextField.setText(data[8]);
-		if (Integer.parseInt(data[8]) == 1) {
+		if (Integer.parseInt(data[9]) == 1) {
 			frozenChoiceBox.setSelected(true);
 		}
 		createdAtLabel.setText(data[10]);
@@ -88,48 +86,11 @@ public class VoteOrEditRqCardController {
 	}
 
 	public void initializeNodes(String rqTitle) {
+		
 		fillTextFields();
 
 		ownerTextField.setEditable(false);
 		titleTextField.setEditable(false);
-
-		if (model.checkUserName(rqTitle)) {
-
-			vote$ = false;
-
-			// TODO : initiate edit functionalities
-
-			voteOrEditRequirementLabel.setText("Edit Requirement Card: ");
-			voteOrEditButton.setText("Save Changes");
-			modulNamesMenuButton.setVisible(false);
-			moduleNamesTextField.setPrefWidth(222);
-
-		} else {
-
-			vote$ = true;
-
-			// TODO: inintiate 2 other buttons as visible/editable:
-			// and open the voting window.
-
-			voteOrEditRequirementLabel.setText("View Requirement Card: ");
-			voteOrEditButton.setText("Vote >");
-			modulNamesMenuButton.setVisible(true);
-			moduleNamesTextField.setPrefWidth(0);
-			changeEditable();
-
-		}
-	}
-
-	private void changeEditable(){
-		descriptionTextArea.setEditable(false);
-		rationaleTextArea.setEditable(false);
-		titleTextField.setEditable(false);
-		ownerTextField.setEditable(false);
-		moduleNamesTextField.setEditable(false);
-		sourceTextField.setEditable(false);
-		userStoriesTextField.setEditable(false);
-		supportingMaterialsTextField.setEditable(false); 
-		fitCriterionTextField.setEditable(false);
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
@@ -137,6 +98,7 @@ public class VoteOrEditRqCardController {
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toEdit = toEdit;
+		initializeNodes(toEdit);
 	}
 
 }
