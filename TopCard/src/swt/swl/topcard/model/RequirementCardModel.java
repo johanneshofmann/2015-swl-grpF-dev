@@ -254,8 +254,8 @@ public class RequirementCardModel extends Observable {
 							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ","
 							+ selectedItems[2] + "," + selectedItems[3] + "," + selectedItems[4] + ","
 							+ selectedItems[5] + "," + selectedItems[6] + "," + selectedItems[7] + ","
-							+ selectedItems[8] + "," + selectedItems[9] + ","
-							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + ")");
+							+ selectedItems[8] + "," + selectedItems[9] + ", '"
+							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
