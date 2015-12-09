@@ -247,7 +247,7 @@ public class RequirementCardModel extends Observable {
 			if (ownerID.next()) {
 				userIDInt = ownerID.getInt(1);
 			}
-
+//
 			Statement insert = conn.createStatement();
 			insert.executeUpdate(
 					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleCorrect,RationaleConsistent,CreatedAt)    values ("
