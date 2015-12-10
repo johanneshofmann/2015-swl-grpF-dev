@@ -2,14 +2,15 @@ package swt.swl.topcard.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class CreateRQCardController {
@@ -38,7 +39,13 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		mainController.startButtonClicked(new ActionEvent());
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			mainController.repaint();
+		} else {
+			event.consume();
+		}
 	}
 
 	/**
@@ -61,7 +68,8 @@ public class CreateRQCardController {
 		} else {
 			model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
 					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
-					fitCriterionTextField.getText(),supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+					fitCriterionTextField.getText(), supportingMaterialsTextField.getText(),
+					frozenChoiceBox.isSelected());
 			new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 		}
 	}
