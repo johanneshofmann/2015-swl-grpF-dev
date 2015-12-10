@@ -1,22 +1,18 @@
 package swt.swl.topcard.controller;
 
-import swt.swl.topcard.model.RequirementCardModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+import swt.swl.topcard.model.RequirementCardModel;
 
 public class ShowAndVoteRqCardController {
 
@@ -86,18 +82,21 @@ public class ShowAndVoteRqCardController {
 	@FXML
 	void voteButtonClicked(ActionEvent event) {
 		String[] selectedItems = new String[10];
-		selectedItems[0] = "" + descriptionPreciseSlider.getValue();
-		selectedItems[1] = "" + descriptionUnderstandableSlider.getValue();
-		selectedItems[2] = "" + descriptionCompleteGroup.getSelectedToggle();
-		selectedItems[3] = "";
-		selectedItems[4] = ""; 
-		selectedItems[5] = "";
-		selectedItems[6] = "";
-		selectedItems[7] = "";
-		selectedItems[8] = "";
-		selectedItems[9] = "";
+		selectedItems[0] = "" + (int) descriptionPreciseSlider.getValue();
+		selectedItems[1] = "" + (int) descriptionUnderstandableSlider.getValue();
+
+		selectedItems[2] = ((RadioButton) descriptionCorrectGroup.getSelectedToggle()).getText();
+		selectedItems[3] = ((RadioButton) descriptionCompleteGroup.getSelectedToggle()).getText();
+		selectedItems[4] = ((RadioButton) descriptionAtomicGroup.getSelectedToggle()).getText();
+		selectedItems[5] = "" + (int) rationalePreciseSlider.getValue();
+		selectedItems[6] = "" + (int) rationaleUnderstandableSlider.getValue();
+		selectedItems[7] = ((RadioButton) rationaleTraceableGroup.getSelectedToggle()).getText();
+		selectedItems[8] = ((RadioButton) rationaleCompleteGroup.getSelectedToggle()).getText();
+		selectedItems[9] = ((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText();
 
 		model.newVoteSubmitted(toVote, selectedItems);
+		new Alert(AlertType.INFORMATION, "Vote submitted !");
+		mainController.repaint();
 	}
 
 	public void fillLabels() {
@@ -124,13 +123,22 @@ public class ShowAndVoteRqCardController {
 		minorVersionLabel.setText(data[14]);
 	}
 
-	private void goGuiNodes(){
+	private void goGuiNodes() {
 		fillLabels();
 		voteRationaleLabelsVBox.setVisible(false);
 		voteRationaleSelectionNodesVBox.setVisible(false);
 		voteDescriptionLabelsVBox.setVisible(false);
 		voteDescriptionSelectionNodesVBox.setVisible(false);
-		
+
+		// DontKnow as default:
+		descriptionCompleteDontKnowRadioButton.setSelected(true);
+		descriptionAtomicDontKnowRadioButton.setSelected(true);
+		descriptionCorrectDontKnowRadioButton.setSelected(true);
+
+		rationaleTraceableDontKnowRadioButton.setSelected(true);
+		rationaleCompleteDontKnowRadioButton.setSelected(true);
+		rationaleConsistentDontKnowRadioButton.setSelected(true);
+
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
