@@ -21,7 +21,7 @@ public class LoginWindowController implements Observer{
 	private Scene scene;
 
 	@FXML
-	private Button loginButton, registrateButton;
+	private Button loginButton, registerButton;
 
 	@FXML
 	private TextField userNameTextField;
@@ -52,7 +52,7 @@ public class LoginWindowController implements Observer{
 	}
 
 	@FXML
-	void registrateButtonClicked(ActionEvent event) {
+	void registerButtonClicked(ActionEvent event) {
 		createRegistrationView();
 	}
 

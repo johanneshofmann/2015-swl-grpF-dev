@@ -250,7 +250,7 @@ public class RequirementCardModel extends Observable {
 //
 			Statement insert = conn.createStatement();
 			insert.executeUpdate(
-					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleCorrect,RationaleConsistent,CreatedAt)    values ("
+					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    values ("
 							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ","
 							+ selectedItems[2] + "," + selectedItems[3] + "," + selectedItems[4] + ","
 							+ selectedItems[5] + "," + selectedItems[6] + "," + selectedItems[7] + ","
