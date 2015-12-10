@@ -83,7 +83,7 @@ public class LoginWindowController implements Observer{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		//
 	}
 
 	@Override
