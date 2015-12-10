@@ -3,6 +3,7 @@ package swt.swl.topcard.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -38,7 +39,13 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		mainController.startButtonClicked(new ActionEvent());
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			mainController.repaint();
+		} else {
+			event.consume();
+		}
 	}
 
 	/**
