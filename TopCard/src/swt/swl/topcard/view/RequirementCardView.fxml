@@ -17,7 +17,6 @@
             </HBox>
          </children>
       </Pane>
-      <Button fx:id="search" layoutX="469.0" layoutY="13.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
       <Button fx:id="createNewRq" layoutX="169.0" layoutY="13.0" mnemonicParsing="false" onAction="#createNewRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Create new RQ" />
       <Button fx:id="start" layoutX="17.0" layoutY="13.0" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Start" textAlignment="CENTER" />
       <MenuButton fx:id="showRQCards" layoutX="323.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" text="showRQCards" textAlignment="CENTER">
