@@ -95,7 +95,8 @@ public class ShowAndVoteRqCardController {
 		selectedItems[9] = ((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText();
 
 		model.newVoteSubmitted(toVote, selectedItems);
-		new Alert(AlertType.INFORMATION, "Vote submitted !");
+		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
+
 		mainController.repaint();
 	}
 
