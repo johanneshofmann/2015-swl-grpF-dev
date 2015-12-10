@@ -2,7 +2,6 @@ package swt.swl.topcard.controller;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
@@ -46,6 +46,12 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
+	//Alle Label und ihre ResultLabels
+	@FXML
+	private Label titleReultLabel,titleLabel, ownerResultLabel,ownerLabel, descriptionResultLabel,
+	descriptionLabel,ratinaleResultLabel,ratinaleLabel,sourceResultLabel,sourceLabel,
+	userstoriesResultLabel,userstoriesLabel,supportingMaterialsResultLabel,supportingMaterialsLabel,
+	fitCriterionResultLabel,fitCriterionLabel,frozenResultLabel,frozenLabel;
 
 	private ObservableList<RequirementCardSimple> observableList;
 
@@ -66,7 +72,8 @@ public class RequirementCardController implements Observer {
 
 	private void addEventHandlerToTableView() {
 		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
-
+			
+		
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
@@ -76,6 +83,10 @@ public class RequirementCardController implements Observer {
 						openEditView(rqTitle);
 					} else {
 						openVoteView(rqTitle);
+					}
+				}else {
+					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+						//TODO: view auf der rechten seite anpassen 
 					}
 				}
 			}
