@@ -84,7 +84,6 @@ public class ShowAndVoteRqCardController {
 		String[] selectedItems = new String[10];
 		selectedItems[0] = "" + (int) descriptionPreciseSlider.getValue();
 		selectedItems[1] = "" + (int) descriptionUnderstandableSlider.getValue();
-
 		selectedItems[2] = ((RadioButton) descriptionCorrectGroup.getSelectedToggle()).getText();
 		selectedItems[3] = ((RadioButton) descriptionCompleteGroup.getSelectedToggle()).getText();
 		selectedItems[4] = ((RadioButton) descriptionAtomicGroup.getSelectedToggle()).getText();
