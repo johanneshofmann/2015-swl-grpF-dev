@@ -1,60 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.RequirementCardController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="754.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.RequirementCardController">
    <children>
-      <Pane layoutX="11.0" layoutY="54.0" prefHeight="358.0" prefWidth="600.0">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="902.0">
          <children>
-            <HBox prefHeight="358.0" prefWidth="607.0">
-               <children>
-                  <Pane fx:id="mainWindowPainLeft" prefHeight="358.0" prefWidth="305.0" />
-                  <Pane fx:id="mainWindowPainRight" prefHeight="358.0" prefWidth="305.0" />
-               </children>
-            </HBox>
-         </children>
-      </Pane>
-      <Button fx:id="search" layoutX="469.0" layoutY="13.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
-      <Button fx:id="createNewRq" layoutX="169.0" layoutY="13.0" mnemonicParsing="false" onAction="#createNewRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Create new RQ" />
-      <Button fx:id="start" layoutX="17.0" layoutY="13.0" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Start" textAlignment="CENTER" />
-      <MenuButton fx:id="showRQCards" layoutX="323.0" layoutY="13.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" text="showRQCards" textAlignment="CENTER">
-         <items>
-            <MenuItem fx:id="toVote" mnemonicParsing="false" onAction="#toVoteButtonClicked" text="to Vote" />
-            <MenuItem fx:id="myRqCards" mnemonicParsing="false" onAction="#myRqCardsButtonClicked" text="myRqCards" />
-         </items>
-      </MenuButton>
-      <Pane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <MenuButton fx:id="showRQCards" layoutX="313.0" layoutY="3.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" text="showRQCards" textAlignment="CENTER">
+            <Button fx:id="search" layoutX="715.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
+            <Button fx:id="start" layoutX="44.0" layoutY="14.0" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Start" textAlignment="CENTER" />
+            <MenuButton fx:id="showRQCards" layoutX="510.0" layoutY="14.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="132.0" text="showRQCards" textAlignment="CENTER">
                <items>
                   <MenuItem fx:id="toVote" mnemonicParsing="false" onAction="#toVoteButtonClicked" text="to Vote" />
                   <MenuItem fx:id="myRqCards" mnemonicParsing="false" onAction="#myRqCardsButtonClicked" text="myRqCards" />
                </items>
             </MenuButton>
-            <Button fx:id="start" layoutX="7.0" layoutY="3.0" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Start" textAlignment="CENTER" />
-            <Button fx:id="createNewRq" layoutX="159.0" layoutY="3.0" mnemonicParsing="false" onAction="#createNewRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Create new RQ" />
-            <Button fx:id="search" layoutX="454.0" layoutY="3.0" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
-            <Pane layoutX="1.0" layoutY="44.0" prefHeight="358.0" prefWidth="600.0">
+            <Button fx:id="createNewRq" layoutX="286.0" layoutY="14.0" mnemonicParsing="false" onAction="#createNewRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Create new RQ" />
+            <HBox layoutY="62.0" prefHeight="685.0" prefWidth="917.0">
                <children>
-                  <HBox layoutX="-12.0" prefHeight="345.0" prefWidth="600.0">
+                  <Pane fx:id="mainWindowPainLeft" prefHeight="692.0" prefWidth="446.0">
                      <children>
-                        <Pane fx:id="mainWindowPainLeft" prefHeight="358.0" prefWidth="305.0">
-                           <children>
-                              <TableView fx:id="requirementCardsTable" prefHeight="345.0" prefWidth="300.0">
-                                <columns>
-                                  <TableColumn fx:id="requirementCards" prefWidth="299.0" text="requirementCards" />
-                                </columns>
-                              </TableView>
-                           </children>
-                        </Pane>
-                        <Pane fx:id="mainWindowPainRight" prefHeight="348.0" prefWidth="310.0" />
+                        <TableView fx:id="requirementCardsTable" layoutX="1.0" layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
+                          <columns>
+                            <TableColumn fx:id="requirementCards" prefWidth="443.9999694824219" text="requirementCards" />
+                          </columns>
+                        </TableView>
                      </children>
-                  </HBox>
+                  </Pane>
+                  <VBox prefHeight="685.0" prefWidth="170.0">
+                     <children>
+                        <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="159.0" text="Title:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ownerLabel" prefHeight="50.0" prefWidth="159.0" text="Owner:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="descriptionLabel" prefHeight="50.0" prefWidth="159.0" text="Description:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ratinaleLabel" prefHeight="50.0" prefWidth="159.0" text="Rationale:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="sourceLabel" prefHeight="50.0" prefWidth="159.0" text="Source:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userstoriesLabel" prefHeight="50.0" prefWidth="159.0" text="Userstories:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="supportingMaterialsLabel" prefHeight="50.0" prefWidth="163.0" text="Supporting Materials:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="fitCriterionLabel" prefHeight="50.0" prefWidth="159.0" text="Fit criterion:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="frozenLabel" prefHeight="50.0" prefWidth="159.0" text="Frozen ?">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="685.0" prefWidth="298.0">
+                     <children>
+                        <Label fx:id="titleReultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="ownerResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="descriptionResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="ratinaleResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="sourceResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="userstoriesResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="supportingMaterialsResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="fitCriterionResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="frozenResultLabel" prefHeight="50.0" prefWidth="159.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
                </children>
-            </Pane>
+            </HBox>
          </children>
       </Pane>
    </children>

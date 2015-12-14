@@ -1,19 +1,18 @@
 package swt.swl.topcard.controller;
 
-import swt.swl.topcard.model.RequirementCardModel;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import swt.swl.topcard.model.RequirementCardModel;
 
 public class ShowAndVoteRqCardController {
 
@@ -22,14 +21,24 @@ public class ShowAndVoteRqCardController {
 	private String toVote;
 
 	@FXML
-	private ComboBox<String> dPreciseBox, dUnderstandableBox, rPreciseBox, rUnderstandableBox;;
+	private Slider descriptionPreciseSlider, descriptionUnderstandableSlider, rationalePreciseSlider,
+			rationaleUnderstandableSlider;
 
 	@FXML
-	private ChoiceBox<String> dCorrectBox, dCompleteBox, dAtomicBox, rCompleteBox, rTraceableBox, rConsistentBox;
+	private RadioButton rationaleTraceableNoRadioButton, rationaleTraceableYesRadioButton,
+			descriptionCorrectYesRadioButton, descriptionCorrectNoRadioButton, descriptionCorrectDontKnowRadioButton,
+			descriptionCompleteYesRadioButton, descriptionCompleteNoRadioButton, descriptionCompleteDontKnowRadioButton,
+			descriptionAtomicYesRadioButton, descriptionAtomicNoRadioButton, descriptionAtomicDontKnowRadioButton,
+			rationaleTraceableDontKnowRadioButton, rationaleCompleteYesRadioButton, rationaleCompleteNoRadioButton,
+			rationaleCompleteDontKnowRadioButton, rationaleConsistentYesRadioButton, rationaleConsistenNoRadioButton,
+			rationaleConsistentDontKnowRadioButton;
 
 	@FXML
-	private VBox voteRationale, voteRationaleVBoxContainingComboBoxes, voteDescription,
-			voteDescriptionVBoxContainingComboBoxes;
+	private ToggleGroup rationaleTraceableGroup, rationaleCompleteGroup, rationaleConsistentGroup,
+			descriptionAtomicGroup, descriptionCorrectGroup, descriptionCompleteGroup;
+	@FXML
+	private VBox voteRationaleLabelsVBox, voteRationaleSelectionNodesVBox, voteDescriptionLabelsVBox,
+			voteDescriptionSelectionNodesVBox;
 
 	@FXML
 	private Label sourceLabel, storyLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
@@ -59,51 +68,35 @@ public class ShowAndVoteRqCardController {
 	@FXML
 	public void voteRationaleButtonClicked() {
 		voteRationaleButton.setVisible(false);
-		voteRationale.setVisible(true);
-		voteRationaleVBoxContainingComboBoxes.setVisible(true);
+		voteRationaleLabelsVBox.setVisible(true);
+		voteRationaleSelectionNodesVBox.setVisible(true);
 	}
 
 	@FXML
 	public void voteDescriptionButtonClicked() {
 		voteDescriptionButton.setVisible(false);
-		voteDescription.setVisible(true);
-		voteDescriptionVBoxContainingComboBoxes.setVisible(true);
+		voteDescriptionLabelsVBox.setVisible(true);
+		voteDescriptionSelectionNodesVBox.setVisible(true);
 	}
 
 	@FXML
 	void voteButtonClicked(ActionEvent event) {
 		String[] selectedItems = new String[10];
-		selectedItems [0] = dPreciseBox.getSelectionModel().getSelectedItem();
-		selectedItems [1] = dUnderstandableBox.getSelectionModel().getSelectedItem();
-		selectedItems [2] = dCorrectBox.getSelectionModel().getSelectedItem();
-		selectedItems [3] = dCompleteBox.getSelectionModel().getSelectedItem();
-		selectedItems [4] = dAtomicBox.getSelectionModel().getSelectedItem();
-		
-		selectedItems [5] = rPreciseBox.getSelectionModel().getSelectedItem();
-		selectedItems [6] = rUnderstandableBox.getSelectionModel().getSelectedItem();
-		selectedItems [7] = rTraceableBox.getSelectionModel().getSelectedItem();
-		selectedItems [8] = rCompleteBox.getSelectionModel().getSelectedItem();
-		selectedItems [9] = rConsistentBox.getSelectionModel().getSelectedItem();
-		
+		selectedItems[0] = "" + (int) descriptionPreciseSlider.getValue();
+		selectedItems[1] = "" + (int) descriptionUnderstandableSlider.getValue();
+		selectedItems[2] = ((RadioButton) descriptionCorrectGroup.getSelectedToggle()).getText();
+		selectedItems[3] = ((RadioButton) descriptionCompleteGroup.getSelectedToggle()).getText();
+		selectedItems[4] = ((RadioButton) descriptionAtomicGroup.getSelectedToggle()).getText();
+		selectedItems[5] = "" + (int) rationalePreciseSlider.getValue();
+		selectedItems[6] = "" + (int) rationaleUnderstandableSlider.getValue();
+		selectedItems[7] = ((RadioButton) rationaleTraceableGroup.getSelectedToggle()).getText();
+		selectedItems[8] = ((RadioButton) rationaleCompleteGroup.getSelectedToggle()).getText();
+		selectedItems[9] = ((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText();
+
 		model.newVoteSubmitted(toVote, selectedItems);
-	}
+		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
 
-	private void fillComboBoxes() {
-		ObservableList<String> choice = FXCollections.observableArrayList("Yes", "No", "?");
-		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
-				"9", "10");
-
-		dPreciseBox.setItems(numbers);
-		dUnderstandableBox.setItems(numbers);
-		rPreciseBox.setItems(numbers);
-		rUnderstandableBox.setItems(numbers);
-		dCorrectBox.setItems(choice);
-		dCompleteBox.setItems(choice);
-		dAtomicBox.setItems(choice);
-		rCompleteBox.setItems(choice);
-		rTraceableBox.setItems(choice);
-		rConsistentBox.setItems(choice);
-
+		mainController.repaint();
 	}
 
 	public void fillLabels() {
@@ -130,17 +123,31 @@ public class ShowAndVoteRqCardController {
 		minorVersionLabel.setText(data[14]);
 	}
 
+	private void goGuiNodes() {
+		fillLabels();
+		voteRationaleLabelsVBox.setVisible(false);
+		voteRationaleSelectionNodesVBox.setVisible(false);
+		voteDescriptionLabelsVBox.setVisible(false);
+		voteDescriptionSelectionNodesVBox.setVisible(false);
+
+		// DontKnow as default:
+		descriptionCompleteDontKnowRadioButton.setSelected(true);
+		descriptionAtomicDontKnowRadioButton.setSelected(true);
+		descriptionCorrectDontKnowRadioButton.setSelected(true);
+
+		rationaleTraceableDontKnowRadioButton.setSelected(true);
+		rationaleCompleteDontKnowRadioButton.setSelected(true);
+		rationaleConsistentDontKnowRadioButton.setSelected(true);
+
+	}
+
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
 			String toVote) {
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toVote = toVote;
-		fillLabels();
-		voteRationale.setVisible(false);
-		voteRationaleVBoxContainingComboBoxes.setVisible(false);
-		voteDescription.setVisible(false);
-		voteDescriptionVBoxContainingComboBoxes.setVisible(false);
-		fillComboBoxes();
+		goGuiNodes();
+
 	}
 
 }
