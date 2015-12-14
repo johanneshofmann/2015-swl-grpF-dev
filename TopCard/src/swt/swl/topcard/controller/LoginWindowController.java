@@ -2,23 +2,25 @@ package swt.swl.topcard.controller;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 
-public class LoginWindowController implements Observer{
+public class LoginWindowController implements Observer {
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
-	private Scene scene;
+	private Scene me, requirementCardViewScene;
 
 	@FXML
 	private Button loginButton, registerButton;
@@ -44,16 +46,20 @@ public class LoginWindowController implements Observer{
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
 				createRegistrationView();
+				event.consume();
 			} else {
-				// do nothing..
+				// exit..
 				mainApp.getPrimaryStage().close();
+				Platform.exit();
 			}
 		}
 	}
 
 	@FXML
 	void registerButtonClicked(ActionEvent event) {
+		me = mainApp.getPrimaryStage().getScene();
 		createRegistrationView();
+
 	}
 
 	private void createRegistrationView() {
@@ -62,6 +68,7 @@ public class LoginWindowController implements Observer{
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RegistrationController) loader.getController()).setModel(this.model);
+			((RegistrationController) loader.getController()).setLoginController(this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -75,33 +82,39 @@ public class LoginWindowController implements Observer{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((RequirementCardController) loader.getController()).setData(loginName,mainApp,this);
-			((RequirementCardController)loader.getController()).initialize();
-			scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
+			((RequirementCardController) loader.getController()).setData(loginName, mainApp, this);
+			((RequirementCardController) loader.getController()).initialize();
+			requirementCardViewScene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(requirementCardViewScene);
 			mainApp.getPrimaryStage().show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//
 	}
 
 	@Override
 	public void update(Observable o, Object message) {
-	
-			createRequirementCardView(message.toString());
+
+		createRequirementCardView(message.toString());
 	}
 
 	public void setMainApp(MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 
+	public MainApp getMainApp() {
+		return mainApp;
+	}
+
 	public Scene getRequirementCardViewScene() {
-		return scene;
+		return requirementCardViewScene;
 	}
 
 	public void setScene(Scene scene) {
-		this.scene = scene;
+		this.me = scene;
+	}
+
+	public Scene getScene() {
+		return me;
 	}
 }
-

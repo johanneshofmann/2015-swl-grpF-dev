@@ -1,7 +1,6 @@
 package swt.swl.topcard.model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Observable;
+
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -247,7 +247,7 @@ public class RequirementCardModel extends Observable {
 			if (ownerID.next()) {
 				userIDInt = ownerID.getInt(1);
 			}
-//
+			//
 			Statement insert = conn.createStatement();
 			insert.executeUpdate(
 					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    values ("
@@ -260,6 +260,29 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * voteResults[0] = description precise voteResult<br>
+	 * voteResults[1] = description understandable voteResult<br>
+	 * voteResults[2] = description correct voteResult<br>
+	 * voteResults[3] = description complete voteResult<br>
+	 * voteResults[4] = description atomic voteResult<br>
+	 * voteResults[5] = rationale precise voteResult<br>
+	 * voteResults[6] = rationale understandable voteResult<br>
+	 * voteResults[7] = rationale traceable voteResult<br>
+	 * voteResults[8] = rationale complete voteResult<br>
+	 * voteResults[9] = rationale consistent voteResult<br>
+	 * voteResults[10] = fit Criterion complete voteResult<br>
+	 * 
+	 * 
+	 * @returns String[] containing all voteResults of a specific rqCard
+	 */
+	public String[] getVoteResults(String rqCard) {
+		// TODO:
+		String[] voteResults = new String[11];
+
+		return null;
 	}
 
 	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {

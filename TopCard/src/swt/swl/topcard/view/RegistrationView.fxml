@@ -28,7 +28,8 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="applyButton" layoutX="393.0" layoutY="227.0" mnemonicParsing="false" onAction="#registrate" prefHeight="39.0" prefWidth="121.0" text="Apply" />
+      <Button fx:id="applyButton" layoutX="393.0" layoutY="227.0" mnemonicParsing="false" onAction="#register" prefHeight="39.0" prefWidth="121.0" text="Apply" />
       <Label layoutX="7.0" layoutY="14.0" prefHeight="27.0" prefWidth="315.0" text="Registration:     Please enter your data." />
+      <Button fx:id="cancelButton" layoutX="232.0" layoutY="227.0" mnemonicParsing="false" onAction="#cancelButtonClicked" prefHeight="39.0" prefWidth="121.0" text="Cancel" />
    </children>
 </Pane>

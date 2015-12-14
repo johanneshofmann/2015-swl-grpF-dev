@@ -50,8 +50,8 @@ public class RequirementCardController implements Observer {
 	private TableColumn<String, String> requirementCards;
 	// Alle Label und ihre ResultLabels
 	@FXML
-	private Label titleReultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
-			ratinaleResultLabel, ratinaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
+	private Label titleResultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
+			rationaleResultLabel, rationaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
 			userstoriesLabel, supportingMaterialsResultLabel, supportingMaterialsLabel, fitCriterionResultLabel,
 			fitCriterionLabel, frozenResultLabel, frozenLabel;
 
@@ -87,7 +87,19 @@ public class RequirementCardController implements Observer {
 					}
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
-						// TODO: view auf der rechten seite anpassen
+
+						String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
+						String[] data = rqModel.getOverviewDataFromSelectedRq(rqTitle);
+						titleResultLabel.setText(rqTitle);
+						ownerResultLabel.setText(data[0]);
+						descriptionResultLabel.setText(data[3]);
+						rationaleResultLabel.setText(data[4]);
+						sourceResultLabel.setText(data[5]);
+						userstoriesResultLabel.setText("");
+						supportingMaterialsResultLabel.setText(data[7]);
+						fitCriterionResultLabel.setText(data[8]);
+						frozenResultLabel.setText(data[9]);
+
 					}
 				}
 			}
@@ -95,7 +107,6 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
-		// main
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
