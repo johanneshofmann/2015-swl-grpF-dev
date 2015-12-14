@@ -4,13 +4,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.RegistrationController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.RegistrationController">
    <children>
       <VBox layoutX="47.0" layoutY="57.0" prefHeight="175.0" prefWidth="410.0">
          <children>
             <HBox prefHeight="60.0" prefWidth="373.0" spacing="47.0">
                <children>
-                  <Label text="First name:" />
+                  <Label prefHeight="16.0" prefWidth="77.0" text="First name:" />
                   <TextField fx:id="firstNameTextField" />
                </children>
             </HBox>
@@ -22,7 +22,7 @@
             </HBox>
             <HBox prefHeight="39.0" prefWidth="358.0" spacing="38.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="69.0" text="Login name:" />
+                  <Label prefHeight="27.0" prefWidth="86.0" text="Login name:" />
                   <TextField fx:id="loginNameTextField" />
                </children>
             </HBox>

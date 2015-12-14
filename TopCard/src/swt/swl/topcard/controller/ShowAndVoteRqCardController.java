@@ -6,11 +6,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import swt.swl.topcard.model.RequirementCardModel;
 
@@ -31,24 +31,26 @@ public class ShowAndVoteRqCardController {
 			descriptionAtomicYesRadioButton, descriptionAtomicNoRadioButton, descriptionAtomicDontKnowRadioButton,
 			rationaleTraceableDontKnowRadioButton, rationaleCompleteYesRadioButton, rationaleCompleteNoRadioButton,
 			rationaleCompleteDontKnowRadioButton, rationaleConsistentYesRadioButton, rationaleConsistenNoRadioButton,
-			rationaleConsistentDontKnowRadioButton;
+			rationaleConsistentDontKnowRadioButton, fitCriterionCompleteYesRadioButton,
+			fitCriterionCompleteNoRadioButton, fitCriterionCompleteDontKnowRadioButton;
 
 	@FXML
 	private ToggleGroup rationaleTraceableGroup, rationaleCompleteGroup, rationaleConsistentGroup,
-			descriptionAtomicGroup, descriptionCorrectGroup, descriptionCompleteGroup;
+			descriptionAtomicGroup, descriptionCorrectGroup, descriptionCompleteGroup, fitCriterionCompleteGroup;
 	@FXML
 	private VBox voteRationaleLabelsVBox, voteRationaleSelectionNodesVBox, voteDescriptionLabelsVBox,
 			voteDescriptionSelectionNodesVBox;
 
 	@FXML
+	private HBox voteFitCriterionHBox;
+
+	@FXML
 	private Label sourceLabel, storyLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
 			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel, ownerLabel,
 			descriptionLabel, rationaleLabel;
-	@FXML
-	private CheckBox frozenChoiceBox;
 
 	@FXML
-	private Button closeButton, voteButton, voteDescriptionButton, voteRationaleButton;
+	private Button voteFitCriterionButton, closeButton, voteButton, voteDescriptionButton, voteRationaleButton;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
@@ -77,6 +79,13 @@ public class ShowAndVoteRqCardController {
 		voteDescriptionButton.setVisible(false);
 		voteDescriptionLabelsVBox.setVisible(true);
 		voteDescriptionSelectionNodesVBox.setVisible(true);
+	}
+
+	@FXML
+	public void voteFitCriterionButtonClicked() {
+		voteFitCriterionButton.setVisible(false);
+		voteFitCriterionHBox.setVisible(true);
+
 	}
 
 	@FXML
@@ -113,9 +122,7 @@ public class ShowAndVoteRqCardController {
 		// TODO: userStoriesTextField.setText(data[6]);
 		supportLabel.setText(data[7]);
 		fitCriterionLabel.setText(data[8]);
-		if (Integer.parseInt(data[9]) == 1) {
-			frozenChoiceBox.setSelected(true);
-		}
+		// "IsFrozen" (data[9]) not required here..
 		createdAtLabel.setText(data[10]);
 		lastModifiedAtLabel.setText(data[11]);
 		titleLabel.setText(data[12]);
@@ -129,6 +136,7 @@ public class ShowAndVoteRqCardController {
 		voteRationaleSelectionNodesVBox.setVisible(false);
 		voteDescriptionLabelsVBox.setVisible(false);
 		voteDescriptionSelectionNodesVBox.setVisible(false);
+		voteFitCriterionHBox.setVisible(false);
 
 		// DontKnow as default:
 		descriptionCompleteDontKnowRadioButton.setSelected(true);
