@@ -59,6 +59,19 @@ public class EditRqCardController {
 		// newMinorVersion ?
 
 		// TODO:
+
+		// delete
+		model.deleteRqFromDatabase(titleTextField.getText());
+		//insert
+		model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
+				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),
+				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+	}
+
+	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
+		this.model = rqModel;
+		this.mainController = requirementCardController;
 	}
 
 	private void fillTextFields() {
@@ -86,7 +99,7 @@ public class EditRqCardController {
 	}
 
 	public void initializeNodes(String rqTitle) {
-		
+
 		fillTextFields();
 
 		ownerTextField.setEditable(false);
