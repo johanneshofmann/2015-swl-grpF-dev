@@ -2,6 +2,7 @@ package swt.swl.topcard.controller;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -46,12 +48,12 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> requirementCards;
-	//Alle Label und ihre ResultLabels
+	// Alle Label und ihre ResultLabels
 	@FXML
-	private Label titleReultLabel,titleLabel, ownerResultLabel,ownerLabel, descriptionResultLabel,
-	descriptionLabel,ratinaleResultLabel,ratinaleLabel,sourceResultLabel,sourceLabel,
-	userstoriesResultLabel,userstoriesLabel,supportingMaterialsResultLabel,supportingMaterialsLabel,
-	fitCriterionResultLabel,fitCriterionLabel,frozenResultLabel,frozenLabel;
+	private Label titleReultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
+			ratinaleResultLabel, ratinaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
+			userstoriesLabel, supportingMaterialsResultLabel, supportingMaterialsLabel, fitCriterionResultLabel,
+			fitCriterionLabel, frozenResultLabel, frozenLabel;
 
 	private ObservableList<RequirementCardSimple> observableList;
 
@@ -72,8 +74,7 @@ public class RequirementCardController implements Observer {
 
 	private void addEventHandlerToTableView() {
 		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
-			
-		
+
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
@@ -84,9 +85,9 @@ public class RequirementCardController implements Observer {
 					} else {
 						openVoteView(rqTitle);
 					}
-				}else {
+				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
-						//TODO: view auf der rechten seite anpassen 
+						// TODO: view auf der rechten seite anpassen
 					}
 				}
 			}
@@ -94,7 +95,7 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
-		//main
+		// main
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
@@ -113,7 +114,7 @@ public class RequirementCardController implements Observer {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
+			ScrollPane rootLayout = (ScrollPane) loader.load();
 			((CreateRQCardController) loader.getController()).setData(this.rqModel, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
