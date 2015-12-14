@@ -81,4 +81,3 @@ public class CreateRQCardController {
 	}
 
 }
->>>>>>> branch 'master' of https://github.com/johanneshofmann/2015-swl-grpF-dev.git
