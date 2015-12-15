@@ -25,6 +25,7 @@ import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model.RequirementCardSimple;
 
 public class RequirementCardController implements Observer {
+
 	private MainApp mainApp;
 	private String loginName;
 	private RequirementCardModel rqModel;
@@ -33,15 +34,9 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button start;
+	private Button start, search, createNewRq;
 	@FXML
-	private Button search;
-	@FXML
-	private Button createNewRq;
-	@FXML
-	private MenuItem toVote;
-	@FXML
-	private MenuItem myRqCards;
+	private MenuItem toVote, myRqCards;
 	@FXML
 	private MenuButton showRQCards;
 	@FXML

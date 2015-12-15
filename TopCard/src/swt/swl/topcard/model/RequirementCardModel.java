@@ -274,15 +274,31 @@ public class RequirementCardModel extends Observable {
 	 * voteResults[8] = rationale complete voteResult<br>
 	 * voteResults[9] = rationale consistent voteResult<br>
 	 * voteResults[10] = fit Criterion complete voteResult<br>
-	 * 
-	 * 
+	 *
+	 *
 	 * @returns String[] containing all voteResults of a specific rqCard
 	 */
 	public String[] getVoteResults(String rqCard) {
 		// TODO:
 		String[] voteResults = new String[11];
 
-		return null;
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement getVoteResults = conn.createStatement();
+			int rqCardID = 0; // evtl "global" machen ..
+			String sql = "SELECT DescriptionPrecise, DescriptionUnderstandable, DescriptionCorrect, DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaeTraceable, RationaleComplete, RationaleCorrect, FitCriterionComplete FROM Vote WHERE RqCardID = "
+							+ rqCardID;
+			ResultSet rqVote = getVoteResults.executeQuery(sql);
+
+			if(rqVote.next()){
+				//TODO: fill String[]:
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return voteResults;
 	}
 
 	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
