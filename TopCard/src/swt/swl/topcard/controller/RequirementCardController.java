@@ -42,8 +42,12 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
+<<<<<<< HEAD
 	private TableColumn<RequirementCardSimple, String> requirementCards;
 
+=======
+	private TableColumn<String, String> owner, requirementCards;
+>>>>>>> branch 'master' of https://github.com/johanneshofmann/2015-swl-grpF-dev
 	// Alle Label und ihre ResultLabels
 	@FXML
 	private Label titleResultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
@@ -63,6 +67,7 @@ public class RequirementCardController implements Observer {
 	public void initialize() {
 		// Create TableColumnFactory
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
+		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
 		addEventHandlerToTableView();

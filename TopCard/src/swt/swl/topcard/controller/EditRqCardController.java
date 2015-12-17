@@ -74,6 +74,12 @@ public class EditRqCardController {
 	@FXML
 	void editButtonClicked(ActionEvent event) {
 		// TODO:
+<<<<<<< HEAD
+=======
+
+		// delete
+		
+>>>>>>> branch 'master' of https://github.com/johanneshofmann/2015-swl-grpF-dev
 		// insert
 		model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
 				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),
