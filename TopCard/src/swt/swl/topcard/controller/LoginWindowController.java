@@ -45,6 +45,7 @@ public class LoginWindowController implements Observer {
 			al.showAndWait();
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
+				mainApp.getPrimaryStage().close();
 				createRegistrationView();
 				event.consume();
 			} else {
