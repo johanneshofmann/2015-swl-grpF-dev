@@ -76,9 +76,6 @@ public class EditRqCardController {
 		// newMinorVersion ?
 
 		// TODO:
-
-		// delete
-		model.deleteRqFromDatabase(titleTextField.getText());
 		// insert
 		model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
 				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),

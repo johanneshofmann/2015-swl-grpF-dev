@@ -286,12 +286,12 @@ public class RequirementCardModel extends Observable {
 				"gruppe_f")) {
 			Statement getVoteResults = conn.createStatement();
 			int rqCardID = 0; // evtl "global" machen ..
-			String sql = "SELECT DescriptionPrecise, DescriptionUnderstandable, DescriptionCorrect, DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaeTraceable, RationaleComplete, RationaleCorrect, FitCriterionComplete FROM Vote WHERE RqCardID = "
-							+ rqCardID;
+			String sql = "SELECT * DescriptionPrecise, DescriptionUnderstandable, DescriptionCorrect, DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaeTraceable, RationaleComplete, RationaleCorrect, FitCriterionComplete FROM Vote WHERE RqCardID = "
+					+ rqCardID;
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
 
-			if(rqVote.next()){
-				//TODO: fill String[]:
+			if (rqVote.next()) {
+				// TODO: fill String[]:
 			}
 
 		} catch (SQLException e) {
