@@ -27,6 +27,7 @@
                         <TableView fx:id="requirementCardsTable" layoutX="1.0" layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
                           <columns>
                             <TableColumn fx:id="requirementCards" prefWidth="443.9999694824219" text="requirementCards" />
+                              <TableColumn fx:id="owner" prefWidth="443.9999694824219" text="owner" />
                           </columns>
                         </TableView>
                      </children>
