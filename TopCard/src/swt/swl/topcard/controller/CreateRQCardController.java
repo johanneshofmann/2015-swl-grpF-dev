@@ -67,7 +67,7 @@ public class CreateRQCardController {
 				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
 			new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.").showAndWait();
 		} else {
-			model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
+			model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
 					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
 					fitCriterionTextField.getText(), supportingMaterialsTextField.getText(),
 					frozenChoiceBox.isSelected());

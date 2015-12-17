@@ -13,12 +13,13 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model.RequirementCardSimple;
 
 public class ShowAndVoteRqCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
-	private String toVote;
+	private RequirementCardSimple toVote;
 
 	@FXML
 	private Slider descriptionPreciseSlider, descriptionUnderstandableSlider, rationalePreciseSlider,
@@ -102,7 +103,7 @@ public class ShowAndVoteRqCardController {
 		selectedItems[8] = ((RadioButton) rationaleCompleteGroup.getSelectedToggle()).getText();
 		selectedItems[9] = ((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText();
 
-		model.newVoteSubmitted(toVote, selectedItems);
+		model.newVoteSubmitted(toVote.getTitle(), selectedItems);
 		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
 
 		mainController.repaint();
@@ -110,24 +111,24 @@ public class ShowAndVoteRqCardController {
 
 	public void fillLabels() {
 		// fetch data:
-		String[] data = model.getOverviewDataFromSelectedRq(toVote);
+		RequirementCardSimple rqCard = model.getOverviewDataFromSelectedRq(toVote);
 
 		// assign it to the displayed Nodes:
-		ownerLabel.setText(data[0]);
-		// TODO: moduleNamesTextField.setText(data[1]);
-		requirementCardNumberLabel.setText(data[2]);
-		descriptionLabel.setText(data[3]);
-		rationaleLabel.setText(data[4]);
-		sourceLabel.setText(data[5]);
-		// TODO: userStoriesTextField.setText(data[6]);
-		supportLabel.setText(data[7]);
-		fitCriterionLabel.setText(data[8]);
+		ownerLabel.setText(rqCard.getOwnerName());
+		// TODO: moduleNamesTextField.setText(data);
+		requirementCardNumberLabel.setText("" + rqCard.getRqID());
+		descriptionLabel.setText(rqCard.getDescription());
+		rationaleLabel.setText(rqCard.getRationale());
+		sourceLabel.setText(rqCard.getSource());
+		// TODO: userStoriesTextField.setText(data);
+		supportLabel.setText(rqCard.getSupportingMaterials());
+		fitCriterionLabel.setText(rqCard.getFitCriterion());
 		// "IsFrozen" (data[9]) not required here..
-		createdAtLabel.setText(data[10]);
-		lastModifiedAtLabel.setText(data[11]);
-		titleLabel.setText(data[12]);
-		majorVersionLabel.setText(data[13]);
-		minorVersionLabel.setText(data[14]);
+		createdAtLabel.setText(rqCard.getCreatedAt().toString());
+		lastModifiedAtLabel.setText(rqCard.getLastModifiedAt());
+		titleLabel.setText(rqCard.getTitle());
+		majorVersionLabel.setText("" + rqCard.getMajorVersion());
+		minorVersionLabel.setText("" + rqCard.getMinorVersion());
 	}
 
 	private void goGuiNodes() {
@@ -150,7 +151,7 @@ public class ShowAndVoteRqCardController {
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
-			String toVote) {
+			RequirementCardSimple toVote) {
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toVote = toVote;

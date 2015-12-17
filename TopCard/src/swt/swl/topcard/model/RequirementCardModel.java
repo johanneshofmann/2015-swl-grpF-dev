@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
@@ -17,8 +18,12 @@ public class RequirementCardModel extends Observable {
 	private String loginName;
 
 	private ObservableList<RequirementCardSimple> observableArray;
+	private SearchModel searchModel;
 
 	public RequirementCardModel() {
+
+		searchModel = new SearchModel();
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -26,33 +31,16 @@ public class RequirementCardModel extends Observable {
 		}
 	}
 
-	public boolean checkUserName(String requirement) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
+	public boolean checkUserName(String ownerName) {
 
-			Statement stmt = conn.createStatement();
-			Statement stmt$1 = conn.createStatement();
-
-			ResultSet equals = stmt.executeQuery("Select OwnerID from Requirement where Title = '" + requirement + "'");
-			String result = null;
-			if (equals.next()) {
-				ResultSet IDToLoginName = stmt$1
-						.executeQuery("Select LoginName from User where ID = " + equals.getInt(1));
-				if (IDToLoginName.next()) {
-					result = IDToLoginName.getString(1);
-				}
-			}
-			if (result != null) {
-				return (loginName.equals(result) ? true : false);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
+		return (loginName.equals(ownerName) ? true : false);
 	}
 
-	public void insertRQIntoDatabase(String title, String description, String rationale, String source,
+	public void insertEditedRqIntoDatabase() {
+
+	}
+
+	public void insertRqIntoDatabase(String title, String description, String rationale, String source,
 			String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -63,10 +51,10 @@ public class RequirementCardModel extends Observable {
 			ResultSet userID = stmt$0.executeQuery("select ID from User where LoginName='" + loginName + "'");
 			ResultSet rQCardID = stmt$1.executeQuery("select max(Requirement) from Requirement");
 			int ownerID = 0;
-			int rqCardIDInt = 0;
+			int rqCardIDInt = 1;
 			if (userID.next() && rQCardID.next()) {
 				ownerID = userID.getInt(1);
-				rqCardIDInt = rQCardID.getInt(1);
+				rqCardIDInt += rQCardID.getInt(1);
 			}
 
 			// convert ifFrozen boolean to int:
@@ -75,10 +63,10 @@ public class RequirementCardModel extends Observable {
 				isFrozenInt = 1;
 			}
 
-			String sqlInsert = "insert into Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen) values ('"
+			String sqlInsert = "insert into Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) values ('"
 					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
 					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
-					+ isFrozenInt + ")";
+					+ isFrozenInt + ", '" + new java.util.Date() + "')";
 
 			stmt$0.executeUpdate(sqlInsert);
 
@@ -91,30 +79,30 @@ public class RequirementCardModel extends Observable {
 
 	/**
 	 * Stores all Data for showing an overview from a selected Requirement Card
-	 * in a String[] and returns it.<br>
+	 * in a RequirementCardSimple and returns it.<br>
 	 *
 	 * @param selected,
 	 *            the selected Item from the RqCardTableView
-	 * @returns String[] containing all data of a selected requirement,
-	 *          including <br>
+	 * @returns RequirementCardSimple containing all data of a selected
+	 *          requirement, including <br>
 	 *          <ul>
-	 *          <li>[0]OwnerName,</li>
-	 *          <li>[1]ModuleName</li>
-	 *          <li>[2]Requirement(number)</li>
-	 *          <li>[3]Description,</li>
-	 *          <li>[4]Rationale,</li>
-	 *          <li>[5]Source,</li>
-	 *          <li>[6]UserStories</li>
-	 *          <li>[7]SupportingMaterials,</li>
-	 *          <li>[8]FitCriterion,</li>
-	 *          <li>[9]IsFrozen,</li>
-	 *          <li>[10]CreatedAt</li>
-	 *          <li>[11]LastUpdatedAt</li>
+	 *          <li>OwnerName,</li>
+	 *          <li>ModuleName</li>
+	 *          <li>Title</li>
+	 *          <li>Description,</li>
+	 *          <li>Rationale,</li>
+	 *          <li>Source,</li>
+	 *          <li>UserStories</li>
+	 *          <li>SupportingMaterials,</li>
+	 *          <li>FitCriterion,</li>
+	 *          <li>IsFrozen,</li>
+	 *          <li>CreatedAt</li>
+	 *          <li>LastUpdatedAt</li>
 	 *          </ul>
 	 */
-	public String[] getOverviewDataFromSelectedRq(String selected) {
+	public RequirementCardSimple getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
 
-		String[] selectedItemValues = new String[15];
+		// TODO: insert/ get RequirementNumber (create it)
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -122,39 +110,48 @@ public class RequirementCardModel extends Observable {
 			Statement getRqCardData = conn.createStatement();
 			Statement getOwnerName = conn.createStatement();
 
-			ResultSet rQCardData = getRqCardData.executeQuery(
-					"Select OwnerID,Requirement,Description,Rationale,Source,SupportingMaterials,FitCriterion,IsFrozen,CreatedAt, LastModifiedAt,Title,MajorVersion,MinorVersion from Requirement where Title = '"
-							+ selected + "'");
+			ResultSet rQCardData = getRqCardData
+					.executeQuery("SELECT * FROM Requirement WHERE Requirement =" + selected.getTitle() + "");
+			// TODO: wenn man oben 'title' in anführungszeichen setzt , zeigts
+			// die req nicht mehr an ..( nur eins)
 
 			if (rQCardData.next()) {
-				selectedItemValues[0] = "" + rQCardData.getInt(1); // ownerID
+				selected.setTitle((rQCardData.getString(2))); // Title
 
-				int ownerID = Integer.parseInt(selectedItemValues[0]);
-				ResultSet ownerName = getOwnerName.executeQuery("Select LoginName from User where ID = " + ownerID);
+				// TODO: insert/ get ModulName:
+
+				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
+				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
+				System.out.println("Owner name set ? ");
+				ResultSet ownerName = getOwnerName
+						.executeQuery("SELECT LoginName FROM User WHERE ID = " + rQCardData.getInt(5));
 				if (ownerName.next()) {
-					selectedItemValues[0] = ownerName.getString(1); // ownerName
+
+					selected.setOwnerName(ownerName.getString(1)); // ownerName
+					System.out.println("owner set");
 				}
-				// TODO: selectedItemValues[1] = rQCardData.getString(2); //
-				// ModulName
-				selectedItemValues[2] = "" + rQCardData.getInt(2); // Requirement[Number]
-				selectedItemValues[3] = rQCardData.getString(3); // Description
-				selectedItemValues[4] = rQCardData.getString(4); // Rationale
-				selectedItemValues[5] = rQCardData.getString(5); // Source
-				// TODO: selectedItemValues[6] = rQCardData.getString(6); //
-				// UserStories
-				selectedItemValues[7] = rQCardData.getString(6); // SupportingMaterials
-				selectedItemValues[8] = rQCardData.getString(7); // FitCriterion
-				selectedItemValues[9] = "" + rQCardData.getInt(8);// isFrozen
-				selectedItemValues[10] = rQCardData.getTimestamp(9).toString(); // CreatedAt
-				selectedItemValues[11] = rQCardData.getString(10); // LastModifiedAt
-				selectedItemValues[12] = rQCardData.getString(11); // Title
-				selectedItemValues[13] = "" + rQCardData.getInt(12); // MajorVersion
-				selectedItemValues[14] = "" + rQCardData.getInt(13); // MinorVersion
+				selected.setRqID(rQCardData.getInt(6)); // rqID
+				selected.setDescription(rQCardData.getString(7)); // Description
+				selected.setRationale(rQCardData.getString(8)); // Rationale
+				selected.setSource(rQCardData.getString(9)); // Source
+
+				// TODO: insert / get UserStories :
+
+				selected.setSupportingMaterials(rQCardData.getString(10)); // SupportingMaterials
+				selected.setFitCriterion(rQCardData.getString(11)); // FitCriterion
+				selected.setIsFrozen(rQCardData.getInt(12));// isFrozen
+				selected.setCreatedAt(rQCardData.getTimestamp(13)); // CreatedAt
+				selected.setLastModifiedAt(rQCardData.getString(14)); // LastModifiedAt
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return selectedItemValues;
+		if (!(selected.getMajorVersion() == 0)) {
+			return selected;
+		} else {
+			throw new ClassFormatError("selected RqCard hasn't changed correctly");
+		}
 	}
 
 	/**
@@ -169,11 +166,11 @@ public class RequirementCardModel extends Observable {
 			Statement stmt$0 = conn.createStatement();
 			Statement stmt$1 = conn.createStatement();
 
-			ResultSet rqID = stmt$0.executeQuery("select Requirement from Requirement where Title='" + title + "'");
+			ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement WHERE Title='" + title + "'");
 			int rqCardID = 0;
 			while (rqID.next()) {
 				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("delete from Requirement where Requirement= " + rqCardID);
+				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
 			}
 
 		} catch (SQLException e) {
@@ -186,11 +183,15 @@ public class RequirementCardModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String allRequirements = "select Title from Requirement";
+			String allRequirements = "SELECT * FROM Requirement";
 			ResultSet resultset = stmt.executeQuery(allRequirements);
 			observableArray.clear();
 			while (resultset.next()) {
-				observableArray.add(new RequirementCardSimple(resultset.getString(1)));
+				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
+						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), resultset.getInt(6),
+						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
+						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
+						resultset.getString(14)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -207,7 +208,7 @@ public class RequirementCardModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			ResultSet ownerID = stmt.executeQuery("select ID from User where LoginName= '" + loginName + "'");
+			ResultSet ownerID = stmt.executeQuery("SELECT ID FROM User WHERE LoginName= '" + loginName + "'");
 			int ownerIDInt = 0;
 			while (ownerID.next()) {
 				ownerIDInt = ownerID.getInt(1);
@@ -215,14 +216,18 @@ public class RequirementCardModel extends Observable {
 			Statement stmt$2 = conn.createStatement();
 			String sql = null;
 			if (myRq) {
-				sql = "Select Title from Requirement where OwnerID =" + ownerIDInt;
+				sql = "SELECT * FROM Requirement WHERE OwnerID =" + ownerIDInt;
 			} else {
-				sql = "Select Title from Requirement where OwnerID !=" + ownerIDInt;
+				sql = "SELECT * FROM Requirement WHERE OwnerID !=" + ownerIDInt;
 			}
 			ResultSet requirements = stmt$2.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
-				observableArray.add(new RequirementCardSimple(requirements.getString(1)));
+				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
 
 			}
 		} catch (SQLException e) {
@@ -236,13 +241,13 @@ public class RequirementCardModel extends Observable {
 				"gruppe_f")) {
 			Statement getReqID = conn.createStatement();
 
-			ResultSet reqID = getReqID.executeQuery("select ID from Requirement where Title ='" + requirement + "'");
+			ResultSet reqID = getReqID.executeQuery("SELECT ID FROM Requirement WHERE Title ='" + requirement + "'");
 			int reqIDInt = 0;
 			if (reqID.next()) {
 				reqIDInt = reqID.getInt(1);
 			}
 			Statement getUserID = conn.createStatement();
-			ResultSet ownerID = getUserID.executeQuery("select ID from User where LoginName= '" + loginName + "'");
+			ResultSet ownerID = getUserID.executeQuery("SELECT ID FROM User WHERE LoginName= '" + loginName + "'");
 			int userIDInt = 0;
 			if (ownerID.next()) {
 				userIDInt = ownerID.getInt(1);
@@ -250,12 +255,18 @@ public class RequirementCardModel extends Observable {
 			//
 			Statement insert = conn.createStatement();
 			insert.executeUpdate(
-					"Insert into Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    values ("
+
+					// TODO: !!! change to int values: !!!
+
+					"INSERT INTO Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    VALUES ("
 							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ",'"
 							+ selectedItems[2] + "', '" + selectedItems[3] + "', '" + selectedItems[4] + "', "
 							+ selectedItems[5] + "," + selectedItems[6] + ", '" + selectedItems[7] + "', '"
 							+ selectedItems[8] + "', '" + selectedItems[9] + "', '"
 							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')");
+
+			// TODO: !!! change to int values: !!!
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -278,145 +289,112 @@ public class RequirementCardModel extends Observable {
 	 *
 	 * @returns String[] containing all voteResults of a specific rqCard
 	 */
-	public String[] getVoteResults(String rqCard) {
-		// TODO:
-		String[] voteResults = new String[11];
+	public SubmittedVoteSimple getVoteResults(int rqCardID) {
+
+		ArrayList<SubmittedVoteSimple> allVoteResults = new ArrayList<SubmittedVoteSimple>();
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement getVoteResults = conn.createStatement();
-			int rqCardID = 0; // evtl "global" machen ..
-			String sql = "SELECT * DescriptionPrecise, DescriptionUnderstandable, DescriptionCorrect, DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaeTraceable, RationaleComplete, RationaleCorrect, FitCriterionComplete FROM Vote WHERE RqCardID = "
-					+ rqCardID;
+			String sql = "SELECT * FROM Vote WHERE RqCardID =" + rqCardID;
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
 
-			if (rqVote.next()) {
-				// TODO: fill String[]:
+			while (rqVote.next()) {
+				allVoteResults.add(new SubmittedVoteSimple(rqVote.getInt(4), rqVote.getInt(5), rqVote.getInt(6),
+						rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10), rqVote.getInt(11),
+						rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14)));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return voteResults;
+		return generateEverageVoteResult(allVoteResults);
 	}
 
-	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
-		// TODO:
+	private SubmittedVoteSimple generateEverageVoteResult(ArrayList<SubmittedVoteSimple> allVoteResults) {
 
-		filterTitle(title);
-		filterOwner(owner, title);
-		filterFitCriterion(fitCriterion, title, owner);
-		filterSource(source);
-		filterSupportingMaterials(supportingMaterials);
+		double descPrecise = 0;
+		double descUnderstandable = 0;
+		double descCorrect = 0;
+		double descComplete = 0;
+		double descAtomic = 0;
+		double ratPrecise = 0;
+		double ratUnderstandable = 0;
+		double ratTraceable = 0;
+		double ratComplete = 0;
+		double ratConsistent = 0;
+		double fitCriterionComplete = 0;
 
-	}
+		int descCompleteCounter = 0;
+		int descCorrectCounter = 0;
+		int descAtomicCounter = 0;
+		int ratTraceableCounter = 0;
+		int ratCompleteCounter = 0;
+		int ratConsistentCounter = 0;
+		int fitCriterionCompleteCounter = 0;
 
-	private void filterSupportingMaterials(String supportingMaterials) {
-		// TODO Auto-generated method stub
-		if (supportingMaterials == null) {
-			return;
-		}
+		int preciseAndUnderstandableCounter = 0;
+		for (SubmittedVoteSimple vote : allVoteResults) {
+			// calculate everage of all votes::
 
-	}
+			descPrecise += vote.getDescriptionPrecise();
+			descUnderstandable += vote.getDescriptionUnderstandable();
 
-	private void filterSource(String source) {
-		// TODO Auto-generated method stub
-		if (source == null) {
-			return;
-		}
-	}
+			ratPrecise += vote.getRationalePrecise();
+			ratUnderstandable += vote.getDescriptionUnderstandable();
 
-	private void filterFitCriterion(String fitCriterion, String title, String owner) {
-		if (fitCriterion == null) {
-			return;
-		}
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-
-			int ownerID = 1111111;
-			if (owner != null) {
-
-				Statement stmt$ = conn.createStatement();
-				ResultSet r = stmt$.executeQuery("Select ID from User where LoginName = '" + owner + "'");
-				while (r.next()) {
-					ownerID = r.getInt(1);
-				}
-			}
-			String sql = null;
-			if (owner == null && title != null) {
-				sql = "select Title from Requirement where Title = '" + title + "'and FitCriterion= '" + fitCriterion
-						+ "'";
-			} else if (owner == null && title == null) {
-				sql = "select Title from Requirement where FitCriterion = '" + fitCriterion + "'";
-			} else if (owner != null && title == null) {
-				sql = "select Title from Requirement where FitCriterion='" + fitCriterion + "' and OwnerID=" + ownerID;
-			} else if (owner != null && title != null) {
-				sql = "select Title from Requirement where FitCriterion='" + fitCriterion + "' and OwnerID=" + ownerID
-						+ "and Title='" + title + "'";
-			}
-			ResultSet res = stmt.executeQuery(sql);
-			observableArray.clear();
-			while (res.next()) {
-				observableArray.add(new RequirementCardSimple(res.getString(1)));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void filterOwner(String owner, String title) {
-		if (owner == null) {
-			return;
-		}
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet r = stmt.executeQuery("Select ID from User where LoginName = '" + owner + "'");
-			int ownerID = 1111111;
-			while (r.next()) {
-				ownerID = r.getInt(1);
-
-			}
-			String sql = null;
-			if (title == null) {
-				sql = "select Title from Requirement where OwnerID = " + ownerID;
+			if (vote.getDescriptionCorrect() == 1) {
+				descCorrect += vote.getDescriptionCorrect();
+				descCorrectCounter++;
 			} else {
-				sql = "select Title from Requirement where OwnerID = " + ownerID + "and Title = '" + title + "'";
+				descCorrectCounter++;
 			}
-			ResultSet res = stmt.executeQuery(sql);
-			while (res.next()) {
-				observableArray.add(new RequirementCardSimple(res.getString(1)));
+			if (vote.getDescriptionComplete() == 1) {
+				descComplete += vote.getDescriptionComplete();
+				descCompleteCounter++;
+			} else {
+				descCompleteCounter++;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void filterTitle(String title) {
-
-		if (title == null) {
-			return;
-		}
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet res = stmt.executeQuery("select Title from Requirement where Title='" + title + "'");
-
-			observableArray.clear();
-
-			while (res.next()) {
-				observableArray.add(new RequirementCardSimple(res.getString(1)));
+			if (vote.getDescriptionAtomic() == 1) {
+				descAtomic += vote.getDescriptionAtomic();
+				descAtomicCounter++;
+			} else {
+				descAtomicCounter++;
+			}
+			if (vote.getRationaleTraceable() == 1) {
+				ratTraceable += vote.getRationaleTraceable();
+				ratTraceableCounter++;
+			} else {
+				ratTraceableCounter++;
+			}
+			if (vote.getRationaleComplete() == 1) {
+				ratComplete += vote.getRationaleComplete();
+				ratCompleteCounter++;
+			} else {
+				ratCompleteCounter++;
+			}
+			if (vote.getRationaleConsistent() == 1) {
+				ratConsistent += vote.getRationaleConsistent();
+				ratConsistentCounter++;
+			} else {
+				ratConsistentCounter++;
+			}
+			if (vote.getFitCriterionCorrect() == 1) {
+				fitCriterionComplete += vote.getFitCriterionCorrect();
+				fitCriterionCompleteCounter++;
+			} else {
+				fitCriterionCompleteCounter++;
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+			preciseAndUnderstandableCounter++;
 		}
+
+		return new SubmittedVoteSimple(descPrecise / preciseAndUnderstandableCounter,
+				descUnderstandable / preciseAndUnderstandableCounter, descCorrect / descCorrectCounter,
+				descComplete / descCompleteCounter, descAtomic / descAtomicCounter,
+				ratPrecise / preciseAndUnderstandableCounter, ratUnderstandable / preciseAndUnderstandableCounter,
+				ratTraceable / ratTraceableCounter, ratComplete / ratCompleteCounter,
+				ratConsistent / ratConsistentCounter, fitCriterionComplete / fitCriterionCompleteCounter);
 	}
 
 	public void setLoginName(String loginName) {
@@ -429,6 +407,19 @@ public class RequirementCardModel extends Observable {
 
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
 		this.observableArray = observableArray;
+		this.searchModel.setObservableArray(observableArray);
+	}
+
+	public SearchModel getSearchModel() {
+		return searchModel;
+	}
+
+	public void setSearchModel(SearchModel searchModel) {
+		this.searchModel = searchModel;
+	}
+
+	public String getLoginName() {
+		return loginName;
 	}
 
 }

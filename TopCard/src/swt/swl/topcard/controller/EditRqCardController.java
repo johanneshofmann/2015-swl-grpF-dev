@@ -13,12 +13,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model.RequirementCardSimple;
+import swt.swl.topcard.model.SubmittedVoteSimple;
 
 public class EditRqCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
-	private String toEdit;
+	private RequirementCardSimple toEdit;
 
 	@FXML
 	private MenuButton modulNamesMenuButton;
@@ -71,13 +73,9 @@ public class EditRqCardController {
 
 	@FXML
 	void editButtonClicked(ActionEvent event) {
-
-		// model.delete, then insert new OR model.insert with
-		// newMinorVersion ?
-
 		// TODO:
 		// insert
-		model.insertRQIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
+		model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
 				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),
 				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
@@ -90,46 +88,47 @@ public class EditRqCardController {
 
 	private void fillVoteResultsLabels() {
 
-		String[] data = model.getVoteResults(toEdit);
+		SubmittedVoteSimple voteResult = model.getVoteResults(toEdit.getID());
 
-		descriptionPreciseVoteResultLabel.setText(data[0]);
-		descriptionUnderstandableVoteResultLabel.setText(data[1]);
-		descriptionCorrectVoteResultLabel.setText(data[2]);
-		descriptionCompleteVoteResultLabel.setText(data[3]);
-		descriptionAtomicVoteResultLabel.setText(data[4]);
-		rationalePreciseVoteResultLabel.setText(data[5]);
-		rationaleUnderstandableVoteResultLabel.setText(data[6]);
-		rationaleTraceableVoteResultLabel.setText(data[7]);
-		rationaleCompleteVoteResultLabel.setText(data[8]);
-		rationaleConsistentVoteResultLabel.setText(data[9]);
-		fitCriterionCompleteVoteResultLabel.setText(data[10]);
+		descriptionPreciseVoteResultLabel.setText("" + voteResult.getDescriptionPrecise());
+		descriptionUnderstandableVoteResultLabel.setText("" + voteResult.getDescriptionUnderstandable());
+		descriptionCorrectVoteResultLabel.setText("" + voteResult.getDescriptionCorrect());
+		descriptionCompleteVoteResultLabel.setText("" + voteResult.getDescriptionComplete());
+		descriptionAtomicVoteResultLabel.setText("" + voteResult.getDescriptionAtomic());
+		rationalePreciseVoteResultLabel.setText("" + voteResult.getRationalePrecise());
+		rationaleUnderstandableVoteResultLabel.setText("" + voteResult.getRationaleUnderstandable());
+		rationaleTraceableVoteResultLabel.setText("" + voteResult.getRationaleTraceable());
+		rationaleCompleteVoteResultLabel.setText("" + voteResult.getRationaleComplete());
+		rationaleConsistentVoteResultLabel.setText("" + voteResult.getRationaleConsistent());
+		fitCriterionCompleteVoteResultLabel.setText("" + voteResult.getFitCriterionCorrect());
 	}
 
 	private void fillTextFields() {
 		// fetch data:
-		String[] data = model.getOverviewDataFromSelectedRq(toEdit);
+		RequirementCardSimple data = model.getOverviewDataFromSelectedRq(toEdit);
 
 		// assign it to the displayed Nodes:
-		ownerTextField.setText(data[0]);
+
+		ownerTextField.setText(data.getOwnerName());
 		// TODO: moduleNamesTextField.setText(data[1]);
-		requirementCardNumberLabel.setText(data[2]);
-		descriptionTextArea.setText(data[3]);
-		rationaleTextArea.setText(data[4]);
-		sourceTextField.setText(data[5]);
+		requirementCardNumberLabel.setText("" + data.getRqID());
+		descriptionTextArea.setText(data.getDescription());
+		rationaleTextArea.setText(data.getRationale());
+		sourceTextField.setText(data.getSource());
 		// TODO: userStoriesTextField.setText(data[6]);
-		supportingMaterialsTextField.setText(data[7]);
-		fitCriterionTextField.setText(data[8]);
-		if (Integer.parseInt(data[9]) == 1) {
+		supportingMaterialsTextField.setText(data.getSupportingMaterials());
+		fitCriterionTextField.setText(data.getFitCriterion());
+		if (data.getIsFrozen() == 1) {
 			frozenChoiceBox.setSelected(true);
 		}
-		createdAtLabel.setText(data[10]);
-		lastModifiedAtLabel.setText(data[11]);
-		titleTextField.setText(data[12]);
-		majorVersionLabel.setText(data[13]);
-		minorVersionLabel.setText(data[14]);
+		createdAtLabel.setText(data.getCreatedAt().toString());
+		lastModifiedAtLabel.setText(data.getLastModifiedAt().toString());
+		titleTextField.setText(data.getTitle());
+		majorVersionLabel.setText("" + data.getMajorVersion());
+		minorVersionLabel.setText("" + data.getMinorVersion());
 	}
 
-	public void initializeNodes(String rqTitle) {
+	public void initializeNodes() {
 
 		fillTextFields();
 
@@ -138,11 +137,11 @@ public class EditRqCardController {
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
-			String toEdit) {
+			RequirementCardSimple toEdit) {
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toEdit = toEdit;
-		initializeNodes(toEdit);
+		initializeNodes();
 	}
 
 }

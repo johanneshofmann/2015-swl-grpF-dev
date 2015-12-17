@@ -3,15 +3,15 @@ package swt.swl.topcard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import swt.swl.topcard.controller.LoginWindowController;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
-import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import swt.swl.topcard.controller.LoginWindowController;
 
 public class MainApp extends Application {
 
@@ -45,6 +45,8 @@ public class MainApp extends Application {
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			System.out.println(new java.util.Date());
+			System.out.println("MainApp: maybe ownerName is not set in some cases...?");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
