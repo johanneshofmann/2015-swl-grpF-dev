@@ -3,6 +3,7 @@ package swt.swl.topcard;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import swt.swl.topcard.controller.LoginWindowController;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 
 public class MainApp extends Application {
 
@@ -23,7 +25,17 @@ public class MainApp extends Application {
 			// Initialize primary stage
 			this.primaryStage = primaryStage;
 			this.primaryStage.setTitle("TopCard");
-
+			
+			/*
+			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			
+			//set Stage boundaries to visible bounds of the main screen
+			primaryStage.setX(primaryScreenBounds.getMinX());
+			primaryStage.setY(primaryScreenBounds.getMinY());
+			primaryStage.setWidth(primaryScreenBounds.getWidth());
+			primaryStage.setHeight(primaryScreenBounds.getHeight());
+			*/
+			
 			// Initialize root layout
 			this.initRootLayout();
 			setOnCloseRequest();
