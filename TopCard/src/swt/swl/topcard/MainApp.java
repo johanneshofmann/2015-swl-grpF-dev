@@ -7,18 +7,19 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import swt.swl.topcard.controller.LoginWindowController;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 
 public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private Pane rootLayout;
+	private Scene loginScene;
 
 	public void start(Stage primaryStage) {
 		try {
@@ -54,9 +55,11 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/UserLoginWindow.fxml"));
 			rootLayout = (Pane) loader.load();
 			((LoginWindowController) loader.getController()).setMainApp(this);
-			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
+			loginScene = new Scene(rootLayout);
+			primaryStage.setScene(loginScene);
 			primaryStage.show();
+			System.out.println(new java.util.Date());
+			System.out.println("MainApp: maybe ownerName is not set in some cases...?");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

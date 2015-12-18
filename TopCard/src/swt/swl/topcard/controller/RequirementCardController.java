@@ -42,7 +42,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
-	private TableColumn<String, String> requirementCards;
+	private TableColumn<String, String> owner, requirementCards;
 	// Alle Label und ihre ResultLabels
 	@FXML
 	private Label titleResultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
@@ -62,6 +62,7 @@ public class RequirementCardController implements Observer {
 	public void initialize() {
 		// Create TableColumnFactory
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
+		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
 		addEventHandlerToTableView();
@@ -73,27 +74,32 @@ public class RequirementCardController implements Observer {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-					String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
 
-					if (rqModel.checkUserName(rqTitle)) {
-						openEditView(rqTitle);
+					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+					item = rqModel.getOverviewDataFromSelectedRq(item);
+					System.out.println("username: " + item.getOwnerName());
+					System.out.println(rqModel.getLoginName());
+
+					if (rqModel.checkUserName(item.getOwnerName())) {
+						openEditView(item);
 					} else {
-						openVoteView(rqTitle);
+						openVoteView(item);
 					}
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+						RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+						item = rqModel.getOverviewDataFromSelectedRq(item);
 
-						String rqTitle = requirementCardsTable.getSelectionModel().getSelectedItem().getTitle();
-						String[] data = rqModel.getOverviewDataFromSelectedRq(rqTitle);
-						titleResultLabel.setText(rqTitle);
-						ownerResultLabel.setText(data[0]);
-						descriptionResultLabel.setText(data[3]);
-						rationaleResultLabel.setText(data[4]);
-						sourceResultLabel.setText(data[5]);
+						titleResultLabel.setText(item.getTitle());
+						ownerResultLabel.setText(item.getOwnerName());
+						descriptionResultLabel.setText(item.getDescription());
+						rationaleResultLabel.setText(item.getRationale());
+						sourceResultLabel.setText(item.getSource());
+						// TODO:
 						userstoriesResultLabel.setText("");
-						supportingMaterialsResultLabel.setText(data[7]);
-						fitCriterionResultLabel.setText(data[8]);
-						frozenResultLabel.setText(data[9]);
+						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
+						fitCriterionResultLabel.setText(item.getFitCriterion());
+						frozenResultLabel.setText(item.getIsFrozen() + "");
 
 					}
 				}
@@ -170,12 +176,12 @@ public class RequirementCardController implements Observer {
 		}
 	}
 
-	private void openVoteView(String rqTitle) {
+	private void openVoteView(RequirementCardSimple rq) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRQCard.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
+			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -188,12 +194,12 @@ public class RequirementCardController implements Observer {
 	 *
 	 * @param rqTitle
 	 */
-	private void openEditView(String rqTitle) {
+	private void openEditView(RequirementCardSimple rq) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
-			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rqTitle);
+			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rq);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
