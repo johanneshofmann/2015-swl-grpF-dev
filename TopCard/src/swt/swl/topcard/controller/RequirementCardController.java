@@ -39,7 +39,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
-	private TableColumn<String, String> owner, requirementCards;
+	private TableColumn<RequirementCardSimple, ?> owner, requirementCards;
 
 	// all Labels and ResultLabels
 	@FXML
@@ -62,7 +62,10 @@ public class RequirementCardController implements Observer {
 		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
 		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
 		this.rqModel.getRequirements();
-		requirementCardsTable.setItems(observableList);
+
+		// TODO: last modified here:
+		requirementCardsTable.getColumns().add(requirementCards);
+		requirementCardsTable.getColumns().add(owner);
 		addEventHandlerToTableView();
 	}
 
