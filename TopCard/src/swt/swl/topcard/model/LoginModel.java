@@ -23,7 +23,7 @@ public class LoginModel extends Observable {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
-			ResultSet result = stmt.executeQuery("Select LoginName from User");
+			ResultSet result = stmt.executeQuery("SELECT LoginName FROM User");
 			while (result.next()) {
 				String userName = result.getString("LoginName");
 				if (userName.equals(loginName)) {
@@ -43,14 +43,14 @@ public class LoginModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 			Statement stmt$2 = conn.createStatement();
-			ResultSet r = stmt$2.executeQuery("select max(ID) from User");
+			ResultSet r = stmt$2.executeQuery("SELECT MAX(ID) FROM User");
 			int ownerID = 99;
-			if(r.next()){
-				ownerID = r.getInt(1)+1;
+			if (r.next()) {
+				ownerID = r.getInt(1) + 1;
 			}
 
-			String sqlInsert = "insert into User(ID,FirstName,LastName,LoginName,CreatedAt) values (" + ownerID + ", '" + firstName
-					+ "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
+			String sqlInsert = "INSERT INTO User(ID,FirstName,LastName,LoginName,CreatedAt) VALUES (" + ownerID + ", '"
+					+ firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
 			stmt.executeUpdate(sqlInsert);
 			triggerNotification(loginName);
 
@@ -60,13 +60,13 @@ public class LoginModel extends Observable {
 	}
 
 	// only invoked for testing..
-	public void deleteUserFromDatabase(String loginName){
+	public void deleteUserFromDatabase(String loginName) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "delete from User where LoginName ='" + loginName + "'";
+			String sqlInsert = "DELETE FROM User WHERE LoginName ='" + loginName + "'";
 			stmt.executeUpdate(sqlInsert);
 
 		} catch (SQLException e) {

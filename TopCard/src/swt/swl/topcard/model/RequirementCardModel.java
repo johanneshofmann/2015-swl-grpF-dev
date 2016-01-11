@@ -48,8 +48,8 @@ public class RequirementCardModel extends Observable {
 			Statement stmt$0 = conn.createStatement();
 			Statement stmt$1 = conn.createStatement();
 
-			ResultSet userID = stmt$0.executeQuery("select ID from User where LoginName='" + loginName + "'");
-			ResultSet rQCardID = stmt$1.executeQuery("select max(Requirement) from Requirement");
+			ResultSet userID = stmt$0.executeQuery("SELECT ID FROM User WHERE LoginName='" + loginName + "'");
+			ResultSet rQCardID = stmt$1.executeQuery("SELECT MAX(Requirement) FROM Requirement");
 			int ownerID = 0;
 			int rqCardIDInt = 1;
 			if (userID.next() && rQCardID.next()) {
@@ -63,7 +63,7 @@ public class RequirementCardModel extends Observable {
 				isFrozenInt = 1;
 			}
 
-			String sqlInsert = "insert into Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) values ('"
+			String sqlInsert = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
 					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
 					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
 					+ isFrozenInt + ", '" + new java.util.Date() + "')";
@@ -75,6 +75,10 @@ public class RequirementCardModel extends Observable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void insertModuleIntoDatabase(){
+		
 	}
 
 	/**
@@ -102,8 +106,6 @@ public class RequirementCardModel extends Observable {
 	 */
 	public RequirementCardSimple getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
 
-		// TODO: insert/ get RequirementNumber (create it)
-
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
@@ -111,9 +113,7 @@ public class RequirementCardModel extends Observable {
 			Statement getOwnerName = conn.createStatement();
 
 			ResultSet rQCardData = getRqCardData
-					.executeQuery("SELECT * FROM Requirement WHERE Requirement =" + selected.getTitle() + "");
-			// TODO: wenn man oben 'title' in anführungszeichen setzt , zeigts
-			// die req nicht mehr an ..( nur eins)
+					.executeQuery("SELECT * FROM Requirement WHERE Requirement =" + selected.getRqID());
 
 			if (rQCardData.next()) {
 				selected.setTitle((rQCardData.getString(2))); // Title
@@ -122,13 +122,11 @@ public class RequirementCardModel extends Observable {
 
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
-				System.out.println("Owner name set ? ");
 				ResultSet ownerName = getOwnerName
 						.executeQuery("SELECT LoginName FROM User WHERE ID = " + rQCardData.getInt(5));
 				if (ownerName.next()) {
 
 					selected.setOwnerName(ownerName.getString(1)); // ownerName
-					System.out.println("owner set");
 				}
 				selected.setRqID(rQCardData.getInt(6)); // rqID
 				selected.setDescription(rQCardData.getString(7)); // Description

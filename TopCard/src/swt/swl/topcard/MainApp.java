@@ -26,17 +26,18 @@ public class MainApp extends Application {
 			// Initialize primary stage
 			this.primaryStage = primaryStage;
 			this.primaryStage.setTitle("TopCard");
-			
+
 			/*
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-			
-			//set Stage boundaries to visible bounds of the main screen
-			primaryStage.setX(primaryScreenBounds.getMinX());
-			primaryStage.setY(primaryScreenBounds.getMinY());
-			primaryStage.setWidth(primaryScreenBounds.getWidth());
-			primaryStage.setHeight(primaryScreenBounds.getHeight());
-			*/
-			
+			 * Rectangle2D primaryScreenBounds =
+			 * Screen.getPrimary().getVisualBounds();
+			 * 
+			 * //set Stage boundaries to visible bounds of the main screen
+			 * primaryStage.setX(primaryScreenBounds.getMinX());
+			 * primaryStage.setY(primaryScreenBounds.getMinY());
+			 * primaryStage.setWidth(primaryScreenBounds.getWidth());
+			 * primaryStage.setHeight(primaryScreenBounds.getHeight());
+			 */
+
 			// Initialize root layout
 			this.initRootLayout();
 			setOnCloseRequest();
@@ -59,7 +60,6 @@ public class MainApp extends Application {
 			primaryStage.setScene(loginScene);
 			primaryStage.show();
 			System.out.println(new java.util.Date());
-			System.out.println("MainApp: maybe ownerName is not set in some cases...?");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

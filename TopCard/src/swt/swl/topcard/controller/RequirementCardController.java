@@ -34,7 +34,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button start, search, createNewRq;
+	private Button startButton, searchButton, createModuleButton, createNewRq;
 	@FXML
 	private MenuItem toVote, myRqCards;
 	@FXML
@@ -43,7 +43,8 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
 	private TableColumn<String, String> owner, requirementCards;
-	// Alle Label und ihre ResultLabels
+
+	// all Labels and ResultLabels
 	@FXML
 	private Label titleResultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
 			rationaleResultLabel, rationaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
@@ -137,6 +138,21 @@ public class RequirementCardController implements Observer {
 	}
 
 	@FXML
+	void createModuleButtonClicked(ActionEvent event){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateModuleView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((CreateModuleController) loader.getController()).setMainController(this);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
 	void searchButtonClicked(ActionEvent event) {
 
 		try {
@@ -171,7 +187,6 @@ public class RequirementCardController implements Observer {
 		if (update != null) {
 			if (update.toString().equals(loginName)) {
 				startButtonClicked(new ActionEvent());
-				System.out.println("Insert complete!");
 			}
 		}
 	}
