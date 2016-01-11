@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
@@ -34,11 +33,9 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button startButton, searchButton, createModuleButton, createNewRq;
+	private Button startButton, searchRqButton;
 	@FXML
-	private MenuItem toVote, myRqCards;
-	@FXML
-	private MenuButton showRQCards;
+	private MenuItem createModuleButton, createNewRqButton;
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 	@FXML
@@ -74,6 +71,9 @@ public class RequirementCardController implements Observer {
 
 			@Override
 			public void handle(MouseEvent event) {
+				if (requirementCardsTable.getSelectionModel().getSelectedItem() == null) {
+					return;
+				}
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
@@ -138,7 +138,7 @@ public class RequirementCardController implements Observer {
 	}
 
 	@FXML
-	void createModuleButtonClicked(ActionEvent event){
+	void createModuleButtonClicked(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateModuleView.fxml"));
@@ -153,7 +153,7 @@ public class RequirementCardController implements Observer {
 	}
 
 	@FXML
-	void searchButtonClicked(ActionEvent event) {
+	void searchRqButtonClicked(ActionEvent event) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -171,11 +171,15 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void toVoteButtonClicked(ActionEvent event) {
 		rqModel.getMyOrToVoteRequirements(false);
+		requirementCards.setText("Requirement Cards to vote");
+
 	}
 
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
 		rqModel.getMyOrToVoteRequirements(true);
+		requirementCards.setText("My Requirement Cards");
+
 	}
 
 	/**

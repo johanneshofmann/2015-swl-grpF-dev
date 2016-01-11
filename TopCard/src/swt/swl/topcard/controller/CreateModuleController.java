@@ -13,6 +13,10 @@ public class CreateModuleController {
 	private ModuleModel model;
 	private RequirementCardController mainController;
 
+	public CreateModuleController() {
+		model = new ModuleModel();
+	}
+
 	@FXML
 	private Button createButton, cancelButton;
 

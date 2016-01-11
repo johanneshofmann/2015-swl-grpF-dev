@@ -5,18 +5,19 @@ import java.sql.SQLException;
 
 public class ResultSetUtil {
 
-	public static Boolean contains(ResultSet rs, int colidx, String value)
-	{
+	public static Boolean contains(ResultSet rs, int colidx, String value) {
+
 		Boolean hasValue = false;
+
 		try {
-			while(rs.next())
-			{
-				if(rs.getString(colidx).equals(value))
-				{
+			while (rs.next()) {
+
+				if (rs.getString(colidx).equals(value)) {
 					return true;
 				}
 			}
 			return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
