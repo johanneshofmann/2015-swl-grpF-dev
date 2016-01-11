@@ -1,7 +1,10 @@
 package swt.swl.topcard.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Observable;
 
 import javafx.collections.ObservableList;
@@ -31,7 +34,7 @@ public class ModuleModel extends Observable{
 		try {
 			while(resultSet.next())
 			{
-				Module module = new Module(resultSet.getInt(0), resultSet.getString(1));
+				Module module = new Module(resultSet.getInt(1), resultSet.getString(1));
 				this.observableArray.add(module);
 			}
 		} catch (SQLException e) {
@@ -55,6 +58,33 @@ public class ModuleModel extends Observable{
 	
 	private void triggerNotification(Object message) {
 		setChanged();
-		notifyObservers(message);
+		notifyObservers(message); 
+	}
+	
+	public void deleteModuleFromDatabase(int ID){
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			String sqlInsert = "delete from Module where ID =" + ID ;
+			stmt.executeUpdate(sqlInsert);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void deleteModuleFromDatabase(String Name){
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			String sqlInsert = "delete from Module where Name =" + Name ;
+			stmt.executeUpdate(sqlInsert);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
