@@ -8,15 +8,15 @@ import java.sql.Statement;
 
 import javafx.collections.ObservableList;
 
-public class SearchModel {
+public class SearchHelper {
 
-	private ObservableList<RequirementCardSimple> observableArray;
+	private static ObservableList<RequirementCardSimple> observableArray;
 
-	public SearchModel() {
+	public SearchHelper() {
 
 	}
 
-	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
+	public static void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
 		// TODO: SearchModel: search() -> add unimplemented parts and test it
 
 		filterTitle(title);
@@ -27,7 +27,7 @@ public class SearchModel {
 
 	}
 
-	private void filterSupportingMaterials(String supportingMaterials) {
+	private static void filterSupportingMaterials(String supportingMaterials) {
 		// TODO SearchModel: implement filterSupportingMaterials()
 		if (supportingMaterials == null) {
 			return;
@@ -35,14 +35,14 @@ public class SearchModel {
 
 	}
 
-	private void filterSource(String source) {
+	private static void filterSource(String source) {
 		// TODO SearchModel: implement filterSource()
 		if (source == null) {
 			return;
 		}
 	}
 
-	private void filterFitCriterion(String fitCriterion, String title, String owner) {
+	private static void filterFitCriterion(String fitCriterion, String title, String owner) {
 		if (fitCriterion == null) {
 			return;
 		}
@@ -86,7 +86,7 @@ public class SearchModel {
 
 	}
 
-	private void filterOwner(String owner, String title) {
+	private static void filterOwner(String owner, String title) {
 		if (owner == null) {
 			return;
 		}
@@ -119,7 +119,7 @@ public class SearchModel {
 		}
 	}
 
-	private void filterTitle(String title) {
+	private static void filterTitle(String title) {
 
 		if (title == null) {
 			return;
@@ -128,7 +128,7 @@ public class SearchModel {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			ResultSet requirements = stmt.executeQuery("SELECT Title FROM Requirement WHERE Title='" + title + "'");
+			ResultSet requirements = stmt.executeQuery("SELECT * FROM Requirement WHERE Title='" + title + "'");
 
 			observableArray.clear();
 
@@ -150,6 +150,6 @@ public class SearchModel {
 	}
 
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
-		this.observableArray = observableArray;
+		SearchHelper.observableArray = observableArray;
 	}
 }

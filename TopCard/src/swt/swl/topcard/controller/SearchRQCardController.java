@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model.SearchHelper;
 
 public class SearchRQCardController {
 
@@ -117,7 +118,7 @@ public class SearchRQCardController {
 			supportingMaterials = supportingMaterialsTextField.getText();
 		}
 
-		model.getSearchModel().search(title, owner, fitCriterion, source, supportingMaterials);
+		SearchHelper.search(title, owner, fitCriterion, source, supportingMaterials);
 
 		// redirect
 		rqCardController.repaint();

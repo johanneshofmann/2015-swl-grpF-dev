@@ -18,11 +18,8 @@ public class RequirementCardModel extends Observable {
 	private String loginName;
 
 	private ObservableList<RequirementCardSimple> observableArray;
-	private SearchModel searchModel;
 
 	public RequirementCardModel() {
-
-		searchModel = new SearchModel();
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -401,15 +398,6 @@ public class RequirementCardModel extends Observable {
 
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
 		this.observableArray = observableArray;
-		this.searchModel.setObservableArray(observableArray);
-	}
-
-	public SearchModel getSearchModel() {
-		return searchModel;
-	}
-
-	public void setSearchModel(SearchModel searchModel) {
-		this.searchModel = searchModel;
 	}
 
 	public String getLoginName() {

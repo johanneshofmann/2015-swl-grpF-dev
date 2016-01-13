@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -17,8 +18,8 @@
                      <children>
                         <TableView fx:id="requirementCardsTable" layoutX="1.0" layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
                           <columns>
-                            <TableColumn fx:id="requirementCards" prefWidth="212.0" text="requirementCards" />
-                              <TableColumn fx:id="owner" prefWidth="232.0" text="owner" />
+                            <TableColumn fx:id="requirementCards" prefWidth="212.0" text="Requirement Cards" />
+                              <TableColumn fx:id="owner" prefWidth="232.0" text="Owner" />
                           </columns>
                         </TableView>
                      </children>
@@ -117,7 +118,7 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox layoutX="8.0" layoutY="14.0" prefHeight="26.0" prefWidth="783.0">
+            <HBox prefHeight="18.0" prefWidth="277.0">
                <children>
                   <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="New">
                     <items>
@@ -125,10 +126,14 @@
                       <MenuItem fx:id="createNewRqButton" mnemonicParsing="false" onAction="#createNewRqButtonClicked" text="Requirement Card" />
                     </items>
                   </MenuButton>
-                  <Button fx:id="searchRqButton" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="38.0" prefWidth="132.0" text="Search" textAlignment="CENTER" />
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#startButtonClicked" prefHeight="21.0" prefWidth="130.0" text="Refresh" textAlignment="CENTER" />
+                  <Button fx:id="searchRqButton" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="11.0" prefWidth="126.0" text="Search" textAlignment="CENTER" />
                </children>
             </HBox>
+            <ImageView fx:id="startButton" fitHeight="35.0" fitWidth="26.0" layoutX="17.0" layoutY="39.0" onMouseClicked="#startButtonClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/Button-Refresh-icon.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

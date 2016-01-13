@@ -17,6 +17,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
@@ -33,7 +34,10 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button startButton, searchRqButton;
+	private Button searchRqButton;
+
+	@FXML
+	private ImageView startButton;
 	@FXML
 	private MenuItem createModuleButton, createNewRqButton;
 	@FXML
@@ -59,14 +63,14 @@ public class RequirementCardController implements Observer {
 
 	public void initialize() {
 		// Create TableColumnFactory
-		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("requirementCards"));
-		this.owner.setCellValueFactory(new PropertyValueFactory<>("owner"));
+		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
+		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
 
 		// TODO: @Steve: last modified here:
-		requirementCardsTable.getColumns().add(requirementCards);
-		requirementCardsTable.getColumns().add(owner);
+		// requirementCardsTable.getColumns().add(requirementCards);
+		// requirementCardsTable.getColumns().add(owner);
 		addEventHandlerToTableView();
 	}
 
