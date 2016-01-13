@@ -115,12 +115,14 @@ public class ShowAndVoteRqCardController {
 
 		// assign it to the displayed Nodes:
 		ownerLabel.setText(rqCard.getOwnerName());
-		// TODO: moduleNamesTextField.setText(data);
+		// TODO: ShowAndVoteRqCardController:
+		// moduleNamesTextField.setText(data);
 		requirementCardNumberLabel.setText("" + rqCard.getRqID());
 		descriptionLabel.setText(rqCard.getDescription());
 		rationaleLabel.setText(rqCard.getRationale());
 		sourceLabel.setText(rqCard.getSource());
-		// TODO: userStoriesTextField.setText(data);
+		// TODO: ShowAndVoteRqCardController:
+		// userStoriesTextField.setText(data);
 		supportLabel.setText(rqCard.getSupportingMaterials());
 		fitCriterionLabel.setText(rqCard.getFitCriterion());
 		// "IsFrozen" (data[9]) not required here..

@@ -63,7 +63,7 @@ public class RequirementCardController implements Observer {
 		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
 		this.rqModel.getRequirements();
 
-		// TODO: last modified here:
+		// TODO: @Steve: last modified here:
 		requirementCardsTable.getColumns().add(requirementCards);
 		requirementCardsTable.getColumns().add(owner);
 		addEventHandlerToTableView();
@@ -99,7 +99,9 @@ public class RequirementCardController implements Observer {
 						descriptionResultLabel.setText(item.getDescription());
 						rationaleResultLabel.setText(item.getRationale());
 						sourceResultLabel.setText(item.getSource());
-						// TODO:
+						// TODO: RQCardController: implement all requirements
+						// for UserStories part
+						// of the application
 						userstoriesResultLabel.setText("");
 						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
 						fitCriterionResultLabel.setText(item.getFitCriterion());

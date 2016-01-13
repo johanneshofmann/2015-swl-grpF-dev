@@ -73,7 +73,7 @@ public class EditRqCardController {
 
 	@FXML
 	void editButtonClicked(ActionEvent event) {
-		// TODO:
+		// TODO: EditRequirementCardController:
 
 		// insert
 		model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
@@ -111,7 +111,7 @@ public class EditRqCardController {
 		// assign it to the displayed Nodes:
 
 		ownerTextField.setText(data.getOwnerName());
-		// TODO: moduleNamesTextField.setText(data[1]);
+		// TODO: EditRqCardController: moduleNamesTextField.setText(data[1]);
 		requirementCardNumberLabel.setText("" + data.getRqID());
 		descriptionTextArea.setText(data.getDescription());
 		rationaleTextArea.setText(data.getRationale());

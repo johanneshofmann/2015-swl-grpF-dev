@@ -17,7 +17,7 @@ public class SearchModel {
 	}
 
 	public void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
-		// TODO:
+		// TODO: SearchModel: search() -> add unimplemented parts and test it
 
 		filterTitle(title);
 		filterOwner(owner, title);
@@ -28,7 +28,7 @@ public class SearchModel {
 	}
 
 	private void filterSupportingMaterials(String supportingMaterials) {
-		// TODO Auto-generated method stub
+		// TODO SearchModel: implement filterSupportingMaterials()
 		if (supportingMaterials == null) {
 			return;
 		}
@@ -36,7 +36,7 @@ public class SearchModel {
 	}
 
 	private void filterSource(String source) {
-		// TODO Auto-generated method stub
+		// TODO SearchModel: implement filterSource()
 		if (source == null) {
 			return;
 		}

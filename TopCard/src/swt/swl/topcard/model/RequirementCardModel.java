@@ -76,9 +76,9 @@ public class RequirementCardModel extends Observable {
 			e.printStackTrace();
 		}
 	}
-	
-	private void insertModuleIntoDatabase(){
-		
+
+	private void insertModuleIntoDatabase() {
+
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class RequirementCardModel extends Observable {
 			if (rQCardData.next()) {
 				selected.setTitle((rQCardData.getString(2))); // Title
 
-				// TODO: insert/ get ModulName:
+				// TODO: RQCardCModel: insert/ get ModulName:
 
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
@@ -133,7 +133,7 @@ public class RequirementCardModel extends Observable {
 				selected.setRationale(rQCardData.getString(8)); // Rationale
 				selected.setSource(rQCardData.getString(9)); // Source
 
-				// TODO: insert / get UserStories :
+				// TODO: RQCardCModel: insert / get UserStories :
 
 				selected.setSupportingMaterials(rQCardData.getString(10)); // SupportingMaterials
 				selected.setFitCriterion(rQCardData.getString(11)); // FitCriterion
@@ -254,7 +254,7 @@ public class RequirementCardModel extends Observable {
 			Statement insert = conn.createStatement();
 			insert.executeUpdate(
 
-					// TODO: !!! change to int values: !!!
+					// TODO: RQCardModel: !!! change to int values: !!!
 
 					"INSERT INTO Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    VALUES ("
 							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ",'"
@@ -263,7 +263,7 @@ public class RequirementCardModel extends Observable {
 							+ selectedItems[8] + "', '" + selectedItems[9] + "', '"
 							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')");
 
-			// TODO: !!! change to int values: !!!
+			// TODO: RQCardModel : !!! change to int values: !!!
 
 		} catch (SQLException e) {
 			e.printStackTrace();
