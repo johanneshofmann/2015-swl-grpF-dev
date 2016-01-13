@@ -1,136 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="797.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.SearchRQCardController">
-   <children>
-      <VBox layoutX="14.0" layoutY="55.0" prefHeight="902.0" prefWidth="727.0" spacing="20.0">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.SearchRQCardController">
+   <content>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="847.0" prefWidth="999.0">
          <children>
-            <HBox prefHeight="12.0" prefWidth="775.0" spacing="115.0">
+            <VBox layoutX="14.0" layoutY="55.0" prefHeight="902.0" prefWidth="727.0" spacing="20.0">
                <children>
-                  <Label prefHeight="16.0" prefWidth="43.0" text="Title:" />
-                  <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="0.0" prefWidth="775.0" spacing="97.0">
-               <children>
-                  <Label prefHeight="16.0" prefWidth="62.0" text="Owner:" />
-                  <TextField fx:id="ownerTextField" layoutX="138.0" layoutY="10.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
-               </children>
-            </HBox>
-            <HBox prefHeight="0.0" prefWidth="775.0" spacing="77.0">
-               <children>
-                  <Label prefHeight="26.0" prefWidth="83.0" text="Modulname:" />
-                  <MenuButton fx:id="modulNameChoiceBox" mnemonicParsing="false" prefHeight="26.0" prefWidth="144.0">
-                    <items>
-                      <MenuItem fx:id="modul1MenuItem" mnemonicParsing="false" text="Modul 1" />
-                      <MenuItem fx:id="modul2MenuItem" mnemonicParsing="false" text="Modul 2" />
-                        <MenuItem fx:id="modul3MenuItem" mnemonicParsing="false" text="Modul .." />
-                        <MenuItem fx:id="modul4MenuItem" mnemonicParsing="false" text="Modul n" />
-                    </items>
-                  </MenuButton>
-               </children>
-            </HBox>
-            <HBox prefHeight="133.0" prefWidth="621.0" spacing="40.0">
-               <children>
-                  <Label prefHeight="27.0" prefWidth="121.0" text="Description:" />
-                  <TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="140.0" prefWidth="400.0" />
-                  <VBox prefHeight="133.0" prefWidth="122.0" spacing="6.0">
+                  <HBox prefHeight="12.0" prefWidth="775.0" spacing="115.0">
                      <children>
-                        <Button fx:id="descriptionPreciseButton" mnemonicParsing="false" onAction="#descriptionPreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
-                        <Button fx:id="descriptionUnderstandableButton" mnemonicParsing="false" onAction="#descriptionUnderstandableButtonClicked" text="Understandable" />
-                        <RadioButton mnemonicParsing="false" text="Correct" />
-                        <RadioButton mnemonicParsing="false" text="Complete" />
-                        <RadioButton mnemonicParsing="false" text="Atomic" />
+                        <Label prefHeight="16.0" prefWidth="43.0" text="Title:" />
+                        <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox prefHeight="135.0" prefWidth="716.0" spacing="42.0">
-               <children>
-                  <Label prefHeight="27.0" prefWidth="121.0" text="Rationale:" />
-                  <TextArea fx:id="rationaleTextArea" prefHeight="140.0" prefWidth="400.0" />
-                  <VBox prefHeight="135.0" prefWidth="127.0" spacing="6.0">
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="0.0" prefWidth="775.0" spacing="97.0">
                      <children>
-                        <Button fx:id="rationalePreciseButton" mnemonicParsing="false" onAction="#rationalePreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
-                        <Button fx:id="rationaleUnderstandableButton" mnemonicParsing="false" onAction="#rationaleUnderstandableButtonClicked" text="Understandable" />
-                        <RadioButton mnemonicParsing="false" text="Traceable" />
-                        <RadioButton mnemonicParsing="false" text="Correct" />
-                        <RadioButton mnemonicParsing="false" text="Consistent" />
+                        <Label prefHeight="16.0" prefWidth="62.0" text="Owner:" />
+                        <TextField fx:id="ownerTextField" layoutX="138.0" layoutY="10.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox prefHeight="0.0" prefWidth="775.0" spacing="77.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="83.0" text="Modulname:" />
+                        <MenuButton fx:id="modulNameChoiceBox" mnemonicParsing="false" prefHeight="26.0" prefWidth="144.0">
+                           <items>
+                              <MenuItem fx:id="modul1MenuItem" mnemonicParsing="false" text="Modul 1" />
+                              <MenuItem fx:id="modul2MenuItem" mnemonicParsing="false" text="Modul 2" />
+                              <MenuItem fx:id="modul3MenuItem" mnemonicParsing="false" text="Modul .." />
+                              <MenuItem fx:id="modul4MenuItem" mnemonicParsing="false" text="Modul n" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="133.0" prefWidth="621.0" spacing="40.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="121.0" text="Description:" />
+                        <TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="140.0" prefWidth="400.0" />
+                        <VBox prefHeight="133.0" prefWidth="122.0" spacing="6.0">
+                           <children>
+                              <Button fx:id="descriptionPreciseButton" mnemonicParsing="false" onAction="#descriptionPreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
+                              <Button fx:id="descriptionUnderstandableButton" mnemonicParsing="false" onAction="#descriptionUnderstandableButtonClicked" text="Understandable" />
+                              <RadioButton mnemonicParsing="false" text="Correct" />
+                              <RadioButton mnemonicParsing="false" text="Complete" />
+                              <RadioButton mnemonicParsing="false" text="Atomic" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="135.0" prefWidth="716.0" spacing="42.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="121.0" text="Rationale:" />
+                        <TextArea fx:id="rationaleTextArea" prefHeight="140.0" prefWidth="400.0" />
+                        <VBox prefHeight="135.0" prefWidth="127.0" spacing="6.0">
+                           <children>
+                              <Button fx:id="rationalePreciseButton" mnemonicParsing="false" onAction="#rationalePreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
+                              <Button fx:id="rationaleUnderstandableButton" mnemonicParsing="false" onAction="#rationaleUnderstandableButtonClicked" text="Understandable" />
+                              <RadioButton mnemonicParsing="false" text="Traceable" />
+                              <RadioButton mnemonicParsing="false" text="Correct" />
+                              <RadioButton mnemonicParsing="false" text="Consistent" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="319.0" prefHeight="3.0" prefWidth="775.0" spacing="85.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
+                        <TextField fx:id="sourceTextField" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="475.0" prefHeight="4.0" prefWidth="775.0" spacing="60.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
+                        <TextField fx:id="userStoriesTextField" prefHeight="51.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="541.0" prefHeight="0.0" prefWidth="775.0" spacing="18.0">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="142.0" text="Supporting Materials:" />
+                        <TextField fx:id="supportingMaterialsTextField" prefHeight="26.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="600.0" prefHeight="0.0" prefWidth="775.0" spacing="60.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="101.0" text="Fit criterion:" />
+                        <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="662.0" prefHeight="0.0" prefWidth="775.0" spacing="140.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="72.0" text="Frozen? " />
+                        <CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="12.0" style="-fx-background-radius: 50;" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="65.0" prefWidth="775.0" spacing="18.0">
+                     <children>
+                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="75.0" prefWidth="170.0" style="-fx-background-radius: 15;" text="Close without saving" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="75.0" prefWidth="170.0" style="-fx-background-radius: 15;" text="Search" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="943.0" text="_____________________________________________________________________________________________________________________________" />
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="257.0" text="Search Requirement Card: " underline="true" />
+            <HBox fx:id="rationalePreciseHBox" layoutX="613.0" layoutY="345.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="187.0" text="Precise Vote Score:" />
+                  <ComboBox fx:id="descriptionPreciseCompareComboBox" />
+                  <ComboBox fx:id="descriptionPreciseNumberComboBox" layoutX="119.0" layoutY="10.0" />
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="319.0" prefHeight="3.0" prefWidth="775.0" spacing="85.0">
+            <HBox fx:id="descriptionUnderstandableHBox" layoutX="613.0" layoutY="222.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
                <children>
-                  <Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
-                  <TextField fx:id="sourceTextField" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                  <Label prefHeight="27.0" prefWidth="187.0" text="Understandable Vote Score:" />
+                  <ComboBox fx:id="descriptionUnderstandableCompareComboBox" />
+                  <ComboBox fx:id="descriptionUnderstandableNumberComboBox" layoutX="119.0" layoutY="10.0" />
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="475.0" prefHeight="4.0" prefWidth="775.0" spacing="60.0">
+            <HBox fx:id="descriptionPreciseHBox" layoutX="613.0" layoutY="190.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
                <children>
-                  <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-                  <TextField fx:id="userStoriesTextField" prefHeight="51.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                  <Label prefHeight="26.0" prefWidth="187.0" text="Precise Vote Score:" />
+                  <ComboBox fx:id="rationalePreciseCompareComboBox" />
+                  <ComboBox fx:id="rationalePreciseNumberComboBox" layoutX="119.0" layoutY="10.0" />
                </children>
             </HBox>
-            <HBox layoutX="10.0" layoutY="541.0" prefHeight="0.0" prefWidth="775.0" spacing="18.0">
+            <HBox fx:id="rationaleUnderstandableHBox" layoutX="613.0" layoutY="379.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
                <children>
-                  <Label prefHeight="26.0" prefWidth="142.0" text="Supporting Materials:" />
-                  <TextField fx:id="supportingMaterialsTextField" prefHeight="26.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="600.0" prefHeight="0.0" prefWidth="775.0" spacing="60.0">
-               <children>
-                  <Label prefHeight="27.0" prefWidth="101.0" text="Fit criterion:" />
-                  <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="662.0" prefHeight="0.0" prefWidth="775.0" spacing="140.0">
-               <children>
-                  <Label prefHeight="27.0" prefWidth="72.0" text="Frozen? " />
-                  <CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" prefHeight="27.0" prefWidth="12.0" style="-fx-background-radius: 50;" />
-               </children>
-            </HBox>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="65.0" prefWidth="775.0" spacing="18.0">
-               <children>
-                  <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="75.0" prefWidth="170.0" style="-fx-background-radius: 15;" text="Close without saving" />
-                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="75.0" prefWidth="170.0" style="-fx-background-radius: 15;" text="Search" />
+                  <Label prefHeight="27.0" prefWidth="188.0" text="Understandable Vote Score:" />
+                  <ComboBox fx:id="rationaleUnderstandableCompareComboBox" />
+                  <ComboBox fx:id="rationaleUnderstandableNumberComboBox" layoutX="119.0" layoutY="10.0" />
                </children>
             </HBox>
          </children>
-      </VBox>
-      <Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="943.0" text="_____________________________________________________________________________________________________________________________" />
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="257.0" text="Search Requirement Card: " underline="true" />
-      <HBox fx:id="rationalePreciseHBox" layoutX="613.0" layoutY="345.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
-         <children>
-            <Label prefHeight="26.0" prefWidth="187.0" text="Precise Vote Score:" />
-            <ComboBox fx:id="descriptionPreciseCompareComboBox" />
-            <ComboBox fx:id="descriptionPreciseNumberComboBox" layoutX="119.0" layoutY="10.0" />
-         </children>
-      </HBox>
-      <HBox fx:id="descriptionUnderstandableHBox" layoutX="613.0" layoutY="222.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
-         <children>
-            <Label prefHeight="27.0" prefWidth="187.0" text="Understandable Vote Score:" />
-            <ComboBox fx:id="descriptionUnderstandableCompareComboBox" />
-            <ComboBox fx:id="descriptionUnderstandableNumberComboBox" layoutX="119.0" layoutY="10.0" />
-         </children>
-      </HBox>
-      <HBox fx:id="descriptionPreciseHBox" layoutX="613.0" layoutY="190.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
-         <children>
-            <Label prefHeight="26.0" prefWidth="187.0" text="Precise Vote Score:" />
-            <ComboBox fx:id="rationalePreciseCompareComboBox" />
-            <ComboBox fx:id="rationalePreciseNumberComboBox" layoutX="119.0" layoutY="10.0" />
-         </children>
-      </HBox>
-      <HBox fx:id="rationaleUnderstandableHBox" layoutX="613.0" layoutY="379.0" prefHeight="26.0" prefWidth="309.0" spacing="10.0" visible="false">
-         <children>
-            <Label prefHeight="27.0" prefWidth="188.0" text="Understandable Vote Score:" />
-            <ComboBox fx:id="rationaleUnderstandableCompareComboBox" />
-            <ComboBox fx:id="rationaleUnderstandableNumberComboBox" layoutX="119.0" layoutY="10.0" />
-         </children>
-      </HBox>
-   </children>
-</Pane>
+      </Pane>
+   </content>
+</ScrollPane>

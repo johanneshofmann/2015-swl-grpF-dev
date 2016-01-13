@@ -1,244 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="944.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.ShowAndVoteRqCardController">
-	<children>
-		<VBox layoutX="20.0" layoutY="58.0" prefHeight="696.0" prefWidth="449.0" spacing="20.0">
-			<children>
-				<HBox prefHeight="39.0" prefWidth="406.0" spacing="161.0">
-					<children>
-						<Label text="Title:" />
-						<Label fx:id="titleLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox prefHeight="34.0" prefWidth="546.0" spacing="87.0">
-					<children>
-						<Label text="ModuleName(s):" />
-						<Label fx:id="modulLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox prefHeight="34.0" prefWidth="546.0" spacing="92.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="101.0" text="Owner: " />
-						<Label fx:id="ownerLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox prefHeight="91.0" prefWidth="449.0" spacing="105.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="84.0" text="Description:" />
-						<Label fx:id="descriptionLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox prefHeight="82.0" prefWidth="449.0" spacing="120.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="68.0" text="Rationale:" />
-						<Label fx:id="rationaleLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="117.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
-						<Label fx:id="sourceLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="93.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-						<Label fx:id="storyLabel" layoutX="204.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="20.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="175.0" text="Supporting Materials:" />
-						<Label fx:id="supportLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-				<HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="87.0">
-					<children>
-						<Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-						<Label fx:id="fitCriterionLabel" prefHeight="27.0" prefWidth="201.0" />
-					</children>
-				</HBox>
-			</children>
-		</VBox>
-		<Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="943.0" text="_____________________________________________________________________________________________________________________________" />
-		<Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="277.0" text="Vote Requirement Card: " underline="true" />
-		<Label fx:id="createdAtLabel" layoutX="706.0" layoutY="58.0" prefHeight="27.0" prefWidth="224.0" />
-		<Label fx:id="lastModifiedAtLabel" layoutX="706.0" layoutY="91.0" prefHeight="27.0" prefWidth="224.0" />
-		<Label layoutX="568.0" layoutY="91.0" prefHeight="27.0" prefWidth="149.0" text="Last Modified At:" />
-		<Label fx:id="requirementCardNumberLabel" layoutX="280.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" />
-		<Label layoutX="687.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" text=", MinorVersion:" />
-		<Label layoutX="575.0" layoutY="15.0" prefHeight="27.0" prefWidth="101.0" text="MajorVersion" />
-		<Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
-		<Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
-		<VBox fx:id="voteDescriptionLabelsVBox" layoutX="616.0" layoutY="201.0" prefHeight="170.0" prefWidth="107.0" spacing="2.0">
-			<children>
-				<Label prefHeight="27.0" prefWidth="60.0" text="precise:" />
-				<Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="115.0" text="understandable:" />
-				<Label prefHeight="16.0" prefWidth="103.0" />
-				<Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="60.0" text="correct:" />
-				<Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="72.0" text="complete:" />
-				<Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="58.0" text="atomic:" />
-			</children>
-		</VBox>
-		<VBox fx:id="voteRationaleLabelsVBox" layoutX="616.0" layoutY="390.0" prefHeight="170.0" prefWidth="107.0" spacing="2.0">
-			<children>
-				<Label prefHeight="27.0" prefWidth="61.0" text="precise:" />
-				<Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" text="understandable:" />
-				<Label prefHeight="16.0" prefWidth="63.0" />
-				<Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="201.0" text="traceable:" />
-				<Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="201.0" text="complete:" />
-				<Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="201.0" text="consistent:" />
-			</children>
-		</VBox>
-		<Button fx:id="voteButton" layoutX="516.0" layoutY="798.0" mnemonicParsing="false" onAction="#voteButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
-		<Button fx:id="closeButton" layoutX="308.0" layoutY="798.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
-		<Button fx:id="voteRationaleButton" layoutX="456.0" layoutY="385.0" mnemonicParsing="false" onAction="#voteRationaleButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Rationale">
-			<font>
-				<Font size="12.0" />
-			</font>
-		</Button>
-		<Button fx:id="voteDescriptionButton" layoutX="456.0" layoutY="238.0" mnemonicParsing="false" onAction="#voteDescriptionButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Description">
-			<font>
-				<Font size="12.0" />
-			</font>
-		</Button>
-		<Label layoutX="568.0" layoutY="64.0" prefHeight="27.0" prefWidth="101.0" text="Created At : " />
-		<VBox fx:id="voteDescriptionSelectionNodesVBox" layoutX="728.0" layoutY="201.0" prefHeight="152.0" prefWidth="211.0" spacing="3.0">
-			<children>
-				<Slider fx:id="descriptionPreciseSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="11.0" prefWidth="211.0" showTickLabels="true" showTickMarks="true" />
-				<Slider fx:id="descriptionUnderstandableSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
-				<VBox prefHeight="98.0" prefWidth="211.0" spacing="12.0">
-					<children>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="descriptionCorrectGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="descriptionCorrectYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="descriptionCorrectGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="descriptionCorrectNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionCorrectGroup" />
-								<RadioButton fx:id="descriptionCorrectDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionCorrectGroup" />
-							</children>
-						</HBox>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="descriptionCompleteGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="descriptionCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="descriptionCompleteGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="descriptionCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionCompleteGroup" />
-								<RadioButton fx:id="descriptionCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionCompleteGroup" />
-							</children>
-						</HBox>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="descriptionAtomicGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="descriptionAtomicYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="descriptionAtomicGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="descriptionAtomicNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionAtomicGroup" />
-								<RadioButton fx:id="descriptionAtomicDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionAtomicGroup" />
-							</children>
-						</HBox>
-					</children>
-				</VBox>
-			</children>
-		</VBox>
-		<VBox fx:id="voteRationaleSelectionNodesVBox" layoutX="728.0" layoutY="394.0" prefHeight="152.0" prefWidth="211.0" spacing="1.0">
-			<children>
-				<Slider fx:id="rationalePreciseSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
-				<Slider fx:id="rationaleUnderstandableSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
-				<VBox prefHeight="69.0" prefWidth="211.0" spacing="12.0">
-					<children>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="rationaleTraceableGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="rationaleTraceableYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="rationaleTraceableGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="rationaleTraceableNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleTraceableGroup" />
-								<RadioButton fx:id="rationaleTraceableDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleTraceableGroup" />
-							</children>
-						</HBox>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="rationaleCompleteGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="rationaleCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="rationaleCompleteGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="rationaleCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleCompleteGroup" />
-								<RadioButton fx:id="rationaleCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleCompleteGroup" />
-							</children>
-						</HBox>
-						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-							<fx:define>
-								<ToggleGroup fx:id="rationaleConsistentGroup" />
-							</fx:define>
-							<children>
-								<RadioButton fx:id="rationaleConsistentYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-									<toggleGroup>
-										<ToggleGroup fx:id="rationaleConsistentGroup" />
-									</toggleGroup>
-								</RadioButton>
-								<RadioButton fx:id="rationaleConsistenNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleConsistentGroup" />
-								<RadioButton fx:id="rationaleConsistentDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleConsistentGroup" />
-							</children>
-						</HBox>
-					</children>
-					<padding>
-						<Insets bottom="10.0" />
-					</padding>
-				</VBox>
-			</children>
-		</VBox>
-		<Button fx:id="voteFitCriterionButton" layoutX="456.0" layoutY="690.0" mnemonicParsing="false" onAction="#voteFitCriterionButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Fit criterion">
-			<font>
-				<Font size="12.0" />
-			</font>
-		</Button>
-		<HBox fx:id="voteFitCriterionHBox" layoutX="626.0" layoutY="707.0" prefHeight="18.0" prefWidth="303.0">
-			<children>
-				<Label prefHeight="27.0" prefWidth="68.0" text="complete:" />
-				<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
-					<fx:define>
-						<ToggleGroup fx:id="fitCriterionCompleteGroup" />
-					</fx:define>
-					<children>
-						<RadioButton fx:id="fitCriterionCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="fitCriterionCompleteGroup" />
-                     </toggleGroup></RadioButton>
-						<RadioButton fx:id="fitCriterionCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$fitCriterionCompleteGroup" />
-						<RadioButton fx:id="fitCriterionCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$fitCriterionCompleteGroup" />
-					</children>
-				</HBox>
-			</children>
-		</HBox>
-	</children>
-</Pane>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="905.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.ShowAndVoteRqCardController">
+   <content>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="944.0">
+         <children>
+            <VBox layoutX="20.0" layoutY="58.0" prefHeight="696.0" prefWidth="449.0" spacing="20.0">
+               <children>
+                  <HBox prefHeight="39.0" prefWidth="406.0" spacing="161.0">
+                     <children>
+                        <Label text="Title:" />
+                        <Label fx:id="titleLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="546.0" spacing="87.0">
+                     <children>
+                        <Label text="ModuleName(s):" />
+                        <Label fx:id="modulLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="34.0" prefWidth="546.0" spacing="92.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="101.0" text="Owner: " />
+                        <Label fx:id="ownerLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="91.0" prefWidth="449.0" spacing="105.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="84.0" text="Description:" />
+                        <Label fx:id="descriptionLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="82.0" prefWidth="449.0" spacing="120.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="68.0" text="Rationale:" />
+                        <Label fx:id="rationaleLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="117.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
+                        <Label fx:id="sourceLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="93.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
+                        <Label fx:id="storyLabel" layoutX="204.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="20.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="175.0" text="Supporting Materials:" />
+                        <Label fx:id="supportLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="87.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
+                        <Label fx:id="fitCriterionLabel" prefHeight="27.0" prefWidth="201.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="943.0" text="_____________________________________________________________________________________________________________________________" />
+            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="277.0" text="Vote Requirement Card: " underline="true" />
+            <Label fx:id="createdAtLabel" layoutX="706.0" layoutY="58.0" prefHeight="27.0" prefWidth="224.0" />
+            <Label fx:id="lastModifiedAtLabel" layoutX="706.0" layoutY="91.0" prefHeight="27.0" prefWidth="224.0" />
+            <Label layoutX="568.0" layoutY="91.0" prefHeight="27.0" prefWidth="149.0" text="Last Modified At:" />
+            <Label fx:id="requirementCardNumberLabel" layoutX="280.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" />
+            <Label layoutX="687.0" layoutY="15.0" prefHeight="27.0" prefWidth="121.0" text=", MinorVersion:" />
+            <Label layoutX="575.0" layoutY="15.0" prefHeight="27.0" prefWidth="101.0" text="MajorVersion" />
+            <Label fx:id="majorVersionLabel" layoutX="570.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
+            <Label fx:id="minorVersionLabel" layoutX="818.0" layoutY="15.0" prefHeight="27.0" prefWidth="30.0" />
+            <VBox fx:id="voteDescriptionLabelsVBox" layoutX="616.0" layoutY="201.0" prefHeight="170.0" prefWidth="107.0" spacing="2.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="60.0" text="precise:" />
+                  <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="115.0" text="understandable:" />
+                  <Label prefHeight="16.0" prefWidth="103.0" />
+                  <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="60.0" text="correct:" />
+                  <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="72.0" text="complete:" />
+                  <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="58.0" text="atomic:" />
+               </children>
+            </VBox>
+            <VBox fx:id="voteRationaleLabelsVBox" layoutX="616.0" layoutY="390.0" prefHeight="170.0" prefWidth="107.0" spacing="2.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="61.0" text="precise:" />
+                  <Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" text="understandable:" />
+                  <Label prefHeight="16.0" prefWidth="63.0" />
+                  <Label layoutX="10.0" layoutY="37.0" prefHeight="27.0" prefWidth="201.0" text="traceable:" />
+                  <Label layoutX="10.0" layoutY="64.0" prefHeight="27.0" prefWidth="201.0" text="complete:" />
+                  <Label layoutX="10.0" layoutY="91.0" prefHeight="27.0" prefWidth="201.0" text="consistent:" />
+               </children>
+            </VBox>
+            <Button fx:id="voteButton" layoutX="516.0" layoutY="798.0" mnemonicParsing="false" onAction="#voteButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
+            <Button fx:id="closeButton" layoutX="308.0" layoutY="798.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
+            <Button fx:id="voteRationaleButton" layoutX="456.0" layoutY="385.0" mnemonicParsing="false" onAction="#voteRationaleButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Rationale">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="voteDescriptionButton" layoutX="456.0" layoutY="238.0" mnemonicParsing="false" onAction="#voteDescriptionButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Description">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="568.0" layoutY="64.0" prefHeight="27.0" prefWidth="101.0" text="Created At : " />
+            <VBox fx:id="voteDescriptionSelectionNodesVBox" layoutX="728.0" layoutY="201.0" prefHeight="152.0" prefWidth="211.0" spacing="3.0">
+               <children>
+                  <Slider fx:id="descriptionPreciseSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="11.0" prefWidth="211.0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="descriptionUnderstandableSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
+                  <VBox prefHeight="98.0" prefWidth="211.0" spacing="12.0">
+                     <children>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="descriptionCorrectYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="descriptionCorrectGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="descriptionCorrectNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionCorrectGroup" />
+                              <RadioButton fx:id="descriptionCorrectDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionCorrectGroup" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="descriptionCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="descriptionCompleteGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="descriptionCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionCompleteGroup" />
+                              <RadioButton fx:id="descriptionCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionCompleteGroup" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="descriptionAtomicYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="descriptionAtomicGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="descriptionAtomicNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$descriptionAtomicGroup" />
+                              <RadioButton fx:id="descriptionAtomicDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$descriptionAtomicGroup" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox fx:id="voteRationaleSelectionNodesVBox" layoutX="728.0" layoutY="394.0" prefHeight="152.0" prefWidth="211.0" spacing="1.0">
+               <children>
+                  <Slider fx:id="rationalePreciseSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
+                  <Slider fx:id="rationaleUnderstandableSlider" majorTickUnit="1.0" max="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" />
+                  <VBox prefHeight="69.0" prefWidth="211.0" spacing="12.0">
+                     <children>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="rationaleTraceableYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="rationaleTraceableGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rationaleTraceableNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleTraceableGroup" />
+                              <RadioButton fx:id="rationaleTraceableDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleTraceableGroup" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="rationaleCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="rationaleCompleteGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rationaleCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleCompleteGroup" />
+                              <RadioButton fx:id="rationaleCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleCompleteGroup" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                           <children>
+                              <RadioButton fx:id="rationaleConsistentYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="rationaleConsistentGroup" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="rationaleConsistenNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$rationaleConsistentGroup" />
+                              <RadioButton fx:id="rationaleConsistentDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$rationaleConsistentGroup" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+            <Button fx:id="voteFitCriterionButton" layoutX="456.0" layoutY="690.0" mnemonicParsing="false" onAction="#voteFitCriterionButtonClicked" prefHeight="52.0" prefWidth="164.0" text="Vote Fit criterion">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
+            <HBox fx:id="voteFitCriterionHBox" layoutX="626.0" layoutY="707.0" prefHeight="18.0" prefWidth="303.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="68.0" text="complete:" />
+                  <HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
+                     <children>
+                        <RadioButton fx:id="fitCriterionCompleteYesRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="60.0" text="Yes">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="fitCriterionCompleteGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="fitCriterionCompleteNoRadioButton" mnemonicParsing="false" prefHeight="18.0" prefWidth="47.0" text="No" toggleGroup="$fitCriterionCompleteGroup" />
+                        <RadioButton fx:id="fitCriterionCompleteDontKnowRadioButton" layoutX="57.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="110.0" text="Don´t know" toggleGroup="$fitCriterionCompleteGroup" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </content>
+</ScrollPane>
