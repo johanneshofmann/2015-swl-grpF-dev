@@ -240,7 +240,7 @@ public class RequirementCardController implements Observer {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
+			ScrollPane rootLayout = (ScrollPane) loader.load();
 			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rq);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
