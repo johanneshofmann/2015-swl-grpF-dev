@@ -77,10 +77,6 @@ public class RequirementCardModel extends Observable {
 		}
 	}
 
-	private void insertModuleIntoDatabase() {
-
-	}
-
 	/**
 	 * Stores all Data for showing an overview from a selected Requirement Card
 	 * in a RequirementCardSimple and returns it.<br>
