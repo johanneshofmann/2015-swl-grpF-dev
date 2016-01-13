@@ -22,7 +22,6 @@ public class SearchHelper {
 		filterFitCriterion(fitCriterion, title, owner);
 		filterSource(source);
 		filterSupportingMaterials(supportingMaterials);
-
 	}
 
 	private static void filterTitle(String title) {

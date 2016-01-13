@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -278,7 +280,7 @@ public class RequirementCardModel extends Observable {
 	 * voteResults[10] = fit Criterion complete voteResult<br>
 	 *
 	 *
-	 * @returns String[] containing all voteResults of a specific rqCard
+	 * @returns SubmittedVoteSimple containing all voteResults of a specific rqCard
 	 */
 	public SubmittedVoteSimple getVoteResults(int rqCardID) {
 
@@ -287,7 +289,7 @@ public class RequirementCardModel extends Observable {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement getVoteResults = conn.createStatement();
-			String sql = "SELECT * FROM Vote WHERE RqCardID =" + rqCardID;
+			String sql = "SELECT * FROM Vote WHERE RequirementID =" + rqCardID;
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
 
 			while (rqVote.next()) {
@@ -402,6 +404,31 @@ public class RequirementCardModel extends Observable {
 
 	public String getLoginName() {
 		return loginName;
+	}
+
+	public ObservableList<String> getModules() {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM Module";
+
+			ResultSet modulesSet = stmt.executeQuery(query);
+			ObservableList<String> modules = FXCollections.observableArrayList();
+			
+
+			while (modulesSet.next()) {
+				modules.add(modulesSet.getString(1));
+			}
+			return modules;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

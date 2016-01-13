@@ -17,28 +17,9 @@
                   <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="223.0" />
                </children>
             </HBox>
-            <HBox prefHeight="16.0" prefWidth="432.0" spacing="86.0">
+            <HBox fx:id="moduleHBox" prefHeight="16.0" prefWidth="432.0" spacing="86.0">
                <children>
                   <Label text="ModuleName(s):" />
-                  <MenuButton fx:id="modulNamesMenuButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="223.0">
-                    <items>
-                      <MenuItem disable="true" mnemonicParsing="false">
-                           <graphic>
-                              <CheckBox fx:id="modul1CheckBox" mnemonicParsing="false" text="Modul1" />
-                           </graphic>
-                        </MenuItem>
-                      <MenuItem disable="true" mnemonicParsing="false">
-                           <graphic>
-                              <CheckBox fx:id="modul2CheckBox" mnemonicParsing="false" text="Modul2" />
-                           </graphic>
-                        </MenuItem>
-                        <MenuItem disable="true" mnemonicParsing="false">
-                           <graphic>
-                              <CheckBox fx:id="modul3CheckBox" mnemonicParsing="false" text="Modul3" />
-                           </graphic>
-                        </MenuItem>
-                    </items>
-                  </MenuButton>
                </children>
             </HBox>
             <HBox prefHeight="0.0" prefWidth="649.0" spacing="92.0">
