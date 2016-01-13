@@ -182,7 +182,7 @@ public class RequirementCardController implements Observer {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
+			ScrollPane rootLayout = (ScrollPane) loader.load();
 			((SearchRQCardController) loader.getController()).setData(this.rqModel, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
@@ -235,7 +235,7 @@ public class RequirementCardController implements Observer {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRQCard.fxml"));
-			Pane rootLayout = (Pane) loader.load();
+			ScrollPane rootLayout = (ScrollPane) loader.load();
 			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
