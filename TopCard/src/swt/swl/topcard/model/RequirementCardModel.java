@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
@@ -178,8 +180,11 @@ public class RequirementCardModel extends Observable {
 			ResultSet resultset = stmt.executeQuery(allRequirements);
 			observableArray.clear();
 			while (resultset.next()) {
+
+				String ownerName = DatabaseHelper.requestOwnerName(resultset.getInt(5));
+
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
-						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), resultset.getInt(6),
+						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
 						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
 						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
 						resultset.getString(14)));
@@ -214,11 +219,12 @@ public class RequirementCardModel extends Observable {
 			ResultSet requirements = stmt$2.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
+				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
+						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
+						requirements.getString(9), requirements.getString(10), requirements.getString(11),
+						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 
 			}
 		} catch (SQLException e) {
@@ -278,7 +284,8 @@ public class RequirementCardModel extends Observable {
 	 * voteResults[10] = fit Criterion complete voteResult<br>
 	 *
 	 *
-	 * @returns String[] containing all voteResults of a specific rqCard
+	 * @returns SubmittedVoteSimple containing all voteResults of a specific
+	 *          rqCard
 	 */
 	public SubmittedVoteSimple getVoteResults(int rqCardID) {
 
@@ -287,7 +294,7 @@ public class RequirementCardModel extends Observable {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement getVoteResults = conn.createStatement();
-			String sql = "SELECT * FROM Vote WHERE RqCardID =" + rqCardID;
+			String sql = "SELECT * FROM Vote WHERE RequirementID =" + rqCardID;
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
 
 			while (rqVote.next()) {
@@ -402,6 +409,30 @@ public class RequirementCardModel extends Observable {
 
 	public String getLoginName() {
 		return loginName;
+	}
+
+	public ObservableList<String> getModules() {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM Module";
+
+			ResultSet modulesSet = stmt.executeQuery(query);
+			ObservableList<String> modules = FXCollections.observableArrayList();
+
+			while (modulesSet.next()) {
+				modules.add(modulesSet.getString(1));
+			}
+			return modules;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 
 }

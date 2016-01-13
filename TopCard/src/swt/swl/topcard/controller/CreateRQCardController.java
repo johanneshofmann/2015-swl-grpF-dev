@@ -1,6 +1,9 @@
 
 package swt.swl.topcard.controller;
 
+import org.controlsfx.control.CheckComboBox;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -8,10 +11,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class CreateRQCardController {
@@ -19,9 +22,11 @@ public class CreateRQCardController {
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
 
-	@FXML
-	private MenuButton modulNameChoiceBox;
+	// need to instanciate manually cause we're using external jar
+	private CheckComboBox<String> modulesCheckComboBox;
 
+	@FXML
+	private HBox moduleHBox;
 	@FXML
 	private MenuItem modul1MenuItem, modul2MenuItem, modul3MenuItem, modul4MenuItem;
 
@@ -76,8 +81,21 @@ public class CreateRQCardController {
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
+
 		this.model = rqModel;
 		this.mainController = requirementCardController;
+
+		addActualModulesToCheckComboBox();
+	}
+
+	private void addActualModulesToCheckComboBox() {
+
+		// give actual Modules to the ModulesCheckComboBox
+
+		ObservableList<String> modules = model.getModules();
+		modulesCheckComboBox = new CheckComboBox<>(modules);
+		moduleHBox.getChildren().add(modulesCheckComboBox);
+
 	}
 
 }

@@ -34,7 +34,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button searchRqButton;
+	private Button searchRqButton, subsrcibeButton;
 
 	@FXML
 	private ImageView startButton;
@@ -42,8 +42,8 @@ public class RequirementCardController implements Observer {
 	private MenuItem createModuleButton, createNewRqButton;
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
-	@FXML
-	private TableColumn<RequirementCardSimple, String> owner, requirementCards;
+
+	private TableColumn<RequirementCardSimple, String> ownerTableColumn, nameTableColumn;
 
 	// all Labels and ResultLabels
 	@FXML
@@ -61,16 +61,26 @@ public class RequirementCardController implements Observer {
 		rqModel.addObserver(this);
 	}
 
-	public void initialize() {
-		// Create TableColumnFactory
-		this.requirementCards.setCellValueFactory(new PropertyValueFactory<>("Title"));
-		this.owner.setCellValueFactory(new PropertyValueFactory<>("Owner"));
+	public void initializeTableView() {
+
+		ObservableList<TableColumn<RequirementCardSimple, ?>> columns = requirementCardsTable.getColumns();
+
+		nameTableColumn = new TableColumn<>("Requirement Cards");
+		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("Title"));
+
+		ownerTableColumn = new TableColumn<>("Owner");
+		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
+
+		// TODO: RequirementCardController: owner is not visible in TableView
+
+		columns.clear();
+		requirementCardsTable.setEditable(true);
+
+		columns.addAll(nameTableColumn, ownerTableColumn);
+
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
 
-		// TODO: @Steve: last modified here:
-		// requirementCardsTable.getColumns().add(requirementCards);
-		// requirementCardsTable.getColumns().add(owner);
 		addEventHandlerToTableView();
 	}
 
@@ -86,8 +96,6 @@ public class RequirementCardController implements Observer {
 
 					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
 					item = rqModel.getOverviewDataFromSelectedRq(item);
-					System.out.println("username: " + item.getOwnerName());
-					System.out.println(rqModel.getLoginName());
 
 					if (rqModel.checkUserName(item.getOwnerName())) {
 						openEditView(item);
@@ -125,7 +133,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	void startButtonClicked(MouseEvent event) {
-		initialize();
+		initializeTableView();
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
@@ -190,7 +198,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void toVoteButtonClicked(ActionEvent event) {
 		rqModel.getMyOrToVoteRequirements(false);
-		requirementCards.setText("Requirement Cards to vote");
+		nameTableColumn.setText("Requirement Cards to vote");
 
 		event.consume();
 
@@ -199,10 +207,15 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
 		rqModel.getMyOrToVoteRequirements(true);
-		requirementCards.setText("My Requirement Cards");
+		nameTableColumn.setText("My Requirement Cards");
 
 		event.consume();
 
+	}
+
+	@FXML
+	void subscribeButtonClicked(ActionEvent event) {
+		// TODO: RequirementCardController: implement subscribeButtonClicked()
 	}
 
 	/**
@@ -257,6 +270,7 @@ public class RequirementCardController implements Observer {
 	 * @param loginWindowController
 	 */
 	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+
 		this.loginName = loginName;
 		this.mainApp = mainApp;
 		this.loginController = loginWindowController;

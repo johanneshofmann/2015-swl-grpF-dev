@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller;
 
+import org.controlsfx.control.CheckComboBox;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -8,9 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model.RequirementCardSimple;
@@ -22,8 +25,7 @@ public class EditRqCardController {
 	private RequirementCardController mainController;
 	private RequirementCardSimple toEdit;
 
-	@FXML
-	private MenuButton modulNamesMenuButton;
+	private CheckComboBox<String> modulesCheckComboBox;
 
 	@FXML
 	private CheckBox modul1CheckBox, modul2CheckBox, modul3CheckBox, frozenChoiceBox;
@@ -43,6 +45,8 @@ public class EditRqCardController {
 
 	@FXML
 	private Pane showVoteResultsPane;
+	@FXML
+	private HBox moduleHBox;
 	@FXML
 	private Label descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
 			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
@@ -143,6 +147,18 @@ public class EditRqCardController {
 		this.mainController = requirementCardController;
 		this.toEdit = toEdit;
 		initializeNodes();
+
+		addActualModulesToCheckComboBox();
+	}
+
+	private void addActualModulesToCheckComboBox() {
+
+		// give actual Modules to the ModulesCheckComboBox
+
+		ObservableList<String> modules = model.getModules();
+		modulesCheckComboBox = new CheckComboBox<>(modules);
+		moduleHBox.getChildren().add(modulesCheckComboBox);
+
 	}
 
 }
