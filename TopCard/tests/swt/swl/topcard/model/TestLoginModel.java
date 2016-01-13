@@ -1,7 +1,10 @@
 package swt.swl.topcard.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
+import junit.framework.TestSuite;
 
 public class TestLoginModel {
 
@@ -45,20 +48,24 @@ public class TestLoginModel {
 
 	@Test
 	public void ifUserWasDeletedFromDatabaseUserShouldBeRemovedAfterwards() {
-		
-		// first insert user : 
-		
+
+		// first insert user :
+
 		String firstName = "firstName";
 		String lastName = "lastName";
 		String loginName = "loginName";
 
 		loginModel.insertUserIntoDatabase(firstName, lastName, loginName);
-		
+
 		// then remove it:
 		loginModel.deleteUserFromDatabase(loginName);
 
 		boolean stillInDatabase = loginModel.checkDatabase(loginName);
-		
+
 		assertEquals(false, stillInDatabase);
+	}
+
+	public static junit.framework.Test suite() {
+		return new TestSuite(TestLoginModel.class);
 	}
 }
