@@ -39,13 +39,14 @@ public class RequirementCardModel extends Observable {
 
 	}
 
-	public void insertRqIntoDatabase(String title, String description, String rationale, String source,
-			String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
+	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
+			String source, String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
 			Statement stmt$0 = conn.createStatement();
 			Statement stmt$1 = conn.createStatement();
+			Statement stmt$2 = conn.createStatement();
 
 			ResultSet userID = stmt$0.executeQuery("SELECT ID FROM User WHERE LoginName='" + loginName + "'");
 			ResultSet rQCardID = stmt$1.executeQuery("SELECT MAX(Requirement) FROM Requirement");
@@ -62,12 +63,15 @@ public class RequirementCardModel extends Observable {
 				isFrozenInt = 1;
 			}
 
-			String sqlInsert = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+			String sqlInsertIntoRequirement = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
 					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
 					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
 					+ isFrozenInt + ", '" + new java.util.Date() + "')";
 
-			stmt$0.executeUpdate(sqlInsert);
+			// TODO: @steve last modified here
+			String sqlInsertIntoRequirementModule = "INSERT INTO RequirementModule VALUES(ID , RQID, ModID";
+			stmt$0.executeUpdate(sqlInsertIntoRequirement);
+			stmt$2.executeUpdate(sqlInsertIntoRequirementModule);
 
 			triggerNotification(loginName);
 
@@ -114,6 +118,7 @@ public class RequirementCardModel extends Observable {
 				selected.setTitle((rQCardData.getString(2))); // Title
 
 				// TODO: RQCardCModel: insert/ get ModulName:
+				// selected.setmo
 
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
@@ -181,7 +186,7 @@ public class RequirementCardModel extends Observable {
 			observableArray.clear();
 			while (resultset.next()) {
 
-				String ownerName = DatabaseHelper.requestOwnerName(resultset.getInt(5));
+				String ownerName = requestOwnerName(resultset.getInt(5));
 
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
 						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
@@ -219,7 +224,7 @@ public class RequirementCardModel extends Observable {
 			ResultSet requirements = stmt$2.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
-				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
+				String ownerName = requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
 						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
@@ -433,6 +438,29 @@ public class RequirementCardModel extends Observable {
 			return null;
 		}
 
+	}
+
+	private String requestOwnerName(int ownerID) {
+
+		String ownerName = null;
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
+
+			ResultSet ownerNameContainer = stmt.executeQuery(getOwnerNameQuery);
+
+			if (ownerNameContainer.next()) {
+				ownerName = ownerNameContainer.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ownerName;
 	}
 
 }

@@ -28,11 +28,6 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="ownerLabel" prefHeight="50.0" prefWidth="159.0" text="Owner:">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
                         <Label fx:id="descriptionLabel" prefHeight="50.0" prefWidth="159.0" text="Description:">
                            <font>
                               <Font size="15.0" />
@@ -76,10 +71,6 @@
                   <VBox prefHeight="572.0" prefWidth="227.0">
                      <children>
                         <Label fx:id="titleResultLabel" prefHeight="50.0" prefWidth="229.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="ownerResultLabel" prefHeight="50.0" prefWidth="258.0">
                            <font>
                               <Font size="15.0" />
                            </font></Label>

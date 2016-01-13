@@ -62,21 +62,4 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static String requestOwnerName(int ownerID) {
-
-		String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
-
-		ResultSet ownerNameContainer = executeQuery(getOwnerNameQuery);
-
-		String ownerName = null;
-
-		try {
-			if (ownerNameContainer.next()) {
-				ownerName = ownerNameContainer.getString(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ownerName;
-	}
 }

@@ -80,7 +80,7 @@ public class EditRqCardController {
 		// TODO: EditRequirementCardController:
 
 		// insert
-		model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
+		model.insertRqIntoDatabase(null, titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
 				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),
 				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();

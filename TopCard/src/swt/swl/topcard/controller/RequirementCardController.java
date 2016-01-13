@@ -47,7 +47,7 @@ public class RequirementCardController implements Observer {
 
 	// all Labels and ResultLabels
 	@FXML
-	private Label titleResultLabel, titleLabel, ownerResultLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
+	private Label titleResultLabel, titleLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
 			rationaleResultLabel, rationaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
 			userstoriesLabel, supportingMaterialsResultLabel, supportingMaterialsLabel, fitCriterionResultLabel,
 			fitCriterionLabel, frozenResultLabel, frozenLabel;
@@ -77,6 +77,7 @@ public class RequirementCardController implements Observer {
 		requirementCardsTable.setEditable(true);
 
 		columns.addAll(nameTableColumn, ownerTableColumn);
+		System.out.println(columns.size());
 
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
@@ -108,7 +109,6 @@ public class RequirementCardController implements Observer {
 						item = rqModel.getOverviewDataFromSelectedRq(item);
 
 						titleResultLabel.setText(item.getTitle());
-						ownerResultLabel.setText(item.getOwnerName());
 						descriptionResultLabel.setText(item.getDescription());
 						rationaleResultLabel.setText(item.getRationale());
 						sourceResultLabel.setText(item.getSource());
