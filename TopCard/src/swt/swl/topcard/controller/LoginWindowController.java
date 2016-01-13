@@ -46,7 +46,7 @@ public class LoginWindowController implements Observer {
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
 				me = mainApp.getPrimaryStage().getScene();
-				mainApp.getPrimaryStage().close();				
+				mainApp.getPrimaryStage().close();
 				createRegistrationView();
 				event.consume();
 			} else {
@@ -85,7 +85,7 @@ public class LoginWindowController implements Observer {
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
 			rootLayout = (Pane) loader.load();
 			((RequirementCardController) loader.getController()).setData(loginName, mainApp, this);
-			((RequirementCardController) loader.getController()).initialize();
+			((RequirementCardController) loader.getController()).initializeTableView();
 			requirementCardViewScene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(requirementCardViewScene);
 			mainApp.getPrimaryStage().show();

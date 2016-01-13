@@ -38,11 +38,12 @@ public class SearchHelper {
 			observableArray.clear();
 
 			while (requirements.next()) {
+				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
+						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
+						requirements.getString(9), requirements.getString(10), requirements.getString(11),
+						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 			}
 
 		} catch (SQLException e) {
@@ -72,11 +73,12 @@ public class SearchHelper {
 			}
 			ResultSet requirements = stmt.executeQuery(sql);
 			while (requirements.next()) {
+				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
+						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
+						requirements.getString(9), requirements.getString(10), requirements.getString(11),
+						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,11 +116,12 @@ public class SearchHelper {
 			ResultSet requirements = stmt.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
+				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
+						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
+						requirements.getString(9), requirements.getString(10), requirements.getString(11),
+						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 			}
 
 		} catch (SQLException e) {

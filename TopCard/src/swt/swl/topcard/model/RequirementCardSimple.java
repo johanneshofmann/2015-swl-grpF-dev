@@ -2,144 +2,150 @@ package swt.swl.topcard.model;
 
 import java.sql.Timestamp;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 public class RequirementCardSimple {
 
-	private int ID;
-	private String title;
-	private int minorVersion;
-	private int majorVersion;
-	private int ownerID;
-	private String ownerName;
-	private int rqID;
-	private String description;
-	private String rationale;
-	private String source;
-	private String supportingMaterials;
-	private String fitCriterion;
-	private int isFrozen;
+	private SimpleIntegerProperty ID;
+	private SimpleStringProperty title;
+	private SimpleIntegerProperty minorVersion;
+	private SimpleIntegerProperty majorVersion;
+	private SimpleIntegerProperty ownerID;
+	private SimpleStringProperty ownerName;
+	private SimpleIntegerProperty rqID;
+	private SimpleStringProperty description;
+	private SimpleStringProperty rationale;
+	private SimpleStringProperty source;
+	private SimpleStringProperty supportingMaterials;
+	private SimpleStringProperty fitCriterion;
+	private SimpleIntegerProperty isFrozen;
 	private Timestamp createdAt;
-	private String lastModifiedAt;
+	private SimpleStringProperty lastModifiedAt;
 
-	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID, int rqID,
-			String description, String rationale, String source, String supportingMaterials, String fitCriterion,
-			int isFrozen, Timestamp createdAt, String lastModifiedAt) {
+	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID,
+			String ownerName, int rqID, String description, String rationale, String source, String supportingMaterials,
+			String fitCriterion, int isFrozen, Timestamp createdAt, String lastModifiedAt) {
 		super();
-		this.ID = ID;
-		this.title = title;
-		this.majorVersion = majorVersion;
-		this.minorVersion = minorVersion;
-		this.ownerID = ownerID;
-		this.rqID = rqID;
-		this.description = description;
-		this.rationale = rationale;
-		this.source = source;
-		this.supportingMaterials = supportingMaterials;
-		this.fitCriterion = fitCriterion;
-		this.isFrozen = isFrozen;
+		this.ID = new SimpleIntegerProperty(ID);
+
+		this.title = new SimpleStringProperty(title);
+		this.majorVersion = new SimpleIntegerProperty(majorVersion);
+		this.minorVersion = new SimpleIntegerProperty(minorVersion);
+		this.ownerID = new SimpleIntegerProperty(ownerID);
+		this.ownerName = new SimpleStringProperty(ownerName);
+		this.rqID = new SimpleIntegerProperty(rqID);
+		this.description = new SimpleStringProperty(description);
+		this.rationale = new SimpleStringProperty(rationale);
+		this.source = new SimpleStringProperty(source);
+		this.supportingMaterials = new SimpleStringProperty(supportingMaterials);
+		this.fitCriterion = new SimpleStringProperty(fitCriterion);
+		this.isFrozen = new SimpleIntegerProperty(isFrozen);
 		this.createdAt = createdAt;
-		this.lastModifiedAt = lastModifiedAt;
+		this.lastModifiedAt = new SimpleStringProperty(lastModifiedAt);
 
 	}
-	public RequirementCardSimple(String title){
-		this.title=title;
+
+	public RequirementCardSimple(String title) {
+		this.title = new SimpleStringProperty(title);
 	}
 
 	// Getters & Setters:
 
 	public String getTitle() {
-		return title;
+		return title.get();
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = new SimpleStringProperty(title);
 	}
 
 	public int getMinorVersion() {
-		return minorVersion;
+		return minorVersion.get();
 	}
 
 	public void setMinorVersion(int minorVersion) {
-		this.minorVersion = minorVersion;
+		this.minorVersion.set(minorVersion);
 	}
 
 	public int getMajorVersion() {
-		return majorVersion;
+		return majorVersion.get();
 	}
 
 	public void setMajorVersion(int majorVersion) {
-		this.majorVersion = majorVersion;
+		this.majorVersion.set(majorVersion);
 	}
 
 	public int getOwnerID() {
-		return ownerID;
+		return ownerID.get();
 	}
 
 	public void setOwnerID(int ownerID) {
-		this.ownerID = ownerID;
+		this.ownerID.set(ownerID);
 	}
 
 	public String getOwnerName() {
-		return ownerName;
+		return ownerName.get();
 	}
 
 	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+		this.ownerName.set(ownerName);
 	}
 
 	public int getRqID() {
-		return rqID;
+		return rqID.get();
 	}
 
 	public void setRqID(int rqID) {
-		this.rqID = rqID;
+		this.rqID.set(rqID);
 	}
 
 	public String getDescription() {
-		return description;
+		return description.get();
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.description.set(description);
 	}
 
 	public String getRationale() {
-		return rationale;
+		return rationale.get();
 	}
 
 	public void setRationale(String rationale) {
-		this.rationale = rationale;
+		this.rationale.set(rationale);
 	}
 
 	public String getSource() {
-		return source;
+		return source.get();
 	}
 
 	public void setSource(String source) {
-		this.source = source;
+		this.source.set(source);
 	}
 
 	public String getSupportingMaterials() {
-		return supportingMaterials;
+		return supportingMaterials.get();
 	}
 
 	public void setSupportingMaterials(String supportingMaterials) {
-		this.supportingMaterials = supportingMaterials;
+		this.supportingMaterials.set(supportingMaterials);
 	}
 
 	public String getFitCriterion() {
-		return fitCriterion;
+		return fitCriterion.get();
 	}
 
 	public void setFitCriterion(String fitCriterion) {
-		this.fitCriterion = fitCriterion;
+		this.fitCriterion.set(fitCriterion);
 	}
 
 	public int getIsFrozen() {
-		return isFrozen;
+		return isFrozen.get();
 	}
 
 	public void setIsFrozen(int isFrozen) {
-		this.isFrozen = isFrozen;
+		this.isFrozen.set(isFrozen);
 	}
 
 	public Timestamp getCreatedAt() {
@@ -151,15 +157,15 @@ public class RequirementCardSimple {
 	}
 
 	public String getLastModifiedAt() {
-		return lastModifiedAt;
+		return lastModifiedAt.get();
 	}
 
 	public void setLastModifiedAt(String lastModifiedAt) {
-		this.lastModifiedAt = lastModifiedAt;
+		this.lastModifiedAt.set(lastModifiedAt);
 	}
 
 	public int getID() {
-		return ID;
+		return ID.get();
 	}
 
 }

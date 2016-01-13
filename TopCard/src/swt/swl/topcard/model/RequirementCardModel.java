@@ -180,8 +180,11 @@ public class RequirementCardModel extends Observable {
 			ResultSet resultset = stmt.executeQuery(allRequirements);
 			observableArray.clear();
 			while (resultset.next()) {
+
+				String ownerName = DatabaseHelper.requestOwnerName(resultset.getInt(5));
+
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
-						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), resultset.getInt(6),
+						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
 						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
 						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
 						resultset.getString(14)));
@@ -216,11 +219,12 @@ public class RequirementCardModel extends Observable {
 			ResultSet requirements = stmt$2.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
+				String ownerName = DatabaseHelper.requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
+						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
+						requirements.getString(9), requirements.getString(10), requirements.getString(11),
+						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 
 			}
 		} catch (SQLException e) {
@@ -280,7 +284,8 @@ public class RequirementCardModel extends Observable {
 	 * voteResults[10] = fit Criterion complete voteResult<br>
 	 *
 	 *
-	 * @returns SubmittedVoteSimple containing all voteResults of a specific rqCard
+	 * @returns SubmittedVoteSimple containing all voteResults of a specific
+	 *          rqCard
 	 */
 	public SubmittedVoteSimple getVoteResults(int rqCardID) {
 
@@ -417,7 +422,6 @@ public class RequirementCardModel extends Observable {
 
 			ResultSet modulesSet = stmt.executeQuery(query);
 			ObservableList<String> modules = FXCollections.observableArrayList();
-			
 
 			while (modulesSet.next()) {
 				modules.add(modulesSet.getString(1));
