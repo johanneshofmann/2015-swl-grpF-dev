@@ -118,7 +118,7 @@ public class SearchRQCardController {
 			supportingMaterials = supportingMaterialsTextField.getText();
 		}
 
-		SearchHelper.search(title, owner, fitCriterion, source, supportingMaterials);
+		SearchHelper.search(model.getObservableArray(),title, owner, fitCriterion, source, supportingMaterials);
 
 		// redirect
 		rqCardController.repaint();

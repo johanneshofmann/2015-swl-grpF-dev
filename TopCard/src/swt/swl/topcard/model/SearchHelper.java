@@ -16,9 +16,11 @@ public class SearchHelper {
 
 	}
 
-	public static void search(String title, String owner, String fitCriterion, String source, String supportingMaterials) {
+	public static void search(ObservableList<RequirementCardSimple> observableList, String title, String owner,
+			String fitCriterion, String source, String supportingMaterials) {
 		// TODO: SearchModel: search() -> add unimplemented parts and test it
 
+		observableArray = observableList;
 		filterTitle(title);
 		filterOwner(owner, title);
 		filterFitCriterion(fitCriterion, title, owner);

@@ -119,13 +119,13 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
-		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
 
 	@FXML
-	void startButtonClicked(ActionEvent event) {
+	void startButtonClicked(MouseEvent event) {
+
 		initialize();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
@@ -200,7 +200,7 @@ public class RequirementCardController implements Observer {
 
 		if (update != null) {
 			if (update.toString().equals(loginName)) {
-				startButtonClicked(new ActionEvent());
+				repaint();
 			}
 		}
 	}
