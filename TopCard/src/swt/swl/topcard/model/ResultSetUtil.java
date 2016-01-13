@@ -7,8 +7,6 @@ public class ResultSetUtil {
 
 	public static Boolean contains(ResultSet rs, int colidx, String value) {
 
-		Boolean hasValue = false;
-
 		try {
 			while (rs.next()) {
 

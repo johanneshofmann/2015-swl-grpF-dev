@@ -9,7 +9,7 @@ public class DatabaseHelper {
 	private static String connUser = "GroupF";
 	private static String connPassword = "gruppe_f";
 
-	public static void Initialize() {
+	public static void initialize() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -20,9 +20,9 @@ public class DatabaseHelper {
 	public static ResultSet executeQuery(String query) {
 
 		if (!isInitialized)
-			Initialize();
+			initialize();
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-			PreparedStatement stmt = conn.prepareStatement(query);
+			Statement stmt = conn.createStatement();
 			ResultSet result = stmt.executeQuery(query);
 			return result;
 		} catch (SQLException e) {
@@ -33,10 +33,10 @@ public class DatabaseHelper {
 
 	public static ResultSet executeQuery(String query, String param) {
 		if (!isInitialized)
-			Initialize();
+			initialize();
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
-			Statement stmt = conn.prepareStatement(query);
+			Statement stmt = conn.createStatement();
 			ResultSet result = stmt.executeQuery(query);
 			return result;
 
@@ -46,14 +46,13 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static int executeUpdate(String query, String param) {
+	public static int executeUpdate(String query) {
 		if (!isInitialized)
-			Initialize();
+			initialize();
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
-			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, param);
+			Statement stmt = conn.createStatement();
 			int result = stmt.executeUpdate(query);
 			return result;
 

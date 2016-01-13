@@ -38,35 +38,45 @@ public class ModuleModel extends Observable {
 		}
 	}
 
-	public Boolean hasModule(String name) {
-		String query = "SELECT * FROM Module WHERE Name='" + name + "'";
-		ResultSet resultSet = DatabaseHelper.executeQuery(query, name);
-		return ResultSetUtil.contains(resultSet, 0, name);
+	public boolean hasModule(String name) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM Module WHERE Name='" + name + "'";
+			ResultSet resultSet = stmt.executeQuery(query);
+
+			if (resultSet.next()) {
+				return (name.equals(resultSet.getString(1)) ? true : false);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
-	public void insertModule(String name) {
+	public void insertModule(String moduleName) {
 
-		int ID = -1;
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
 
-		try {
-			ResultSet result = DatabaseHelper.executeQuery("SELECT MAX(ID) FROM Module");
+			Statement stmt = conn.createStatement();
 
-			if (result.next()) {
+			ResultSet resultSet = stmt.executeQuery("SELECT MAX(ID) FROM Module");
 
-				ID = result.getInt(1);
+			if (resultSet.next()) {
+				String query = "INSERT INTO Module(ID,Name) VALUES (" + (resultSet.getInt(1) + 1) + ",'" + moduleName
+						+ "')";
+				DatabaseHelper.executeUpdate(query);
 			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		if (ID == -1) {
-			throw new IllegalArgumentException("Did not found maxID from Module.");
-		}
-		String query = "INSERT INTO Module(ID,Name) VALUES (" + ID + ",'" + name + "'";
-
-		DatabaseHelper.executeUpdate(query, name);
-
-		triggerNotification(name);
+		triggerNotification(moduleName);
 	}
 
 	private void triggerNotification(Object message) {

@@ -111,7 +111,6 @@ public class RequirementCardController implements Observer {
 						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
 						fitCriterionResultLabel.setText(item.getFitCriterion());
 						frozenResultLabel.setText(item.getIsFrozen() + "");
-
 					}
 				}
 			}
@@ -119,14 +118,15 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
+		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
 
 	@FXML
 	void startButtonClicked(MouseEvent event) {
-
 		initialize();
+		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
 	}
@@ -142,6 +142,9 @@ public class RequirementCardController implements Observer {
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
+			event.consume();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -157,6 +160,9 @@ public class RequirementCardController implements Observer {
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
+			event.consume();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,6 +179,9 @@ public class RequirementCardController implements Observer {
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
+			event.consume();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,12 +192,16 @@ public class RequirementCardController implements Observer {
 		rqModel.getMyOrToVoteRequirements(false);
 		requirementCards.setText("Requirement Cards to vote");
 
+		event.consume();
+
 	}
 
 	@FXML
 	void myRqCardsButtonClicked(ActionEvent event) {
 		rqModel.getMyOrToVoteRequirements(true);
 		requirementCards.setText("My Requirement Cards");
+
+		event.consume();
 
 	}
 
@@ -248,7 +261,6 @@ public class RequirementCardController implements Observer {
 		this.mainApp = mainApp;
 		this.loginController = loginWindowController;
 		rqModel.setLoginName(loginName);
-
 	}
 
 	public void setMainApp(MainApp mainApp) {

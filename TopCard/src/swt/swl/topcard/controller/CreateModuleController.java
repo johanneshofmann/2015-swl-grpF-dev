@@ -33,8 +33,9 @@ public class CreateModuleController {
 				// 2. Add module to the database
 				model.insertModule(value);
 				new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
+				mainController.repaint();
 			} else {
-				new Alert(AlertType.WARNING, "Module with the name " + value + "already exists.").showAndWait();
+				new Alert(AlertType.WARNING, "Module with the name " + value + " already exists.").showAndWait();
 			}
 		} else {
 			new Alert(AlertType.WARNING, "Module name is empty.").showAndWait();
