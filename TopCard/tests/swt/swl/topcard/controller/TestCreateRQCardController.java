@@ -1,13 +1,12 @@
 package swt.swl.topcard.controller;
 
-import org.junit.Test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
-import javafx.event.ActionEvent;
+import org.junit.Test;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
-import static org.junit.Assert.*;
+import junit.framework.TestSuite;
 
 public class TestCreateRQCardController {
 
@@ -16,11 +15,15 @@ public class TestCreateRQCardController {
 	public TestCreateRQCardController() {
 		mainController = mock(RequirementCardController.class);
 	}
-	
-	@Test
-	public void alertAfterCloseWindow(){
-		Alert al = new Alert(AlertType.CONFIRMATION, "");
-	//	assertEquals(al, CreateRQCardController.closeWindow(ActionEvent event);
-		}
 
+	@Test
+	public void alertAfterCloseWindow() {
+		Alert al = new Alert(AlertType.CONFIRMATION, "");
+		// assertEquals(al, CreateRQCardController.closeWindow(ActionEvent
+		// event);
+	}
+
+	public static junit.framework.Test suite() {
+		return new TestSuite(TestCreateRQCardController.class);
+	}
 }

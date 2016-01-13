@@ -1,8 +1,10 @@
 package swt.swl.topcard.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import junit.framework.TestSuite;
 
 public class TestReqiurementCardSimple {
 
@@ -30,5 +32,9 @@ public class TestReqiurementCardSimple {
 		String toCheck = rqCard.getTitle();
 
 		assertEquals(newTitle, toCheck);
+	}
+
+	public static junit.framework.Test suite() {
+		return new TestSuite(TestReqiurementCardSimple.class);
 	}
 }
