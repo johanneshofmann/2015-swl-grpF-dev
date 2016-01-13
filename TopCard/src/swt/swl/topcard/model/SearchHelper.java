@@ -12,10 +12,6 @@ public class SearchHelper {
 
 	private static ObservableList<RequirementCardSimple> observableArray;
 
-	public SearchHelper() {
-
-	}
-
 	public static void search(ObservableList<RequirementCardSimple> observableList, String title, String owner,
 			String fitCriterion, String source, String supportingMaterials) {
 		// TODO: SearchModel: search() -> add unimplemented parts and test it
@@ -29,18 +25,62 @@ public class SearchHelper {
 
 	}
 
-	private static void filterSupportingMaterials(String supportingMaterials) {
-		// TODO SearchModel: implement filterSupportingMaterials()
-		if (supportingMaterials == null) {
+	private static void filterTitle(String title) {
+
+		if (title == null) {
 			return;
 		}
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
 
+			ResultSet requirements = stmt.executeQuery("SELECT * FROM Requirement WHERE Title='" + title + "'");
+
+			observableArray.clear();
+
+			while (requirements.next()) {
+				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	private static void filterSource(String source) {
-		// TODO SearchModel: implement filterSource()
-		if (source == null) {
+	private static void filterOwner(String owner, String title) {
+		if (owner == null) {
 			return;
+		}
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+			Statement stmt = conn.createStatement();
+
+			ResultSet r = stmt.executeQuery("SELECT ID FROM User WHERE LoginName = '" + owner + "'");
+			int ownerID = 1111111;
+			while (r.next()) {
+				ownerID = r.getInt(1);
+
+			}
+			String sql = null;
+			if (title == null) {
+				sql = "SELECT * FROM Requirement WHERE OwnerID = " + ownerID;
+			} else {
+				sql = "SELECT * FROM Requirement WHERE OwnerID = " + ownerID + "AND Title = '" + title + "'";
+			}
+			ResultSet requirements = stmt.executeQuery(sql);
+			while (requirements.next()) {
+				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -88,63 +128,19 @@ public class SearchHelper {
 
 	}
 
-	private static void filterOwner(String owner, String title) {
-		if (owner == null) {
+	private static void filterSource(String source) {
+		// TODO SearchModel: implement filterSource()
+		if (source == null) {
 			return;
-		}
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-
-			ResultSet r = stmt.executeQuery("SELECT ID FROM User WHERE LoginName = '" + owner + "'");
-			int ownerID = 1111111;
-			while (r.next()) {
-				ownerID = r.getInt(1);
-
-			}
-			String sql = null;
-			if (title == null) {
-				sql = "SELECT * FROM Requirement WHERE OwnerID = " + ownerID;
-			} else {
-				sql = "SELECT * FROM Requirement WHERE OwnerID = " + ownerID + "AND Title = '" + title + "'";
-			}
-			ResultSet requirements = stmt.executeQuery(sql);
-			while (requirements.next()) {
-				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
-	private static void filterTitle(String title) {
-
-		if (title == null) {
+	private static void filterSupportingMaterials(String supportingMaterials) {
+		// TODO SearchModel: implement filterSupportingMaterials()
+		if (supportingMaterials == null) {
 			return;
 		}
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
 
-			ResultSet requirements = stmt.executeQuery("SELECT * FROM Requirement WHERE Title='" + title + "'");
-
-			observableArray.clear();
-
-			while (requirements.next()) {
-				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), requirements.getInt(6),
-						requirements.getString(7), requirements.getString(8), requirements.getString(9),
-						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
-						requirements.getTimestamp(13), requirements.getString(14)));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public ObservableList<RequirementCardSimple> getObservableArray() {

@@ -11,16 +11,16 @@
    <children>
       <VBox layoutX="20.0" layoutY="58.0" prefHeight="738.0" prefWidth="432.0" spacing="20.0">
          <children>
-            <HBox prefHeight="6.0" prefWidth="649.0" spacing="155.0">
+            <HBox prefHeight="6.0" prefWidth="649.0" spacing="159.0">
                <children>
                   <Label text="Title:" />
-                  <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" />
+                  <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="223.0" />
                </children>
             </HBox>
-            <HBox prefHeight="34.0" prefWidth="546.0" spacing="60.0">
+            <HBox prefHeight="16.0" prefWidth="432.0" spacing="86.0">
                <children>
                   <Label text="ModuleName(s):" />
-                  <MenuButton fx:id="modulNamesMenuButton" mnemonicParsing="false" prefHeight="39.0" prefWidth="222.0">
+                  <MenuButton fx:id="modulNamesMenuButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="223.0">
                     <items>
                       <MenuItem disable="true" mnemonicParsing="false">
                            <graphic>
@@ -44,13 +44,13 @@
             <HBox prefHeight="0.0" prefWidth="649.0" spacing="92.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="101.0" text="Owner: " />
-                  <TextField fx:id="ownerTextField" editable="false" />
+                  <TextField fx:id="ownerTextField" editable="false" prefWidth="223.0" />
                </children>
             </HBox>
-            <HBox prefHeight="137.0" prefWidth="432.0" spacing="72.0">
+            <HBox prefHeight="121.0" prefWidth="432.0" spacing="72.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="121.0" text="Description:" />
-                  <TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="85.0" prefWidth="223.0" />
+                  <TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="7.0" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox prefHeight="99.0" prefWidth="432.0" spacing="34.0">
@@ -62,25 +62,25 @@
             <HBox layoutX="10.0" layoutY="319.0" prefHeight="28.0" prefWidth="649.0" spacing="117.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
-                  <TextField fx:id="sourceTextField" />
+                  <TextField fx:id="sourceTextField" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="475.0" prefHeight="22.0" prefWidth="649.0" spacing="93.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-                  <TextField fx:id="userStoriesTextField" />
+                  <TextField fx:id="userStoriesTextField" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="541.0" prefHeight="0.0" prefWidth="649.0" spacing="20.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="175.0" text="Supporting Materials:" />
-                  <TextField fx:id="supportingMaterialsTextField" />
+                  <TextField fx:id="supportingMaterialsTextField" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="600.0" prefHeight="1.0" prefWidth="649.0" spacing="89.0">
                <children>
                   <Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-                  <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="222.0" />
+                  <TextField fx:id="fitCriterionTextField" prefWidth="223.0" />
                </children>
             </HBox>
             <HBox layoutX="10.0" layoutY="662.0" prefHeight="1.0" prefWidth="649.0" spacing="125.0">
