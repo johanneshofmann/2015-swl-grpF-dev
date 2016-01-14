@@ -1,4 +1,4 @@
-package swt.swl.topcard.model;
+package swt.swl.topcard.logic;
 
 import java.sql.Timestamp;
 
@@ -7,34 +7,25 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class RequirementCardSimple {
 
-	private SimpleIntegerProperty ID;
-	private SimpleStringProperty title;
-	private SimpleIntegerProperty minorVersion;
-	private SimpleIntegerProperty majorVersion;
-	private SimpleIntegerProperty ownerID;
-	private SimpleStringProperty ownerName;
-	private SimpleIntegerProperty rqID;
-	private SimpleStringProperty description;
-	private SimpleStringProperty rationale;
-	private SimpleStringProperty source;
-	private SimpleStringProperty supportingMaterials;
-	private SimpleStringProperty fitCriterion;
-	private SimpleIntegerProperty isFrozen;
+	private final SimpleIntegerProperty ID, minorVersion, majorVersion, ownerID, rqID, isFrozen;
+	private final SimpleStringProperty title, ownerName, modules, description, rationale, source, supportingMaterials,
+			fitCriterion, lastModifiedAt;
 	private Timestamp createdAt;
-	private SimpleStringProperty lastModifiedAt;
 
 	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID,
-			String ownerName, int rqID, String description, String rationale, String source, String supportingMaterials,
-			String fitCriterion, int isFrozen, Timestamp createdAt, String lastModifiedAt) {
-		super();
-		this.ID = new SimpleIntegerProperty(ID);
+			String ownerName, int rqID, String modules, String description, String rationale, String source,
+			String supportingMaterials, String fitCriterion, int isFrozen, Timestamp createdAt, String lastModifiedAt) {
 
+		super();
+
+		this.ID = new SimpleIntegerProperty(ID);
 		this.title = new SimpleStringProperty(title);
 		this.majorVersion = new SimpleIntegerProperty(majorVersion);
 		this.minorVersion = new SimpleIntegerProperty(minorVersion);
 		this.ownerID = new SimpleIntegerProperty(ownerID);
 		this.ownerName = new SimpleStringProperty(ownerName);
 		this.rqID = new SimpleIntegerProperty(rqID);
+		this.modules = new SimpleStringProperty(modules);
 		this.description = new SimpleStringProperty(description);
 		this.rationale = new SimpleStringProperty(rationale);
 		this.source = new SimpleStringProperty(source);
@@ -43,11 +34,6 @@ public class RequirementCardSimple {
 		this.isFrozen = new SimpleIntegerProperty(isFrozen);
 		this.createdAt = createdAt;
 		this.lastModifiedAt = new SimpleStringProperty(lastModifiedAt);
-
-	}
-
-	public RequirementCardSimple(String title) {
-		this.title = new SimpleStringProperty(title);
 	}
 
 	// Getters & Setters:
@@ -57,7 +43,7 @@ public class RequirementCardSimple {
 	}
 
 	public void setTitle(String title) {
-		this.title = new SimpleStringProperty(title);
+		this.title.set(title);
 	}
 
 	public int getMinorVersion() {
@@ -98,6 +84,14 @@ public class RequirementCardSimple {
 
 	public void setRqID(int rqID) {
 		this.rqID.set(rqID);
+	}
+
+	public String getModules() {
+		return modules.get();
+	}
+
+	public void setModules(String modules) {
+		this.modules.set(modules);
 	}
 
 	public String getDescription() {

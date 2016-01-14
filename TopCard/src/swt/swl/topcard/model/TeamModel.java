@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.Module;
 
-public class ModuleModel extends Observable {
+public class TeamModel extends Observable {
 
 	private ObservableList<Module> observableArray;
 
@@ -19,11 +19,10 @@ public class ModuleModel extends Observable {
 		return this.observableArray;
 	}
 
-	public ModuleModel() {
-
+	public TeamModel() {
 	}
 
-	public void selectModules() {
+	public void selectTeams() {
 		// Clear observable array
 		this.observableArray.clear();
 
@@ -40,7 +39,7 @@ public class ModuleModel extends Observable {
 		}
 	}
 
-	public boolean hasModule(String name) {
+	public boolean hasTeam(String name) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
@@ -59,17 +58,17 @@ public class ModuleModel extends Observable {
 		return false;
 	}
 
-	public void insertModule(String moduleName) {
+	public void insertTeam(String teamName) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet resultSet = stmt.executeQuery("SELECT MAX(ID) FROM Module");
+			ResultSet resultSet = stmt.executeQuery("SELECT MAX(ID) FROM Team");
 
 			if (resultSet.next()) {
-				String query = "INSERT INTO Module(ID,Name) VALUES (" + (resultSet.getInt(1) + 1) + ",'" + moduleName
+				String query = "INSERT INTO Team(ID,Name) VALUES (" + (resultSet.getInt(1) + 1) + ",'" + teamName
 						+ "')";
 				DatabaseHelper.executeUpdate(query);
 			}
@@ -78,7 +77,7 @@ public class ModuleModel extends Observable {
 			e.printStackTrace();
 		}
 
-		triggerNotification(moduleName);
+		triggerNotification(teamName);
 	}
 
 	private void triggerNotification(Object message) {
@@ -86,13 +85,14 @@ public class ModuleModel extends Observable {
 		notifyObservers(message);
 	}
 
-	public void deleteModuleFromDatabase(int ID) {
+	public void deleteTeamFromDatabase(int ID) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "delete from Module where ID =" + ID;
+			String sqlInsert = "DELETE FROM Team WHERE ID =" + ID;
+
 			stmt.executeUpdate(sqlInsert);
 
 		} catch (SQLException e) {
@@ -106,7 +106,8 @@ public class ModuleModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "delete from Module where Name =" + Name;
+			String sqlInsert = "DELETE FROM Team WHERE Name ='" + Name + "'";
+
 			stmt.executeUpdate(sqlInsert);
 
 		} catch (SQLException e) {

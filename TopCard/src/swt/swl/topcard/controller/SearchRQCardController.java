@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
@@ -83,14 +80,10 @@ public class SearchRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without searching?");
-		confirmation.showAndWait();
-		if (confirmation.getResult().equals(ButtonType.OK)) {
-			rqCardController.repaint();
-		} else {
-			event.consume();
-		}
 
+		rqCardController.repaint();
+
+		event.consume();
 	}
 
 	@FXML
@@ -118,7 +111,7 @@ public class SearchRQCardController {
 			supportingMaterials = supportingMaterialsTextField.getText();
 		}
 
-		SearchHelper.search(model.getObservableArray(),title, owner, fitCriterion, source, supportingMaterials);
+		SearchHelper.search(model.getObservableArray(), title, owner, fitCriterion, source, supportingMaterials);
 
 		// redirect
 		rqCardController.repaint();

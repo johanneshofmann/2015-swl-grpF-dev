@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import javafx.collections.ObservableList;
 import junit.framework.TestSuite;
+import swt.swl.topcard.logic.Module;
 
 public class TestModuleModel {
 	private ObservableList<Module> observableArray;

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
+import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class TestRequirementCardModel {
 
@@ -47,7 +48,9 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimple(title);
+		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
+				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
+				supportingMaterials, 0, null, supportingMaterials);
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
 			if (rq.getTitle().equals(addedRqCard.getTitle())) {
@@ -79,7 +82,9 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimple(title);
+		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
+				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
+				supportingMaterials, 0, null, supportingMaterials);
 
 		rqModel.deleteRqFromDatabase(title);
 

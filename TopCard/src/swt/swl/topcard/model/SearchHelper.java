@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.DatabaseHelper;
+import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class SearchHelper {
 
@@ -41,9 +44,10 @@ public class SearchHelper {
 				String ownerName = requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
-						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
-						requirements.getString(9), requirements.getString(10), requirements.getString(11),
-						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
 			}
 
 		} catch (SQLException e) {
@@ -76,9 +80,10 @@ public class SearchHelper {
 				String ownerName = requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
-						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
-						requirements.getString(9), requirements.getString(10), requirements.getString(11),
-						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -120,9 +125,10 @@ public class SearchHelper {
 				String ownerName = requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
-						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
-						requirements.getString(9), requirements.getString(10), requirements.getString(11),
-						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -153,7 +159,7 @@ public class SearchHelper {
 	}
 
 	// TODO: remove or find other solution, duplicated code here:
-	private static String requestOwnerName(int ownerID) {
+	public static String requestOwnerName(int ownerID) {
 
 		String ownerName = null;
 
@@ -174,5 +180,29 @@ public class SearchHelper {
 			e.printStackTrace();
 		}
 		return ownerName;
+	}
+
+	public static ObservableList<String> getModules() {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM Module";
+
+			ResultSet modulesSet = stmt.executeQuery(query);
+			ObservableList<String> modules = FXCollections.observableArrayList();
+
+			while (modulesSet.next()) {
+				modules.add(modulesSet.getString(1));
+			}
+			return modules;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 }

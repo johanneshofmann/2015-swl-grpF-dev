@@ -12,6 +12,9 @@ import java.util.Observable;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.DatabaseHelper;
+import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 
 public class RequirementCardModel extends Observable {
 
@@ -56,12 +59,10 @@ public class RequirementCardModel extends Observable {
 				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
 				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
 				+ isFrozenInt + ", '" + new java.util.Date() + "')";
-		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID) SELECT ID FROM Requirement WHERE";
+		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID,Module2ID,Module3ID) VALUES("
+				+ rqCardIDInt + "," + module0ID + "," + module1ID + "," + module2ID + ")";
 
-		// ,ModuleID,Module2ID,Module3ID
-		// + "("+rqCardIDInt + "," + module0ID + "," + module1ID + "," +
-		// module2ID + ")";
-		// String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
+		String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -97,6 +98,9 @@ public class RequirementCardModel extends Observable {
 			// then check module amount, allocate IDs and insert em into
 			// Requirement_Module table
 			initModuleIDs(stmt.executeQuery(sqlSelectModuleIDQuery));
+
+			// TODO: here's sth going wrong:
+
 			stmt.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 
 			// let the controller know that sth. has changed
@@ -177,26 +181,18 @@ public class RequirementCardModel extends Observable {
 				"gruppe_f")) {
 
 			Statement getRqCardData = conn.createStatement();
-			Statement getOwnerName = conn.createStatement();
 
 			ResultSet rQCardData = getRqCardData
 					.executeQuery("SELECT * FROM Requirement WHERE Requirement =" + selected.getRqID());
 
 			if (rQCardData.next()) {
+
 				selected.setTitle((rQCardData.getString(2))); // Title
-
-				// TODO: RQCardCModel: insert/ get ModulName:
-				// selected.setmo
-
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
-				ResultSet ownerName = getOwnerName
-						.executeQuery("SELECT LoginName FROM User WHERE ID = " + rQCardData.getInt(5));
-				if (ownerName.next()) {
-
-					selected.setOwnerName(ownerName.getString(1)); // ownerName
-				}
+				selected.setOwnerName(generateOwnerName(rQCardData.getInt(5))); // ownerName
 				selected.setRqID(rQCardData.getInt(6)); // rqID
+				selected.setModules(DatabaseHelper.generateModulesString(selected.getRqID()));
 				selected.setDescription(rQCardData.getString(7)); // Description
 				selected.setRationale(rQCardData.getString(8)); // Rationale
 				selected.setSource(rQCardData.getString(9)); // Source
@@ -218,6 +214,24 @@ public class RequirementCardModel extends Observable {
 		} else {
 			throw new ClassFormatError("selected RqCard hasn't changed correctly");
 		}
+	}
+
+	private String generateOwnerName(int ownerID) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement getOwnerName = conn.createStatement();
+
+			ResultSet ownerName = getOwnerName.executeQuery("SELECT LoginName FROM User WHERE ID = " + ownerID);
+
+			if (ownerName.next()) {
+				return ownerName.getString(1); // ownerName
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return null;
 	}
 
 	/**
@@ -257,9 +271,10 @@ public class RequirementCardModel extends Observable {
 				String ownerName = requestOwnerName(resultset.getInt(5));
 
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
-						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
+						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5),
+						DatabaseHelper.generateModulesString(resultset.getInt(1)), resultset.getInt(6),
 						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
-						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
+						resultset.getString(11), ownerName, resultset.getInt(12), resultset.getTimestamp(13),
 						resultset.getString(14)));
 			}
 		} catch (SQLException e) {
@@ -294,10 +309,11 @@ public class RequirementCardModel extends Observable {
 			while (requirements.next()) {
 				String ownerName = requestOwnerName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
-						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
-						requirements.getInt(6), requirements.getString(7), requirements.getString(8),
-						requirements.getString(9), requirements.getString(10), requirements.getString(11),
-						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
+						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5),
+						DatabaseHelper.generateModulesString(requirements.getInt(1)), requirements.getInt(6),
+						requirements.getString(7), requirements.getString(8), requirements.getString(9),
+						requirements.getString(10), requirements.getString(11), ownerName, requirements.getInt(12),
+						requirements.getTimestamp(13), requirements.getString(14)));
 
 			}
 		} catch (SQLException e) {
@@ -305,7 +321,7 @@ public class RequirementCardModel extends Observable {
 		}
 	}
 
-	public void newVoteSubmitted(String requirement, String[] selectedItems) {
+	public void newVoteSubmitted(String requirement, int[] selectedItems) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -322,20 +338,17 @@ public class RequirementCardModel extends Observable {
 			if (ownerID.next()) {
 				userIDInt = ownerID.getInt(1);
 			}
-			//
 			Statement insert = conn.createStatement();
-			insert.executeUpdate(
 
-					// TODO: RQCardModel: !!! change to int values: !!!
+			String query = "INSERT INTO Vote(RequirementID, UserID ,DescriptionPrecise , DescriptionUnderstandable ,DescriptionCorrect ,"
+					+ "DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, "
+					+ "RationaleComplete, RationaleConsistent, FitCriterionComplete, CreatedAt) VALUES (" + reqIDInt
+					+ "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + "," + selectedItems[2] + ", "
+					+ selectedItems[3] + ", " + selectedItems[4] + ", " + selectedItems[5] + "," + selectedItems[6]
+					+ ", " + selectedItems[7] + ", " + selectedItems[8] + ", " + selectedItems[9] + ","
+					+ selectedItems[10] + ", '" + new Timestamp(Calendar.getInstance().getTime().getTime()) + "')";
 
-					"INSERT INTO Vote(RequirementID,UserID,DescriptionPrecise, DescriptionUnderstandable,DescriptionCorrect,DescriptionComplete,DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, RationaleComplete,RationaleConsistent,CreatedAt)    VALUES ("
-							+ reqIDInt + "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + ",'"
-							+ selectedItems[2] + "', '" + selectedItems[3] + "', '" + selectedItems[4] + "', "
-							+ selectedItems[5] + "," + selectedItems[6] + ", '" + selectedItems[7] + "', '"
-							+ selectedItems[8] + "', '" + selectedItems[9] + "', '"
-							+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')");
-
-			// TODO: RQCardModel : !!! change to int values: !!!
+			insert.executeUpdate(query);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -485,6 +498,8 @@ public class RequirementCardModel extends Observable {
 	}
 
 	public ObservableList<String> getModules() {
+
+		SearchHelper.getModules();
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {

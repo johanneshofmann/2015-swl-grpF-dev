@@ -15,9 +15,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.model.RequirementCardModel;
-import swt.swl.topcard.model.RequirementCardSimple;
-import swt.swl.topcard.model.SubmittedVoteSimple;
 
 public class EditRqCardController {
 
@@ -28,7 +28,7 @@ public class EditRqCardController {
 	private CheckComboBox<String> modulesCheckComboBox;
 
 	@FXML
-	private CheckBox modul1CheckBox, modul2CheckBox, modul3CheckBox, frozenChoiceBox;
+	private CheckBox frozenChoiceBox;
 
 	@FXML
 	private TextArea descriptionTextArea, rationaleTextArea;
@@ -80,9 +80,9 @@ public class EditRqCardController {
 		// TODO: EditRequirementCardController:
 
 		// insert
-		model.insertRqIntoDatabase(null, titleTextField.getText(), descriptionTextArea.getText(), rationaleTextArea.getText(),
-				sourceTextField.getText(), userStoriesTextField.getText(), fitCriterionTextField.getText(),
-				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+		model.insertRqIntoDatabase(null, titleTextField.getText(), descriptionTextArea.getText(),
+				rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
+				fitCriterionTextField.getText(), supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 
@@ -115,8 +115,12 @@ public class EditRqCardController {
 		// assign it to the displayed Nodes:
 
 		ownerTextField.setText(data.getOwnerName());
-		// TODO: EditRqCardController: moduleNamesTextField.setText(data[1]);
-		requirementCardNumberLabel.setText("" + data.getRqID());
+
+		String[] modules = data.getModules().split(",");
+		for (int i = 0; i < modules.length; i++) {
+			modulesCheckComboBox.getCheckModel().check(modules[i]);
+		}
+		requirementCardNumberLabel.setText(String.valueOf(data.getRqID()));
 		descriptionTextArea.setText(data.getDescription());
 		rationaleTextArea.setText(data.getRationale());
 		sourceTextField.setText(data.getSource());
@@ -133,7 +137,7 @@ public class EditRqCardController {
 		minorVersionLabel.setText("" + data.getMinorVersion());
 	}
 
-	public void initializeNodes() {
+	private void initializeNodes() {
 
 		fillTextFields();
 
@@ -146,9 +150,10 @@ public class EditRqCardController {
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toEdit = toEdit;
-		initializeNodes();
 
 		addActualModulesToCheckComboBox();
+
+		initializeNodes();
 	}
 
 	private void addActualModulesToCheckComboBox() {
@@ -158,7 +163,6 @@ public class EditRqCardController {
 		ObservableList<String> modules = model.getModules();
 		modulesCheckComboBox = new CheckComboBox<>(modules);
 		moduleHBox.getChildren().add(modulesCheckComboBox);
-
 	}
 
 }

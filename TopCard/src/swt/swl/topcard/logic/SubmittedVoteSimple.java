@@ -1,4 +1,4 @@
-package swt.swl.topcard.model;
+package swt.swl.topcard.logic;
 
 /**
  * 0-> Don't know; 1-> Yes; 2-> ;

@@ -21,8 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
+import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.model.RequirementCardModel;
-import swt.swl.topcard.model.RequirementCardSimple;
 
 public class RequirementCardController implements Observer {
 
@@ -35,11 +35,10 @@ public class RequirementCardController implements Observer {
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
 	private Button searchRqButton, subsrcibeButton;
-
 	@FXML
 	private ImageView startButton;
 	@FXML
-	private MenuItem createModuleButton, createNewRqButton;
+	private MenuItem createModuleButton, createNewRqButton, createNewTeam;
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 
@@ -47,10 +46,9 @@ public class RequirementCardController implements Observer {
 
 	// all Labels and ResultLabels
 	@FXML
-	private Label titleResultLabel, titleLabel, ownerLabel, descriptionResultLabel, descriptionLabel,
-			rationaleResultLabel, rationaleLabel, sourceResultLabel, sourceLabel, userstoriesResultLabel,
-			userstoriesLabel, supportingMaterialsResultLabel, supportingMaterialsLabel, fitCriterionResultLabel,
-			fitCriterionLabel, frozenResultLabel, frozenLabel;
+	private Label loginNameLabel, titleResultLabel, modulesResultLabel, descriptionResultLabel, rationaleResultLabel,
+			sourceResultLabel, userstoriesResultLabel, supportingMaterialsResultLabel, fitCriterionResultLabel,
+			frozenResultLabel;
 
 	private ObservableList<RequirementCardSimple> observableList;
 
@@ -66,18 +64,19 @@ public class RequirementCardController implements Observer {
 		ObservableList<TableColumn<RequirementCardSimple, ?>> columns = requirementCardsTable.getColumns();
 
 		nameTableColumn = new TableColumn<>("Requirement Cards");
-		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("Title"));
+		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("title"));
 
 		ownerTableColumn = new TableColumn<>("Owner");
 		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
 
-		// TODO: RequirementCardController: owner is not visible in TableView
+		// TODO: RequirementCardController: owner is only visible by clicking
+		// exactly on the owner table column.
 
 		columns.clear();
 		requirementCardsTable.setEditable(true);
 
 		columns.addAll(nameTableColumn, ownerTableColumn);
-		System.out.println(columns.size());
+		columns.get(1).setVisible(true);
 
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
@@ -177,6 +176,25 @@ public class RequirementCardController implements Observer {
 	}
 
 	@FXML
+	void createNewTeamClicked(ActionEvent event) {
+
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateTeamView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((CreateTeamController) loader.getController()).setMainController(this);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+
+			event.consume();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
 	void searchRqButtonClicked(ActionEvent event) {
 
 		try {
@@ -234,9 +252,9 @@ public class RequirementCardController implements Observer {
 	private void openVoteView(RequirementCardSimple rq) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/ShowAndVoteRQCard.fxml"));
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteRQCard.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
-			((ShowAndVoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
+			((VoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -275,6 +293,7 @@ public class RequirementCardController implements Observer {
 		this.mainApp = mainApp;
 		this.loginController = loginWindowController;
 		rqModel.setLoginName(loginName);
+		this.loginNameLabel.setText(loginName);
 	}
 
 	public void setMainApp(MainApp mainApp) {

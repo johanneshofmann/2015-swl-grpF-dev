@@ -12,10 +12,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.model.RequirementCardModel;
-import swt.swl.topcard.model.RequirementCardSimple;
 
-public class ShowAndVoteRqCardController {
+public class VoteRqCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -91,31 +91,55 @@ public class ShowAndVoteRqCardController {
 
 	@FXML
 	void voteButtonClicked(ActionEvent event) {
-		String[] selectedItems = new String[10];
-		selectedItems[0] = "" + (int) descriptionPreciseSlider.getValue();
-		selectedItems[1] = "" + (int) descriptionUnderstandableSlider.getValue();
-		selectedItems[2] = ((RadioButton) descriptionCorrectGroup.getSelectedToggle()).getText();
-		selectedItems[3] = ((RadioButton) descriptionCompleteGroup.getSelectedToggle()).getText();
-		selectedItems[4] = ((RadioButton) descriptionAtomicGroup.getSelectedToggle()).getText();
-		selectedItems[5] = "" + (int) rationalePreciseSlider.getValue();
-		selectedItems[6] = "" + (int) rationaleUnderstandableSlider.getValue();
-		selectedItems[7] = ((RadioButton) rationaleTraceableGroup.getSelectedToggle()).getText();
-		selectedItems[8] = ((RadioButton) rationaleCompleteGroup.getSelectedToggle()).getText();
-		selectedItems[9] = ((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText();
 
-		model.newVoteSubmitted(toVote.getTitle(), selectedItems);
+		model.newVoteSubmitted(toVote.getTitle(), getSelectedItems());
 		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
 
 		mainController.repaint();
 	}
 
+	private int[] getSelectedItems() {
+
+		int[] selectedItems = new int[11];
+
+		selectedItems[0] = (int) descriptionPreciseSlider.getValue();
+		selectedItems[1] = (int) descriptionUnderstandableSlider.getValue();
+		selectedItems[2] = evaluateTextChoice(((RadioButton) descriptionCorrectGroup.getSelectedToggle()).getText());
+		selectedItems[3] = evaluateTextChoice(((RadioButton) descriptionCompleteGroup.getSelectedToggle()).getText());
+		selectedItems[4] = evaluateTextChoice(((RadioButton) descriptionAtomicGroup.getSelectedToggle()).getText());
+		selectedItems[5] = (int) rationalePreciseSlider.getValue();
+		selectedItems[6] = (int) rationaleUnderstandableSlider.getValue();
+		selectedItems[7] = evaluateTextChoice(((RadioButton) rationaleTraceableGroup.getSelectedToggle()).getText());
+		selectedItems[8] = evaluateTextChoice(((RadioButton) rationaleCompleteGroup.getSelectedToggle()).getText());
+		selectedItems[9] = evaluateTextChoice(((RadioButton) rationaleConsistentGroup.getSelectedToggle()).getText());
+		selectedItems[10] = evaluateTextChoice(((RadioButton) fitCriterionCompleteGroup.getSelectedToggle()).getText());
+
+		return selectedItems;
+	}
+
+	private int evaluateTextChoice(String text) {
+
+		if (text.startsWith("Y")) {
+			return 1;
+		} else if (text.startsWith("N")) {
+			return 0;
+		} else if (text.startsWith("D")) {
+			return 2;
+		} else {
+
+			throw new IllegalArgumentException("Invalid value for input String 'text'. Value was: " + text);
+		}
+
+	}
+
 	public void fillLabels() {
+
 		// fetch data:
 		RequirementCardSimple rqCard = model.getOverviewDataFromSelectedRq(toVote);
 
 		// assign it to the displayed Nodes:
+
 		ownerLabel.setText(rqCard.getOwnerName());
-		// TODO: ShowAndVoteRqCardController:
 		// moduleNamesTextField.setText(data);
 		requirementCardNumberLabel.setText("" + rqCard.getRqID());
 		descriptionLabel.setText(rqCard.getDescription());
@@ -149,6 +173,7 @@ public class ShowAndVoteRqCardController {
 		rationaleTraceableDontKnowRadioButton.setSelected(true);
 		rationaleCompleteDontKnowRadioButton.setSelected(true);
 		rationaleConsistentDontKnowRadioButton.setSelected(true);
+		fitCriterionCompleteDontKnowRadioButton.setSelected(true);
 
 	}
 
