@@ -111,9 +111,6 @@ public class DatabaseHelper {
 
 				teams.add(modulesContainer.getString(1));
 			}
-
-			// TODO: first implement subsribe functionality, also table
-			// Team/User
 			return false;
 
 		} catch (SQLException e) {
