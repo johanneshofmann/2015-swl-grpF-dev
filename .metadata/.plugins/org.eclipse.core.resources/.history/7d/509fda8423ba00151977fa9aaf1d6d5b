@@ -1,0 +1,170 @@
+package swt.swl.topcard.model;
+
+import java.sql.Timestamp;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+public class RequirementCardSimple {
+
+	private SimpleIntegerProperty ID;
+	private SimpleStringProperty title;
+	private SimpleIntegerProperty minorVersion;
+	private SimpleIntegerProperty majorVersion;
+	private SimpleIntegerProperty ownerID;
+	private SimpleStringProperty ownerName;
+	private SimpleIntegerProperty rqID;
+	private SimpleStringProperty description;
+	private SimpleStringProperty rationale;
+	private SimpleStringProperty source;
+	private SimpleStringProperty supportingMaterials;
+	private SimpleStringProperty fitCriterion;
+	private SimpleIntegerProperty isFrozen;
+	private Timestamp createdAt;
+	private SimpleStringProperty lastModifiedAt;
+
+	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID, int rqID,
+			String description, String rationale, String source, String supportingMaterials, String fitCriterion,
+			int isFrozen, Timestamp createdAt, String lastModifiedAt) {
+		super();
+		this.ID = new SimpleIntegerProperty(ID);
+
+		this.title = new SimpleStringProperty(title);
+		this.majorVersion = new SimpleIntegerProperty(majorVersion);
+		this.minorVersion = new SimpleIntegerProperty(minorVersion);
+		this.ownerID = new SimpleIntegerProperty(ownerID);
+		this.rqID = new SimpleIntegerProperty(rqID);
+		this.description = new SimpleStringProperty(description);
+		this.rationale = new SimpleStringProperty(rationale);
+		this.source = new SimpleStringProperty(source);
+		this.supportingMaterials = new SimpleStringProperty(supportingMaterials);
+		this.fitCriterion = new SimpleStringProperty(fitCriterion);
+		this.isFrozen = new SimpleIntegerProperty(isFrozen);
+		this.createdAt = createdAt;
+		this.lastModifiedAt = new SimpleStringProperty(lastModifiedAt);
+
+	}
+
+	public RequirementCardSimple(String title) {
+		this.title = new SimpleStringProperty(title);
+	}
+
+	// Getters & Setters:
+
+	public SimpleStringProperty getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = new SimpleStringProperty(title);
+	}
+
+	public SimpleIntegerProperty getMinorVersion() {
+		return minorVersion;
+	}
+
+	public void setMinorVersion(int minorVersion) {
+		this.minorVersion =new SimpleIntegerProperty(minorVersion);
+	}
+
+	public SimpleIntegerProperty getMajorVersion() {
+		return majorVersion;
+	}
+
+	public void setMajorVersion(int majorVersion) {
+		this.majorVersion = new SimpleIntegerProperty(majorVersion);
+	}
+
+	public SimpleIntegerProperty getOwnerID() {
+		return ownerID;
+	}
+
+	public void setOwnerID(int ownerID) {
+		this.ownerID = new SimpleIntegerProperty(ownerID);
+	}
+
+	public SimpleStringProperty getOwnerName() {
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = new SimpleStringProperty(ownerName);
+	}
+
+	public int getRqID() {
+		return rqID;
+	}
+
+	public void setRqID(int rqID) {
+		this.rqID = rqID;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getRationale() {
+		return rationale;
+	}
+
+	public void setRationale(String rationale) {
+		this.rationale = rationale;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getSupportingMaterials() {
+		return supportingMaterials;
+	}
+
+	public void setSupportingMaterials(String supportingMaterials) {
+		this.supportingMaterials = supportingMaterials;
+	}
+
+	public String getFitCriterion() {
+		return fitCriterion;
+	}
+
+	public void setFitCriterion(String fitCriterion) {
+		this.fitCriterion = fitCriterion;
+	}
+
+	public int getIsFrozen() {
+		return isFrozen;
+	}
+
+	public void setIsFrozen(int isFrozen) {
+		this.isFrozen = isFrozen;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+
+	public void setLastModifiedAt(String lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
+	}
+
+	public int getID() {
+		return ID;
+	}
+
+}

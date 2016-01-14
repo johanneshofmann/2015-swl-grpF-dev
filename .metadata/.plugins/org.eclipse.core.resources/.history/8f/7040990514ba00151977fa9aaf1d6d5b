@@ -1,0 +1,99 @@
+
+package swt.swl.topcard.controller;
+
+import java.util.ArrayList;
+
+import org.controlsfx.control.CheckComboBox;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import swt.swl.topcard.model.RequirementCardModel;
+
+public class CreateRQCardController {
+
+	private RequirementCardModel model;
+	private RequirementCardController mainController;
+
+	// need to instanciate manually cause we're using external jar
+	@FXML
+	private CheckComboBox<String> modulesCheckComboBox;
+
+	@FXML
+	private MenuItem modul1MenuItem, modul2MenuItem, modul3MenuItem, modul4MenuItem;
+
+	@FXML
+	private TextArea descriptionTextArea, rationaleTextArea;
+
+	@FXML
+	private TextField titleTextField, sourceTextField, userStoriesTextField, supportingMaterialsTextField,
+			fitCriterionTextField;
+
+	@FXML
+	private CheckBox frozenChoiceBox;
+
+	@FXML
+	private Button closeButton, createButton;
+
+	public CreateRQCardController() {
+
+		// give actual Modules to the ModulesCheckComboBox
+
+		ArrayList<String> modules = model.getModules();
+
+		for (String module : modules) {
+			modulesCheckComboBox.getItems().add(module);
+		}
+
+	}
+
+	@FXML
+	void closeWindow(ActionEvent event) {
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			mainController.repaint();
+		} else {
+			event.consume();
+		}
+	}
+
+	/**
+	 *
+	 * checks weather title, description,rationale,source,fitCriterion or
+	 * userstories is empty,
+	 *
+	 *
+	 * @throws new
+	 *             Alert if one is empty and returns to editable View.
+	 * @param event
+	 */
+	@FXML
+	void putUpForVote(ActionEvent event) {
+
+		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
+				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
+				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
+			new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.").showAndWait();
+		} else {
+			model.insertRqIntoDatabase(titleTextField.getText(), descriptionTextArea.getText(),
+					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
+					fitCriterionTextField.getText(), supportingMaterialsTextField.getText(),
+					frozenChoiceBox.isSelected());
+			new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+		}
+	}
+
+	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
+		this.model = rqModel;
+		this.mainController = requirementCardController;
+	}
+
+}

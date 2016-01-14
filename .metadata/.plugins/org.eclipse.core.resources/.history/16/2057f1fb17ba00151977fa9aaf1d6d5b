@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="754.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.RequirementCardController">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="902.0">
+         <children>
+            <HBox layoutY="62.0" prefHeight="685.0" prefWidth="902.0">
+               <children>
+                  <Pane fx:id="mainWindowPainLeft" prefHeight="692.0" prefWidth="446.0">
+                     <children>
+                        <TableView fx:id="requirementCardsTable" layoutX="1.0" layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
+                          <columns>
+                            <TableColumn fx:id="requirementCards" prefWidth="212.0" text="Requirement Cards" />
+                              <TableColumn fx:id="owner" prefWidth="232.0" text="Owner" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </Pane>
+                  <VBox prefHeight="685.0" prefWidth="177.0">
+                     <children>
+                        <Label fx:id="titleLabel" prefHeight="50.0" prefWidth="159.0" text="Title:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="ownerLabel" prefHeight="50.0" prefWidth="159.0" text="Owner:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="descriptionLabel" prefHeight="50.0" prefWidth="159.0" text="Description:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rationaleLabel" prefHeight="50.0" prefWidth="159.0" text="Rationale:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="sourceLabel" prefHeight="50.0" prefWidth="159.0" text="Source:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userstoriesLabel" prefHeight="50.0" prefWidth="159.0" text="Userstories:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="supportingMaterialsLabel" prefHeight="50.0" prefWidth="179.0" text="Supporting Materials:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="fitCriterionLabel" prefHeight="50.0" prefWidth="159.0" text="Fit criterion:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="frozenLabel" prefHeight="50.0" prefWidth="159.0" text="Frozen ?">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox prefHeight="572.0" prefWidth="227.0">
+                     <children>
+                        <Label fx:id="titleResultLabel" prefHeight="50.0" prefWidth="229.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="ownerResultLabel" prefHeight="50.0" prefWidth="258.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="descriptionResultLabel" prefHeight="50.0" prefWidth="256.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="rationaleResultLabel" prefHeight="50.0" prefWidth="254.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="sourceResultLabel" prefHeight="50.0" prefWidth="292.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="userstoriesResultLabel" prefHeight="50.0" prefWidth="289.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="supportingMaterialsResultLabel" prefHeight="50.0" prefWidth="246.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="fitCriterionResultLabel" prefHeight="50.0" prefWidth="287.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                        <Label fx:id="frozenResultLabel" prefHeight="50.0" prefWidth="88.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="26.0" prefWidth="435.0">
+               <children>
+                  <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="New">
+                    <items>
+                      <MenuItem fx:id="createModuleButton" mnemonicParsing="false" onAction="#createModuleButtonClicked" text="Module" />
+                      <MenuItem fx:id="createNewRqButton" mnemonicParsing="false" onAction="#createNewRqButtonClicked" text="Requirement Card" />
+                    </items>
+                  </MenuButton>
+                  <Button fx:id="searchRqButton" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="11.0" prefWidth="126.0" text="Search" textAlignment="CENTER" />
+                  <Button fx:id="searchRqButton1" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="26.0" prefWidth="148.0" text="Subsrcibe on Team" textAlignment="CENTER" />
+               </children>
+            </HBox>
+            <ImageView fx:id="startButton" fitHeight="35.0" fitWidth="26.0" layoutX="17.0" layoutY="39.0" onMouseClicked="#startButtonClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/Button-Refresh-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</Pane>

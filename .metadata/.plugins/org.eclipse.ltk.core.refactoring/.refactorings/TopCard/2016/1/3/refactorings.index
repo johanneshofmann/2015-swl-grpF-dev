@@ -1,0 +1,15 @@
+1452688943894	Rename type 'SearchModel'
+1452690742581	Rename method 'Initialize'
+1452691331407	Rename local variable 'highest'
+1452691345412	Rename local variable 'name'
+1452697437315	Delete element
+1452697470765	Delete element
+1452697476581	Delete element
+1452700628605	Delete element
+1452702674172	Rename local variable 'getVoteResults'
+1452702727755	Rename local variable 'sql'
+1452703216624	Infer generic type arguments
+1452708314887	Rename method 'initialize'
+1452708384734	Rename method 'initializzze'
+1452708411515	Rename method 'initializeImpl'
+1452712808202	Rename local variable 'sqlInsert'
