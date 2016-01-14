@@ -126,7 +126,7 @@
                     </items>
                   </MenuButton>
                   <Button fx:id="searchRqButton" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="11.0" prefWidth="126.0" text="Search" textAlignment="CENTER" />
-                  <Button fx:id="subsrcibeButton" layoutX="110.0" layoutY="10.0" mnemonicParsing="false" onAction="#subscribeButtonClicked" prefHeight="26.0" prefWidth="148.0" text="Subsrcibe on Team" textAlignment="CENTER" />
+                  <ComboBox fx:id="chooseTeamComboBox" prefWidth="150.0" promptText="Team.." />
                </children>
             </HBox>
             <ImageView fx:id="startButton" fitHeight="35.0" fitWidth="26.0" layoutX="17.0" layoutY="39.0" onMouseClicked="#startButtonClicked" pickOnBounds="true" preserveRatio="true">

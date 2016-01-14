@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class DatabaseHelper {
 
@@ -92,6 +93,33 @@ public class DatabaseHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	public static boolean checkUserAlreadySubscribed(String userName) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet modulesContainer = stmt.executeQuery("SELECT Name FROM Team");
+
+			ArrayList<String> teams = new ArrayList<>();
+
+			while (modulesContainer.next()) {
+
+				teams.add(modulesContainer.getString(1));
+			}
+
+			// TODO: first implement subsribe functionality, also table
+			// Team/User
+			return false;
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			return false;
 		}
 	}
 

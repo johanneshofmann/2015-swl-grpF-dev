@@ -205,4 +205,28 @@ public class SearchHelper {
 		}
 
 	}
+
+	public static ObservableList<String> getTeams() {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM Team";
+
+			ResultSet modulesSet = stmt.executeQuery(query);
+			ObservableList<String> teams = FXCollections.observableArrayList();
+
+			while (modulesSet.next()) {
+				teams.add(modulesSet.getString(1));
+			}
+			return teams;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 }

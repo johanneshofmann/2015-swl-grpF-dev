@@ -3,6 +3,7 @@ package swt.swl.topcard.controller;
 import java.util.Observable;
 import java.util.Observer;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,12 +11,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,7 +39,9 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button searchRqButton, subsrcibeButton;
+	private Button searchRqButton;
+	@FXML
+	private ComboBox<String> chooseTeamComboBox;
 	@FXML
 	private ImageView startButton;
 	@FXML
@@ -53,75 +60,19 @@ public class RequirementCardController implements Observer {
 	private ObservableList<RequirementCardSimple> observableList;
 
 	public RequirementCardController() {
-		rqModel = new RequirementCardModel();
+
 		this.observableList = FXCollections.observableArrayList();
+
+		rqModel = new RequirementCardModel();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
 	}
 
-	public void initializeTableView() {
+	public void initializeFXNodes() {
 
-		ObservableList<TableColumn<RequirementCardSimple, ?>> columns = requirementCardsTable.getColumns();
+		initChooseTeamComboBox();
+		initTableView();
 
-		nameTableColumn = new TableColumn<>("Requirement Cards");
-		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("title"));
-
-		ownerTableColumn = new TableColumn<>("Owner");
-		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
-
-		// TODO: RequirementCardController: owner is only visible by clicking
-		// exactly on the owner table column.
-
-		columns.clear();
-		requirementCardsTable.setEditable(true);
-
-		columns.addAll(nameTableColumn, ownerTableColumn);
-		columns.get(1).setVisible(true);
-
-		this.rqModel.getRequirements();
-		requirementCardsTable.setItems(observableList);
-
-		addEventHandlerToTableView();
-	}
-
-	private void addEventHandlerToTableView() {
-		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				if (requirementCardsTable.getSelectionModel().getSelectedItem() == null) {
-					return;
-				}
-				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-
-					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
-					item = rqModel.getOverviewDataFromSelectedRq(item);
-
-					if (rqModel.checkUserName(item.getOwnerName())) {
-						openEditView(item);
-					} else {
-						openVoteView(item);
-					}
-				} else {
-					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
-						RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
-						item = rqModel.getOverviewDataFromSelectedRq(item);
-
-						titleResultLabel.setText(item.getTitle());
-						descriptionResultLabel.setText(item.getDescription());
-						rationaleResultLabel.setText(item.getRationale());
-						sourceResultLabel.setText(item.getSource());
-						// TODO: RQCardController: implement all requirements
-						// for UserStories part
-						// of the application
-						userstoriesResultLabel.setText("");
-						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
-						fitCriterionResultLabel.setText(item.getFitCriterion());
-						frozenResultLabel.setText(item.getIsFrozen() + "");
-					}
-				}
-			}
-		});
 	}
 
 	public void repaint() {
@@ -132,7 +83,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	void startButtonClicked(MouseEvent event) {
-		initializeTableView();
+		initializeFXNodes();
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
@@ -234,6 +185,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void subscribeButtonClicked(ActionEvent event) {
 		// TODO: RequirementCardController: implement subscribeButtonClicked()
+
 	}
 
 	/**
@@ -279,6 +231,127 @@ public class RequirementCardController implements Observer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initTableView() {
+		ObservableList<TableColumn<RequirementCardSimple, ?>> columns = requirementCardsTable.getColumns();
+
+		nameTableColumn = new TableColumn<>("Requirement Cards");
+		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("title"));
+
+		ownerTableColumn = new TableColumn<>("Owner");
+		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
+
+		// TODO: RequirementCardController: owner is only visible by clicking
+		// exactly on the owner table column.
+
+		columns.clear();
+		requirementCardsTable.setEditable(true);
+
+		columns.addAll(nameTableColumn, ownerTableColumn);
+		columns.get(1).setVisible(true);
+
+		this.rqModel.getRequirements();
+		requirementCardsTable.setItems(observableList);
+
+		addEventHandlerToTableView();
+	}
+
+	private void initChooseTeamComboBox() {
+
+		ObservableList<String> teams = rqModel.getTeams();
+
+		for (String team : teams) {
+
+			chooseTeamComboBox.getItems().add(team);
+		}
+
+		addEventHandlerToChooseTeamComboBox();
+
+	}
+
+	private void addEventHandlerToTableView() {
+		requirementCardsTable.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (requirementCardsTable.getSelectionModel().getSelectedItem() == null) {
+					return;
+				}
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+
+					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+					item = rqModel.getOverviewDataFromSelectedRq(item);
+
+					if (rqModel.checkUserName(item.getOwnerName())) {
+						openEditView(item);
+					} else {
+						openVoteView(item);
+					}
+				} else {
+					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+						RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+						item = rqModel.getOverviewDataFromSelectedRq(item);
+
+						titleResultLabel.setText(item.getTitle());
+						descriptionResultLabel.setText(item.getDescription());
+						rationaleResultLabel.setText(item.getRationale());
+						sourceResultLabel.setText(item.getSource());
+						// TODO: RQCardController: implement all requirements
+						// for UserStories part
+						// of the application
+						userstoriesResultLabel.setText("");
+						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
+						fitCriterionResultLabel.setText(item.getFitCriterion());
+						frozenResultLabel.setText(item.getIsFrozen() + "");
+					}
+				}
+			}
+		});
+	}
+
+	private void addEventHandlerToChooseTeamComboBox() {
+
+		chooseTeamComboBox.setOnAction((ActionEvent event) -> {
+
+			if (rqModel.userAlreadySubscribed()) {
+
+				Alert exitConfirmation = new Alert(AlertType.CONFIRMATION,
+						"Subscribe on new team AND your old team OR only on the new one ? ");
+
+				ObservableList<ButtonType> buttons = exitConfirmation.getDialogPane().getButtonTypes();
+
+				buttons.set(1, new ButtonType(">On both"));
+				buttons.set(2, new ButtonType(
+						">On team " + chooseTeamComboBox.getSelectionModel().getSelectedItem().toString()));
+				buttons.set(0, new ButtonType("Cancel"));
+
+				exitConfirmation.showAndWait();
+
+				ButtonType choice = exitConfirmation.getResult();
+
+				if (choice.getText().equals(">On both")) {
+
+					// TODO:
+
+				} else if (choice.getText().startsWith(">On team ")) {
+
+					// TODO:
+
+				} else if (choice.getText().equals("Cancel")) {
+
+					// TODO:
+
+				} else {
+					throw new IllegalArgumentException("Invalid Text for ButtonType 'choice' ");
+				}
+			} else {
+
+				// TODO: @ Steve : last here: <! model.letUserBeMemberOf(String
+				// team){}/!>
+
+			}
+		});
 	}
 
 	/**

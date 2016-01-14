@@ -546,4 +546,12 @@ public class RequirementCardModel extends Observable {
 		return ownerName;
 	}
 
+	public ObservableList<String> getTeams() {
+		return SearchHelper.getTeams();
+	}
+
+	public boolean userAlreadySubscribed() {
+		return DatabaseHelper.checkUserAlreadySubscribed(loginName);
+	}
+
 }
