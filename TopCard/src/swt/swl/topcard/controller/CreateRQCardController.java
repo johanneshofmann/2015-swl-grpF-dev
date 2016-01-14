@@ -69,14 +69,19 @@ public class CreateRQCardController {
 
 		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
 				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
-				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()
-				|| modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-			new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.").showAndWait();
+				|| userStoriesTextField.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
+			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one module.")
+						.showAndWait();
+			} else {
+				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")
+						.showAndWait();
+			}
 		} else {
-			model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(),titleTextField.getText(), descriptionTextArea.getText(),
-					rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
-					fitCriterionTextField.getText(), supportingMaterialsTextField.getText(),
-					frozenChoiceBox.isSelected());
+			model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
+					descriptionTextArea.getText(), rationaleTextArea.getText(), sourceTextField.getText(),
+					userStoriesTextField.getText(), fitCriterionTextField.getText(),
+					supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
 			new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 		}
 	}

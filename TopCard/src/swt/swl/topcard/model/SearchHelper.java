@@ -124,7 +124,6 @@ public class SearchHelper {
 						requirements.getString(9), requirements.getString(10), requirements.getString(11),
 						requirements.getInt(12), requirements.getTimestamp(13), requirements.getString(14)));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -11,13 +11,14 @@ import java.util.Calendar;
 import java.util.Observable;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 
 public class RequirementCardModel extends Observable {
 
 	// loginName is set when the registrationView is created.
 	private String loginName;
+
+	private int module0ID, module1ID, module2ID;
 
 	private ObservableList<RequirementCardSimple> observableArray;
 
@@ -41,43 +42,110 @@ public class RequirementCardModel extends Observable {
 
 	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
 			String source, String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
+
+		int ownerID = 0, rqCardIDInt = 1, isFrozenInt = 0;
+
+		// convert ifFrozen boolean to int:
+		if (isFrozen) {
+			isFrozenInt = 1;
+		}
+
+		String sqlSelectUserIDQuery = "SELECT ID FROM User WHERE LoginName='" + loginName + "'";
+		String sqlSelectMaxRequirementQuery = "SELECT MAX(Requirement) FROM Requirement";
+		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
+				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
+				+ isFrozenInt + ", '" + new java.util.Date() + "')";
+		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID) SELECT ID FROM Requirement WHERE";
+
+		// ,ModuleID,Module2ID,Module3ID
+		// + "("+rqCardIDInt + "," + module0ID + "," + module1ID + "," +
+		// module2ID + ")";
+		// String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
+
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
-			Statement stmt$0 = conn.createStatement();
-			Statement stmt$1 = conn.createStatement();
-			Statement stmt$2 = conn.createStatement();
+			// Statement which is used for executing all necesary queries
+			Statement stmt = conn.createStatement();
 
-			ResultSet userID = stmt$0.executeQuery("SELECT ID FROM User WHERE LoginName='" + loginName + "'");
-			ResultSet rQCardID = stmt$1.executeQuery("SELECT MAX(Requirement) FROM Requirement");
-			int ownerID = 0;
-			int rqCardIDInt = 1;
-			if (userID.next() && rQCardID.next()) {
+			// first fetch ownerID
+
+			ResultSet userID = stmt.executeQuery(sqlSelectUserIDQuery);
+
+			if (userID.next()) {
 				ownerID = userID.getInt(1);
+
+				// to use Statement again need to close old ResultSet
+				userID.close();
+			}
+
+			// fetch biggest RqID
+			ResultSet rQCardID = stmt.executeQuery(sqlSelectMaxRequirementQuery);
+
+			if (rQCardID.next()) {
 				rqCardIDInt += rQCardID.getInt(1);
+				rQCardID.close();
 			}
 
-			// convert ifFrozen boolean to int:
-			int isFrozenInt = 0;
-			if (isFrozen) {
-				isFrozenInt = 1;
-			}
+			// need 2 Updates for the 2 Tables (Requirement &
+			// Requirement_Module)
 
-			String sqlInsertIntoRequirement = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
-					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
-					+ isFrozenInt + ", '" + new java.util.Date() + "')";
+			// first insert into Requirement table
+			stmt.executeUpdate(sqlInsertIntoRequirementUpdate);
 
-			// TODO: @steve last modified here
-			String sqlInsertIntoRequirementModule = "INSERT INTO RequirementModule VALUES(ID , RQID, ModID";
-			stmt$0.executeUpdate(sqlInsertIntoRequirement);
-			stmt$2.executeUpdate(sqlInsertIntoRequirementModule);
+			// then check module amount, allocate IDs and insert em into
+			// Requirement_Module table
+			initModuleIDs(stmt.executeQuery(sqlSelectModuleIDQuery));
+			stmt.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 
+			// let the controller know that sth. has changed
 			triggerNotification(loginName);
+
+		} catch (
+
+		SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void initModuleIDs(ResultSet moduleIDs) {
+
+		try {
+			if (moduleIDs.next()) {
+				module0ID = moduleIDs.getInt(1);
+			}
+			if (moduleIDs.next()) {
+				module1ID = moduleIDs.getInt(1);
+			}
+			if (moduleIDs.next()) {
+				module2ID = moduleIDs.getInt(1);
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String generateSelectModuleQuery(ObservableList<String> modules) {
+
+		String sqlSelectModuleID = null;
+		switch (modules.size()) {
+		case 1:
+			sqlSelectModuleID = "SELECT ID FROM Module WHERE Name='" + modules.get(0) + "'";
+			break;
+		case 2:
+			sqlSelectModuleID = "SELECT ID FROM Module WHERE Name='" + modules.get(0) + "' OR Name='" + modules.get(1)
+					+ "'";
+			break;
+		case 3:
+			sqlSelectModuleID = "SELECT ID FROM Module WHERE Name='" + modules.get(0) + "' OR Name='" + modules.get(1)
+					+ "' OR Name='" + modules.get(2) + "'";
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid amount of modules given. Amount was: " + modules.size());
+		}
+		return sqlSelectModuleID;
 	}
 
 	/**

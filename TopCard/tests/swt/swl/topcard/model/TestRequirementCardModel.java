@@ -41,7 +41,7 @@ public class TestRequirementCardModel {
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
 
-		rqModel.insertRqIntoDatabase(title, description, rationale, source, userStories, fitCriterion,
+		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials, isFrozen);
 
 		// 'call' update-Method:
@@ -74,7 +74,7 @@ public class TestRequirementCardModel {
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
 
-		rqModel.insertRqIntoDatabase(title, description, rationale, source, userStories, fitCriterion,
+		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials, isFrozen);
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
