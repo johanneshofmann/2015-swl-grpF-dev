@@ -123,4 +123,72 @@ public class DatabaseHelper {
 		}
 	}
 
+	public static void subscribe(String loginName, String teamName) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			stmt.executeUpdate("INSERT INTO TeamUser(TeamID, UserID) VALUES(" + loginNameToID(loginName) + ","
+					+ teamNameToID(teamName) + ")");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static int loginNameToID(String loginName) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT ID FROM User WHERE LoginName='" + loginName + "'";
+			ResultSet set = stmt.executeQuery(sql);
+			if (set.next()) {
+				return set.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static int teamNameToID(String teamName) {
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT ID FROM Team WHERE TeamName='" + teamName + "'";
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			if (set.next()) {
+				return set.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public static void exitXFromY(String loginName, String string) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "DELETE * FROM UserTeam WHERE UserID=" + loginNameToID(loginName);
+
+			stmt.executeUpdate(sql);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

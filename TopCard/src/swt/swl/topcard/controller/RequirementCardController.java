@@ -332,24 +332,23 @@ public class RequirementCardController implements Observer {
 
 				if (choice.getText().equals(">On both")) {
 
-					// TODO:
+					rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
 
 				} else if (choice.getText().startsWith(">On team ")) {
 
-					// TODO:
+					rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
+					rqModel.letUserExitTeam(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
 
 				} else if (choice.getText().equals("Cancel")) {
 
-					// TODO:
+					exitConfirmation.close();
 
 				} else {
 					throw new IllegalArgumentException("Invalid Text for ButtonType 'choice' ");
 				}
 			} else {
 
-				// TODO: @ Steve : last here: <! model.letUserBeMemberOf(String
-				// team){}/!>
-
+				rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
 			}
 		});
 	}

@@ -554,4 +554,14 @@ public class RequirementCardModel extends Observable {
 		return DatabaseHelper.checkUserAlreadySubscribed(loginName);
 	}
 
+	public void letUserBeMemberOf(String team) {
+
+		DatabaseHelper.subscribe(loginName, team);
+
+	}
+
+	public void letUserExitTeam(String string) {
+		DatabaseHelper.exitXFromY(loginName, string);
+	}
+
 }
