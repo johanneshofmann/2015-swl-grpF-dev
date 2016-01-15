@@ -74,7 +74,7 @@ public class DatabaseHelper {
 			Statement getModules = conn.createStatement();
 
 			ResultSet modulesContainer = getModules.executeQuery(
-					"SELECT ModuleID, Module2ID, Module3ID FROM RequirementModule WHERE RequirementID=" + rQID);
+					"SELECT ModuleID FROM RequirementModule WHERE RequirementID=" + rQID);
 
 			String modules = "";
 
