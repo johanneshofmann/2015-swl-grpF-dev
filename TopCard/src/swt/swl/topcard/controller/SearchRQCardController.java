@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model.SearchHelper;
+import swt.swl.topcard.model.search.SearchOperator;
+import swt.swl.topcard.model.search.VoteValue;
 
 public class SearchRQCardController {
 
@@ -57,7 +59,8 @@ public class SearchRQCardController {
 	private ComboBox<String> descriptionUnderstandableCompareComboBox, descriptionUnderstandableNumberComboBox,
 			rationaleUnderstandableCompareComboBox, rationaleUnderstandableNumberComboBox,
 			rationalePreciseCompareComboBox, rationalePreciseNumberComboBox, descriptionPreciseCompareComboBox,
-			descriptionPreciseNumberComboBox;
+			descriptionPreciseNumberComboBox, descriptionCorrectComboBox, descriptionCompleteComboBox, descriptionAtomicComboBox,
+			rationaleTraceableComboBox, rationaleCorrectComboBox, rationaleConsistentComboBox;
 
 	public SearchRQCardController() {
 
@@ -65,17 +68,26 @@ public class SearchRQCardController {
 
 	private void initialteComboBoxes() {
 
-		ObservableList<String> compare = FXCollections.observableArrayList("<", "=", ">");
+		ObservableList<String> compare = FXCollections.observableArrayList("*", "<", "=", ">");
 		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
 				"9", "10");
-		descriptionUnderstandableCompareComboBox.setItems(compare);
-		descriptionUnderstandableNumberComboBox.setItems(numbers);
-		rationaleUnderstandableCompareComboBox.setItems(compare);
-		rationaleUnderstandableNumberComboBox.setItems(numbers);
+		ObservableList<String> yesno = FXCollections.observableArrayList("*", "Yes", "No", "Unknown");
+
 		descriptionPreciseCompareComboBox.setItems(compare);
 		descriptionPreciseNumberComboBox.setItems(numbers);
+		descriptionUnderstandableCompareComboBox.setItems(compare);
+		descriptionUnderstandableNumberComboBox.setItems(numbers);
+		descriptionCorrectComboBox.setItems(yesno);
+		descriptionCompleteComboBox.setItems(yesno);
+		descriptionAtomicComboBox.setItems(yesno);
+		
 		rationalePreciseCompareComboBox.setItems(compare);
 		rationalePreciseNumberComboBox.setItems(numbers);
+		rationaleUnderstandableCompareComboBox.setItems(compare);
+		rationaleUnderstandableNumberComboBox.setItems(numbers);
+		rationaleTraceableComboBox.setItems(yesno);
+		rationaleCorrectComboBox.setItems(yesno);
+		rationaleConsistentComboBox.setItems(yesno);
 	}
 
 	@FXML
@@ -91,9 +103,30 @@ public class SearchRQCardController {
 
 		String title = null;
 		String owner = null;
-		String fitCriterion = null;
+		String moduleName = null;
+		String description = null;
+		String rationale = null;
 		String source = null;
+		String userStories = null;
 		String supportingMaterials = null;
+		String fitCriterion = null;
+		Integer isFrozen = null;
+		
+		SearchOperator descPreciseOp = null;
+		Integer descPrecise = null;
+		SearchOperator descUnderstandableOp = null;
+		Integer descUnderstandable = null;
+		VoteValue descCorrect = null;
+		VoteValue descComplete = null;
+		VoteValue descAtomic = null;
+		
+		SearchOperator ratPreciseOp = null;
+		Integer ratPrecise = null;
+		SearchOperator ratUnderstandableOp = null;
+		Integer ratUnderstandable = null;
+		VoteValue ratTraceable = null;
+		VoteValue ratCorrect = null;
+		VoteValue ratConsistent = null;
 
 		if (!titleTextField.getText().isEmpty()) {
 			title = titleTextField.getText();
@@ -111,7 +144,7 @@ public class SearchRQCardController {
 			supportingMaterials = supportingMaterialsTextField.getText();
 		}
 
-		SearchHelper.search(model.getObservableArray(), title, owner, fitCriterion, source, supportingMaterials);
+		//SearchHelper.search(model.getObservableArray(), title, owner, fitCriterion, source, supportingMaterials);
 
 		// redirect
 		rqCardController.repaint();
