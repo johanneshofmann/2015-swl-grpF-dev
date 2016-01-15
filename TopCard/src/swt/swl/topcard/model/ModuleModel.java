@@ -92,7 +92,7 @@ public class ModuleModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "delete from Module where ID =" + ID;
+			String sqlInsert = "DELETE FROM Module WHERE ID =" + ID;
 			stmt.executeUpdate(sqlInsert);
 
 		} catch (SQLException e) {
@@ -106,7 +106,7 @@ public class ModuleModel extends Observable {
 				"gruppe_f")) {
 			Statement stmt = conn.createStatement();
 
-			String sqlInsert = "delete from Module where Name =" + Name;
+			String sqlInsert = "DELETE FROM Module WHERE Name =" + Name;
 			stmt.executeUpdate(sqlInsert);
 
 		} catch (SQLException e) {

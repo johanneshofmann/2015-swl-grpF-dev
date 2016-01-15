@@ -73,8 +73,8 @@ public class DatabaseHelper {
 
 			Statement getModules = conn.createStatement();
 
-			ResultSet modulesContainer = getModules.executeQuery(
-					"SELECT ModuleID FROM RequirementModule WHERE RequirementID=" + rQID);
+			ResultSet modulesContainer = getModules
+					.executeQuery("SELECT ModuleID FROM RequirementModule WHERE RequirementID=" + rQID);
 
 			String modules = "";
 
@@ -153,6 +153,29 @@ public class DatabaseHelper {
 		return 0;
 	}
 
+	public static String IDToLoginName(int ownerID) {
+
+		String ownerName = null;
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
+
+			ResultSet ownerNameContainer = stmt.executeQuery(getOwnerNameQuery);
+
+			if (ownerNameContainer.next()) {
+				ownerName = ownerNameContainer.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ownerName;
+	}
+
 	public static int teamNameToID(String teamName) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
@@ -160,7 +183,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "SELECT ID FROM Team WHERE TeamName='" + teamName + "'";
+			String sql = "SELECT ID FROM Team WHERE Name='" + teamName + "'";
 
 			ResultSet set = stmt.executeQuery(sql);
 
