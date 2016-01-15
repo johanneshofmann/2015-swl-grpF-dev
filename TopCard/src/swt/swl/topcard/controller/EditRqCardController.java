@@ -77,12 +77,15 @@ public class EditRqCardController {
 
 	@FXML
 	void editButtonClicked(ActionEvent event) {
-		// TODO: EditRequirementCardController:
 
-		// insert
+		// simply call insert insertRqIntoDatabase() method from model
+
 		model.insertRqIntoDatabase(null, titleTextField.getText(), descriptionTextArea.getText(),
 				rationaleTextArea.getText(), sourceTextField.getText(), userStoriesTextField.getText(),
 				fitCriterionTextField.getText(), supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+
+		// if successful, show alert to user
+
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 

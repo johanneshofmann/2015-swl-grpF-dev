@@ -153,6 +153,29 @@ public class DatabaseHelper {
 		return 0;
 	}
 
+	public static String IDToLoginName(int ownerID) {
+
+		String ownerName = null;
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
+
+			ResultSet ownerNameContainer = stmt.executeQuery(getOwnerNameQuery);
+
+			if (ownerNameContainer.next()) {
+				ownerName = ownerNameContainer.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ownerName;
+	}
+
 	public static int teamNameToID(String teamName) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",

@@ -41,7 +41,7 @@ public class SearchHelper {
 			observableArray.clear();
 
 			while (requirements.next()) {
-				String ownerName = requestOwnerName(requirements.getInt(5));
+				String ownerName = DatabaseHelper.IDToLoginName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
 						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
@@ -77,7 +77,7 @@ public class SearchHelper {
 			}
 			ResultSet requirements = stmt.executeQuery(sql);
 			while (requirements.next()) {
-				String ownerName = requestOwnerName(requirements.getInt(5));
+				String ownerName = DatabaseHelper.IDToLoginName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
 						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
@@ -122,7 +122,7 @@ public class SearchHelper {
 			ResultSet requirements = stmt.executeQuery(sql);
 			observableArray.clear();
 			while (requirements.next()) {
-				String ownerName = requestOwnerName(requirements.getInt(5));
+				String ownerName = DatabaseHelper.IDToLoginName(requirements.getInt(5));
 				observableArray.add(new RequirementCardSimple(requirements.getInt(1), requirements.getString(2),
 						requirements.getInt(3), requirements.getInt(4), requirements.getInt(5), ownerName,
 						requirements.getInt(6), DatabaseHelper.generateModulesString(requirements.getInt(1)),
@@ -156,30 +156,6 @@ public class SearchHelper {
 
 	public void setObservableArray(ObservableList<RequirementCardSimple> observableArray) {
 		SearchHelper.observableArray = observableArray;
-	}
-
-	// TODO: remove or find other solution, duplicated code here:
-	public static String requestOwnerName(int ownerID) {
-
-		String ownerName = null;
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
-
-			ResultSet ownerNameContainer = stmt.executeQuery(getOwnerNameQuery);
-
-			if (ownerNameContainer.next()) {
-				ownerName = ownerNameContainer.getString(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ownerName;
 	}
 
 	public static ObservableList<String> getModules() {
