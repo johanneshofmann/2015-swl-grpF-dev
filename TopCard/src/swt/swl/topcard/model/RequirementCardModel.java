@@ -270,10 +270,10 @@ public class RequirementCardModel extends Observable {
 				String ownerName = requestOwnerName(resultset.getInt(5));
 
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
-						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5),
-						DatabaseHelper.generateModulesString(resultset.getInt(1)), resultset.getInt(6),
+						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
+						DatabaseHelper.generateModulesString(resultset.getInt(1)),
 						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
-						resultset.getString(11), ownerName, resultset.getInt(12), resultset.getTimestamp(13),
+						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
 						resultset.getString(14)));
 			}
 		} catch (SQLException e) {

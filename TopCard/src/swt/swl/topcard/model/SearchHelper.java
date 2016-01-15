@@ -5,26 +5,118 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.model.search.FrozenValue;
+import swt.swl.topcard.model.search.SearchOperator;
+import swt.swl.topcard.model.search.VoteValue;
 
 public class SearchHelper {
 
 	private static ObservableList<RequirementCardSimple> observableArray;
 
-	public static void search(ObservableList<RequirementCardSimple> observableList, String title, String owner,
-			String fitCriterion, String source, String supportingMaterials) {
+	public static void search(ObservableList<RequirementCardSimple> observableList, String title, Integer owner, String module, String description,
+			String rationale, String source, String userStories, String supportingMaterials, String fitCriterion, FrozenValue isFrozen,
+			SearchOperator descPreciseOp, Integer descPrecise, SearchOperator descUnderstandableOp, Integer descUnderstandable, VoteValue descCorrect, VoteValue descComplete, VoteValue descAtomic,
+			SearchOperator ratPreciseOp, Integer ratPrecise, SearchOperator ratUnderstableOp, Integer ratUnderstandable, VoteValue ratTraceable, VoteValue ratCorrect, VoteValue ratConsistent) {
 		// TODO: SearchModel: search() -> add unimplemented parts and test it
 
-		observableArray = observableList;
-		filterTitle(title);
-		filterOwner(owner, title);
-		filterFitCriterion(fitCriterion, title, owner);
-		filterSource(source);
-		filterSupportingMaterials(supportingMaterials);
+		//First of all, retrieve all requirements
+		//Do client-side filtering
+		//1. Filter
+		if(title != null)
+		{
+			observableList.stream().filter( r -> (!r.getTitle().contains(title))).forEach(observableList::remove);
+		}
+		if(owner != null)
+		{
+			observableList.stream().filter( r -> (r.getOwnerID() != owner)).forEach(observableList::remove);
+		}
+		if(module != null)
+		{
+			observableList.stream().filter( r -> (!r.getModules().contains(module))).forEach(observableList::remove);
+		}
+		if(description != null)
+		{
+			observableList.stream().filter(r -> (!r.getDescription().contains(description))).forEach(observableList::remove);
+		}
+		if(rationale != null)
+		{
+			observableList.stream().filter(r -> (!r.getRationale().contains(rationale))).forEach(observableList::remove);
+		}
+		if(source != null)
+		{
+			observableList.stream().filter(r -> (!r.getSource().contains(source))).forEach(observableList::remove);
+		}
+		if(userStories != null)
+		{
+			observableList.stream().filter(r -> (!r.getSource().contains(userStories))).forEach(observableList::remove);
+		}
+		if(supportingMaterials != null)
+		{
+			observableList.stream().filter(r-> (!r.getSupportingMaterials().contains(supportingMaterials))).forEach(observableList::remove);
+		}
+		if(fitCriterion != null)
+		{
+			observableList.stream().filter(r -> (!r.getFitCriterion().contains(fitCriterion))).forEach(observableList::remove);
+		}
+		if(isFrozen != FrozenValue.ALL)
+		{
+			int intFrozen = (isFrozen == FrozenValue.YES) ? 1 : 0;
+			observableList.stream().filter(r -> (r.getIsFrozen() == intFrozen)).forEach(observableList::remove);
+		}
+		if(descPreciseOp != SearchOperator.ALL)
+		{
+			if(descPreciseOp == SearchOperator.EQUAL)
+			{
+				//observableList.stream().filter(r -> (r.get() == intFrozen)).forEach(observableList::remove);
+			}
+			else if(descPreciseOp == SearchOperator.LESS)
+			{
+				
+			}
+			else if(descPreciseOp == SearchOperator.GREATER)
+			{
+				
+			}
+		}
+		if(descUnderstandableOp != SearchOperator.ALL)
+		{
+			
+		}
+		if(descCorrect != VoteValue.ALL)
+		{
+		}
+		if(descComplete != VoteValue.ALL)
+		{
+		}
+		if(descAtomic != VoteValue.ALL)
+		{
+		}
+		if(ratPreciseOp != SearchOperator.ALL)
+		{
+			
+		}
+		if(ratUnderstableOp != SearchOperator.ALL)
+		{
+		}
+		if(ratTraceable != null)
+		{
+			
+		}
+		if(ratCorrect != VoteValue.ALL)
+		{
+			
+		}
+		if(ratConsistent != VoteValue.ALL)
+		{
+			
+		}
+
 	}
 
 	private static void filterTitle(String title) {
