@@ -73,8 +73,8 @@ public class DatabaseHelper {
 
 			Statement getModules = conn.createStatement();
 
-			ResultSet modulesContainer = getModules.executeQuery(
-					"SELECT ModuleID, Module2ID, Module3ID FROM RequirementModule WHERE RequirementID=" + rQID);
+			ResultSet modulesContainer = getModules
+					.executeQuery("SELECT ModuleID FROM RequirementModule WHERE RequirementID=" + rQID);
 
 			String modules = "";
 
@@ -160,7 +160,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "SELECT ID FROM Team WHERE TeamName='" + teamName + "'";
+			String sql = "SELECT ID FROM Team WHERE Name='" + teamName + "'";
 
 			ResultSet set = stmt.executeQuery(sql);
 
