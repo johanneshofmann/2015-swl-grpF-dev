@@ -19,7 +19,7 @@
                   <HBox layoutX="10.0" layoutY="10.0" prefHeight="0.0" prefWidth="775.0" spacing="97.0">
                      <children>
                         <Label prefHeight="16.0" prefWidth="62.0" text="Owner:" />
-                        <TextField fx:id="ownerTextField" layoutX="138.0" layoutY="10.0" prefWidth="400.0" style="-fx-background-radius: 15;" />
+                        <TextField fx:id="ownerTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="271.0" style="-fx-background-radius: 15;" />
                      </children>
                   </HBox>
                   <HBox prefHeight="0.0" prefWidth="775.0" spacing="77.0">
@@ -43,9 +43,12 @@
                            <children>
                               <Button fx:id="descriptionPreciseButton" mnemonicParsing="false" onAction="#descriptionPreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
                               <Button fx:id="descriptionUnderstandableButton" mnemonicParsing="false" onAction="#descriptionUnderstandableButtonClicked" text="Understandable" />
-                              <RadioButton mnemonicParsing="false" text="Correct" />
-                              <RadioButton mnemonicParsing="false" text="Complete" />
-                              <RadioButton mnemonicParsing="false" text="Atomic" />
+                              <Label text="Correct:" />
+                              <ComboBox fx:id="descriptionCorrectComboBox" prefWidth="150.0" />
+                              <Label text="Complete:" />
+                              <ComboBox fx:id="descriptionCompleteComboBox" prefWidth="150.0" />
+                              <Label text="Atomic:" />
+                              <ComboBox fx:id="descriptionAtomicComboBox" prefWidth="150.0" />
                            </children>
                         </VBox>
                      </children>
@@ -58,9 +61,12 @@
                            <children>
                               <Button fx:id="rationalePreciseButton" mnemonicParsing="false" onAction="#rationalePreciseButtonClicked" prefHeight="26.0" prefWidth="122.0" text="Precise" />
                               <Button fx:id="rationaleUnderstandableButton" mnemonicParsing="false" onAction="#rationaleUnderstandableButtonClicked" text="Understandable" />
-                              <RadioButton mnemonicParsing="false" text="Traceable" />
-                              <RadioButton mnemonicParsing="false" text="Correct" />
-                              <RadioButton mnemonicParsing="false" text="Consistent" />
+                              <Label text="Traceable:" />
+                              <ComboBox fx:id="rationaleTraceableComboBox" prefWidth="150.0" />
+                              <Label text="Correct:" />
+                              <ComboBox fx:id="rationaleCorrectComboBox" prefWidth="150.0" />
+                              <Label text="Consistent:" />
+                              <ComboBox fx:id="rationaleConsistentComboBox" prefWidth="150.0" />
                            </children>
                         </VBox>
                      </children>
