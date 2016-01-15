@@ -103,21 +103,18 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet modulesContainer = stmt.executeQuery("SELECT Name FROM Team");
+			int userID = loginNameToID(userName);
 
-			ArrayList<String> teams = new ArrayList<>();
+			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
 
-			while (modulesContainer.next()) {
-
-				teams.add(modulesContainer.getString(1));
+			if (teamsContainer.next()) {
+				return true;
 			}
-			return false;
 
 		} catch (SQLException e) {
-
 			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	public static void subscribe(String loginName, String teamName) {
@@ -197,18 +194,65 @@ public class DatabaseHelper {
 		return 0;
 	}
 
+	public static String IDToTeamName(int teamID) {
+
+		String teamName = null;
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String getTeamNameQuery = "SELECT Name FROM Team WHERE ID=" + teamID;
+
+			ResultSet teamNameContainer = stmt.executeQuery(getTeamNameQuery);
+
+			if (teamNameContainer.next()) {
+				teamName = teamNameContainer.getString(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return teamName;
+	}
+
 	public static void exitXFromY(String loginName, String string) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE * FROM UserTeam WHERE UserID=" + loginNameToID(loginName);
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName);
 
 			stmt.executeUpdate(sql);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static ArrayList<Team> getTeamsUserIsSubscribed(String userName) {
+
+		ArrayList<Team> teams = new ArrayList<>();
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			int userID = loginNameToID(userName);
+
+			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
+
+			if (teamsContainer.next()) {
+				String teamName = teamsContainer.getString(1);
+				teams.add(new Team(teamNameToID(teamName), teamName));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return teams;
 	}
 }

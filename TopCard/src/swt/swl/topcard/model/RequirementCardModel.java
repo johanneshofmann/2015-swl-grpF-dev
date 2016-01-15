@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.Team;
 
 public class RequirementCardModel extends Observable {
 
@@ -59,8 +60,8 @@ public class RequirementCardModel extends Observable {
 				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
 				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
 				+ isFrozenInt + ", '" + new java.util.Date() + "')";
-		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID,Module2ID,Module3ID) VALUES("
-				+ rqCardIDInt + "," + module0ID + "," + module1ID + "," + module2ID + ")";
+		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
+				+ rqCardIDInt + "," + module0ID + ")";
 
 		String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
 
@@ -106,9 +107,7 @@ public class RequirementCardModel extends Observable {
 			// let the controller know that sth. has changed
 			triggerNotification(loginName);
 
-		} catch (
-
-		SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -562,6 +561,10 @@ public class RequirementCardModel extends Observable {
 
 	public void letUserExitTeam(String string) {
 		DatabaseHelper.exitXFromY(loginName, string);
+	}
+
+	public ArrayList<Team> getTeamsUserIsSubscribed() {
+		return DatabaseHelper.getTeamsUserIsSubscribed(loginName);
 	}
 
 }

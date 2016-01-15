@@ -1,32 +1,33 @@
 package swt.swl.topcard.controller;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.application.Platform;
+import org.controlsfx.control.CheckComboBox;
+
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.Team;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class RequirementCardController implements Observer {
@@ -35,13 +36,15 @@ public class RequirementCardController implements Observer {
 	private String loginName;
 	private RequirementCardModel rqModel;
 	private LoginWindowController loginController;
+	private RequirementCardController this$;
 
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
 	@FXML
-	private Button searchRqButton;
+	private HBox menuListHBox;
 	@FXML
-	private ComboBox<String> chooseTeamComboBox;
+	private Button searchRqButton;
+
 	@FXML
 	private ImageView startButton;
 	@FXML
@@ -51,6 +54,7 @@ public class RequirementCardController implements Observer {
 
 	private TableColumn<RequirementCardSimple, String> ownerTableColumn, nameTableColumn;
 
+	private CheckComboBox<String> chooseTeamBox;
 	// all Labels and ResultLabels
 	@FXML
 	private Label loginNameLabel, titleResultLabel, modulesResultLabel, descriptionResultLabel, rationaleResultLabel,
@@ -248,8 +252,8 @@ public class RequirementCardController implements Observer {
 		columns.clear();
 		requirementCardsTable.setEditable(true);
 
-		columns.addAll(nameTableColumn, ownerTableColumn);
-		columns.get(1).setVisible(true);
+		columns.add(nameTableColumn);
+		columns.add(ownerTableColumn);
 
 		this.rqModel.getRequirements();
 		requirementCardsTable.setItems(observableList);
@@ -261,13 +265,13 @@ public class RequirementCardController implements Observer {
 
 		ObservableList<String> teams = rqModel.getTeams();
 
+		chooseTeamBox.getItems().clear();
+
 		for (String team : teams) {
 
-			chooseTeamComboBox.getItems().add(team);
+			chooseTeamBox.getItems().add(team);
 		}
-
-		addEventHandlerToChooseTeamComboBox();
-
+		addEventHandlerToChooseTeamBox();
 	}
 
 	private void addEventHandlerToTableView() {
@@ -310,45 +314,93 @@ public class RequirementCardController implements Observer {
 		});
 	}
 
-	private void addEventHandlerToChooseTeamComboBox() {
+	private void addEventHandlerToChooseTeamBox() {
 
-		chooseTeamComboBox.setOnAction((ActionEvent event) -> {
+		chooseTeamBox = new CheckComboBox<>();
 
-			if (rqModel.userAlreadySubscribed()) {
+		ArrayList<String> teamsFromUser = new ArrayList<>();
 
-				Alert exitConfirmation = new Alert(AlertType.CONFIRMATION,
-						"Subscribe on new team AND your old team OR only on the new one ? ");
+		for (Team team : rqModel.getTeamsUserIsSubscribed()) {
 
-				ObservableList<ButtonType> buttons = exitConfirmation.getDialogPane().getButtonTypes();
+			teamsFromUser.add(team.getName());
+			chooseTeamBox.getCheckModel().check(team.getName());
+		}
 
-				buttons.set(1, new ButtonType(">On both"));
-				buttons.set(2, new ButtonType(
-						">On team " + chooseTeamComboBox.getSelectionModel().getSelectedItem().toString()));
-				buttons.set(0, new ButtonType("Cancel"));
+		chooseTeamBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
 
-				exitConfirmation.showAndWait();
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
 
-				ButtonType choice = exitConfirmation.getResult();
+				ObservableList<String> selectedTeams = chooseTeamBox.getCheckModel().getCheckedItems();
 
-				if (choice.getText().equals(">On both")) {
+				if (rqModel.userAlreadySubscribed()) {
 
-					rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
+					// TODO: @Steve: see wheather and if yes what team has
+					// changed.
 
-				} else if (choice.getText().startsWith(">On team ")) {
+					ArrayList<String> addedTeams = new ArrayList<>();
+					ArrayList<String> removedTeams = new ArrayList<>();
 
-					rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
-					rqModel.letUserExitTeam(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
+					int selectedSize = selectedTeams.size();
+					int actualSize = teamsFromUser.size();
 
-				} else if (choice.getText().equals("Cancel")) {
+					int maxSize = Math.max(selectedSize, actualSize);
 
-					exitConfirmation.close();
+					for (int i = 0; i < maxSize; i++) {
 
-				} else {
-					throw new IllegalArgumentException("Invalid Text for ButtonType 'choice' ");
+						if (i < selectedSize) {
+
+						}
+
+						// if (!teamsFromUser.contains(team)) {
+						// addedTeams.add(team);
+						// }
+					}
+					for (String team : selectedTeams) {
+
+						if (!teamsFromUser.contains(team)) {
+							addedTeams.add(team);
+						}
+					}
+					openSubscribeConfirmationDialogueView(this$, addedTeams);
 				}
-			} else {
+			}
 
-				rqModel.letUserBeMemberOf(chooseTeamComboBox.getSelectionModel().getSelectedItem().toString());
+			private boolean teamAdded(ArrayList<String> teamsFromUser, ObservableList<String> selectedTeams) {
+
+				if (teamsFromUser.size() < selectedTeams.size()) {
+
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			private boolean teamRemoved(ArrayList<String> teamsFromUser, ObservableList<String> selectedTeams) {
+
+				if (teamsFromUser.size() > selectedTeams.size()) {
+
+					return true;
+				}
+				return false;
+			}
+
+			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController,
+					ArrayList<String> newTeams) {
+
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
+					Pane rootLayout = (Pane) loader.load();
+					((SubscribeConfirmationDialogueController) loader.getController()).setData(rqModel, mainController,
+							newTeams);
+					Scene scene = new Scene(rootLayout);
+					mainApp.getPrimaryStage().setScene(scene);
+					mainApp.getPrimaryStage().show();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -386,6 +438,14 @@ public class RequirementCardController implements Observer {
 
 	public void setRqModel(RequirementCardModel rqModel) {
 		this.rqModel = rqModel;
+	}
+
+	public RequirementCardController getThis$() {
+		return this$;
+	}
+
+	public void setThis$(RequirementCardController this$) {
+		this.this$ = this$;
 	}
 
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.SubscribeConfirmationController">
+	<children>
+		<Label layoutX="14.0" layoutY="14.0" text="Confirmation: ">
+			<font>
+				<Font size="22.0" />
+			</font>
+		</Label>
+		<Label layoutX="14.0" layoutY="49.0" text="You've already subscribed on a developer team, " textFill="#9d3636" />
+      <HBox layoutX="273.0" layoutY="90.0" prefHeight="26.0" prefWidth="244.0" spacing="10.0">
+         <children>
+      		<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+            <Button fx:id="onNewTeamButton" mnemonicParsing="false" onAction="#onNewTeamButtonClicked" prefHeight="26.0" prefWidth="83.0" text="On" />
+      		<Button fx:id="onBothButton" mnemonicParsing="false" onAction="#onBothButtonClicked" text="On both" />
+         </children>
+      </HBox>
+      <Label layoutX="14.0" layoutY="65.0" text="subscribe on new team AND your old team OR only on the new one ? " textFill="#9d3636" />
+	</children>
+</Pane>
