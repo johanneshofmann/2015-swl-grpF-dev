@@ -217,13 +217,14 @@ public class DatabaseHelper {
 		return teamName;
 	}
 
-	public static void exitXFromY(String loginName, String string) {
+	public static void exitXFromY(String loginName, String team) {
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName);
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName) + "AND TeamID="
+					+ teamNameToID(team);
 
 			stmt.executeUpdate(sql);
 
@@ -254,5 +255,21 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		return teams;
+	}
+
+	public static void exitUserFromAllTeams(String loginName) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName);
+
+			stmt.executeUpdate(sql);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -271,8 +271,8 @@ public class RequirementCardModel extends Observable {
 
 				observableArray.add(new RequirementCardSimple(resultset.getInt(1), resultset.getString(2),
 						resultset.getInt(3), resultset.getInt(4), resultset.getInt(5), ownerName, resultset.getInt(6),
-						DatabaseHelper.generateModulesString(resultset.getInt(1)),
-						resultset.getString(7), resultset.getString(8), resultset.getString(9), resultset.getString(10),
+						DatabaseHelper.generateModulesString(resultset.getInt(1)), resultset.getString(7),
+						resultset.getString(8), resultset.getString(9), resultset.getString(10),
 						resultset.getString(11), resultset.getInt(12), resultset.getTimestamp(13),
 						resultset.getString(14)));
 			}
@@ -559,12 +559,16 @@ public class RequirementCardModel extends Observable {
 
 	}
 
-	public void letUserExitTeam(String string) {
-		DatabaseHelper.exitXFromY(loginName, string);
+	public void letUserExitTeam(String team) {
+		DatabaseHelper.exitXFromY(loginName, team);
 	}
 
 	public ArrayList<Team> getTeamsUserIsSubscribed() {
 		return DatabaseHelper.getTeamsUserIsSubscribed(loginName);
+	}
+
+	public void letUserExitAllTeams() {
+		DatabaseHelper.exitUserFromAllTeams(loginName);
 	}
 
 }

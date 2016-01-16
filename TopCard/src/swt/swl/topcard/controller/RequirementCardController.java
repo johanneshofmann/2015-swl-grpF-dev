@@ -263,6 +263,8 @@ public class RequirementCardController implements Observer {
 
 	private void initChooseTeamComboBox() {
 
+		chooseTeamBox = new CheckComboBox<>();
+
 		ObservableList<String> teams = rqModel.getTeams();
 
 		chooseTeamBox.getItems().clear();
@@ -271,6 +273,7 @@ public class RequirementCardController implements Observer {
 
 			chooseTeamBox.getItems().add(team);
 		}
+		menuListHBox.getChildren().add(chooseTeamBox);
 		addEventHandlerToChooseTeamBox();
 	}
 
@@ -316,8 +319,6 @@ public class RequirementCardController implements Observer {
 
 	private void addEventHandlerToChooseTeamBox() {
 
-		chooseTeamBox = new CheckComboBox<>();
-
 		ArrayList<String> teamsFromUser = new ArrayList<>();
 
 		for (Team team : rqModel.getTeamsUserIsSubscribed()) {
@@ -333,67 +334,69 @@ public class RequirementCardController implements Observer {
 
 				ObservableList<String> selectedTeams = chooseTeamBox.getCheckModel().getCheckedItems();
 
+				int selectedSize = selectedTeams.size();
+				int actualSize = teamsFromUser.size();
+
 				if (rqModel.userAlreadySubscribed()) {
 
-					// TODO: @Steve: see wheather and if yes what team has
-					// changed.
+					// if team was added..
+					if (selectedSize > actualSize) {
 
-					ArrayList<String> addedTeams = new ArrayList<>();
-					ArrayList<String> removedTeams = new ArrayList<>();
+						for (String team : selectedTeams) {
 
-					int selectedSize = selectedTeams.size();
-					int actualSize = teamsFromUser.size();
+							if (!teamsFromUser.contains(team)) {
 
-					int maxSize = Math.max(selectedSize, actualSize);
+								String textRow1 = "You've already subscribed on a developer team, ";
+								String textRow2 = "subscribe on new team AND your old team(s) OR only on the new one ? ";
+								String button1Config = "true,On all";
+								String button2Config = "true,Only on " + team;
 
-					for (int i = 0; i < maxSize; i++) {
-
-						if (i < selectedSize) {
-
-						}
-
-						// if (!teamsFromUser.contains(team)) {
-						// addedTeams.add(team);
-						// }
-					}
-					for (String team : selectedTeams) {
-
-						if (!teamsFromUser.contains(team)) {
-							addedTeams.add(team);
+								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, button1Config,
+										button2Config);
+							}
 						}
 					}
-					openSubscribeConfirmationDialogueView(this$, addedTeams);
-				}
-			}
 
-			private boolean teamAdded(ArrayList<String> teamsFromUser, ObservableList<String> selectedTeams) {
+					// if team was removed ..
+					if (selectedSize < actualSize) {
+						for (String team : teamsFromUser) {
 
-				if (teamsFromUser.size() < selectedTeams.size()) {
+							if (!selectedTeams.contains(team)) {
 
-					return true;
+								String textRow1, textRow2;
+
+								if (actualSize <= 1) {
+
+									textRow1 = "You're about to leave the only team you're joined.";
+									textRow2 = "Really leave team? ";
+								} else {
+									textRow1 = "You're about to leave team " + team + ", ";
+									textRow2 = "Really leave team? ";
+								}
+
+								String button1Config = "true,Leave";
+								String button2Config = "false,-not displayed-";
+
+								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, button1Config,
+										button2Config);
+							}
+						}
+					}
 				} else {
-					return false;
+					// simply let user enter team..
+					rqModel.letUserBeMemberOf(selectedTeams.get(0));
 				}
 			}
 
-			private boolean teamRemoved(ArrayList<String> teamsFromUser, ObservableList<String> selectedTeams) {
-
-				if (teamsFromUser.size() > selectedTeams.size()) {
-
-					return true;
-				}
-				return false;
-			}
-
-			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController,
-					ArrayList<String> newTeams) {
+			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController, String newTeam,
+					String textRow1, String textRow2, String button1Config, String button2Config) {
 
 				try {
 					FXMLLoader loader = new FXMLLoader();
 					loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
 					Pane rootLayout = (Pane) loader.load();
 					((SubscribeConfirmationDialogueController) loader.getController()).setData(rqModel, mainController,
-							newTeams);
+							newTeam, textRow1, textRow2, button1Config, button2Config);
 					Scene scene = new Scene(rootLayout);
 					mainApp.getPrimaryStage().setScene(scene);
 					mainApp.getPrimaryStage().show();
@@ -402,6 +405,7 @@ public class RequirementCardController implements Observer {
 					e.printStackTrace();
 				}
 			}
+
 		});
 	}
 
