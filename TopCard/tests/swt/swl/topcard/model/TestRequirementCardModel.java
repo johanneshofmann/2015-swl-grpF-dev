@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.RequirementCardSimple;
 
@@ -92,7 +91,4 @@ public class TestRequirementCardModel {
 
 	}
 
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestRequirementCardModel.class);
-	}
 }

@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import junit.framework.TestSuite;
 
 public class TestCreateRQCardController {
 
@@ -21,9 +20,5 @@ public class TestCreateRQCardController {
 		Alert al = new Alert(AlertType.CONFIRMATION, "");
 		// assertEquals(al, CreateRQCardController.closeWindow(ActionEvent
 		// event);
-	}
-
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestCreateRQCardController.class);
 	}
 }
