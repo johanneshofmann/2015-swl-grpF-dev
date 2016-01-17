@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import swt.swl.topcard.controller.RequirementCardController;
+import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class TestRequirementCardModel {
@@ -59,7 +60,7 @@ public class TestRequirementCardModel {
 		assertEquals(true, inArray);
 
 		// delete after checking ..
-		rqModel.deleteRqFromDatabase(title);
+		DatabaseHelper.deleteRqFromDatabase(title);
 	}
 
 	@Test
@@ -85,7 +86,7 @@ public class TestRequirementCardModel {
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
 				supportingMaterials, 0, null, supportingMaterials);
 
-		rqModel.deleteRqFromDatabase(title);
+		DatabaseHelper.deleteRqFromDatabase(title);
 
 		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
 

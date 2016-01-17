@@ -22,6 +22,7 @@ public class DatabaseHelper {
 		}
 	}
 
+	//
 	public static ResultSet executeQuery(String query) {
 
 		if (!isInitialized)
@@ -67,6 +68,24 @@ public class DatabaseHelper {
 		}
 	}
 
+	public static void deleteRqFromDatabase(String title) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt$0 = conn.createStatement();
+			Statement stmt$1 = conn.createStatement();
+
+			ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement WHERE Title='" + title + "'");
+			int rqCardID = 0;
+			while (rqID.next()) {
+				rqCardID = rqID.getInt(1);
+				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static String generateModulesString(int rQID) {
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
@@ -93,6 +112,7 @@ public class DatabaseHelper {
 
 			e.printStackTrace();
 
+			System.out.println("generateModulesString: returning null..");
 			return null;
 		}
 	}

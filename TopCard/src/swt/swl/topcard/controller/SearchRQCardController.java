@@ -1,6 +1,5 @@
 package swt.swl.topcard.controller;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -170,14 +169,17 @@ public class SearchRQCardController {
 
 		isFrozen = frozenChoiceBox.isSelected() ? 1 : 0;
 
-		descPreciseOp = SearchOperator.values()[descriptionPreciseCompareComboBox.getSelectionModel().getSelectedIndex()];
+		descPreciseOp = SearchOperator.values()[descriptionPreciseCompareComboBox.getSelectionModel()
+				.getSelectedIndex()];
 		descPrecise = Integer.getInteger(descriptionPreciseNumberComboBox.getValue());
-		descUnderstandableOp = SearchOperator.values()[descriptionUnderstandableCompareComboBox.getSelectionModel().getSelectedIndex()];
+		descUnderstandableOp = SearchOperator.values()[descriptionUnderstandableCompareComboBox.getSelectionModel()
+				.getSelectedIndex()];
 		descUnderstandable = Integer.getInteger(descriptionUnderstandableNumberComboBox.getValue());
 
 		ratPreciseOp = SearchOperator.values()[rationalePreciseCompareComboBox.getSelectionModel().getSelectedIndex()];
 		ratPrecise = Integer.getInteger(rationalePreciseNumberComboBox.getValue());
-		ratUnderstandableOp = SearchOperator.values()[rationaleUnderstandableCompareComboBox.getSelectionModel().getSelectedIndex()];
+		ratUnderstandableOp = SearchOperator.values()[rationaleUnderstandableCompareComboBox.getSelectionModel()
+				.getSelectedIndex()];
 		ratUnderstandable = Integer.getInteger(rationaleUnderstandableNumberComboBox.getValue());
 
 		descCorrect = VoteValue.values()[descriptionCorrectComboBox.getSelectionModel().getSelectedIndex()];
@@ -192,10 +194,10 @@ public class SearchRQCardController {
 				userStories, supportingMaterials, fitCriterion, isFrozen, descPreciseOp, descPrecise,
 				descUnderstandableOp, descUnderstandable, descCorrect, descComplete, descAtomic, ratPreciseOp,
 				ratPrecise, ratUnderstandableOp, ratUnderstandable, ratTraceable, ratCorrect, ratConsistent);
-		
+
 		rqCardController.repaint();
 	}
-	
+
 	@FXML
 	void descriptionPreciseButtonClicked(ActionEvent event) {
 		descriptionPreciseButton.setVisible(false);
