@@ -1,5 +1,6 @@
 package swt.swl.topcard.controller;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,9 +46,6 @@ public class SearchRQCardController {
 	private Button closeButton, searchButton;
 
 	@FXML
-	private CheckBox descriptionCorrectCheckBox, descriptionCompleteCheckBox, descriptionAtomicCheckBox,
-			rationaleTraceableCheckBox, rationaleCorrectCheckBox, rationaleConsistentCheckBox;
-	@FXML
 	private Button descriptionPreciseButton, descriptionUnderstandableButton, rationalePreciseButton,
 			rationaleUnderstandableButton;;
 
@@ -59,14 +57,14 @@ public class SearchRQCardController {
 	private ComboBox<String> descriptionUnderstandableCompareComboBox, descriptionUnderstandableNumberComboBox,
 			rationaleUnderstandableCompareComboBox, rationaleUnderstandableNumberComboBox,
 			rationalePreciseCompareComboBox, rationalePreciseNumberComboBox, descriptionPreciseCompareComboBox,
-			descriptionPreciseNumberComboBox, descriptionCorrectComboBox, descriptionCompleteComboBox, descriptionAtomicComboBox,
-			rationaleTraceableComboBox, rationaleCorrectComboBox, rationaleConsistentComboBox;
+			descriptionPreciseNumberComboBox, descriptionCorrectComboBox, descriptionCompleteComboBox,
+			descriptionAtomicComboBox, rationaleTraceableComboBox, rationaleCorrectComboBox,
+			rationaleConsistentComboBox;
 
 	public SearchRQCardController() {
-
 	}
 
-	private void initialteComboBoxes() {
+	private void initiateComboBoxes() {
 
 		ObservableList<String> compare = FXCollections.observableArrayList("*", "<", "=", ">");
 		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
@@ -80,7 +78,7 @@ public class SearchRQCardController {
 		descriptionCorrectComboBox.setItems(yesno);
 		descriptionCompleteComboBox.setItems(yesno);
 		descriptionAtomicComboBox.setItems(yesno);
-		
+
 		rationalePreciseCompareComboBox.setItems(compare);
 		rationalePreciseNumberComboBox.setItems(numbers);
 		rationaleUnderstandableCompareComboBox.setItems(compare);
@@ -88,6 +86,22 @@ public class SearchRQCardController {
 		rationaleTraceableComboBox.setItems(yesno);
 		rationaleCorrectComboBox.setItems(yesno);
 		rationaleConsistentComboBox.setItems(yesno);
+
+		// Select default items
+		descriptionPreciseCompareComboBox.setValue("*");
+		descriptionPreciseNumberComboBox.setValue("10");
+		descriptionUnderstandableCompareComboBox.setValue("*");
+		descriptionUnderstandableNumberComboBox.setValue("10");
+		descriptionCorrectComboBox.setValue("*");
+		descriptionCompleteComboBox.setValue("*");
+		descriptionAtomicComboBox.setValue("*");
+		rationalePreciseCompareComboBox.setValue("*");
+		rationalePreciseNumberComboBox.setValue("10");
+		rationaleUnderstandableCompareComboBox.setValue("*");
+		rationaleUnderstandableNumberComboBox.setValue("10");
+		rationaleTraceableComboBox.setValue("*");
+		rationaleCorrectComboBox.setValue("*");
+		rationaleConsistentComboBox.setValue("*");
 	}
 
 	@FXML
@@ -111,7 +125,7 @@ public class SearchRQCardController {
 		String supportingMaterials = null;
 		String fitCriterion = null;
 		Integer isFrozen = null;
-		
+
 		SearchOperator descPreciseOp = null;
 		Integer descPrecise = null;
 		SearchOperator descUnderstandableOp = null;
@@ -119,7 +133,7 @@ public class SearchRQCardController {
 		VoteValue descCorrect = null;
 		VoteValue descComplete = null;
 		VoteValue descAtomic = null;
-		
+
 		SearchOperator ratPreciseOp = null;
 		Integer ratPrecise = null;
 		SearchOperator ratUnderstandableOp = null;
@@ -134,25 +148,56 @@ public class SearchRQCardController {
 		if (!ownerTextField.getText().isEmpty()) {
 			owner = ownerTextField.getText();
 		}
-		if (!fitCriterionTextField.getText().isEmpty()) {
-			fitCriterion = fitCriterionTextField.getText();
+		// TODO: Modules
+		if (!descriptionTextArea.getText().isEmpty()) {
+			description = descriptionTextArea.getText();
+		}
+		if (!rationaleTextArea.getText().isEmpty()) {
+			rationale = rationaleTextArea.getText();
 		}
 		if (!sourceTextField.getText().isEmpty()) {
 			source = sourceTextField.getText();
 		}
+		if (!userStoriesTextField.getText().isEmpty()) {
+			userStories = userStoriesTextField.getText();
+		}
 		if (supportingMaterialsTextField.getText().isEmpty()) {
 			supportingMaterials = supportingMaterialsTextField.getText();
 		}
+		if (!fitCriterionTextField.getText().isEmpty()) {
+			fitCriterion = fitCriterionTextField.getText();
+		}
 
-		//SearchHelper.search(model.getObservableArray(), title, owner, fitCriterion, source, supportingMaterials);
+		isFrozen = frozenChoiceBox.isSelected() ? 1 : 0;
 
-		// redirect
+		descPreciseOp = SearchOperator.values()[descriptionPreciseCompareComboBox.getSelectionModel().getSelectedIndex()];
+		descPrecise = Integer.getInteger(descriptionPreciseNumberComboBox.getValue());
+		descUnderstandableOp = SearchOperator.values()[descriptionUnderstandableCompareComboBox.getSelectionModel().getSelectedIndex()];
+		descUnderstandable = Integer.getInteger(descriptionUnderstandableNumberComboBox.getValue());
+
+		ratPreciseOp = SearchOperator.values()[rationalePreciseCompareComboBox.getSelectionModel().getSelectedIndex()];
+		ratPrecise = Integer.getInteger(rationalePreciseNumberComboBox.getValue());
+		ratUnderstandableOp = SearchOperator.values()[rationaleUnderstandableCompareComboBox.getSelectionModel().getSelectedIndex()];
+		ratUnderstandable = Integer.getInteger(rationaleUnderstandableNumberComboBox.getValue());
+
+		descCorrect = VoteValue.values()[descriptionCorrectComboBox.getSelectionModel().getSelectedIndex()];
+		descComplete = VoteValue.values()[descriptionCompleteComboBox.getSelectionModel().getSelectedIndex()];
+		descAtomic = VoteValue.values()[descriptionAtomicComboBox.getSelectionModel().getSelectedIndex()];
+
+		ratTraceable = VoteValue.values()[rationaleTraceableComboBox.getSelectionModel().getSelectedIndex()];
+		ratCorrect = VoteValue.values()[rationaleCorrectComboBox.getSelectionModel().getSelectedIndex()];
+		ratConsistent = VoteValue.values()[rationaleConsistentComboBox.getSelectionModel().getSelectedIndex()];
+
+		SearchHelper.search(model.getObservableArray(), title, owner, moduleName, description, rationale, source,
+				userStories, supportingMaterials, fitCriterion, isFrozen, descPreciseOp, descPrecise,
+				descUnderstandableOp, descUnderstandable, descCorrect, descComplete, descAtomic, ratPreciseOp,
+				ratPrecise, ratUnderstandableOp, ratUnderstandable, ratTraceable, ratCorrect, ratConsistent);
+		
 		rqCardController.repaint();
 	}
-
+	
 	@FXML
 	void descriptionPreciseButtonClicked(ActionEvent event) {
-		initialteComboBoxes();
 		descriptionPreciseButton.setVisible(false);
 		descriptionPreciseHBox.setVisible(true);
 	}
@@ -178,5 +223,6 @@ public class SearchRQCardController {
 	public void setData(RequirementCardModel model, RequirementCardController controller) {
 		this.model = model;
 		this.rqCardController = controller;
+		this.initiateComboBoxes();
 	}
 }
