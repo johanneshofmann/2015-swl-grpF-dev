@@ -2,6 +2,8 @@ package swt.swl.topcard.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import swt.swl.topcard.model.RequirementCardModel;
@@ -16,61 +18,89 @@ public class SubscribeConfirmationDialogueController {
 	@FXML
 	private Label confirmationMessageRowOneLabel, confirmationMessageRowTwoLabel;
 
-	private String team;
+	private String changedTeam;
+	private boolean teamAdded;
 
 	@FXML
 	void cancel(ActionEvent event) {
+
+		mainController.restoreChangedTeam(changedTeam, teamAdded);
 		mainController.repaint();
 	}
 
 	@FXML
-	void rightButtonButtonClicked(ActionEvent event) {
+	void rightButtonClicked(ActionEvent event) {
 
 		if (rightButton.getText().equals("On all")) {
-			model.letUserBeMemberOf(team);
+			model.letUserBeMemberOf(changedTeam);
+
+			new Alert(AlertType.INFORMATION, "On all teams subscribed.").showAndWait();
+			mainController.repaint();
 		}
 		if (rightButton.getText().startsWith("Only on ")) {
 
+			for (String team : mainController.getRqModel().getTeamsUserIsSubscribed()) {
+				mainController.restoreChangedTeam(team, true);
+			}
 			model.letUserExitAllTeams();
+			model.letUserBeMemberOf(changedTeam);
+			mainController.restoreChangedTeam(changedTeam, false);
 
-			model.letUserBeMemberOf(team);
+			new Alert(AlertType.INFORMATION, "You exited all teams but the one you have chosen.").showAndWait();
+			mainController.repaint();
 		}
 	}
 
 	@FXML
-	void leftButtonButtonClicked(ActionEvent event) {
+	void leftButtonClicked(ActionEvent event) {
 
 		if (leftButton.getText().equals("Leave")) {
-			model.letUserExitTeam(team);
+
+			model.letUserExitTeam(changedTeam);
+			mainController.restoreChangedTeam(changedTeam, true);
+
+			new Alert(AlertType.INFORMATION, "Left team " + changedTeam + ".").showAndWait();
+			mainController.repaint();
 		}
 		if (leftButton.getText().equals("On all")) {
-			model.letUserBeMemberOf(team);
+
+			model.letUserBeMemberOf(changedTeam);
+
+			new Alert(AlertType.INFORMATION, "On all teams subscribed.").showAndWait();
+			mainController.repaint();
 		}
 	}
 
-	public void setData(RequirementCardModel model, RequirementCardController mainController, String team,
-			String textRow1, String textRow2, String button1Config, String button2Config) {
+	public void setData(RequirementCardModel model, RequirementCardController mainController, String changedTeam,
+			String textRow1, String textRow2, String[] leftButtonConfig, String[] rightButtonConfig) {
 
+		// first set necessary mvc members:
 		this.model = model;
 		this.mainController = mainController;
-		this.team = team;
 
+		// then the team that changed:
+		this.changedTeam = changedTeam;
+
+		// now put parameters textRow1/textRow2 in the specific labels:
 		this.confirmationMessageRowOneLabel.setText(textRow1);
 		this.confirmationMessageRowTwoLabel.setText(textRow2);
 
-		this.leftButton.setVisible(button1Config.startsWith("t"));
+		// processing data given with the *Config parameters..
 
-		String leftButtonText = button1Config.replaceAll("true,", "");
-		leftButtonText = leftButtonText.replaceAll("false,", "");
+		// first config left button:
 
-		this.leftButton.setText(leftButtonText);
+		this.leftButton.setVisible(leftButtonConfig[0].equals("true"));
 
-		this.rightButton.setVisible(button2Config.startsWith("t"));
+		this.leftButton.setText(leftButtonConfig[1]);
 
-		String rightButtonText = button2Config.replaceAll("true,", "");
-		rightButtonText = rightButtonText.replaceAll("false,", "");
+		// then right button:
 
-		this.leftButton.setText(rightButtonText);
+		this.rightButton.setVisible(rightButtonConfig[0].equals("true"));
+
+		this.rightButton.setText(rightButtonConfig[1]);
+
+		// is used later atcancel(ActionEvent event);
+		this.teamAdded = rightButton.isVisible();
+		System.out.println(teamAdded);
 	}
-
 }

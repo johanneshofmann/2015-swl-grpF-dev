@@ -68,6 +68,7 @@ public class DatabaseHelper {
 	}
 
 	public static String generateModulesString(int rQID) {
+
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
 
@@ -79,19 +80,19 @@ public class DatabaseHelper {
 			String modules = "";
 
 			if (modulesContainer.next()) {
-				if (modulesContainer.getString(1) != null) {
-					modules += modulesContainer.getString(1);
-				}
-				if (modulesContainer.getString(2) != null) {
-					modules += "," + modulesContainer.getString(2);
-				}
-				if (modulesContainer.getString(3) != null) {
-					modules += "," + modulesContainer.getString(3);
-				}
+				modules += modulesContainer.getString(1);
+			} else if (modulesContainer.next()) {
+				modules += "," + modulesContainer.getString(1);
+			} else if (modulesContainer.next()) {
+				modules += "," + modulesContainer.getString(1);
 			}
+
 			return modules;
+
 		} catch (SQLException e) {
+
 			e.printStackTrace();
+
 			return null;
 		}
 	}
@@ -147,7 +148,7 @@ public class DatabaseHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return -1;
 	}
 
 	public static String IDToLoginName(int ownerID) {
@@ -191,7 +192,7 @@ public class DatabaseHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return -1;
 	}
 
 	public static String IDToTeamName(int teamID) {
@@ -223,7 +224,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName) + "AND TeamID="
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName) + " AND TeamID="
 					+ teamNameToID(team);
 
 			stmt.executeUpdate(sql);
@@ -233,9 +234,9 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static ArrayList<Team> getTeamsUserIsSubscribed(String userName) {
+	public static ArrayList<String> getTeamsUserIsSubscribed(String userName) {
 
-		ArrayList<Team> teams = new ArrayList<>();
+		ArrayList<String> teams = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
 				"gruppe_f")) {
@@ -247,8 +248,8 @@ public class DatabaseHelper {
 			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
 
 			if (teamsContainer.next()) {
-				String teamName = teamsContainer.getString(1);
-				teams.add(new Team(teamNameToID(teamName), teamName));
+				int teamID = teamsContainer.getInt(1);
+				teams.add(IDToTeamName(teamID));
 			}
 
 		} catch (SQLException e) {

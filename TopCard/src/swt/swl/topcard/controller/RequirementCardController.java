@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.controlsfx.control.CheckComboBox;
+import org.controlsfx.control.IndexedCheckModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -14,7 +15,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -27,7 +31,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.Team;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class RequirementCardController implements Observer {
@@ -70,6 +73,7 @@ public class RequirementCardController implements Observer {
 		rqModel = new RequirementCardModel();
 		rqModel.setObservableArray(this.observableList);
 		rqModel.addObserver(this);
+		setThis$(this);
 	}
 
 	public void initializeFXNodes() {
@@ -186,12 +190,6 @@ public class RequirementCardController implements Observer {
 
 	}
 
-	@FXML
-	void subscribeButtonClicked(ActionEvent event) {
-		// TODO: RequirementCardController: implement subscribeButtonClicked()
-
-	}
-
 	/**
 	 *
 	 */
@@ -245,9 +243,6 @@ public class RequirementCardController implements Observer {
 
 		ownerTableColumn = new TableColumn<>("Owner");
 		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
-
-		// TODO: RequirementCardController: owner is only visible by clicking
-		// exactly on the owner table column.
 
 		columns.clear();
 		requirementCardsTable.setEditable(true);
@@ -317,15 +312,14 @@ public class RequirementCardController implements Observer {
 		});
 	}
 
-	//
 	private void addEventHandlerToChooseTeamBox() {
 
 		ArrayList<String> teamsFromUser = new ArrayList<>();
 
-		for (Team team : rqModel.getTeamsUserIsSubscribed()) {
+		for (String team : rqModel.getTeamsUserIsSubscribed()) {
 
-			teamsFromUser.add(team.getName());
-			chooseTeamBox.getCheckModel().check(team.getName());
+			teamsFromUser.add(team);
+			chooseTeamBox.getCheckModel().check(team);
 		}
 
 		chooseTeamBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
@@ -345,24 +339,19 @@ public class RequirementCardController implements Observer {
 
 						for (String team : selectedTeams) {
 
-							if (!teamsFromUser.contains(team)) {
+							if (!teamsFromUser.contains(team.toString())) {
 
-								String textRow1 = "You've already subscribed on a developer team, ";
-								String textRow2 = "subscribe on new team AND your old team(s) OR only on the new one ? ";
-								String button1Config = "true,On all";
-								String button2Config = "true,Only on " + team;
-
-								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, button1Config,
-										button2Config);
+								openConfirmationAlert(team);
 							}
 						}
 					}
 
 					// if team was removed ..
 					if (selectedSize < actualSize) {
+
 						for (String team : teamsFromUser) {
 
-							if (!selectedTeams.contains(team)) {
+							if (!selectedTeams.contains(team.toString())) {
 
 								String textRow1, textRow2;
 
@@ -370,34 +359,93 @@ public class RequirementCardController implements Observer {
 
 									textRow1 = "You're about to leave the only team you're joined.";
 									textRow2 = "Really leave team? ";
+
 								} else {
+
 									textRow1 = "You're about to leave team " + team + ", ";
 									textRow2 = "Really leave team? ";
 								}
 
-								String button1Config = "true,Leave";
-								String button2Config = "false,-not displayed-";
+								String[] leftButtonConfig = { "true", "Leave" };
+								String[] rightButtonConfig = { "false", "-not displayed-" };
 
-								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, button1Config,
-										button2Config);
+								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, leftButtonConfig,
+										rightButtonConfig);
 							}
 						}
 					}
 				} else {
 					// simply let user enter team..
 					rqModel.letUserBeMemberOf(selectedTeams.get(0));
+					new Alert(AlertType.INFORMATION, "You are now member of the team " + selectedTeams.get(0) + ".")
+							.showAndWait();
 				}
 			}
 
-			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController, String newTeam,
-					String textRow1, String textRow2, String button1Config, String button2Config) {
+			private void openConfirmationAlert(String team) {
+
+				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION,
+						"You've already subscribed on a developer team, /t subscribe on new team AND your old team(s) OR only on the new one ? ");
+
+				confirmationAlert.getButtonTypes().set(0, new ButtonType("Cancel"));
+				confirmationAlert.getButtonTypes().set(1, new ButtonType("On all"));
+				confirmationAlert.getButtonTypes().add(new ButtonType("Only on " + team));
+
+				confirmationAlert.showAndWait();
+
+				if (confirmationAlert.getResult().getText().equals("Cancel")) {
+
+					restoreChangedTeam(team, true);
+
+					confirmationAlert.close();
+
+				} else if (confirmationAlert.getResult().getText().equals("On all")) {
+
+					rqModel.letUserBeMemberOf(team);
+
+					confirmationAlert.close();
+
+					new Alert(AlertType.INFORMATION, "On all teams subscribed.").showAndWait();
+
+				} else if (confirmationAlert.getResult().getText().equals("Only on " + team)) {
+
+					chooseTeamBox.getCheckModel().clearChecks();
+					rqModel.letUserExitAllTeams();
+
+					restoreChangedTeam(team, false);
+					rqModel.letUserBeMemberOf(team);
+
+					confirmationAlert.close();
+
+					new Alert(AlertType.INFORMATION, "You exited all teams but the one you have chosen.").showAndWait();
+				}
+				// String textRow1 = "You've already subscribed
+				// on a developer team, ";
+				// String textRow2 = "subscribe on new team AND
+				// your old team(s) OR only on the new one ? ";
+				//
+				// String[] leftButtonConfig = { "true", "On
+				// all" };
+				// String[] rightButtonConfig = { "true", "Only
+				// on " + team };
+				//
+				// openSubscribeConfirmationDialogueView(this$,
+				// team, textRow1, textRow2, leftButtonConfig,
+				// rightButtonConfig);
+
+			}
+
+			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController,
+					String changedTeam, String textRow1, String textRow2, String[] leftButtonConfig,
+					String[] rightButtonConfig) {
 
 				try {
 					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
+					loader.setLocation(
+							getClass().getResource("/swt/swl/topcard/view/SubscribeConfirmationDialogueView.fxml"));
 					Pane rootLayout = (Pane) loader.load();
 					((SubscribeConfirmationDialogueController) loader.getController()).setData(rqModel, mainController,
-							newTeam, textRow1, textRow2, button1Config, button2Config);
+							changedTeam, textRow1, textRow2, leftButtonConfig, rightButtonConfig);
 					Scene scene = new Scene(rootLayout);
 					mainApp.getPrimaryStage().setScene(scene);
 					mainApp.getPrimaryStage().show();
@@ -408,6 +456,34 @@ public class RequirementCardController implements Observer {
 			}
 
 		});
+	}
+
+	public void restoreChangedTeam(String changedTeam, boolean wasAdded) {
+
+		IndexedCheckModel<String> checkModel = chooseTeamBox.getCheckModel();
+		ObservableList<String> selectedTeams;
+
+		if (wasAdded) {
+
+			checkModel.clearCheck(changedTeam);
+
+			// @Test:
+			selectedTeams = checkModel.getCheckedItems();
+
+			if (selectedTeams.contains(changedTeam)) {
+
+				throw new IllegalStateException("Selected teams should not contain changed team! ");
+			}
+
+		} else {
+
+			checkModel.check(changedTeam);
+
+			// @Test:
+			selectedTeams = checkModel.getCheckedItems();
+
+		}
+
 	}
 
 	/**
