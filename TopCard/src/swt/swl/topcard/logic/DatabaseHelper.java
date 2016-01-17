@@ -22,6 +22,7 @@ public class DatabaseHelper {
 		}
 	}
 
+	//
 	public static ResultSet executeQuery(String query) {
 
 		if (!isInitialized)
