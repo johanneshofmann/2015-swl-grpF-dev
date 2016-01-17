@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
@@ -46,7 +45,7 @@ public class RequirementCardModel extends Observable {
 	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
 			String source, String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
 
-		int ownerID = 0, rqCardIDInt = 1, isFrozenInt = 0;
+		int ownerID = -1, rqCardIDInt = -1, isFrozenInt = 0;
 
 		// convert ifFrozen boolean to int:
 		if (isFrozen) {
@@ -55,12 +54,6 @@ public class RequirementCardModel extends Observable {
 
 		String sqlSelectUserIDQuery = "SELECT ID FROM User WHERE LoginName='" + loginName + "'";
 		String sqlSelectMaxRequirementQuery = "SELECT MAX(Requirement) FROM Requirement";
-		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
-				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
-				+ isFrozenInt + ", '" + new java.util.Date() + "')";
-		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-				+ rqCardIDInt + "," + module0ID + ")";
 
 		String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
 
@@ -85,7 +78,7 @@ public class RequirementCardModel extends Observable {
 			ResultSet rQCardID = stmt.executeQuery(sqlSelectMaxRequirementQuery);
 
 			if (rQCardID.next()) {
-				rqCardIDInt += rQCardID.getInt(1);
+				rqCardIDInt += (2 + rQCardID.getInt(1));
 				rQCardID.close();
 			}
 
@@ -93,6 +86,11 @@ public class RequirementCardModel extends Observable {
 			// Requirement_Module)
 
 			// first insert into Requirement table
+			String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
+					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
+					+ isFrozenInt + ", '" + new java.util.Date() + "')";
+
 			stmt.executeUpdate(sqlInsertIntoRequirementUpdate);
 
 			// then check module amount, allocate IDs and insert em into
@@ -100,6 +98,8 @@ public class RequirementCardModel extends Observable {
 			initModuleIDs(stmt.executeQuery(sqlSelectModuleIDQuery));
 
 			// TODO: here's sth going wrong:
+			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
+					+ rqCardIDInt + "," + module0ID + ")";
 
 			stmt.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 
@@ -188,7 +188,7 @@ public class RequirementCardModel extends Observable {
 				selected.setTitle((rQCardData.getString(2))); // Title
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
-				selected.setOwnerName(generateOwnerName(rQCardData.getInt(5))); // ownerName
+				selected.setOwnerName(DatabaseHelper.IDToLoginName(rQCardData.getInt(5))); // ownerName
 				selected.setRqID(rQCardData.getInt(6)); // rqID
 				selected.setModules(DatabaseHelper.generateModulesString(selected.getRqID()));
 				selected.setDescription(rQCardData.getString(7)); // Description
@@ -211,48 +211,6 @@ public class RequirementCardModel extends Observable {
 			return selected;
 		} else {
 			throw new ClassFormatError("selected RqCard hasn't changed correctly");
-		}
-	}
-
-	private String generateOwnerName(int ownerID) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement getOwnerName = conn.createStatement();
-
-			ResultSet ownerName = getOwnerName.executeQuery("SELECT LoginName FROM User WHERE ID = " + ownerID);
-
-			if (ownerName.next()) {
-				return ownerName.getString(1); // ownerName
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		}
-		return null;
-	}
-
-	/**
-	 *
-	 *
-	 * @param title
-	 */
-	public void deleteRqFromDatabase(String title) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt$0 = conn.createStatement();
-			Statement stmt$1 = conn.createStatement();
-
-			ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement WHERE Title='" + title + "'");
-			int rqCardID = 0;
-			while (rqID.next()) {
-				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -392,14 +350,6 @@ public class RequirementCardModel extends Observable {
 
 		return generateEverageVoteResult(allVoteResults);
 	}
-	
-	public void getAllVoteResults()
-	{
-		for(RequirementCardSimple req : observableArray)
-		{
-			req.setSubmittedVote(this.getVoteResults(req.getRqID()));
-		}
-	}
 
 	private SubmittedVoteSimple generateEverageVoteResult(ArrayList<SubmittedVoteSimple> allVoteResults) {
 
@@ -505,28 +455,7 @@ public class RequirementCardModel extends Observable {
 
 	public ObservableList<String> getModules() {
 
-		SearchHelper.getModules();
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM Module";
-
-			ResultSet modulesSet = stmt.executeQuery(query);
-			ObservableList<String> modules = FXCollections.observableArrayList();
-
-			while (modulesSet.next()) {
-				modules.add(modulesSet.getString(1));
-			}
-			return modules;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-
+		return SearchHelper.getModules();
 	}
 
 	private String requestOwnerName(int ownerID) {
