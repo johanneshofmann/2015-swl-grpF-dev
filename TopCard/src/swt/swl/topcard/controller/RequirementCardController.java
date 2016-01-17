@@ -91,10 +91,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	void startButtonClicked(MouseEvent event) {
-		initializeFXNodes();
-		mainApp.getPrimaryStage().close();
-		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
-		mainApp.getPrimaryStage().show();
+		repaint();
 	}
 
 	@FXML
@@ -308,21 +305,16 @@ public class RequirementCardController implements Observer {
 						frozenResultLabel.setText(item.getIsFrozen() + "");
 					}
 				}
+
 			}
 		});
 	}
 
 	private void addEventHandlerToChooseTeamBox() {
 
-		ArrayList<String> teamsFromUser = new ArrayList<>();
-
-		for (String team : rqModel.getTeamsUserIsSubscribed()) {
-
-			teamsFromUser.add(team);
-			chooseTeamBox.getCheckModel().check(team);
-		}
-
 		chooseTeamBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+
+			ArrayList<String> teamsFromUser = initComboBoxAndGetTeamsFromUser();
 
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
@@ -337,41 +329,50 @@ public class RequirementCardController implements Observer {
 					// if team was added..
 					if (selectedSize > actualSize) {
 
+						String teamStr = null;
+
 						for (String team : selectedTeams) {
 
 							if (!teamsFromUser.contains(team.toString())) {
 
-								openConfirmationAlert(team);
+								rqModel.letUserBeMemberOf(team);
+								teamStr = team;
 							}
 						}
+						new Alert(AlertType.INFORMATION, "You are now member of the team " + teamStr + ".")
+								.showAndWait();
 					}
 
 					// if team was removed ..
 					if (selectedSize < actualSize) {
-
+						Alert removeConfirmation = null;
+						String teamStr = null;
 						for (String team : teamsFromUser) {
 
 							if (!selectedTeams.contains(team.toString())) {
-
-								String textRow1, textRow2;
+								teamStr = team;
 
 								if (actualSize <= 1) {
 
-									textRow1 = "You're about to leave the only team you're joined.";
-									textRow2 = "Really leave team? ";
+									String textRow = "You're about to leave the only team you're joined. Really leave team?";
+
+									removeConfirmation = new Alert(AlertType.CONFIRMATION, textRow);
+
+									removeConfirmation.getButtonTypes().set(0, new ButtonType("Cancel"));
+									removeConfirmation.getButtonTypes().set(1, new ButtonType("Leave"));
 
 								} else {
-
-									textRow1 = "You're about to leave team " + team + ", ";
-									textRow2 = "Really leave team? ";
+									rqModel.letUserExitTeam(team);
+									removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + team + ".");
 								}
-
-								String[] leftButtonConfig = { "true", "Leave" };
-								String[] rightButtonConfig = { "false", "-not displayed-" };
-
-								openSubscribeConfirmationDialogueView(this$, team, textRow1, textRow2, leftButtonConfig,
-										rightButtonConfig);
 							}
+						}
+						removeConfirmation.showAndWait();
+						if (removeConfirmation.getResult().getText().toString().equals("Leave")) {
+							rqModel.letUserExitTeam(teamStr);
+							new Alert(AlertType.INFORMATION, "Left team " + teamStr + ".").showAndWait();
+						} else {
+							removeConfirmation.close();
 						}
 					}
 				} else {
@@ -381,81 +382,19 @@ public class RequirementCardController implements Observer {
 							.showAndWait();
 				}
 			}
-
-			private void openConfirmationAlert(String team) {
-
-				Alert confirmationAlert = new Alert(AlertType.CONFIRMATION,
-						"You've already subscribed on a developer team, /t subscribe on new team AND your old team(s) OR only on the new one ? ");
-
-				confirmationAlert.getButtonTypes().set(0, new ButtonType("Cancel"));
-				confirmationAlert.getButtonTypes().set(1, new ButtonType("On all"));
-				confirmationAlert.getButtonTypes().add(new ButtonType("Only on " + team));
-
-				confirmationAlert.showAndWait();
-
-				if (confirmationAlert.getResult().getText().equals("Cancel")) {
-
-					restoreChangedTeam(team, true);
-
-					confirmationAlert.close();
-
-				} else if (confirmationAlert.getResult().getText().equals("On all")) {
-
-					rqModel.letUserBeMemberOf(team);
-
-					confirmationAlert.close();
-
-					new Alert(AlertType.INFORMATION, "On all teams subscribed.").showAndWait();
-
-				} else if (confirmationAlert.getResult().getText().equals("Only on " + team)) {
-
-					chooseTeamBox.getCheckModel().clearChecks();
-					rqModel.letUserExitAllTeams();
-
-					restoreChangedTeam(team, false);
-					rqModel.letUserBeMemberOf(team);
-
-					confirmationAlert.close();
-
-					new Alert(AlertType.INFORMATION, "You exited all teams but the one you have chosen.").showAndWait();
-				}
-				// String textRow1 = "You've already subscribed
-				// on a developer team, ";
-				// String textRow2 = "subscribe on new team AND
-				// your old team(s) OR only on the new one ? ";
-				//
-				// String[] leftButtonConfig = { "true", "On
-				// all" };
-				// String[] rightButtonConfig = { "true", "Only
-				// on " + team };
-				//
-				// openSubscribeConfirmationDialogueView(this$,
-				// team, textRow1, textRow2, leftButtonConfig,
-				// rightButtonConfig);
-
-			}
-
-			private void openSubscribeConfirmationDialogueView(RequirementCardController mainController,
-					String changedTeam, String textRow1, String textRow2, String[] leftButtonConfig,
-					String[] rightButtonConfig) {
-
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(
-							getClass().getResource("/swt/swl/topcard/view/SubscribeConfirmationDialogueView.fxml"));
-					Pane rootLayout = (Pane) loader.load();
-					((SubscribeConfirmationDialogueController) loader.getController()).setData(rqModel, mainController,
-							changedTeam, textRow1, textRow2, leftButtonConfig, rightButtonConfig);
-					Scene scene = new Scene(rootLayout);
-					mainApp.getPrimaryStage().setScene(scene);
-					mainApp.getPrimaryStage().show();
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
 		});
+	}
+
+	private ArrayList<String> initComboBoxAndGetTeamsFromUser() {
+
+		ArrayList<String> teamsFromUser = new ArrayList<>();
+
+		for (String team : rqModel.getTeamsUserIsSubscribed()) {
+
+			teamsFromUser.add(team);
+			chooseTeamBox.getCheckModel().check(team);
+		}
+		return teamsFromUser;
 	}
 
 	public void restoreChangedTeam(String changedTeam, boolean wasAdded) {

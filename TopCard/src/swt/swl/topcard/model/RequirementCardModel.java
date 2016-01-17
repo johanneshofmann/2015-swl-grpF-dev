@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
@@ -188,7 +187,7 @@ public class RequirementCardModel extends Observable {
 				selected.setTitle((rQCardData.getString(2))); // Title
 				selected.setMajorVersion(rQCardData.getInt(3)); // MajorVersion
 				selected.setMinorVersion(rQCardData.getInt(4)); // MinorVersion
-				selected.setOwnerName(generateOwnerName(rQCardData.getInt(5))); // ownerName
+				selected.setOwnerName(DatabaseHelper.IDToLoginName(rQCardData.getInt(5))); // ownerName
 				selected.setRqID(rQCardData.getInt(6)); // rqID
 				selected.setModules(DatabaseHelper.generateModulesString(selected.getRqID()));
 				selected.setDescription(rQCardData.getString(7)); // Description
@@ -211,48 +210,6 @@ public class RequirementCardModel extends Observable {
 			return selected;
 		} else {
 			throw new ClassFormatError("selected RqCard hasn't changed correctly");
-		}
-	}
-
-	private String generateOwnerName(int ownerID) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement getOwnerName = conn.createStatement();
-
-			ResultSet ownerName = getOwnerName.executeQuery("SELECT LoginName FROM User WHERE ID = " + ownerID);
-
-			if (ownerName.next()) {
-				return ownerName.getString(1); // ownerName
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		}
-		return null;
-	}
-
-	/**
-	 *
-	 *
-	 * @param title
-	 */
-	public void deleteRqFromDatabase(String title) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt$0 = conn.createStatement();
-			Statement stmt$1 = conn.createStatement();
-
-			ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement WHERE Title='" + title + "'");
-			int rqCardID = 0;
-			while (rqID.next()) {
-				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -497,28 +454,7 @@ public class RequirementCardModel extends Observable {
 
 	public ObservableList<String> getModules() {
 
-		SearchHelper.getModules();
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM Module";
-
-			ResultSet modulesSet = stmt.executeQuery(query);
-			ObservableList<String> modules = FXCollections.observableArrayList();
-
-			while (modulesSet.next()) {
-				modules.add(modulesSet.getString(1));
-			}
-			return modules;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-
+		return SearchHelper.getModules();
 	}
 
 	private String requestOwnerName(int ownerID) {
