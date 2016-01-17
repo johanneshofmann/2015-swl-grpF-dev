@@ -392,6 +392,14 @@ public class RequirementCardModel extends Observable {
 
 		return generateEverageVoteResult(allVoteResults);
 	}
+	
+	public void getAllVoteResults()
+	{
+		for(RequirementCardSimple req : observableArray)
+		{
+			req.setSubmittedVote(this.getVoteResults(req.getRqID()));
+		}
+	}
 
 	private SubmittedVoteSimple generateEverageVoteResult(ArrayList<SubmittedVoteSimple> allVoteResults) {
 

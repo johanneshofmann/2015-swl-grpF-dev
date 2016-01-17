@@ -76,31 +76,48 @@ public class SearchHelper {
 			observableList.stream().filter(r -> (!r.getFitCriterion().contains(fitCriterion))).forEach(observableList::remove);
 			requirements = FXCollections.observableArrayList(observableList);
 		}
-		/*TODO
-		if(isFrozen != FrozenValue.ALL)
+		//if(isFrozen != FrozenValue.ALL)
 		{
-			int intFrozen = (isFrozen == FrozenValue.YES) ? 1 : 0;
-			observableList.stream().filter(r -> (r.getIsFrozen() == intFrozen)).forEach(observableList::remove);
+			//IsFrozen
+			//int intFrozen = (isFrozen == FrozenValue.YES) ? 1 : 0;
+			observableList.stream().filter(r -> (r.getIsFrozen() == isFrozen)).forEach(observableList::remove);
 		}
-		*/
+		
 		if(descPreciseOp != SearchOperator.ALL)
 		{
 			if(descPreciseOp == SearchOperator.EQUAL)
 			{
-				//observableList.stream().filter(r -> (r.get() == intFrozen)).forEach(observableList::remove);
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() == (double)descPrecise)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
 			}
 			else if(descPreciseOp == SearchOperator.LESS)
 			{
-				
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() < (double)descPrecise)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
 			}
 			else if(descPreciseOp == SearchOperator.GREATER)
 			{
-				
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() > (double)descPrecise)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
 			}
 		}
 		if(descUnderstandableOp != SearchOperator.ALL)
 		{
-			
+			if(descUnderstandableOp == SearchOperator.EQUAL)
+			{
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() == (double)descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			}
+			else if(descUnderstandableOp == SearchOperator.LESS)
+			{
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() < (double)descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			}
+			else if(descUnderstandableOp == SearchOperator.GREATER)
+			{
+				requirements.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() > (double)descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			}
 		}
 		if(descCorrect != VoteValue.ALL)
 		{
