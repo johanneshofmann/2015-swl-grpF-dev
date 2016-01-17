@@ -45,7 +45,7 @@ public class RequirementCardModel extends Observable {
 	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
 			String source, String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
 
-		int ownerID = 0, rqCardIDInt = 1, isFrozenInt = 0;
+		int ownerID = -1, rqCardIDInt = -1, isFrozenInt = 0;
 
 		// convert ifFrozen boolean to int:
 		if (isFrozen) {
@@ -54,12 +54,6 @@ public class RequirementCardModel extends Observable {
 
 		String sqlSelectUserIDQuery = "SELECT ID FROM User WHERE LoginName='" + loginName + "'";
 		String sqlSelectMaxRequirementQuery = "SELECT MAX(Requirement) FROM Requirement";
-		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
-				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
-				+ isFrozenInt + ", '" + new java.util.Date() + "')";
-		String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-				+ rqCardIDInt + "," + module0ID + ")";
 
 		String sqlSelectModuleIDQuery = generateSelectModuleQuery(modules);
 
@@ -84,7 +78,7 @@ public class RequirementCardModel extends Observable {
 			ResultSet rQCardID = stmt.executeQuery(sqlSelectMaxRequirementQuery);
 
 			if (rQCardID.next()) {
-				rqCardIDInt += rQCardID.getInt(1);
+				rqCardIDInt += (2 + rQCardID.getInt(1));
 				rQCardID.close();
 			}
 
@@ -92,6 +86,11 @@ public class RequirementCardModel extends Observable {
 			// Requirement_Module)
 
 			// first insert into Requirement table
+			String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+					+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
+					+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
+					+ isFrozenInt + ", '" + new java.util.Date() + "')";
+
 			stmt.executeUpdate(sqlInsertIntoRequirementUpdate);
 
 			// then check module amount, allocate IDs and insert em into
@@ -99,6 +98,8 @@ public class RequirementCardModel extends Observable {
 			initModuleIDs(stmt.executeQuery(sqlSelectModuleIDQuery));
 
 			// TODO: here's sth going wrong:
+			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
+					+ rqCardIDInt + "," + module0ID + ")";
 
 			stmt.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 

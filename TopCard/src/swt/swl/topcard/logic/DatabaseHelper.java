@@ -112,6 +112,7 @@ public class DatabaseHelper {
 
 			e.printStackTrace();
 
+			System.out.println("generateModulesString: returning null..");
 			return null;
 		}
 	}

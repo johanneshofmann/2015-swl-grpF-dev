@@ -91,6 +91,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	void startButtonClicked(MouseEvent event) {
+		refreshList();
 		repaint();
 	}
 
@@ -187,9 +188,6 @@ public class RequirementCardController implements Observer {
 
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void update(Observable o, Object update) {
 
@@ -214,10 +212,6 @@ public class RequirementCardController implements Observer {
 		}
 	}
 
-	/**
-	 *
-	 * @param rqTitle
-	 */
 	private void openEditView(RequirementCardSimple rq) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -247,10 +241,14 @@ public class RequirementCardController implements Observer {
 		columns.add(nameTableColumn);
 		columns.add(ownerTableColumn);
 
-		this.rqModel.getRequirements();
-		requirementCardsTable.setItems(observableList);
+		refreshList();
 
 		addEventHandlerToTableView();
+	}
+
+	private void refreshList() {
+		this.rqModel.getRequirements();
+		requirementCardsTable.setItems(observableList);
 	}
 
 	private void initChooseTeamComboBox() {
@@ -293,13 +291,13 @@ public class RequirementCardController implements Observer {
 						item = rqModel.getOverviewDataFromSelectedRq(item);
 
 						titleResultLabel.setText(item.getTitle());
+						modulesResultLabel.setText(item.getModules());
 						descriptionResultLabel.setText(item.getDescription());
 						rationaleResultLabel.setText(item.getRationale());
 						sourceResultLabel.setText(item.getSource());
-						// TODO: RQCardController: implement all requirements
-						// for UserStories part
-						// of the application
-						userstoriesResultLabel.setText("");
+						// TODO: RQCardController: implement all requirements to
+						// make possible:
+						// userstoriesResultLabel.setText(item.getUserStories());
 						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
 						fitCriterionResultLabel.setText(item.getFitCriterion());
 						frozenResultLabel.setText(item.getIsFrozen() + "");
