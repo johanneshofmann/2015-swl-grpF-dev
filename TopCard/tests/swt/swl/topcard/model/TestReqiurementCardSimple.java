@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import junit.framework.TestSuite;
 import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class TestReqiurementCardSimple {
@@ -36,7 +35,4 @@ public class TestReqiurementCardSimple {
 		assertEquals(newTitle, toCheck);
 	}
 
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestReqiurementCardSimple.class);
-	}
 }

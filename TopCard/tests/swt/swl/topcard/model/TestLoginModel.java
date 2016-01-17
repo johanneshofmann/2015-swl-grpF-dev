@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import junit.framework.TestSuite;
-
 public class TestLoginModel {
 
 	private LoginModel loginModel;
@@ -65,7 +63,4 @@ public class TestLoginModel {
 		assertEquals(false, stillInDatabase);
 	}
 
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestLoginModel.class);
-	}
 }
