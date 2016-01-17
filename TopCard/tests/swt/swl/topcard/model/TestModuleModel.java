@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javafx.collections.ObservableList;
-import junit.framework.TestSuite;
 import swt.swl.topcard.logic.Module;
 
 public class TestModuleModel {
@@ -71,10 +70,6 @@ public class TestModuleModel {
 		// moduleModel.deleteModuleFromDatabase(name1);
 		boolean toCheck = moduleModel.hasModule(name1);
 		assertEquals(false, toCheck);
-	}
-
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestModuleModel.class);
 	}
 
 }

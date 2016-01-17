@@ -15,7 +15,6 @@ import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.logic.Team;
 
 public class RequirementCardModel extends Observable {
 
@@ -563,7 +562,7 @@ public class RequirementCardModel extends Observable {
 		DatabaseHelper.exitXFromY(loginName, team);
 	}
 
-	public ArrayList<Team> getTeamsUserIsSubscribed() {
+	public ArrayList<String> getTeamsUserIsSubscribed() {
 		return DatabaseHelper.getTeamsUserIsSubscribed(loginName);
 	}
 
