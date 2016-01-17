@@ -317,6 +317,7 @@ public class RequirementCardController implements Observer {
 		});
 	}
 
+	//
 	private void addEventHandlerToChooseTeamBox() {
 
 		ArrayList<String> teamsFromUser = new ArrayList<>();
