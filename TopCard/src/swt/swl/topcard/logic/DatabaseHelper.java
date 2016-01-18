@@ -111,7 +111,7 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static String getModulesByRequirementID(int rQID) {
+	public static ArrayList<Integer> getModulesByRequirementID(int rQID) {
 
 		if (!isInitialized)
 			initialize();
@@ -129,24 +129,32 @@ public class DatabaseHelper {
 
 				modules.add(modulesContainer.getInt(1));
 			}
-			String modulesAsString = "";
-
-			int counter = 0;
-			for (Integer i : modules) {
-
-				if (counter == 0) {
-					modulesAsString += i;
-					counter++;
-				} else {
-					modulesAsString += ", " + i;
-				}
-			}
-			return modulesAsString;
+			return modules;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static String getModulesAsStringByRequirementID(int rQID) {
+
+		ArrayList<Integer> modules = getModulesByRequirementID(rQID);
+
+		String modulesAsString = "";
+
+		int counter = 0;
+		for (Integer i : modules) {
+
+			if (counter == 0) {
+				modulesAsString += i;
+				counter++;
+			} else {
+				modulesAsString += ", " + i;
+			}
+		}
+		return modulesAsString;
+
 	}
 
 	public static ObservableList<String> getModules() {
@@ -411,7 +419,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sqlSelectIdFromModuleQuery = generateSelectModuleQuery(modules);
+			String sqlSelectIdFromModuleQuery = generateSelectModulesQuery(modules);
 
 			ResultSet moduleIDsContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
 
@@ -426,7 +434,31 @@ public class DatabaseHelper {
 		return moduleIDs;
 	}
 
-	private static String generateSelectModuleQuery(ObservableList<String> modules) {
+	public static Integer getIDFromModule(String module) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sqlSelectIdFromModuleQuery = "SELECT ID FROM Module WHERE Name='" + module + "'";
+
+			ResultSet moduleIDContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
+
+			if (moduleIDContainer.next()) {
+
+				return moduleIDContainer.getInt(1);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return -404;
+	}
+
+	private static String generateSelectModulesQuery(ObservableList<String> modules) {
 
 		if (!isInitialized)
 			initialize();
@@ -450,23 +482,6 @@ public class DatabaseHelper {
 		return sqlSelectModuleID;
 	}
 
-	public static void insertRequirementIntoDatabase(String sqlInsertIntoRequirementUpdate) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			stmt.executeUpdate(sqlInsertIntoRequirementUpdate);
-
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-	}
-
 	public static ArrayList<RequirementCardSimple> getRequirements() {
 
 		if (!isInitialized)
@@ -478,21 +493,114 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet requirementsSet = stmt.executeQuery("SELECT * FROM Requirement");
+			ArrayList<Integer> reqIDs = getRequirementIDs();
+			ArrayList<Integer> majorVersions = new ArrayList<>();
+			ArrayList<Integer> minorVersions = new ArrayList<>();
 
-			while (requirementsSet.next()) {
-				requirements.add(new RequirementCardSimple(requirementsSet.getInt(1), requirementsSet.getString(2),
-						requirementsSet.getInt(3), requirementsSet.getInt(4), requirementsSet.getInt(5),
-						IDToLoginName(requirementsSet.getInt(1)), requirementsSet.getInt(6),
-						getModulesByRequirementID(requirementsSet.getInt(5)), requirementsSet.getString(7),
-						requirementsSet.getString(8), requirementsSet.getString(9), requirementsSet.getString(10),
-						requirementsSet.getString(11), requirementsSet.getInt(12), requirementsSet.getTimestamp(13),
-						requirementsSet.getString(14)));
+			for (int i = 0; i < reqIDs.size(); i++) {
+				majorVersions.add(getMajorVersion(reqIDs.get(i)));
+				minorVersions.add(getMinorVersion(reqIDs.get(i)));
 			}
+
+			for (int i = 0; i < reqIDs.size(); i++) {
+
+				ResultSet requirementSet = stmt.executeQuery(
+						"SELECT * FROM Requirement WHERE Requirement=" + reqIDs.get(i) + " AND MajorVersion="
+								+ majorVersions.get(i) + " AND MinorVersion=" + minorVersions.get(i));
+
+				if (requirementSet.next()) {
+
+					int rqID = reqIDs.get(i);
+					int ownerID = requirementSet.getInt(5);
+
+					int minorVersion = minorVersions.get(i), majorVersion = majorVersions.get(i);
+
+					requirements.add(new RequirementCardSimple(requirementSet.getInt(1), requirementSet.getString(2),
+							minorVersion, majorVersion, ownerID, IDToLoginName(ownerID), rqID,
+							getModulesAsStringByRequirementID(rqID), requirementSet.getString(7),
+							requirementSet.getString(8), requirementSet.getString(9), requirementSet.getString(10),
+							requirementSet.getString(11), requirementSet.getInt(12), requirementSet.getTimestamp(13),
+							requirementSet.getString(14)));
+				}
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return requirements;
+
+	}
+
+	private static ArrayList<Integer> getRequirementIDs() {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet requirementIDsSet = stmt.executeQuery("SELECT Requirement FROM Requirement");
+
+			ArrayList<Integer> reqIDs = new ArrayList<>();
+
+			while (requirementIDsSet.next()) {
+				if (!reqIDs.contains((int) requirementIDsSet.getInt(1))) {
+					reqIDs.add(requirementIDsSet.getInt(1));
+				}
+			}
+			return reqIDs;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static Integer getMajorVersion(int rqID) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT MAX(MajorVersion) FROM Requirement WHERE Requirement=" + rqID;
+
+			ResultSet majorVersionSet = stmt.executeQuery(query);
+
+			while (majorVersionSet.next()) {
+				return majorVersionSet.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return -404;
+	}
+
+	private static Integer getMinorVersion(int rqID) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
+				"gruppe_f")) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT MAX(MinorVersion) FROM Requirement WHERE Requirement=" + rqID;
+
+			ResultSet minorVersionSet = stmt.executeQuery(query);
+
+			while (minorVersionSet.next()) {
+				return minorVersionSet.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -404;
 	}
 
 	public static RequirementCardSimple IDToRequirementCardSimple(int ID) {
@@ -511,7 +619,7 @@ public class DatabaseHelper {
 				return new RequirementCardSimple(requirementsSet.getInt(1), requirementsSet.getString(2),
 						requirementsSet.getInt(3), requirementsSet.getInt(4), requirementsSet.getInt(5),
 						IDToLoginName(requirementsSet.getInt(1)), requirementsSet.getInt(6),
-						getModulesByRequirementID(requirementsSet.getInt(1)), requirementsSet.getString(7),
+						getModulesAsStringByRequirementID(requirementsSet.getInt(1)), requirementsSet.getString(7),
 						requirementsSet.getString(8), requirementsSet.getString(9), requirementsSet.getString(10),
 						requirementsSet.getString(11), requirementsSet.getInt(12), requirementsSet.getTimestamp(13),
 						requirementsSet.getString(14));
@@ -585,5 +693,29 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		throw new IllegalArgumentException("ResultSet is empty.");
+	}
+
+	public static String moduleIDToName(Integer moduleID) {
+
+		if (!isInitialized)
+			initialize();
+
+		String moduleName = null;
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String getModuleNameQuery = "SELECT Name FROM Module WHERE ID=" + moduleID;
+
+			ResultSet moduleNameContainer = stmt.executeQuery(getModuleNameQuery);
+
+			if (moduleNameContainer.next()) {
+				moduleName = moduleNameContainer.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return moduleName;
 	}
 }

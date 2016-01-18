@@ -11,6 +11,7 @@ public class RequirementCardSimple {
 	private final SimpleStringProperty title, ownerName, modules, description, rationale, source, supportingMaterials,
 			fitCriterion, lastModifiedAt;
 	private Timestamp createdAt;
+
 	private SubmittedVoteSimple submittedVote;
 
 	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID,
@@ -171,10 +172,15 @@ public class RequirementCardSimple {
 	}
 
 	/**
-	 * @param submittedVote the submittedVote to set
+	 * @param submittedVote
+	 *            the submittedVote to set
 	 */
 	public void setSubmittedVote(SubmittedVoteSimple submittedVote) {
 		this.submittedVote = submittedVote;
+	}
+
+	public String getUserStories() {
+		return null;
 	}
 
 }

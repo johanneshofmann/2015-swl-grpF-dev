@@ -135,6 +135,7 @@
             </ImageView>
             <Label layoutX="704.0" layoutY="18.0" prefHeight="16.0" prefWidth="88.0" text="signed in as: " />
             <Label fx:id="loginNameLabel" layoutX="792.0" layoutY="18.0" prefHeight="16.0" prefWidth="100.0" />
+            <Label layoutX="145.0" layoutY="44.0" prefHeight="16.0" prefWidth="529.0" text="- - -  Design options: show MODULES in TABLE or in the PANE on the right ..? - - - " />
          </children>
       </Pane>
    </children>

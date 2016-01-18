@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
@@ -26,21 +27,61 @@ public class RequirementCardModel extends Observable {
 		return (loginName.equals(ownerName) ? true : false);
 	}
 
-	public void insertEditedRqIntoDatabase() {
-		// TODO: implement me
+	public void insertEditedRqIntoDatabase(RequirementCardSimple toInsert, boolean newMajorVersion) {
+
+		int minorVersion = (toInsert.getMinorVersion() + 1);
+		int majorVersion = toInsert.getMajorVersion();
+
+		if (newMajorVersion) {
+			majorVersion++;
+			minorVersion = 1;
+		}
+
+		// fetch ownerID
+		int ownerID = DatabaseHelper.loginNameToID(loginName);
+
+		// first insert into Requirement table
+		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+				+ toInsert.getTitle() + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", "
+				+ toInsert.getRqID() + ", '" + toInsert.getDescription() + "', '" + toInsert.getRationale() + "', '"
+				+ toInsert.getSource() + "', '" + toInsert.getSupportingMaterials() + "', '"
+				+ toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '" + new java.util.Date() + "')";
+
+		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
+
+		String[] strArr = toInsert.getModules().split(",");
+
+		ArrayList<Integer> moduleIDs = new ArrayList<>();
+
+		for (String str : strArr) {
+
+			moduleIDs.add(DatabaseHelper.getIDFromModule(str));
+		}
+		// then insert each (RqID,ModuleID)-Pair into table
+
+		for (Integer moduleID : moduleIDs) {
+
+			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
+					+ toInsert.getRqID() + "," + moduleID + ")";
+
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
+		}
+
+		// let the controller know that sth. has changed
+		triggerNotification(loginName);
 	}
 
 	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
 			String source, String userStories, String fitCriterion, String supportingMaterials, boolean isFrozen) {
+
+		int minorVersion = 1;
+		int majorVersion = 1;
 
 		// fetch ownerID
 		int ownerID = DatabaseHelper.loginNameToID(loginName);
 
 		// fetch biggest RqID
 		int rqCardIDInt = 1 + DatabaseHelper.getMaxRequirementID();
-
-		// TODO: remove after testing..
-		System.out.println("used rqCardID: " + rqCardIDInt);
 
 		// convert ifFrozen boolean to int:
 		int isFrozenInt = 0;
@@ -50,11 +91,11 @@ public class RequirementCardModel extends Observable {
 
 		// first insert into Requirement table
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-				+ title + "', " + 1 + ", " + 1 + ", " + ownerID + ", " + rqCardIDInt + ", '" + description + "', '"
-				+ rationale + "', '" + source + "', '" + supportingMaterials + "', '" + fitCriterion + "', "
-				+ isFrozenInt + ", '" + new java.util.Date() + "')";
+				+ title + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", " + rqCardIDInt + ", '"
+				+ description + "', '" + rationale + "', '" + source + "', '" + supportingMaterials + "', '"
+				+ fitCriterion + "', " + isFrozenInt + ", '" + new java.util.Date() + "')";
 
-		DatabaseHelper.insertRequirementIntoDatabase(sqlInsertIntoRequirementUpdate);
+		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
 		ArrayList<Integer> moduleIDs = DatabaseHelper.getIDsFromModules(modules);
 
@@ -65,9 +106,7 @@ public class RequirementCardModel extends Observable {
 			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
 					+ rqCardIDInt + "," + i + ")";
 
-			// TODO: remove after testing..
-			System.out.println("eingefügt: " + DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate)
-					+ " module with ID= " + i);
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 		}
 
 		// let the controller know that sth. has changed
@@ -112,7 +151,6 @@ public class RequirementCardModel extends Observable {
 		for (RequirementCardSimple rqCard : requirements) {
 
 			observableArray.add(rqCard);
-			System.out.println("added rqCard, modules are: " + rqCard.getModules());
 		}
 	}
 
@@ -273,6 +311,30 @@ public class RequirementCardModel extends Observable {
 
 	public void letUserExitAllTeams() {
 		DatabaseHelper.exitUserFromAllTeams(loginName);
+	}
+
+	public ArrayList<Integer> getModulesFromRequirement(int id) {
+		return DatabaseHelper.getModulesByRequirementID(id);
+	}
+
+	public ArrayList<Integer> getIDsFromModules(ObservableList<String> observableList) {
+		return DatabaseHelper.getIDsFromModules(observableList);
+	}
+
+	public Integer getIDFromModule(String module) {
+		return DatabaseHelper.getIDFromModule(module);
+	}
+
+	public ObservableList<String> getModulesByRqID(int rQID) {
+
+		ObservableList<String> modules = FXCollections.observableArrayList();
+
+		for (Integer i : DatabaseHelper.getModulesByRequirementID(rQID)) {
+
+			modules.add(DatabaseHelper.moduleIDToName(i));
+		}
+		return modules;
+
 	}
 
 }

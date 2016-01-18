@@ -182,28 +182,37 @@ public class RequirementCardController implements Observer {
 	}
 
 	private void openVoteView(RequirementCardSimple rq) {
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteRQCard.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
+
 			((VoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
+
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void openEditView(RequirementCardSimple rq) {
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
+
 			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rq);
+			((EditRqCardController) loader.getController()).initializeFXNodes();
+
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -281,9 +290,7 @@ public class RequirementCardController implements Observer {
 						rationaleResultLabel.setText(item.getRationale());
 						sourceResultLabel.setText(item.getSource());
 
-						// TODO: RQCardController: implement all requirements to
-						// make possible:
-						// userstoriesResultLabel.setText(item.getUserStories());
+						userstoriesResultLabel.setText(item.getUserStories());
 
 						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
 						fitCriterionResultLabel.setText(item.getFitCriterion());
@@ -301,72 +308,69 @@ public class RequirementCardController implements Observer {
 			ArrayList<String> teamsFromUser = initComboBoxAndGetTeamsFromUser();
 
 			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> changedTeam) {
 
 				ObservableList<String> selectedTeams = chooseTeamBox.getCheckModel().getCheckedItems();
 
-				int selectedSize = selectedTeams.size();
 				int actualSize = teamsFromUser.size();
 
 				if (rqModel.userAlreadySubscribed()) {
 
 					// if team was added..
-					if (selectedSize > actualSize) {
+					if (changedTeam.wasAdded()) {
 
-						String teamStr = null;
+						for (String team : changedTeam.getAddedSubList()) {
 
-						for (String team : selectedTeams) {
+							rqModel.letUserBeMemberOf(team);
 
-							if (!teamsFromUser.contains(team.toString())) {
-
-								rqModel.letUserBeMemberOf(team);
-								teamStr = team;
-							}
+							new Alert(AlertType.INFORMATION, "You are now member of the team " + team + ".")
+									.showAndWait();
 						}
-						new Alert(AlertType.INFORMATION, "You are now member of the team " + teamStr + ".")
-								.showAndWait();
+						// if team was removed ..
 					}
+					if (changedTeam.wasRemoved()) {
 
-					// if team was removed ..
-					if (selectedSize < actualSize) {
 						Alert removeConfirmation = null;
 						String teamStr = null;
-						for (String team : teamsFromUser) {
 
-							if (!selectedTeams.contains(team.toString())) {
-								teamStr = team;
+						for (String team : changedTeam.getRemoved()) {
 
-								if (actualSize <= 1) {
+							teamStr = team;
 
-									String textRow = "You're about to leave the only team you're joined. Really leave team?";
+							if (actualSize <= 1) {
 
-									removeConfirmation = new Alert(AlertType.CONFIRMATION, textRow);
+								String textRow = "You're about to leave the only team you're joined. Really leave team?";
 
-									removeConfirmation.getButtonTypes().set(0, new ButtonType("Cancel"));
-									removeConfirmation.getButtonTypes().set(1, new ButtonType("Leave"));
+								removeConfirmation = new Alert(AlertType.CONFIRMATION, textRow);
 
-								} else {
-									rqModel.letUserExitTeam(team);
-									removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + team + ".");
-								}
+								removeConfirmation.getButtonTypes().set(0, new ButtonType("Cancel"));
+								removeConfirmation.getButtonTypes().set(1, new ButtonType("Leave"));
+
+							} else {
+								rqModel.letUserExitTeam(team);
+								removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + team + ".");
 							}
 						}
 						removeConfirmation.showAndWait();
+
 						if (removeConfirmation.getResult().getText().toString().equals("Leave")) {
+
 							rqModel.letUserExitTeam(teamStr);
 							new Alert(AlertType.INFORMATION, "Left team " + teamStr + ".").showAndWait();
 						} else {
 							removeConfirmation.close();
 						}
+					} else {
+						// simply let user enter team..
+						rqModel.letUserBeMemberOf(selectedTeams.get(0));
+						new Alert(AlertType.INFORMATION, "You are now member of the team " + selectedTeams.get(0) + ".")
+								.showAndWait();
 					}
-				} else {
-					// simply let user enter team..
-					rqModel.letUserBeMemberOf(selectedTeams.get(0));
-					new Alert(AlertType.INFORMATION, "You are now member of the team " + selectedTeams.get(0) + ".")
-							.showAndWait();
 				}
+
 			}
 		});
+
 	}
 
 	private ArrayList<String> initComboBoxAndGetTeamsFromUser() {
