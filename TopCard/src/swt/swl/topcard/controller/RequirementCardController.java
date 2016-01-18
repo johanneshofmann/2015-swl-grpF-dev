@@ -55,7 +55,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 
-	private TableColumn<RequirementCardSimple, String> ownerTableColumn, nameTableColumn;
+	private TableColumn<RequirementCardSimple, String> nameTableColumn, ownerTableColumn, teamTableColumn;
 
 	private CheckComboBox<String> chooseTeamBox;
 	// all Labels and ResultLabels
@@ -83,16 +83,16 @@ public class RequirementCardController implements Observer {
 
 	}
 
+	@FXML
+	void startButtonClicked(MouseEvent event) {
+		repaint();
+	}
+
 	public void repaint() {
+		refreshList();
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
-	}
-
-	@FXML
-	void startButtonClicked(MouseEvent event) {
-		refreshList();
-		repaint();
 	}
 
 	@FXML
@@ -170,30 +170,13 @@ public class RequirementCardController implements Observer {
 		}
 	}
 
-	@FXML
-	void toVoteButtonClicked(ActionEvent event) {
-		rqModel.getMyOrToVoteRequirements(false);
-		nameTableColumn.setText("Requirement Cards to vote");
-
-		event.consume();
-
-	}
-
-	@FXML
-	void myRqCardsButtonClicked(ActionEvent event) {
-		rqModel.getMyOrToVoteRequirements(true);
-		nameTableColumn.setText("My Requirement Cards");
-
-		event.consume();
-
-	}
-
 	@Override
 	public void update(Observable o, Object update) {
 
 		if (update != null) {
 			if (update.toString().equals(loginName)) {
 				repaint();
+				return;
 			}
 		}
 	}
@@ -235,11 +218,14 @@ public class RequirementCardController implements Observer {
 		ownerTableColumn = new TableColumn<>("Owner");
 		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
 
+		teamTableColumn = new TableColumn<>("Modules");
+		teamTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("modules"));
+
 		columns.clear();
-		requirementCardsTable.setEditable(true);
 
 		columns.add(nameTableColumn);
 		columns.add(ownerTableColumn);
+		columns.add(teamTableColumn);
 
 		refreshList();
 
@@ -278,7 +264,6 @@ public class RequirementCardController implements Observer {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
-					item = rqModel.getOverviewDataFromSelectedRq(item);
 
 					if (rqModel.checkUserName(item.getOwnerName())) {
 						openEditView(item);
@@ -287,23 +272,24 @@ public class RequirementCardController implements Observer {
 					}
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+
 						RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
-						item = rqModel.getOverviewDataFromSelectedRq(item);
 
 						titleResultLabel.setText(item.getTitle());
 						modulesResultLabel.setText(item.getModules());
 						descriptionResultLabel.setText(item.getDescription());
 						rationaleResultLabel.setText(item.getRationale());
 						sourceResultLabel.setText(item.getSource());
+
 						// TODO: RQCardController: implement all requirements to
 						// make possible:
 						// userstoriesResultLabel.setText(item.getUserStories());
+
 						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
 						fitCriterionResultLabel.setText(item.getFitCriterion());
 						frozenResultLabel.setText(item.getIsFrozen() + "");
 					}
 				}
-
 			}
 		});
 	}
