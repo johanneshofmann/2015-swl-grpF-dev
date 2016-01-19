@@ -24,19 +24,17 @@ public class ModuleModel extends Observable {
 	}
 
 	public void selectModules() {
+
+		ObservableList<String> modules = DatabaseHelper.getNameFrom("Module");
+
 		// Clear observable array
 		this.observableArray.clear();
 
-		String query = "SELECT * FROM Module;";
+		for (String moduleName : modules) {
 
-		ResultSet resultSet = DatabaseHelper.executeQuery(query);
-		try {
-			while (resultSet.next()) {
-				Module module = new Module(resultSet.getInt(1), resultSet.getString(1));
-				this.observableArray.add(module);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			Module module = new Module(DatabaseHelper.XNameToID("Module", moduleName), moduleName);
+
+			this.observableArray.add(module);
 		}
 	}
 
@@ -61,22 +59,10 @@ public class ModuleModel extends Observable {
 
 	public void insertModule(String moduleName) {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
+		String query = "INSERT INTO Module(ID,Name) VALUES (" + (DatabaseHelper.getMaxXFromY("ID", "Module") + 1) + ",'"
+				+ moduleName + "')";
 
-			Statement stmt = conn.createStatement();
-
-			ResultSet resultSet = stmt.executeQuery("SELECT MAX(ID) FROM Module");
-
-			if (resultSet.next()) {
-				String query = "INSERT INTO Module(ID,Name) VALUES (" + (resultSet.getInt(1) + 1) + ",'" + moduleName
-						+ "')";
-				DatabaseHelper.executeUpdate(query);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DatabaseHelper.executeUpdate(query);
 
 		triggerNotification(moduleName);
 	}

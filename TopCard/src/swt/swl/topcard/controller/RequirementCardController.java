@@ -51,7 +51,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private ImageView startButton;
 	@FXML
-	private MenuItem createModuleButton, createNewRqButton, createNewTeam;
+	private MenuItem createModuleButton, createNewRqButton, createNewTeam, createNewUserStory;
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 
@@ -140,6 +140,25 @@ public class RequirementCardController implements Observer {
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateTeamView.fxml"));
 			Pane rootLayout = (Pane) loader.load();
 			((CreateTeamController) loader.getController()).setMainController(this);
+			Scene scene = new Scene(rootLayout);
+			mainApp.getPrimaryStage().setScene(scene);
+			mainApp.getPrimaryStage().show();
+
+			event.consume();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void createNewUserStoryClicked(ActionEvent event) {
+
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateUserStoryView.fxml"));
+			Pane rootLayout = (Pane) loader.load();
+			((CreateUserStoryController) loader.getController()).setMainController(this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();

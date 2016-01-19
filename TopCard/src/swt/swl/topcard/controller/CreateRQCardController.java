@@ -23,10 +23,10 @@ public class CreateRQCardController {
 	private RequirementCardController mainController;
 
 	// need to instanciate manually cause we're using external jar
-	private CheckComboBox<String> modulesCheckComboBox;
+	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox;
 
 	@FXML
-	private HBox moduleHBox;
+	private HBox moduleHBox, userStoriesHBox;
 	@FXML
 	private MenuItem modul1MenuItem, modul2MenuItem, modul3MenuItem, modul4MenuItem;
 
@@ -100,8 +100,12 @@ public class CreateRQCardController {
 
 		ObservableList<String> modules = model.getModules();
 		modulesCheckComboBox = new CheckComboBox<>(modules);
-		moduleHBox.getChildren().add(modulesCheckComboBox);
 
+		ObservableList<String> userStories = model.getUserStories();
+		userStoriesCheckComboBox = new CheckComboBox<>(userStories);
+
+		moduleHBox.getChildren().add(modulesCheckComboBox);
+		userStoriesHBox.getChildren().add(userStoriesCheckComboBox);
 	}
 
 }

@@ -49,9 +49,11 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
 
+		// TODO: not correct set here:
+
 		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
-				supportingMaterials, 0, null, supportingMaterials);
+				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
 			if (rq.getTitle().equals(addedRqCard.getTitle())) {
@@ -83,9 +85,10 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
 
+		// here also
 		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
-				supportingMaterials, 0, null, supportingMaterials);
+				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
 
 		DatabaseHelper.deleteRqFromDatabase(title);
 

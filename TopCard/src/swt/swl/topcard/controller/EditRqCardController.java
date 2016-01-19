@@ -28,7 +28,6 @@ public class EditRqCardController {
 	private RequirementCardSimple toEdit;
 
 	private CheckComboBox<String> modulesCheckComboBox;
-	private ObservableList<String> newModules;
 
 	@FXML
 	private CheckBox frozenChoiceBox;
@@ -53,7 +52,7 @@ public class EditRqCardController {
 
 	public void initializeFXNodes() {
 
-		initToCheckComboBox();
+		initCheckComboBox();
 		fillRqCardDataInTextFields();
 		addEventHandlerToFrozenChoiceBox();
 
@@ -87,10 +86,23 @@ public class EditRqCardController {
 	@FXML
 	void editButtonClicked(ActionEvent event) {
 
+		modifyRequirementCardToEdit();
+
 		model.insertEditedRqIntoDatabase(toEdit, false);
 
 		// if successful, show alert to user
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+	}
+
+	private void modifyRequirementCardToEdit() {
+
+		toEdit.setDescription(descriptionTextArea.getText());
+		toEdit.setRationale(rationaleTextArea.getText());
+		toEdit.setSource(sourceTextField.getText());
+		toEdit.setUserStories(userStoriesTextField.getText());
+		toEdit.setSupportingMaterials(supportingMaterialsTextField.getText());
+		toEdit.setFitCriterion(fitCriterionTextField.getText());
+
 	}
 
 	private void fillRqCardDataInTextFields() {
@@ -127,7 +139,7 @@ public class EditRqCardController {
 		this.toEdit = toEdit;
 	}
 
-	private void initToCheckComboBox() {
+	private void initCheckComboBox() {
 
 		// give actual Modules to the ModulesCheckComboBox
 
@@ -136,8 +148,7 @@ public class EditRqCardController {
 		moduleHBox.getChildren().add(modulesCheckComboBox);
 
 		// check the ones set in database
-		newModules = model.getModulesByRqID(toEdit.getRqID());
-		for (String module : newModules) {
+		for (String module : model.getModulesByRqID(toEdit.getRqID())) {
 			modulesCheckComboBox.getCheckModel().check(module);
 		}
 
@@ -157,7 +168,7 @@ public class EditRqCardController {
 
 						for (String module : changedModule.getAddedSubList()) {
 
-							newModules.add(module);
+							model.addModuleToRequirement(module, toEdit.getRqID());
 						}
 					}
 
@@ -167,11 +178,12 @@ public class EditRqCardController {
 						// modulesAdded==false->true
 						for (String module : changedModule.getRemoved()) {
 
-							newModules.remove(module);
+							model.removeModuleFromRequirement(module, toEdit.getRqID());
 						}
 					}
 				}
 			}
+
 		});
 	}
 
@@ -182,7 +194,10 @@ public class EditRqCardController {
 			@Override
 			public void handle(ActionEvent event) {
 
+				modifyRequirementCardToEdit();
+
 				model.insertEditedRqIntoDatabase(toEdit, true);
+
 				// if successful, show alert to user
 				new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 

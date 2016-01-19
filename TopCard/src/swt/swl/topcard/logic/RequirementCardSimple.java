@@ -8,15 +8,16 @@ import javafx.beans.property.SimpleStringProperty;
 public class RequirementCardSimple {
 
 	private final SimpleIntegerProperty ID, minorVersion, majorVersion, ownerID, rqID, isFrozen;
-	private final SimpleStringProperty title, ownerName, modules, description, rationale, source, supportingMaterials,
-			fitCriterion, lastModifiedAt;
+	private final SimpleStringProperty title, ownerName, modules, description, rationale, source, userStories,
+			supportingMaterials, fitCriterion, lastModifiedAt;
 	private Timestamp createdAt;
 
 	private SubmittedVoteSimple submittedVote;
 
 	public RequirementCardSimple(int ID, String title, int minorVersion, int majorVersion, int ownerID,
 			String ownerName, int rqID, String modules, String description, String rationale, String source,
-			String supportingMaterials, String fitCriterion, int isFrozen, Timestamp createdAt, String lastModifiedAt) {
+			String userStories, String supportingMaterials, String fitCriterion, int isFrozen, Timestamp createdAt,
+			String lastModifiedAt) {
 
 		super();
 
@@ -31,6 +32,7 @@ public class RequirementCardSimple {
 		this.description = new SimpleStringProperty(description);
 		this.rationale = new SimpleStringProperty(rationale);
 		this.source = new SimpleStringProperty(source);
+		this.userStories = new SimpleStringProperty(userStories);
 		this.supportingMaterials = new SimpleStringProperty(supportingMaterials);
 		this.fitCriterion = new SimpleStringProperty(fitCriterion);
 		this.isFrozen = new SimpleIntegerProperty(isFrozen);
@@ -180,7 +182,11 @@ public class RequirementCardSimple {
 	}
 
 	public String getUserStories() {
-		return null;
+		return userStories.get();
+	}
+
+	public void setUserStories(String userStories) {
+		this.userStories.set(userStories);
 	}
 
 }

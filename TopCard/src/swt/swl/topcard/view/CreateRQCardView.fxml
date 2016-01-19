@@ -41,10 +41,9 @@
 						<TextField fx:id="sourceTextField" prefHeight="26.0" prefWidth="185.0" />
 					</children>
 				</HBox>
-				<HBox layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="63.0">
+				<HBox fx:id="userStoriesHBox" layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="63.0">
 					<children>
 						<Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-						<TextField fx:id="userStoriesTextField" prefHeight="26.0" prefWidth="181.0" />
 					</children>
 				</HBox>
 				<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="20.0">

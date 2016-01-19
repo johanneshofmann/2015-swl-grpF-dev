@@ -81,7 +81,7 @@ public class RequirementCardModel extends Observable {
 		int ownerID = DatabaseHelper.loginNameToID(loginName);
 
 		// fetch biggest RqID
-		int rqCardIDInt = 1 + DatabaseHelper.getMaxRequirementID();
+		int rqCardIDInt = 1 + DatabaseHelper.getMaxXFromY("RequirementID", "Requirement");
 
 		// convert ifFrozen boolean to int:
 		int isFrozenInt = 0;
@@ -335,6 +335,25 @@ public class RequirementCardModel extends Observable {
 		}
 		return modules;
 
+	}
+
+	public void deleteModulesFromRequirement(int rqID) {
+
+		DatabaseHelper.executeUpdate("DELETE * FROM RequirementModule WHERE RequirementID=" + rqID);
+	}
+
+	public void addModuleToRequirement(String module, int rqID) {
+		DatabaseHelper.executeUpdate("INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES(" + rqID + ","
+				+ getIDFromModule(module) + ")");
+	}
+
+	public void removeModuleFromRequirement(String module, int rqID) {
+		DatabaseHelper.executeUpdate("DELETE * FROM RequirementModule WHERE ModuleID=" + getIDFromModule(module)
+				+ " AND RequirementID=" + rqID);
+	}
+
+	public ObservableList<String> getUserStories() {
+		return DatabaseHelper.getUserStories();
 	}
 
 }

@@ -18,7 +18,7 @@
                   </HBox>
                   <HBox fx:id="moduleHBox" prefHeight="34.0" prefWidth="546.0" spacing="60.0">
                      <children>
-                        <Label text="ModuleName(s):" />
+                        <Label text="Module(s):" />
                      </children>
                   </HBox>
                   <HBox prefHeight="0.0" prefWidth="649.0" spacing="92.0">
@@ -60,7 +60,7 @@
                   <HBox layoutX="10.0" layoutY="600.0" prefHeight="1.0" prefWidth="649.0" spacing="89.0">
                      <children>
                         <Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-                        <TextField fx:id="fitCriterionTextField" prefHeight="39.0" prefWidth="222.0" />
+                        <TextField fx:id="fitCriterionTextField" prefHeight="26.0" prefWidth="172.0" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="662.0" prefHeight="1.0" prefWidth="649.0" spacing="125.0">
