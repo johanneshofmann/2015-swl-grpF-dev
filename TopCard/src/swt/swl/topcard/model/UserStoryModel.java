@@ -1,14 +1,15 @@
 package swt.swl.topcard.model;
 
+import swt.swl.topcard.logic.DatabaseHelper;
+
 public class UserStoryModel {
 
 	public boolean hasUserStory(String userStory) {
-		// TODO Auto-generated method stub
-		return false;
+		return DatabaseHelper.checkExistent("UserStory", userStory);
 	}
 
 	public void insertUserStory(String text) {
-		// TODO Auto-generated method stub
+		DatabaseHelper.insertSimpleX("UserStory", text);
 
 	}
 

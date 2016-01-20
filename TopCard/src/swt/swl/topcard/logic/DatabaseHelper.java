@@ -70,6 +70,165 @@ public class DatabaseHelper {
 		}
 	}
 
+	public static String XIDToName(String x, Integer XID) {
+
+		if (!isInitialized)
+			initialize();
+
+		String moduleName = null;
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+			String getNameQuery = "";
+			if (x.equals("User")) {
+				getNameQuery = "SELECT LoginName FROM " + x + " WHERE ID=" + XID;
+			} else {
+				getNameQuery = "SELECT Name FROM " + x + " WHERE ID=" + XID;
+			}
+
+			ResultSet nameContainer = stmt.executeQuery(getNameQuery);
+
+			if (nameContainer.next()) {
+				moduleName = nameContainer.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return moduleName;
+	}
+
+	public static Integer XNameToID(String source, String name) {
+
+		if (!isInitialized)
+			initialize();
+
+		Integer ID = null;
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String getIDQuery = "";
+
+			if (source.equals("Requirement")) {
+
+				getIDQuery = "SELECT ID FROM " + source + " WHERE Title='" + name + "'";
+
+			} else if (source.equals("User")) {
+				getIDQuery = "SELECT ID FROM " + source + " WHERE LoginName='" + name + "'";
+			} else {
+
+				getIDQuery = "SELECT ID FROM " + source + " WHERE Name='" + name + "'";
+			}
+
+			ResultSet IDContainer = stmt.executeQuery(getIDQuery);
+
+			if (IDContainer.next()) {
+				ID = IDContainer.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ID;
+	}
+
+	public static ObservableList<String> getNameFrom(String x) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM " + x;
+
+			ResultSet resultSet = stmt.executeQuery(query);
+			ObservableList<String> xList = FXCollections.observableArrayList();
+
+			while (resultSet.next()) {
+				xList.add(resultSet.getString(1));
+			}
+			return xList;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ObservableList<String> getXNames(String x) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM " + x;
+
+			ResultSet userStoriesSet = stmt.executeQuery(query);
+			ObservableList<String> userStories = FXCollections.observableArrayList();
+
+			while (userStoriesSet.next()) {
+				userStories.add(userStoriesSet.getString(1));
+			}
+			return userStories;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ArrayList<Integer> XNamesToIDs(String x, ObservableList<String> observableList) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Name FROM " + x;
+
+			ResultSet userStoriesSet = stmt.executeQuery(query);
+			ArrayList<Integer> IDs = new ArrayList<Integer>();
+
+			while (userStoriesSet.next()) {
+				IDs.add(XNameToID(x, userStoriesSet.getString(1)));
+			}
+			return IDs;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static Integer getMaxXFromY(String x, String y) {
+
+		if (!isInitialized)
+			initialize();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet maxValue = stmt.executeQuery("SELECT MAX(" + x + ") FROM " + y);
+
+			if (maxValue.next()) {
+				return maxValue.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -404;
+
+	}
+
 	public static void deleteRqFromDatabase(String title) {
 
 		if (!isInitialized)
@@ -84,38 +243,12 @@ public class DatabaseHelper {
 			int rqCardID = 0;
 			while (rqID.next()) {
 				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
+				stmt$1.executeUpdate("DELETE * FROM Requirement WHERE Requirement= " + rqCardID);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
-	// public static void deleteXFromDatabase(String x) {
-	//
-	// // TODO : make static methods more abstract..like this or getXfromY
-	//
-	// if (!isInitialized)
-	// initialize();
-	//
-	// try (Connection conn = DriverManager.getConnection(connString, connUser,
-	// connPassword)) {
-	//
-	// Statement stmt$0 = conn.createStatement();
-	// Statement stmt$1 = conn.createStatement();
-	//
-	// ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement
-	// WHERE Title='" + title + "'");
-	// int rqCardID = 0;
-	// while (rqID.next()) {
-	// rqCardID = rqID.getInt(1);
-	// stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " +
-	// rqCardID);
-	// }
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	// }
 
 	public static ArrayList<Integer> getModulesByRequirementID(int rQID) {
 
@@ -163,33 +296,6 @@ public class DatabaseHelper {
 
 	}
 
-	public static ObservableList<String> getModules() {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM Module";
-
-			ResultSet modulesSet = stmt.executeQuery(query);
-			ObservableList<String> modules = FXCollections.observableArrayList();
-
-			while (modulesSet.next()) {
-				modules.add(modulesSet.getString(1));
-			}
-			return modules;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
 	public static boolean checkUserAlreadySubscribed(String userName) {
 
 		if (!isInitialized)
@@ -199,7 +305,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			int userID = loginNameToID(userName);
+			int userID = XNameToID("User", userName);
 
 			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
 
@@ -215,22 +321,12 @@ public class DatabaseHelper {
 
 	public static void subscribe(String loginName, String teamName) {
 
-		if (!isInitialized)
-			initialize();
+		executeUpdate("INSERT INTO TeamUser(TeamID, UserID) VALUES(" + XNameToID("Team", teamName) + ","
+				+ XNameToID("User", loginName) + ")");
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			stmt.executeUpdate("INSERT INTO TeamUser(TeamID, UserID) VALUES(" + loginNameToID(loginName) + ","
-					+ teamNameToID(teamName) + ")");
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
-	public static int loginNameToID(String loginName) {
+	public static void exitUserFromTeam(String loginName, String team) {
 
 		if (!isInitialized)
 			initialize();
@@ -239,101 +335,8 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "SELECT ID FROM User WHERE LoginName='" + loginName + "'";
-			ResultSet set = stmt.executeQuery(sql);
-			if (set.next()) {
-				return set.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -404;
-	}
-
-	public static String IDToLoginName(int ownerID) {
-
-		if (!isInitialized)
-			initialize();
-
-		String ownerName = null;
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String getOwnerNameQuery = "SELECT LoginName FROM User WHERE ID=" + ownerID;
-
-			ResultSet ownerNameContainer = stmt.executeQuery(getOwnerNameQuery);
-
-			if (ownerNameContainer.next()) {
-				ownerName = ownerNameContainer.getString(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ownerName;
-	}
-
-	public static int teamNameToID(String teamName) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String sql = "SELECT ID FROM Team WHERE Name='" + teamName + "'";
-
-			ResultSet set = stmt.executeQuery(sql);
-
-			if (set.next()) {
-				return set.getInt(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -404;
-	}
-
-	public static String IDToTeamName(int teamID) {
-
-		if (!isInitialized)
-			initialize();
-
-		String teamName = null;
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String getTeamNameQuery = "SELECT Name FROM Team WHERE ID=" + teamID;
-
-			ResultSet teamNameContainer = stmt.executeQuery(getTeamNameQuery);
-
-			if (teamNameContainer.next()) {
-				teamName = teamNameContainer.getString(1);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return teamName;
-	}
-
-	public static void exitXFromY(String loginName, String team) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName) + " AND TeamID="
-					+ teamNameToID(team);
+			String sql = "DELETE * FROM TeamUser WHERE UserID=" + XNameToID("User", loginName) + " AND TeamID="
+					+ XNameToID("Team", team);
 
 			stmt.executeUpdate(sql);
 
@@ -353,13 +356,13 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			int userID = loginNameToID(userName);
+			int userID = XNameToID("User", userName);
 
 			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
 
 			if (teamsContainer.next()) {
 				int teamID = teamsContainer.getInt(1);
-				teams.add(IDToTeamName(teamID));
+				teams.add(XIDToName("Team", teamID));
 			}
 
 		} catch (SQLException e) {
@@ -377,7 +380,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE FROM TeamUser WHERE UserID=" + loginNameToID(loginName);
+			String sql = "DELETE * FROM TeamUser WHERE UserID=" + XNameToID("User", loginName);
 
 			stmt.executeUpdate(sql);
 
@@ -385,59 +388,6 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 
-	}
-
-	public static ObservableList<String> getTeams() {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM Team";
-
-			ResultSet modulesSet = stmt.executeQuery(query);
-			ObservableList<String> teams = FXCollections.observableArrayList();
-
-			while (modulesSet.next()) {
-				teams.add(modulesSet.getString(1));
-			}
-			return teams;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-
-	}
-
-	public static ArrayList<Integer> getIDsFromModules(ObservableList<String> modules) {
-
-		if (!isInitialized)
-			initialize();
-
-		ArrayList<Integer> moduleIDs = new ArrayList<>();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String sqlSelectIdFromModuleQuery = generateSelectModulesQuery(modules);
-
-			ResultSet moduleIDsContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
-
-			while (moduleIDsContainer.next()) {
-
-				moduleIDs.add(moduleIDsContainer.getInt(1));
-			}
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		return moduleIDs;
 	}
 
 	public static ArrayList<String> getModuleNamesByIDs(ObservableList<Integer> IDs) {
@@ -451,7 +401,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sqlSelectIdFromModuleQuery = generateSelectModuleNamesQuery(IDs);
+			String sqlSelectIdFromModuleQuery = generateSelectXNamesQuery("Module", IDs);
 
 			ResultSet moduleIDContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
 
@@ -466,102 +416,6 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public static Integer getIDFromModule(String module) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String sqlSelectIdFromModuleQuery = "SELECT ID FROM Module WHERE Name='" + module + "'";
-
-			ResultSet moduleIDContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
-
-			if (moduleIDContainer.next()) {
-
-				return moduleIDContainer.getInt(1);
-			}
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		return -404;
-	}
-
-	public static String getModuleNameByID(int ID) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String sqlSelectIdFromModuleQuery = "SELECT Name FROM Module WHERE ID=" + ID;
-
-			ResultSet moduleIDContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
-
-			if (moduleIDContainer.next()) {
-
-				return moduleIDContainer.getString(1);
-			}
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private static String generateSelectModulesQuery(ObservableList<String> modules) {
-
-		if (!isInitialized)
-			initialize();
-
-		String sqlSelectModuleID = "";
-
-		for (int i = 0; i < modules.size(); i++) {
-
-			if (i == 0) {
-
-				sqlSelectModuleID += "SELECT ID FROM Module WHERE Name='" + modules.get(0) + "'";
-			}
-			if (i > 0) {
-				sqlSelectModuleID += " OR Name='" + modules.get(i) + "'";
-			}
-		}
-
-		if (sqlSelectModuleID.equals("")) {
-			throw new IllegalArgumentException("Invalid query, query was: " + sqlSelectModuleID + ".");
-		}
-		return sqlSelectModuleID;
-	}
-
-	private static String generateSelectModuleNamesQuery(ObservableList<Integer> moduleIDs) {
-
-		if (!isInitialized)
-			initialize();
-
-		String sqlSelectModuleName = "";
-
-		for (int i = 0; i < moduleIDs.size(); i++) {
-
-			if (i == 0) {
-
-				sqlSelectModuleName += "SELECT Name FROM Module WHERE ID=" + moduleIDs.get(0);
-			}
-			if (i > 0) {
-				sqlSelectModuleName += " OR ID=" + moduleIDs.get(i);
-			}
-		}
-
-		if (sqlSelectModuleName.equals("")) {
-			throw new IllegalArgumentException("Invalid query, query was: " + sqlSelectModuleName + ".");
-		}
-		return sqlSelectModuleName;
 	}
 
 	public static ArrayList<RequirementCardSimple> getRequirements() {
@@ -598,7 +452,7 @@ public class DatabaseHelper {
 					int minorVersion = minorVersions.get(i), majorVersion = majorVersions.get(i);
 
 					requirements.add(new RequirementCardSimple(requirementSet.getInt(1), requirementSet.getString(2),
-							minorVersion, majorVersion, ownerID, IDToLoginName(ownerID), rqID,
+							minorVersion, majorVersion, ownerID, XIDToName("User", ownerID), rqID,
 							getModulesAsStringByRequirementID(rqID), requirementSet.getString(7),
 							requirementSet.getString(8), requirementSet.getString(9),
 							getUserStoryIDsAsStringByRequirementID(rqID), requirementSet.getString(10),
@@ -687,8 +541,7 @@ public class DatabaseHelper {
 		if (!isInitialized)
 			initialize();
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
@@ -712,8 +565,7 @@ public class DatabaseHelper {
 		if (!isInitialized)
 			initialize();
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
@@ -746,7 +598,7 @@ public class DatabaseHelper {
 				int ownerID = requirementsSet.getInt(5), requirementID = requirementsSet.getInt(6);
 
 				return new RequirementCardSimple(requirementsSet.getInt(1), requirementsSet.getString(2),
-						requirementsSet.getInt(3), requirementsSet.getInt(4), ownerID, IDToLoginName(ownerID),
+						requirementsSet.getInt(3), requirementsSet.getInt(4), ownerID, XIDToName("User", ownerID),
 						requirementID, getModulesAsStringByRequirementID(requirementID), requirementsSet.getString(7),
 						requirementsSet.getString(8), requirementsSet.getString(9),
 						getUserStoryIDsAsStringByRequirementID(requirementID), requirementsSet.getString(10),
@@ -804,189 +656,107 @@ public class DatabaseHelper {
 		return allVoteResults;
 	}
 
-	public static int rQTitleToID(String requirement) {
+	public static ArrayList<Integer> getIDsFromX(String x, ObservableList<String> modules) {
 
 		if (!isInitialized)
 			initialize();
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement getReqID = conn.createStatement();
-
-			ResultSet reqID = getReqID.executeQuery("SELECT ID FROM Requirement WHERE Title ='" + requirement + "'");
-
-			if (reqID.next()) {
-				return reqID.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		throw new IllegalArgumentException("ResultSet is empty.");
-	}
-
-	public static String moduleIDToName(Integer moduleID) {
-
-		if (!isInitialized)
-			initialize();
-
-		String moduleName = null;
+		ArrayList<Integer> xIDs = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
-			String getModuleNameQuery = "SELECT Name FROM Module WHERE ID=" + moduleID;
+			String sqlSelectIdFromModuleQuery = generateSelectXIDsQuery(x, modules);
 
-			ResultSet moduleNameContainer = stmt.executeQuery(getModuleNameQuery);
+			ResultSet xIDsContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
 
-			if (moduleNameContainer.next()) {
-				moduleName = moduleNameContainer.getString(1);
+			while (xIDsContainer.next()) {
+
+				xIDs.add(xIDsContainer.getInt(1));
 			}
 		} catch (SQLException e) {
+
 			e.printStackTrace();
 		}
-		return moduleName;
+		return xIDs;
 	}
 
-	public static String XIDToName(String x, Integer XID) {
+	private static String generateSelectXIDsQuery(String x, ObservableList<String> names) {
 
 		if (!isInitialized)
 			initialize();
 
-		String moduleName = null;
+		String sqlSelectXID = "";
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+		for (int i = 0; i < names.size(); i++) {
 
-			Statement stmt = conn.createStatement();
+			if (i == 0) {
 
-			String getNameQuery = "SELECT Name FROM " + x + " WHERE ID=" + XID;
-
-			ResultSet nameContainer = stmt.executeQuery(getNameQuery);
-
-			if (nameContainer.next()) {
-				moduleName = nameContainer.getString(1);
+				sqlSelectXID += "SELECT ID FROM " + x + " WHERE Name='" + names.get(0) + "'";
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			if (i > 0) {
+				sqlSelectXID += " OR Name='" + names.get(i) + "'";
+			}
 		}
-		return moduleName;
+
+		if (sqlSelectXID.equals("")) {
+			throw new IllegalArgumentException("Invalid query, query was: " + sqlSelectXID + ".");
+		}
+		return sqlSelectXID;
 	}
 
-	public static Integer XNameToID(String source, String name) {
+	private static String generateSelectXNamesQuery(String x, ObservableList<Integer> moduleIDs) {
 
 		if (!isInitialized)
 			initialize();
 
-		Integer ID = null;
+		String sqlSelectModuleName = "";
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+		for (int i = 0; i < moduleIDs.size(); i++) {
 
-			Statement stmt = conn.createStatement();
+			if (i == 0) {
 
-			String getIDQuery = "SELECT ID FROM " + source + " WHERE Name='" + name + "'";
-
-			ResultSet IDContainer = stmt.executeQuery(getIDQuery);
-
-			if (IDContainer.next()) {
-				ID = IDContainer.getInt(1);
+				sqlSelectModuleName += "SELECT Name FROM " + x + " WHERE ID=" + moduleIDs.get(0);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			if (i > 0) {
+				sqlSelectModuleName += " OR ID=" + moduleIDs.get(i);
+			}
 		}
-		return ID;
+
+		if (sqlSelectModuleName.equals("")) {
+			throw new IllegalArgumentException("Invalid query, query was: " + sqlSelectModuleName + ".");
+		}
+		return sqlSelectModuleName;
 	}
 
-	public static ObservableList<String> getNameFrom(String x) {
+	public static boolean checkExistent(String string, String userStory) {
 
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM " + x;
-
-			ResultSet resultSet = stmt.executeQuery(query);
-			ObservableList<String> xList = FXCollections.observableArrayList();
-
-			while (resultSet.next()) {
-				xList.add(resultSet.getString(1));
-			}
-			return xList;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return false;
 	}
 
-	public static ObservableList<String> getUserStories() {
+	// for modules, userStories, which can exist without a requirement pointing
+	// to it
 
-		if (!isInitialized)
-			initialize();
+	public static void insertSimpleX(String x, String name) {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-
-			Statement stmt = conn.createStatement();
-
-			String query = "SELECT Name FROM UserStory";
-
-			ResultSet userStoriesSet = stmt.executeQuery(query);
-			ObservableList<String> userStories = FXCollections.observableArrayList();
-
-			while (userStoriesSet.next()) {
-				userStories.add(userStoriesSet.getString(1));
-			}
-			return userStories;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static Integer getMaxXFromY(String x, String y) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			ResultSet maxValue = stmt.executeQuery("SELECT MAX(" + x + ") FROM " + y);
-
-			if (maxValue.next()) {
-				return maxValue.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -404;
+		String sqlInsertIntoX = "INSERT INTO " + x + "(Name) VALUES('" + name + "')";
+		executeUpdate(sqlInsertIntoX);
 
 	}
 
-	public static Integer getMaxTeamID() {
+	public static void deleteXFromDatabaseByID(String x, int ID) {
 
-		if (!isInitialized)
-			initialize();
+		String sql = "DELETE * FROM " + x + " WHERE ID=" + ID;
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+		executeUpdate(sql);
+	}
 
-			Statement stmt = conn.createStatement();
+	public static void deleteXFromDatabaseByName(String x, String name) {
 
-			ResultSet maxTeamIDSet = stmt.executeQuery("SELECT MAX(ID) FROM Team");
+		String sql = "DELETE * FROM " + x + " WHERE Name=" + name;
 
-			if (maxTeamIDSet.next()) {
-				return maxTeamIDSet.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -404;
+		executeUpdate(sql);
 	}
 
 }

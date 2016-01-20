@@ -19,6 +19,12 @@ public class CreateUserStoryController {
 	@FXML
 	private Button createButton, cancelButton;
 
+	public CreateUserStoryController() {
+
+		model = new UserStoryModel();
+
+	}
+
 	@FXML
 	void cancel(ActionEvent event) {
 		mainController.repaint();
@@ -50,7 +56,7 @@ public class CreateUserStoryController {
 		}
 	}
 
-	public void setMainController(RequirementCardController requirementCardController) {
+	public void setData(RequirementCardController requirementCardController) {
 		this.mainController = requirementCardController;
 	}
 

@@ -2,12 +2,12 @@ package swt.swl.topcard.logic;
 
 public class Module {
 	private int id;
-	private String text;
+	private String name;
 
-	public Module(int id, String text) {
+	public Module(int id, String name) {
 		super();
 		this.id = id;
-		this.text = text;
+		this.name = name;
 	}
 
 	public int getId() {
@@ -19,10 +19,10 @@ public class Module {
 	}
 
 	public String getText() {
-		return this.text;
+		return this.name;
 	}
 
 	public void setText(String value) {
-		this.text = value;
+		this.name = value;
 	}
 }

@@ -6,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import javafx.collections.ObservableList;
 import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DatabaseHelper;
@@ -38,7 +39,7 @@ public class TestRequirementCardModel {
 		String description = "description";
 		String rationale = "rationale";
 		String source = "source";
-		String userStories = "userStories";
+		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
@@ -75,7 +76,7 @@ public class TestRequirementCardModel {
 		String description = "description";
 		String rationale = "rationale";
 		String source = "source";
-		String userStories = "userStories";
+		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
