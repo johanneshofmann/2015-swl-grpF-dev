@@ -50,7 +50,7 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.getRequirements();
 
-		// TODO: not correct set here:
+		// TODO: @Test not correct set here:
 
 		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,

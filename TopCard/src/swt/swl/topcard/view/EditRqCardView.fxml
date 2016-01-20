@@ -16,7 +16,7 @@
                         <TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="moduleHBox" prefHeight="34.0" prefWidth="546.0" spacing="60.0">
+                  <HBox fx:id="modulesHBox" prefHeight="34.0" prefWidth="546.0" spacing="120.0">
                      <children>
                         <Label text="Module(s):" />
                      </children>
@@ -45,10 +45,9 @@
                         <TextField fx:id="sourceTextField" />
                      </children>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="475.0" prefHeight="22.0" prefWidth="649.0" spacing="93.0">
+                  <HBox fx:id="userStoriesHBox" layoutX="10.0" layoutY="475.0" prefHeight="22.0" prefWidth="649.0" spacing="93.0">
                      <children>
                         <Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-                        <TextField fx:id="userStoriesTextField" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="541.0" prefHeight="0.0" prefWidth="649.0" spacing="20.0">

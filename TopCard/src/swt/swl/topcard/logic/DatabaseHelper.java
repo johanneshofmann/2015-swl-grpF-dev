@@ -100,37 +100,9 @@ public class DatabaseHelper {
 
 	public static Integer XNameToID(String source, String name) {
 
-		if (!isInitialized)
-			initialize();
-
-		Integer ID = null;
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt = conn.createStatement();
-
-			String getIDQuery = "";
-
-			if (source.equals("Requirement")) {
-
-				getIDQuery = "SELECT ID FROM " + source + " WHERE Title='" + name + "'";
-
-			} else if (source.equals("User")) {
-				getIDQuery = "SELECT ID FROM " + source + " WHERE LoginName='" + name + "'";
-			} else {
-
-				getIDQuery = "SELECT ID FROM " + source + " WHERE Name='" + name + "'";
-			}
-
-			ResultSet IDContainer = stmt.executeQuery(getIDQuery);
-
-			if (IDContainer.next()) {
-				ID = IDContainer.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ID;
+		ObservableList<String> nameList = FXCollections.observableArrayList();
+		nameList.add(name);
+		return getIDsFromX(source, nameList).get(0);
 	}
 
 	public static ObservableList<String> getNameFrom(String x) {
@@ -194,11 +166,11 @@ public class DatabaseHelper {
 
 			String query = "SELECT Name FROM " + x;
 
-			ResultSet userStoriesSet = stmt.executeQuery(query);
+			ResultSet xSet = stmt.executeQuery(query);
 			ArrayList<Integer> IDs = new ArrayList<Integer>();
 
-			while (userStoriesSet.next()) {
-				IDs.add(XNameToID(x, userStoriesSet.getString(1)));
+			while (xSet.next()) {
+				IDs.add(XNameToID(x, xSet.getString(1)));
 			}
 			return IDs;
 
@@ -243,14 +215,15 @@ public class DatabaseHelper {
 			int rqCardID = 0;
 			while (rqID.next()) {
 				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("DELETE * FROM Requirement WHERE Requirement= " + rqCardID);
+				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static ArrayList<Integer> getModulesByRequirementID(int rQID) {
+	// for modules or userStories:
+	public static ArrayList<Integer> getXIDsByRequirementID(String x, int rQID) {
 
 		if (!isInitialized)
 			initialize();
@@ -259,14 +232,14 @@ public class DatabaseHelper {
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
-			Statement getModules = conn.createStatement();
+			Statement getX = conn.createStatement();
 
-			ResultSet modulesContainer = getModules
-					.executeQuery("SELECT ModuleID FROM RequirementModule WHERE RequirementID=" + rQID);
+			ResultSet xContainer = getX
+					.executeQuery("SELECT " + x + "ID FROM Requirement" + x + " WHERE RequirementID=" + rQID);
 
-			while (modulesContainer.next()) {
+			while (xContainer.next()) {
 
-				modules.add(modulesContainer.getInt(1));
+				modules.add(xContainer.getInt(1));
 			}
 			return modules;
 
@@ -276,24 +249,36 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static String getModulesAsStringByRequirementID(int rQID) {
+	public static ArrayList<String> getXNameAsListByRequirementID(String x, int rQID) {
 
-		ArrayList<Integer> modules = getModulesByRequirementID(rQID);
+		ArrayList<String> names = new ArrayList<>();
 
-		String modulesAsString = "";
+		for (Integer iD : getXIDsByRequirementID(x, rQID)) {
+
+			names.add(XIDToName(x, iD));
+		}
+
+		return names;
+	}
+
+	public static String getXNameAsStringByRequirementID(String x, int rQID) {
+
+		ArrayList<Integer> IDs = getXIDsByRequirementID(x, rQID);
+
+		String xAsString = "";
 
 		int counter = 0;
-		for (Integer i : modules) {
+
+		for (Integer iD : IDs) {
 
 			if (counter == 0) {
-				modulesAsString += i;
+				xAsString += XIDToName(x, iD);
 				counter++;
 			} else {
-				modulesAsString += ", " + i;
+				xAsString += ", " + XIDToName(x, iD);
 			}
 		}
-		return modulesAsString;
-
+		return xAsString;
 	}
 
 	public static boolean checkUserAlreadySubscribed(String userName) {
@@ -321,8 +306,17 @@ public class DatabaseHelper {
 
 	public static void subscribe(String loginName, String teamName) {
 
-		executeUpdate("INSERT INTO TeamUser(TeamID, UserID) VALUES(" + XNameToID("Team", teamName) + ","
-				+ XNameToID("User", loginName) + ")");
+		Integer teamID = XNameToID("Team", teamName);
+		Integer userID = XNameToID("User", loginName);
+
+		if (userID == null) {
+			throw new IllegalArgumentException("For reasons of integrity column 'UserID' cannot be null");
+		}
+		if (teamID == null) {
+			throw new IllegalArgumentException("For reasons of integrity column 'TeamID' cannot be null");
+		}
+
+		executeUpdate("INSERT INTO TeamUser(TeamID, UserID) VALUES(" + teamID + "," + userID + ")");
 
 	}
 
@@ -335,7 +329,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE * FROM TeamUser WHERE UserID=" + XNameToID("User", loginName) + " AND TeamID="
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + XNameToID("User", loginName) + " AND TeamID="
 					+ XNameToID("Team", team);
 
 			stmt.executeUpdate(sql);
@@ -360,7 +354,7 @@ public class DatabaseHelper {
 
 			ResultSet teamsContainer = stmt.executeQuery("SELECT TeamID FROM TeamUser WHERE UserID=" + userID);
 
-			if (teamsContainer.next()) {
+			while (teamsContainer.next()) {
 				int teamID = teamsContainer.getInt(1);
 				teams.add(XIDToName("Team", teamID));
 			}
@@ -380,7 +374,7 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "DELETE * FROM TeamUser WHERE UserID=" + XNameToID("User", loginName);
+			String sql = "DELETE FROM TeamUser WHERE UserID=" + XNameToID("User", loginName);
 
 			stmt.executeUpdate(sql);
 
@@ -453,7 +447,7 @@ public class DatabaseHelper {
 
 					requirements.add(new RequirementCardSimple(requirementSet.getInt(1), requirementSet.getString(2),
 							minorVersion, majorVersion, ownerID, XIDToName("User", ownerID), rqID,
-							getModulesAsStringByRequirementID(rqID), requirementSet.getString(7),
+							getXNameAsStringByRequirementID("Module", rqID), requirementSet.getString(7),
 							requirementSet.getString(8), requirementSet.getString(9),
 							getUserStoryIDsAsStringByRequirementID(rqID), requirementSet.getString(10),
 							requirementSet.getString(11), requirementSet.getInt(12), requirementSet.getTimestamp(13),
@@ -599,8 +593,8 @@ public class DatabaseHelper {
 
 				return new RequirementCardSimple(requirementsSet.getInt(1), requirementsSet.getString(2),
 						requirementsSet.getInt(3), requirementsSet.getInt(4), ownerID, XIDToName("User", ownerID),
-						requirementID, getModulesAsStringByRequirementID(requirementID), requirementsSet.getString(7),
-						requirementsSet.getString(8), requirementsSet.getString(9),
+						requirementID, getXNameAsStringByRequirementID("Module", requirementID),
+						requirementsSet.getString(7), requirementsSet.getString(8), requirementsSet.getString(9),
 						getUserStoryIDsAsStringByRequirementID(requirementID), requirementsSet.getString(10),
 						requirementsSet.getString(11), requirementsSet.getInt(12), requirementsSet.getTimestamp(13),
 						requirementsSet.getString(14));
@@ -687,21 +681,27 @@ public class DatabaseHelper {
 		if (!isInitialized)
 			initialize();
 
+		String name = "Name";
+
+		if (x.equals("Requirement")) {
+			name = "Title";
+		} else if (x.equals("User")) {
+			name = "LoginName";
+		}
+
 		String sqlSelectXID = "";
+
+		// Select ID from Team|Module|UserStory where Name ='name'
 
 		for (int i = 0; i < names.size(); i++) {
 
 			if (i == 0) {
 
-				sqlSelectXID += "SELECT ID FROM " + x + " WHERE Name='" + names.get(0) + "'";
+				sqlSelectXID += "SELECT ID FROM " + x + " WHERE " + name + "='" + names.get(0) + "'";
 			}
 			if (i > 0) {
-				sqlSelectXID += " OR Name='" + names.get(i) + "'";
+				sqlSelectXID += " OR " + name + "='" + names.get(i) + "'";
 			}
-		}
-
-		if (sqlSelectXID.equals("")) {
-			throw new IllegalArgumentException("Invalid query, query was: " + sqlSelectXID + ".");
 		}
 		return sqlSelectXID;
 	}
@@ -747,14 +747,14 @@ public class DatabaseHelper {
 
 	public static void deleteXFromDatabaseByID(String x, int ID) {
 
-		String sql = "DELETE * FROM " + x + " WHERE ID=" + ID;
+		String sql = "DELETE FROM " + x + " WHERE ID=" + ID;
 
 		executeUpdate(sql);
 	}
 
 	public static void deleteXFromDatabaseByName(String x, String name) {
 
-		String sql = "DELETE * FROM " + x + " WHERE Name=" + name;
+		String sql = "DELETE FROM " + x + " WHERE Name=" + name;
 
 		executeUpdate(sql);
 	}

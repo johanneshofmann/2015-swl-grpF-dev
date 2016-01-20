@@ -1,8 +1,9 @@
 package swt.swl.topcard.controller;
 
+import java.util.ArrayList;
+
 import org.controlsfx.control.CheckComboBox;
 
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,15 +28,15 @@ public class EditRqCardController {
 	private RequirementCardController mainController;
 	private RequirementCardSimple toEdit;
 
-	private CheckComboBox<String> modulesCheckComboBox;
+	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox;
 
 	@FXML
 	private CheckBox frozenChoiceBox;
 	@FXML
 	private TextArea descriptionTextArea, rationaleTextArea;
 	@FXML
-	private TextField titleTextField, ownerTextField, sourceTextField, userStoriesTextField,
-			supportingMaterialsTextField, fitCriterionTextField;
+	private TextField titleTextField, ownerTextField, sourceTextField, supportingMaterialsTextField,
+			fitCriterionTextField;
 	@FXML
 	private Button closeButton, editButton, showVoteResultsButton;
 	@FXML
@@ -43,7 +44,7 @@ public class EditRqCardController {
 	@FXML
 	private Pane showVoteResultsPane;
 	@FXML
-	private HBox moduleHBox;
+	private HBox modulesHBox, userStoriesHBox;
 	@FXML
 	private Label descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
 			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
@@ -52,7 +53,7 @@ public class EditRqCardController {
 
 	public void initializeFXNodes() {
 
-		initCheckComboBox();
+		initCheckComboBoxes();
 		fillRqCardDataInTextFields();
 		addEventHandlerToFrozenChoiceBox();
 
@@ -95,14 +96,29 @@ public class EditRqCardController {
 	}
 
 	private void modifyRequirementCardToEdit() {
-
+		toEdit.setModules(listToString(modulesCheckComboBox.getCheckModel().getCheckedItems()));
 		toEdit.setDescription(descriptionTextArea.getText());
 		toEdit.setRationale(rationaleTextArea.getText());
 		toEdit.setSource(sourceTextField.getText());
-		toEdit.setUserStories(userStoriesTextField.getText());
+		toEdit.setUserStories(listToString(userStoriesCheckComboBox.getCheckModel().getCheckedItems()));
 		toEdit.setSupportingMaterials(supportingMaterialsTextField.getText());
 		toEdit.setFitCriterion(fitCriterionTextField.getText());
 
+	}
+
+	private String listToString(ObservableList<String> list) {
+
+		String string = "";
+
+		int counter = 0;
+		for (String str : list) {
+			if (counter == 0) {
+				counter++;
+				string = str;
+			}
+			string += "," + str;
+		}
+		return string;
 	}
 
 	private void fillRqCardDataInTextFields() {
@@ -119,7 +135,6 @@ public class EditRqCardController {
 		descriptionTextArea.setText(toEdit.getDescription());
 		rationaleTextArea.setText(toEdit.getRationale());
 		sourceTextField.setText(toEdit.getSource());
-		// TODO: userStoriesTextField.setText(data[6]);
 		supportingMaterialsTextField.setText(toEdit.getSupportingMaterials());
 		fitCriterionTextField.setText(toEdit.getFitCriterion());
 		if (toEdit.getIsFrozen() == 1) {
@@ -139,52 +154,26 @@ public class EditRqCardController {
 		this.toEdit = toEdit;
 	}
 
-	private void initCheckComboBox() {
+	@SuppressWarnings("unchecked")
+	private void initCheckComboBoxes() {
 
 		// give actual Modules to the ModulesCheckComboBox
 
-		ObservableList<String> allModules = model.getModules();
-		modulesCheckComboBox = new CheckComboBox<>(allModules);
-		moduleHBox.getChildren().add(modulesCheckComboBox);
+		modulesCheckComboBox = new CheckComboBox<>(model.getModules());
+		modulesHBox.getChildren().add(modulesCheckComboBox);
+
+		userStoriesCheckComboBox = new CheckComboBox<>(model.getUserStories());
+		userStoriesHBox.getChildren().add(userStoriesCheckComboBox);
+
+		int rqID = toEdit.getID();
 
 		// check the ones set in database
-		for (String module : model.getModulesByRqID(toEdit.getRqID())) {
+		for (String module : (ArrayList<String>) model.getXNamesAsStringByRqID("Module", rqID, true)) {
 			modulesCheckComboBox.getCheckModel().check(module);
 		}
-
-		addEventHandlerToModulesCheckComboBox(allModules);
-	}
-
-	private void addEventHandlerToModulesCheckComboBox(ObservableList<String> allModules) {
-
-		modulesCheckComboBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
-
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> changedModule) {
-
-				if (changedModule.next()) {
-
-					if (changedModule.wasAdded()) {
-
-						for (String module : changedModule.getAddedSubList()) {
-
-							model.addModuleToRequirement(module, toEdit.getRqID());
-						}
-					}
-
-					// if module was removed..
-					else if (changedModule.wasRemoved()) {
-
-						// modulesAdded==false->true
-						for (String module : changedModule.getRemoved()) {
-
-							model.removeModuleFromRequirement(module, toEdit.getRqID());
-						}
-					}
-				}
-			}
-
-		});
+		for (String userStory : (ArrayList<String>) model.getXNamesAsStringByRqID("UserStory", rqID, true)) {
+			userStoriesCheckComboBox.getCheckModel().check(userStory);
+		}
 	}
 
 	private void addEventHandlerToFrozenChoiceBox() {

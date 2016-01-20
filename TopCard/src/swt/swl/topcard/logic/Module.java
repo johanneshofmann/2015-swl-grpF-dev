@@ -10,6 +10,10 @@ public class Module {
 		this.name = name;
 	}
 
+	// ===============================
+	// === Getters and Setters =======
+	// ===============================
+
 	public int getId() {
 		return this.id;
 	}

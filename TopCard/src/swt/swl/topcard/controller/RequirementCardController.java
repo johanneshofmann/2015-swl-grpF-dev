@@ -1,6 +1,5 @@
 package swt.swl.topcard.controller;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -15,10 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -31,15 +27,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.TeamChangeListener;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class RequirementCardController implements Observer {
 
 	private MainApp mainApp;
 	private String loginName;
-	private RequirementCardModel rqModel;
+	private RequirementCardModel model;
 	private LoginWindowController loginController;
 	private RequirementCardController this$;
+	private TeamChangeListener teamChangedListener;
+	private boolean cancelTransaction;
 
 	@FXML
 	private Pane mainWindowPainLeft, mainWindowPainRight;
@@ -70,9 +69,9 @@ public class RequirementCardController implements Observer {
 
 		this.observableList = FXCollections.observableArrayList();
 
-		rqModel = new RequirementCardModel();
-		rqModel.setObservableArray(this.observableList);
-		rqModel.addObserver(this);
+		model = new RequirementCardModel();
+		model.setObservableArray(this.observableList);
+		model.addObserver(this);
 		setThis$(this);
 	}
 
@@ -89,10 +88,21 @@ public class RequirementCardController implements Observer {
 	}
 
 	public void repaint() {
+
 		refreshList();
+		refrechTeams();
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
 		mainApp.getPrimaryStage().show();
+	}
+
+	private void refrechTeams() {
+
+		clearChecks();
+
+		for (String team : model.getTeamsUserIsSubscribed()) {
+			checkTeam(team);
+		}
 	}
 
 	@FXML
@@ -102,7 +112,7 @@ public class RequirementCardController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
-			((CreateRQCardController) loader.getController()).setData(this.rqModel, this);
+			((CreateRQCardController) loader.getController()).setData(this.model, this);
 			((CreateRQCardController) loader.getController()).initFXNodes();
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
@@ -178,7 +188,7 @@ public class RequirementCardController implements Observer {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
-			((SearchRQCardController) loader.getController()).setData(this.rqModel, this);
+			((SearchRQCardController) loader.getController()).setData(this.model, this);
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
@@ -208,7 +218,7 @@ public class RequirementCardController implements Observer {
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteRQCard.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
 
-			((VoteRqCardController) loader.getController()).setData(this.rqModel, this, rq);
+			((VoteRqCardController) loader.getController()).setData(this.model, this, rq);
 
 			Scene scene = new Scene(rootLayout);
 			mainApp.getPrimaryStage().setScene(scene);
@@ -226,7 +236,7 @@ public class RequirementCardController implements Observer {
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
 			ScrollPane rootLayout = (ScrollPane) loader.load();
 
-			((EditRqCardController) loader.getController()).setData(this.rqModel, this, rq);
+			((EditRqCardController) loader.getController()).setData(this.model, this, rq);
 			((EditRqCardController) loader.getController()).initializeFXNodes();
 
 			Scene scene = new Scene(rootLayout);
@@ -262,23 +272,16 @@ public class RequirementCardController implements Observer {
 	}
 
 	private void refreshList() {
-		this.rqModel.getRequirements();
+		this.model.getRequirements();
 		requirementCardsTable.setItems(observableList);
 	}
 
 	private void initChooseTeamComboBox() {
 
-		chooseTeamBox = new CheckComboBox<>();
+		chooseTeamBox = new CheckComboBox<>(model.getTeams());
 
-		ObservableList<String> teams = rqModel.getTeams();
-
-		chooseTeamBox.getItems().clear();
-
-		for (String team : teams) {
-
-			chooseTeamBox.getItems().add(team);
-		}
 		menuListHBox.getChildren().add(chooseTeamBox);
+
 		addEventHandlerToChooseTeamBox();
 	}
 
@@ -294,7 +297,7 @@ public class RequirementCardController implements Observer {
 
 					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
 
-					if (rqModel.checkUserName(item.getOwnerName())) {
+					if (model.checkUserName(item.getOwnerName())) {
 						openEditView(item);
 					} else {
 						openVoteView(item);
@@ -323,114 +326,10 @@ public class RequirementCardController implements Observer {
 
 	private void addEventHandlerToChooseTeamBox() {
 
-		chooseTeamBox.getCheckModel().getCheckedItems().addListener(new ListChangeListener<String>() {
+		teamChangedListener = new TeamChangeListener(model, this);
 
-			ArrayList<String> teamsFromUser = initComboBoxAndGetTeamsFromUser();
-
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> changedTeam) {
-
-				ObservableList<String> selectedTeams = chooseTeamBox.getCheckModel().getCheckedItems();
-
-				int actualSize = teamsFromUser.size();
-
-				if (rqModel.userAlreadySubscribed()) {
-
-					// if team was added..
-					if (changedTeam.wasAdded()) {
-
-						for (String team : changedTeam.getAddedSubList()) {
-
-							rqModel.letUserBeMemberOf(team);
-
-							new Alert(AlertType.INFORMATION, "You are now member of the team " + team + ".")
-									.showAndWait();
-						}
-						// if team was removed ..
-					}
-					if (changedTeam.wasRemoved()) {
-
-						Alert removeConfirmation = null;
-						String teamStr = null;
-
-						for (String team : changedTeam.getRemoved()) {
-
-							teamStr = team;
-
-							if (actualSize <= 1) {
-
-								String textRow = "You're about to leave the only team you're joined. Really leave team?";
-
-								removeConfirmation = new Alert(AlertType.CONFIRMATION, textRow);
-
-								removeConfirmation.getButtonTypes().set(0, new ButtonType("Cancel"));
-								removeConfirmation.getButtonTypes().set(1, new ButtonType("Leave"));
-
-							} else {
-								rqModel.letUserExitTeam(team);
-								removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + team + ".");
-							}
-						}
-						removeConfirmation.showAndWait();
-
-						if (removeConfirmation.getResult().getText().toString().equals("Leave")) {
-
-							rqModel.letUserExitTeam(teamStr);
-							new Alert(AlertType.INFORMATION, "Left team " + teamStr + ".").showAndWait();
-						} else {
-							removeConfirmation.close();
-						}
-					} else {
-						// simply let user enter team..
-						rqModel.letUserBeMemberOf(selectedTeams.get(0));
-						new Alert(AlertType.INFORMATION, "You are now member of the team " + selectedTeams.get(0) + ".")
-								.showAndWait();
-					}
-				}
-
-			}
-		});
-
-	}
-
-	private ArrayList<String> initComboBoxAndGetTeamsFromUser() {
-
-		ArrayList<String> teamsFromUser = new ArrayList<>();
-
-		for (String team : rqModel.getTeamsUserIsSubscribed()) {
-
-			teamsFromUser.add(team);
-			chooseTeamBox.getCheckModel().check(team);
-		}
-		return teamsFromUser;
-	}
-
-	public void restoreChangedTeam(String changedTeam, boolean wasAdded) {
-
-		IndexedCheckModel<String> checkModel = chooseTeamBox.getCheckModel();
-		ObservableList<String> selectedTeams;
-
-		if (wasAdded) {
-
-			checkModel.clearCheck(changedTeam);
-
-			// @Test:
-			selectedTeams = checkModel.getCheckedItems();
-
-			if (selectedTeams.contains(changedTeam)) {
-
-				throw new IllegalStateException("Selected teams should not contain changed team! ");
-			}
-
-		} else {
-
-			checkModel.check(changedTeam);
-
-			// @Test:
-			selectedTeams = checkModel.getCheckedItems();
-
-		}
-
+		chooseTeamBox.getCheckModel().getCheckedItems()
+				.addListener((ListChangeListener<? super String>) teamChangedListener);
 	}
 
 	/**
@@ -444,7 +343,7 @@ public class RequirementCardController implements Observer {
 		this.loginName = loginName;
 		this.mainApp = mainApp;
 		this.loginController = loginWindowController;
-		rqModel.setLoginName(loginName);
+		model.setLoginName(loginName);
 		this.loginNameLabel.setText(loginName);
 	}
 
@@ -461,11 +360,19 @@ public class RequirementCardController implements Observer {
 	}
 
 	public RequirementCardModel getRqModel() {
-		return rqModel;
+		return model;
 	}
 
 	public void setRqModel(RequirementCardModel rqModel) {
-		this.rqModel = rqModel;
+		this.model = rqModel;
+	}
+
+	public boolean getCancelTransaction() {
+		return cancelTransaction;
+	}
+
+	public void setCancelTransaction(boolean cancelTransaction) {
+		this.cancelTransaction = cancelTransaction;
 	}
 
 	public RequirementCardController getThis$() {
@@ -476,4 +383,25 @@ public class RequirementCardController implements Observer {
 		this.this$ = this$;
 	}
 
+	public void checkTeam(String team) {
+
+		cancelTransaction = true;
+		chooseTeamBox.getCheckModel().check(team);
+		cancelTransaction = false;
+	}
+
+	public String getFirstTeam() {
+		return chooseTeamBox.getCheckModel().getCheckedItems().get(0);
+	}
+
+	public void clearChecks() {
+
+		IndexedCheckModel<String> checkModel = chooseTeamBox.getCheckModel();
+
+		for (int i = 0; i < checkModel.getCheckedItems().size(); i++) {
+			cancelTransaction = true;
+			checkModel.clearCheck(checkModel.getCheckedItems().get(i));
+			cancelTransaction = false;
+		}
+	}
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
@@ -27,7 +26,7 @@ public class RequirementCardModel extends Observable {
 		return (loginName.equals(ownerName) ? true : false);
 	}
 
-	public void insertEditedRqIntoDatabase(RequirementCardSimple toInsert, boolean newMajorVersion) {
+	public synchronized void insertEditedRqIntoDatabase(RequirementCardSimple toInsert, boolean newMajorVersion) {
 
 		int minorVersion = (toInsert.getMinorVersion() + 1);
 		int majorVersion = toInsert.getMajorVersion();
@@ -49,33 +48,43 @@ public class RequirementCardModel extends Observable {
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
-		String[] strArr = toInsert.getModules().split(",");
+		String[] modulesArray = toInsert.getModules().split(",");
 
-		ArrayList<Integer> moduleIDs = new ArrayList<>();
+		// Fetch ID from added RQ:
+		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
-		for (String str : strArr) {
+		// then insert each (RqID,ModuleID)-Pair ..
 
-			moduleIDs.add(DatabaseHelper.XNameToID("Module", str));
+		for (String moduleName : modulesArray) {
+
+			int moduleID = DatabaseHelper.XNameToID("Module", moduleName);
+
+			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
+					+ rqID + "," + moduleID + ")";
+
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 		}
-		// then insert each (RqID,ModuleID)-Pair into table
-		// TODO: duplicate insert here, remove either here or in
-		// editcontroller..
-		// for (Integer moduleID : moduleIDs) {
-		//
-		// String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO
-		// RequirementModule(RequirementID,ModuleID) VALUES("
-		// + toInsert.getRqID() + "," + moduleID + ")";
-		//
-		// DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
-		// }
+
+		// .. and each (RqID,UserStoryID)-Pair into table
+		String[] userStoriesArray = toInsert.getUserStories().split(",");
+
+		for (String userStory : userStoriesArray) {
+
+			int userStoryID = DatabaseHelper.XNameToID("UserStory", userStory);
+
+			String sqlInsertIntoRequirementUserStoryUpdate = "INSERT INTO RequirementUserStory(RequirementID,UserStoryID) VALUES("
+					+ rqID + "," + userStoryID + ")";
+
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUserStoryUpdate);
+		}
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
 	}
 
-	public void insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
-			String source, ObservableList<String> userStories, String fitCriterion, String supportingMaterials,
-			boolean isFrozen) {
+	public synchronized void insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
+			String rationale, String source, ObservableList<String> userStories, String fitCriterion,
+			String supportingMaterials, boolean isFrozen) {
 
 		int minorVersion = 1;
 		int majorVersion = 1;
@@ -105,7 +114,7 @@ public class RequirementCardModel extends Observable {
 		for (Integer moduleID : DatabaseHelper.getIDsFromX("Module", modules)) {
 
 			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-					+ rqCardID + "," + moduleID + ")";
+					+ DatabaseHelper.getMaxXFromY("ID", "Requirement") + "," + moduleID + ")";
 
 			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 		}
@@ -114,7 +123,7 @@ public class RequirementCardModel extends Observable {
 		for (Integer userStoryID : DatabaseHelper.getIDsFromX("UserStory", userStories)) {
 
 			String sqlInsertIntoRequirementUserStoryUpdate = "INSERT INTO RequirementUserStory(RequirementID,UserStoryID) VALUES("
-					+ rqCardID + "," + userStoryID + ")";
+					+ DatabaseHelper.getMaxXFromY("ID", "Requirement") + "," + userStoryID + ")";
 
 			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUserStoryUpdate);
 		}
@@ -327,8 +336,8 @@ public class RequirementCardModel extends Observable {
 		DatabaseHelper.exitUserFromAllTeams(loginName);
 	}
 
-	public ArrayList<Integer> getModulesFromRequirement(int id) {
-		return DatabaseHelper.getModulesByRequirementID(id);
+	public ArrayList<Integer> getXFromRequirement(String x, int id) {
+		return DatabaseHelper.getXIDsByRequirementID(x, id);
 	}
 
 	public ArrayList<Integer> getIDsFromModules(ObservableList<String> observableList) {
@@ -339,15 +348,14 @@ public class RequirementCardModel extends Observable {
 		return DatabaseHelper.XNameToID("Module", module);
 	}
 
-	public ObservableList<String> getModulesByRqID(int rQID) {
+	// for modules or userStories:
+	public Object getXNamesAsStringByRqID(String x, int rQID, boolean asList) {
 
-		ObservableList<String> modules = FXCollections.observableArrayList();
-
-		for (Integer i : DatabaseHelper.getModulesByRequirementID(rQID)) {
-
-			modules.add(DatabaseHelper.XIDToName("Module", i));
+		if (asList) {
+			return DatabaseHelper.getXNameAsListByRequirementID(x, rQID);
+		} else {
+			return DatabaseHelper.getXNameAsStringByRequirementID(x, rQID);
 		}
-		return modules;
 
 	}
 
