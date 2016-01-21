@@ -130,7 +130,7 @@ public class DatabaseHelper {
 		}
 	}
 
-	public static ObservableList<String> getXNames(String x) {
+	public static ObservableList<String> getNamesFromSource(String source) {
 
 		if (!isInitialized)
 			initialize();
@@ -139,15 +139,18 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String query = "SELECT Name FROM " + x;
+			String name = evaluateName(source);
 
-			ResultSet userStoriesSet = stmt.executeQuery(query);
-			ObservableList<String> userStories = FXCollections.observableArrayList();
+			String query = "SELECT " + name + " FROM " + source;
 
-			while (userStoriesSet.next()) {
-				userStories.add(userStoriesSet.getString(1));
+			ResultSet xSet = stmt.executeQuery(query);
+
+			ObservableList<String> items = FXCollections.observableArrayList();
+
+			while (xSet.next()) {
+				items.add(xSet.getString(1));
 			}
-			return userStories;
+			return items;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -414,97 +417,47 @@ public class DatabaseHelper {
 
 	public static ArrayList<RequirementCardSimple> getRequirements() {
 
-		if (!isInitialized)
-			initialize();
-
 		ArrayList<RequirementCardSimple> requirements = new ArrayList<>();
+
+		ArrayList<Integer> reqIDs = getRequirementIDs();
+
+		for (int i = 0; i < reqIDs.size(); i++) {
+
+			requirements.add(getDistinctRequirementCard(reqIDs.get(i)));
+		}
+		return requirements;
+	}
+
+	private static RequirementCardSimple getDistinctRequirementCard(int rqID) {
+
+		int majorVersion = getMaxMajorVersion(rqID);
+		int minorVersion = getMaxMinorVersion(rqID);
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
-			ArrayList<Integer> reqIDs = getRequirementIDs();
-			ArrayList<Integer> majorVersions = new ArrayList<>();
-			ArrayList<Integer> minorVersions = new ArrayList<>();
+			String sqlSelectAllFromRequirementQuery = "SELECT * FROM Requirement WHERE Requirement=" + rqID
+					+ " AND MajorVersion=" + majorVersion + " AND MinorVersion=" + minorVersion;
 
-			for (int i = 0; i < reqIDs.size(); i++) {
-				majorVersions.add(getMajorVersion(reqIDs.get(i)));
-				minorVersions.add(getMinorVersion(reqIDs.get(i)));
+			ResultSet requirementSet = stmt.executeQuery(sqlSelectAllFromRequirementQuery);
+
+			if (requirementSet.next()) {
+
+				int ownerID = requirementSet.getInt(5);
+				int ID = requirementSet.getInt(1);
+
+				return new RequirementCardSimple(ID, requirementSet.getString(2), majorVersion, minorVersion, ownerID,
+						XIDToName("User", ownerID), rqID, getXNameAsStringByRequirementID("Module", ID),
+						requirementSet.getString(7), requirementSet.getString(8), requirementSet.getString(9),
+						getXNameAsStringByRequirementID("UserStory", ID), requirementSet.getString(10),
+						requirementSet.getString(11), requirementSet.getInt(12), requirementSet.getTimestamp(13),
+						requirementSet.getString(14));
 			}
-
-			for (int i = 0; i < reqIDs.size(); i++) {
-
-				ResultSet requirementSet = stmt.executeQuery(
-						"SELECT * FROM Requirement WHERE Requirement=" + reqIDs.get(i) + " AND MajorVersion="
-								+ majorVersions.get(i) + " AND MinorVersion=" + minorVersions.get(i));
-
-				if (requirementSet.next()) {
-
-					int rqID = reqIDs.get(i);
-					int ownerID = requirementSet.getInt(5);
-
-					int minorVersion = minorVersions.get(i), majorVersion = majorVersions.get(i);
-
-					requirements.add(new RequirementCardSimple(requirementSet.getInt(1), requirementSet.getString(2),
-							minorVersion, majorVersion, ownerID, XIDToName("User", ownerID), rqID,
-							getXNameAsStringByRequirementID("Module", rqID), requirementSet.getString(7),
-							requirementSet.getString(8), requirementSet.getString(9),
-							getUserStoryIDsAsStringByRequirementID(rqID), requirementSet.getString(10),
-							requirementSet.getString(11), requirementSet.getInt(12), requirementSet.getTimestamp(13),
-							requirementSet.getString(14)));
-				}
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return requirements;
-
-	}
-
-	private static String getUserStoryIDsAsStringByRequirementID(int rqID) {
-
-		ArrayList<Integer> userStories = getUserStoryIDsByRequirementID(rqID);
-
-		String userStoriesAsString = "";
-
-		int counter = 0;
-
-		for (Integer i : userStories) {
-
-			if (counter == 0) {
-				userStoriesAsString += i;
-				counter++;
-			} else {
-				userStoriesAsString += ", " + i;
-			}
-		}
-		return userStoriesAsString;
-	}
-
-	private static ArrayList<Integer> getUserStoryIDsByRequirementID(int rqID) {
-		if (!isInitialized)
-			initialize();
-
-		ArrayList<Integer> userStoryIDs = new ArrayList<>();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement getUserStoryIDs = conn.createStatement();
-
-			ResultSet modulesContainer = getUserStoryIDs
-					.executeQuery("SELECT UserStoryID FROM RequirementUserStory WHERE RequirementID=" + rqID);
-
-			while (modulesContainer.next()) {
-
-				userStoryIDs.add(modulesContainer.getInt(1));
-			}
-			return userStoryIDs;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
+		throw new IllegalStateException("Should have returned RequirementSimple. Given rqID was: " + rqID);
 	}
 
 	private static ArrayList<Integer> getRequirementIDs() {
@@ -518,7 +471,7 @@ public class DatabaseHelper {
 			ArrayList<Integer> reqIDs = new ArrayList<>();
 
 			while (requirementIDsSet.next()) {
-				if (!reqIDs.contains((int) requirementIDsSet.getInt(1))) {
+				if (!reqIDs.contains((Integer) requirementIDsSet.getInt(1))) {
 					reqIDs.add(requirementIDsSet.getInt(1));
 				}
 			}
@@ -530,7 +483,7 @@ public class DatabaseHelper {
 		return null;
 	}
 
-	private static Integer getMajorVersion(int rqID) {
+	private static Integer getMaxMajorVersion(int rqID) {
 
 		if (!isInitialized)
 			initialize();
@@ -554,7 +507,7 @@ public class DatabaseHelper {
 		return -404;
 	}
 
-	private static Integer getMinorVersion(int rqID) {
+	private static Integer getMaxMinorVersion(int rqID) {
 
 		if (!isInitialized)
 			initialize();
@@ -586,16 +539,17 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet requirementsSet = stmt.executeQuery("SELECT * FROM Requirement WHERE Requirement =" + ID);
+			ResultSet requirementsSet = stmt.executeQuery("SELECT * FROM Requirement WHERE ID =" + ID);
 
 			if (requirementsSet.next()) {
+
 				int ownerID = requirementsSet.getInt(5), requirementID = requirementsSet.getInt(6);
 
-				return new RequirementCardSimple(requirementsSet.getInt(1), requirementsSet.getString(2),
-						requirementsSet.getInt(3), requirementsSet.getInt(4), ownerID, XIDToName("User", ownerID),
-						requirementID, getXNameAsStringByRequirementID("Module", requirementID),
-						requirementsSet.getString(7), requirementsSet.getString(8), requirementsSet.getString(9),
-						getUserStoryIDsAsStringByRequirementID(requirementID), requirementsSet.getString(10),
+				return new RequirementCardSimple(ID, requirementsSet.getString(2), requirementsSet.getInt(3),
+						requirementsSet.getInt(4), ownerID, XIDToName("User", ownerID), requirementID,
+						getXNameAsStringByRequirementID("Module", ID), requirementsSet.getString(7),
+						requirementsSet.getString(8), requirementsSet.getString(9),
+						getXNameAsStringByRequirementID("UserStory", ID), requirementsSet.getString(10),
 						requirementsSet.getString(11), requirementsSet.getInt(12), requirementsSet.getTimestamp(13),
 						requirementsSet.getString(14));
 			} else {
@@ -681,13 +635,7 @@ public class DatabaseHelper {
 		if (!isInitialized)
 			initialize();
 
-		String name = "Name";
-
-		if (x.equals("Requirement")) {
-			name = "Title";
-		} else if (x.equals("User")) {
-			name = "LoginName";
-		}
+		String name = evaluateName(x);
 
 		String sqlSelectXID = "";
 
@@ -754,9 +702,23 @@ public class DatabaseHelper {
 
 	public static void deleteXFromDatabaseByName(String x, String name) {
 
-		String sql = "DELETE FROM " + x + " WHERE Name=" + name;
+		String toDelete = evaluateName(x);
+
+		String sql = "DELETE FROM " + x + " WHERE " + toDelete + "='" + name + "'";
 
 		executeUpdate(sql);
+	}
+
+	private static String evaluateName(String x) {
+
+		String name = "Name";
+
+		if (x.equals("Requirement")) {
+			name = "Title";
+		} else if (x.equals("User")) {
+			name = "LoginName";
+		}
+		return name;
 	}
 
 }

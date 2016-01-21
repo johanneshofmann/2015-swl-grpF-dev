@@ -54,7 +54,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private TableView<RequirementCardSimple> requirementCardsTable;
 
-	private TableColumn<RequirementCardSimple, String> nameTableColumn, ownerTableColumn, teamTableColumn;
+	private TableColumn<RequirementCardSimple, String> nameTableColumn, ownerTableColumn, modulesTableColumn;
 
 	private CheckComboBox<String> chooseTeamBox;
 	// all Labels and ResultLabels
@@ -106,7 +106,7 @@ public class RequirementCardController implements Observer {
 	}
 
 	@FXML
-	void createNewRqButtonClicked(ActionEvent event) {
+	void createNewRequirementButtonClicked(ActionEvent event) {
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -265,14 +265,14 @@ public class RequirementCardController implements Observer {
 		ownerTableColumn = new TableColumn<>("Owner");
 		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
 
-		teamTableColumn = new TableColumn<>("Modules");
-		teamTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("modules"));
+		modulesTableColumn = new TableColumn<>("Modules");
+		modulesTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("modules"));
 
 		columns.clear();
 
 		columns.add(nameTableColumn);
 		columns.add(ownerTableColumn);
-		columns.add(teamTableColumn);
+		columns.add(modulesTableColumn);
 
 		refreshList();
 
@@ -280,7 +280,7 @@ public class RequirementCardController implements Observer {
 	}
 
 	private void refreshList() {
-		this.model.getRequirements();
+		this.model.updateRequirementsList();
 		requirementCardsTable.setItems(observableList);
 	}
 

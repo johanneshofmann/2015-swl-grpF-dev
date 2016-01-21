@@ -1,5 +1,6 @@
 package swt.swl.topcard.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +19,7 @@ public class RequirementCardModel extends Observable {
 	private ObservableList<RequirementCardSimple> observableArray;
 
 	public RequirementCardModel() {
+		createLastModifiedAtString();
 
 	}
 
@@ -28,7 +30,7 @@ public class RequirementCardModel extends Observable {
 
 	public synchronized void insertEditedRqIntoDatabase(RequirementCardSimple toInsert, boolean newMajorVersion) {
 
-		int minorVersion = (toInsert.getMinorVersion() + 1);
+		int minorVersion = toInsert.getMinorVersion() + 1;
 		int majorVersion = toInsert.getMajorVersion();
 
 		if (newMajorVersion) {
@@ -44,7 +46,8 @@ public class RequirementCardModel extends Observable {
 				+ toInsert.getTitle() + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", "
 				+ toInsert.getRqID() + ", '" + toInsert.getDescription() + "', '" + toInsert.getRationale() + "', '"
 				+ toInsert.getSource() + "', '" + toInsert.getSupportingMaterials() + "', '"
-				+ toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '" + new java.util.Date() + "')";
+				+ toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '" + createLastModifiedAtString()
+				+ "')";
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
@@ -105,7 +108,7 @@ public class RequirementCardModel extends Observable {
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
 				+ title + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", " + rqCardID + ", '"
 				+ description + "', '" + rationale + "', '" + source + "', '" + supportingMaterials + "', '"
-				+ fitCriterion + "', " + isFrozenInt + ", '" + new java.util.Date() + "')";
+				+ fitCriterion + "', " + isFrozenInt + ", '" + createLastModifiedAtString() + "')";
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
@@ -130,6 +133,13 @@ public class RequirementCardModel extends Observable {
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
+	}
+
+	private String createLastModifiedAtString() {
+
+		String time = new java.util.Date().toString().substring(11, 19);
+
+		return (new Date(System.currentTimeMillis()) + " " + time);
 	}
 
 	/**
@@ -161,7 +171,7 @@ public class RequirementCardModel extends Observable {
 
 	}
 
-	public void getRequirements() {
+	public void updateRequirementsList() {
 
 		ArrayList<RequirementCardSimple> requirements = DatabaseHelper.getRequirements();
 
@@ -303,15 +313,15 @@ public class RequirementCardModel extends Observable {
 
 	public ObservableList<String> getModules() {
 
-		return DatabaseHelper.getXNames("Module");
+		return DatabaseHelper.getNamesFromSource("Module");
 	}
 
 	public ObservableList<String> getTeams() {
-		return DatabaseHelper.getXNames("Team");
+		return DatabaseHelper.getNamesFromSource("Team");
 	}
 
 	public ObservableList<String> getUserStories() {
-		return DatabaseHelper.getXNames("UserStory");
+		return DatabaseHelper.getNamesFromSource("UserStory");
 	}
 
 	public boolean userAlreadySubscribed() {

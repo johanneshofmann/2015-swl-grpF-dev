@@ -121,7 +121,7 @@
                   <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="New">
                     <items>
                       <MenuItem fx:id="createModuleButton" mnemonicParsing="false" onAction="#createModuleButtonClicked" text="Module" />
-                      <MenuItem fx:id="createNewRqButton" mnemonicParsing="false" onAction="#createNewRqButtonClicked" text="Requirement Card" />
+                      <MenuItem fx:id="createNewRqButton" mnemonicParsing="false" onAction="#createNewRequirementButtonClicked" text="Requirement Card" />
                         <MenuItem fx:id="createNewTeam" mnemonicParsing="false" onAction="#createNewTeamClicked" text="Team" />
                         <MenuItem fx:id="createNewUserStory" mnemonicParsing="false" onAction="#createNewUserStoryClicked" text="UserStory" />
                     </items>

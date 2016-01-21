@@ -1,77 +1,44 @@
 package swt.swl.topcard.model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.Observable;
+
+import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.DatabaseHelper;
 
 public class LoginModel extends Observable {
 
-	public LoginModel() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public boolean checkDatabase(String loginName) {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-			ResultSet result = stmt.executeQuery("SELECT LoginName FROM User");
-			while (result.next()) {
-				String userName = result.getString("LoginName");
-				if (userName.equals(loginName)) {
-					System.out.println("LoginName accepted. Access granted");
-					return true;
-				}
+		ObservableList<String> users = DatabaseHelper.getNamesFromSource("User");
+
+		for (String userName : users) {
+
+			if (userName.equals(loginName)) {
+
+				System.out.println("LoginName accepted. Access granted");
+
+				return true;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public void insertUserIntoDatabase(String firstName, String lastName, String loginName) {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-			Statement stmt$2 = conn.createStatement();
-			ResultSet r = stmt$2.executeQuery("SELECT MAX(ID) FROM User");
-			int ownerID = 99;
-			if (r.next()) {
-				ownerID = r.getInt(1) + 1;
-			}
+		int ownerID = DatabaseHelper.getMaxXFromY("ID", "User");
 
-			String sqlInsert = "INSERT INTO User(ID,FirstName,LastName,LoginName,CreatedAt) VALUES (" + ownerID + ", '"
-					+ firstName + "', '" + lastName + "', '" + loginName + "', '" + LocalDateTime.now() + "');";
-			stmt.executeUpdate(sqlInsert);
-			triggerNotification(loginName);
+		String sqlInsert = "INSERT INTO User(ID,FirstName,LastName,LoginName) VALUES (" + ownerID + ", '" + firstName
+				+ "', '" + lastName + "', '" + loginName + "');";
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DatabaseHelper.executeUpdate(sqlInsert);
+
+		triggerNotification(loginName);
 	}
 
 	// only invoked for testing..
 	public void deleteUserFromDatabase(String loginName) {
 
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF", "GroupF",
-				"gruppe_f")) {
-			Statement stmt = conn.createStatement();
-
-			String sqlInsert = "DELETE FROM User WHERE LoginName ='" + loginName + "'";
-			stmt.executeUpdate(sqlInsert);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DatabaseHelper.deleteXFromDatabaseByName("User", loginName);
 	}
 
 	private void triggerNotification(String message) {

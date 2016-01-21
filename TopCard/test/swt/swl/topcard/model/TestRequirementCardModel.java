@@ -48,7 +48,7 @@ public class TestRequirementCardModel {
 				supportingMaterials, isFrozen);
 
 		// 'call' update-Method:
-		this.rqModel.getRequirements();
+		this.rqModel.updateRequirementsList();
 
 		// TODO: @Test not correct set here:
 
@@ -84,7 +84,7 @@ public class TestRequirementCardModel {
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials, isFrozen);
 		// 'call' update-Method:
-		this.rqModel.getRequirements();
+		this.rqModel.updateRequirementsList();
 
 		// here also
 		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,

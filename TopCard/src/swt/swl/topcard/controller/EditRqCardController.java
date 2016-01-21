@@ -143,8 +143,8 @@ public class EditRqCardController {
 		createdAtLabel.setText(toEdit.getCreatedAt().toString());
 		lastModifiedAtLabel.setText(toEdit.getLastModifiedAt().toString());
 		titleTextField.setText(toEdit.getTitle());
-		majorVersionLabel.setText("" + toEdit.getMajorVersion());
-		minorVersionLabel.setText("" + toEdit.getMinorVersion());
+		majorVersionLabel.setText(String.valueOf(toEdit.getMajorVersion()));
+		minorVersionLabel.setText(String.valueOf(toEdit.getMinorVersion()));
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,

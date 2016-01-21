@@ -64,8 +64,7 @@ public class MainApp extends Application {
 			primaryStage.setScene(loginScene);
 			primaryStage.show();
 
-			System.out.println("Starting up Application at System Time: " + new java.util.Date());
-
+			System.out.println("Starting up Application ..\rSystem Time: " + new java.util.Date());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
