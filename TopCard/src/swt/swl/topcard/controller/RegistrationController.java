@@ -24,7 +24,7 @@ public class RegistrationController {
 	void cancelButtonClicked(ActionEvent event) {
 		Stage stage = loginController.getMainApp().getPrimaryStage();
 		stage.close();
-		stage.setScene(loginController.getScene());
+		stage.setScene(loginController.getLoginScene());
 		stage.show();
 	}
 

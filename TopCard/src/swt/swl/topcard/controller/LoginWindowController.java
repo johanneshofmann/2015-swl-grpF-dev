@@ -3,7 +3,6 @@ package swt.swl.topcard.controller;
 import java.util.Observable;
 import java.util.Observer;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +19,7 @@ public class LoginWindowController implements Observer {
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
-	private Scene me, requirementCardViewScene;
+	private Scene thisLoginScene, requirementCardViewScene;
 
 	@FXML
 	private Button loginButton, registerButton;
@@ -45,23 +44,18 @@ public class LoginWindowController implements Observer {
 			al.showAndWait();
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
-				me = mainApp.getPrimaryStage().getScene();
 				mainApp.getPrimaryStage().close();
 				createRegistrationView();
 				event.consume();
 			} else {
-				// exit..
-				mainApp.getPrimaryStage().close();
-				Platform.exit();
+				al.close();
 			}
 		}
 	}
 
 	@FXML
 	void registerButtonClicked(ActionEvent event) {
-		me = mainApp.getPrimaryStage().getScene();
 		createRegistrationView();
-
 	}
 
 	private void createRegistrationView() {
@@ -100,8 +94,9 @@ public class LoginWindowController implements Observer {
 		createRequirementCardView(message.toString());
 	}
 
-	public void setMainApp(MainApp mainApp) {
+	public void setData(MainApp mainApp, Scene loginScene) {
 		this.mainApp = mainApp;
+		setLoginScene(loginScene);
 	}
 
 	public MainApp getMainApp() {
@@ -112,11 +107,12 @@ public class LoginWindowController implements Observer {
 		return requirementCardViewScene;
 	}
 
-	public void setScene(Scene scene) {
-		this.me = scene;
+	public void setLoginScene(Scene scene) {
+		this.thisLoginScene = scene;
 	}
 
-	public Scene getScene() {
-		return me;
+	public Scene getLoginScene() {
+		this.userNameTextField.setText("");
+		return thisLoginScene;
 	}
 }

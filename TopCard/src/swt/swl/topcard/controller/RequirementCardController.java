@@ -45,7 +45,7 @@ public class RequirementCardController implements Observer {
 	@FXML
 	private HBox menuListHBox;
 	@FXML
-	private Button searchRqButton;
+	private Button searchRqButton, logoutButton;
 
 	@FXML
 	private ImageView startButton;
@@ -198,6 +198,14 @@ public class RequirementCardController implements Observer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@FXML
+	void logoutButtonClicked(ActionEvent event) {
+
+		mainApp.getPrimaryStage().close();
+		mainApp.getPrimaryStage().setScene(loginController.getLoginScene());
+		mainApp.getPrimaryStage().show();
 	}
 
 	@Override

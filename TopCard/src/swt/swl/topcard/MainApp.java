@@ -49,15 +49,23 @@ public class MainApp extends Application {
 	}
 
 	public void initRootLayout() {
+
 		try {
+
 			FXMLLoader loader = new FXMLLoader();
+
 			loader.setLocation(MainApp.class.getResource("view/UserLoginWindow.fxml"));
 			rootLayout = (Pane) loader.load();
-			((LoginWindowController) loader.getController()).setMainApp(this);
+
 			loginScene = new Scene(rootLayout);
+
+			((LoginWindowController) loader.getController()).setData(this, loginScene);
+
 			primaryStage.setScene(loginScene);
 			primaryStage.show();
-			System.out.println(new java.util.Date());
+
+			System.out.println("Starting up Application at System Time: " + new java.util.Date());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
