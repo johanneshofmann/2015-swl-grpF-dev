@@ -278,7 +278,8 @@ public class RequirementCardController implements Observer {
 	}
 
 	private void refreshList() {
-		this.model.updateRequirementsList();
+
+		model.updateRequirementsList();
 		requirementCardsTable.setItems(observableList);
 	}
 

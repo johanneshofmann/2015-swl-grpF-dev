@@ -9,7 +9,6 @@ import org.junit.Test;
 import javafx.collections.ObservableList;
 import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.logic.DatabaseHelper;
 import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class TestRequirementCardModel {
@@ -64,7 +63,9 @@ public class TestRequirementCardModel {
 		assertEquals(true, inArray);
 
 		// delete after checking ..
-		DatabaseHelper.deleteRqFromDatabase(title);
+		// TODO: cant simply delete now because of child row constraints, use
+		// delete method with 3 parameters
+		// DatabaseHelper.deleteRqFromDatabase(title);
 	}
 
 	@Test
@@ -91,7 +92,9 @@ public class TestRequirementCardModel {
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
 				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
 
-		DatabaseHelper.deleteRqFromDatabase(title);
+		// TODO: cant simply delete now because of child row constraints, use
+		// delete method with 3 parameters
+		// DatabaseHelper.deleteRqFromDatabase(title);
 
 		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
 

@@ -28,24 +28,17 @@ public class RequirementCardModel extends Observable {
 		return (loginName.equals(ownerName) ? true : false);
 	}
 
-	public synchronized void insertEditedRqIntoDatabase(RequirementCardSimple toInsert, boolean newMajorVersion) {
+	public synchronized void insertEditedRqIntoDatabase(RequirementCardSimple toInsert) {
 
-		int minorVersion = toInsert.getMinorVersion() + 1;
-		int majorVersion = toInsert.getMajorVersion();
 		int ownerID = toInsert.getOwnerID();
-
-		if (newMajorVersion) {
-			majorVersion++;
-			minorVersion = 1;
-		}
 
 		// first insert into Requirement table
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-				+ toInsert.getTitle() + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", "
-				+ toInsert.getRqID() + ", '" + toInsert.getDescription() + "', '" + toInsert.getRationale() + "', '"
-				+ toInsert.getSource() + "', '" + toInsert.getSupportingMaterials() + "', '"
-				+ toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '" + createLastModifiedAtString()
-				+ "')";
+				+ toInsert.getTitle() + "', " + toInsert.getMajorVersion() + ", " + toInsert.getMinorVersion() + ", "
+				+ ownerID + ", " + toInsert.getRqID() + ", '" + toInsert.getDescription() + "', '"
+				+ toInsert.getRationale() + "', '" + toInsert.getSource() + "', '" + toInsert.getSupportingMaterials()
+				+ "', '" + toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '"
+				+ createLastModifiedAtString() + "')";
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
@@ -187,9 +180,6 @@ public class RequirementCardModel extends Observable {
 		observableArray.clear();
 
 		for (RequirementCardSimple rqCard : requirements) {
-
-			System.out.println("Item.majorVersion= " + rqCard.getMajorVersion() + " Item.minorVersion= "
-					+ rqCard.getMinorVersion());
 
 			observableArray.add(rqCard);
 		}
@@ -394,6 +384,12 @@ public class RequirementCardModel extends Observable {
 	public void removeModuleFromRequirement(String module, int rqID) {
 		DatabaseHelper.executeUpdate("DELETE * FROM RequirementModule WHERE ModuleID=" + getIDFromModule(module)
 				+ " AND RequirementID=" + rqID);
+	}
+
+	public void deleteRequirement(String rqID, String majorVersion, String minorVersion) {
+		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
+				Integer.parseInt(minorVersion));
+
 	}
 
 }

@@ -204,27 +204,6 @@ public class DatabaseHelper {
 
 	}
 
-	public static void deleteRqFromDatabase(String title) {
-
-		if (!isInitialized)
-			initialize();
-
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
-
-			Statement stmt$0 = conn.createStatement();
-			Statement stmt$1 = conn.createStatement();
-
-			ResultSet rqID = stmt$0.executeQuery("SELECT Requirement FROM Requirement WHERE Title='" + title + "'");
-			int rqCardID = 0;
-			while (rqID.next()) {
-				rqCardID = rqID.getInt(1);
-				stmt$1.executeUpdate("DELETE FROM Requirement WHERE Requirement= " + rqCardID);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	// for modules or userStories:
 	public static ArrayList<Integer> getXIDsByRequirementID(String x, int rQID) {
 
@@ -420,10 +399,14 @@ public class DatabaseHelper {
 		ArrayList<RequirementCardSimple> requirements = new ArrayList<>();
 
 		ArrayList<Integer> reqIDs = getRequirementIDs();
-
+		System.err.println("\r \r need to debug DatabaseHelper. bug shown here: \r \r");
 		for (int i = 0; i < reqIDs.size(); i++) {
-
+			System.err.println("RQCard " + i + ":");
 			requirements.add(getDistinctRequirementCard(reqIDs.get(i)));
+			System.out.println("-getRequirements() : majorVersion= " + requirements.get(i).getMajorVersion()
+					+ " minorVersion= " + requirements.get(i).getMinorVersion());
+			System.out.println("-------------------------");
+
 		}
 		return requirements;
 	}
@@ -431,7 +414,7 @@ public class DatabaseHelper {
 	private static RequirementCardSimple getDistinctRequirementCard(int rqID) {
 
 		int majorVersion = getMaxMajorVersion(rqID);
-		int minorVersion = getMaxMinorVersion(rqID);
+		int minorVersion = getMaxMinorVersion(rqID, majorVersion);
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
@@ -446,7 +429,8 @@ public class DatabaseHelper {
 
 				int ownerID = requirementSet.getInt(5);
 				int ID = requirementSet.getInt(1);
-
+				System.out.println("-getDistinctRequirementCard(id): majorVersion= " + majorVersion + " minorVersion= "
+						+ minorVersion);
 				return new RequirementCardSimple(ID, requirementSet.getString(2), majorVersion, minorVersion, ownerID,
 						XIDToName("User", ownerID), rqID, getXNameAsStringByRequirementID("Module", ID),
 						requirementSet.getString(7), requirementSet.getString(8), requirementSet.getString(9),
@@ -507,7 +491,7 @@ public class DatabaseHelper {
 		return -404;
 	}
 
-	private static Integer getMaxMinorVersion(int rqID) {
+	private static Integer getMaxMinorVersion(int rqID, int majorVersion) {
 
 		if (!isInitialized)
 			initialize();
@@ -516,7 +500,8 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			String query = "SELECT MAX(MinorVersion) FROM Requirement WHERE Requirement=" + rqID;
+			String query = "SELECT MAX(MinorVersion) FROM Requirement WHERE Requirement=" + rqID + " AND MajorVersion="
+					+ majorVersion;
 
 			ResultSet minorVersionSet = stmt.executeQuery(query);
 
@@ -719,6 +704,41 @@ public class DatabaseHelper {
 			name = "LoginName";
 		}
 		return name;
+	}
+
+	public static void deleteRqFromDatabase(int rqID, int majorVersion, int minorVersion) {
+
+		if (!isInitialized)
+			initialize();
+
+		int ID = getRqID(rqID, majorVersion, minorVersion);
+
+		executeUpdate("DELETE FROM RequirementModule WHERE RequirementID= " + ID);
+		executeUpdate("DELETE FROM RequirementUserStory WHERE RequirementID= " + ID);
+		executeUpdate("DELETE FROM Requirement WHERE ID= " + ID);
+	}
+
+	public static Integer getRqID(int rqID, int majorVersion, int minorVersion) {
+
+		Integer ID = null;
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT ID FROM Requirement WHERE Requirement=" + rqID + " AND MajorVersion=" + majorVersion
+					+ " AND MinorVersion=" + minorVersion;
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			if (set.next()) {
+				ID = set.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ID;
 	}
 
 }

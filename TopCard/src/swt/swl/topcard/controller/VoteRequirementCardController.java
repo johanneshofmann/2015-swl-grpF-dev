@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,38 +46,17 @@ public class VoteRequirementCardController {
 	private HBox voteFitCriterionHBox;
 
 	@FXML
-	private Label sourceLabel, storyLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
-			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel, ownerLabel,
-			descriptionLabel, rationaleLabel;
-
+	private Label sourceLabel, userStoryLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
+			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel, ownerLabel;
 	@FXML
-	private Button voteFitCriterionButton, closeButton, voteButton, voteDescriptionButton, voteRationaleButton;
+	private TextArea descriptionTextArea, rationaleTextArea;
+	@FXML
+	private Button closeButton, voteButton;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
 		event.consume();
 		mainController.repaint();
-	}
-
-	@FXML
-	public void voteRationaleButtonClicked() {
-		voteRationaleButton.setVisible(false);
-		voteRationaleLabelsVBox.setVisible(true);
-		voteRationaleSelectionNodesVBox.setVisible(true);
-	}
-
-	@FXML
-	public void voteDescriptionButtonClicked() {
-		voteDescriptionButton.setVisible(false);
-		voteDescriptionLabelsVBox.setVisible(true);
-		voteDescriptionSelectionNodesVBox.setVisible(true);
-	}
-
-	@FXML
-	public void voteFitCriterionButtonClicked() {
-		voteFitCriterionButton.setVisible(false);
-		voteFitCriterionHBox.setVisible(true);
-
 	}
 
 	@FXML
@@ -132,11 +112,10 @@ public class VoteRequirementCardController {
 		ownerLabel.setText(rqCard.getOwnerName());
 		// moduleNamesTextField.setText(data);
 		requirementCardNumberLabel.setText("" + rqCard.getRqID());
-		descriptionLabel.setText(rqCard.getDescription());
-		rationaleLabel.setText(rqCard.getRationale());
+		descriptionTextArea.setText(rqCard.getDescription());
+		rationaleTextArea.setText(rqCard.getRationale());
 		sourceLabel.setText(rqCard.getSource());
-		// TODO: ShowAndVoteRqCardController:
-		// userStoriesTextField.setText(data);
+		userStoryLabel.setText(rqCard.getUserStories());
 		supportLabel.setText(rqCard.getSupportingMaterials());
 		fitCriterionLabel.setText(rqCard.getFitCriterion());
 		// "IsFrozen" (data[9]) not required here..
@@ -148,12 +127,8 @@ public class VoteRequirementCardController {
 	}
 
 	private void goGuiNodes() {
+
 		fillLabels();
-		voteRationaleLabelsVBox.setVisible(false);
-		voteRationaleSelectionNodesVBox.setVisible(false);
-		voteDescriptionLabelsVBox.setVisible(false);
-		voteDescriptionSelectionNodesVBox.setVisible(false);
-		voteFitCriterionHBox.setVisible(false);
 
 		// DontKnow as default:
 		descriptionCompleteDontKnowRadioButton.setSelected(true);
@@ -169,6 +144,7 @@ public class VoteRequirementCardController {
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
 			RequirementCardSimple toVote) {
+
 		this.model = rqModel;
 		this.mainController = requirementCardController;
 		this.toVote = toVote;

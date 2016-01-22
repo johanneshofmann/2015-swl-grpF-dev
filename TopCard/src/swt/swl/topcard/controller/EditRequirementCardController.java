@@ -38,7 +38,7 @@ public class EditRequirementCardController {
 	private TextField titleTextField, ownerTextField, sourceTextField, supportingMaterialsTextField,
 			fitCriterionTextField;
 	@FXML
-	private Button closeButton, editButton, showVoteResultsButton;
+	private Button closeButton, editButton, showVoteResultsButton, deleteRequirementButton;
 	@FXML
 	private Label createdAtLabel, lastModifiedAtLabel, requirementCardNumberLabel, majorVersionLabel, minorVersionLabel;
 	@FXML
@@ -87,12 +87,14 @@ public class EditRequirementCardController {
 	@FXML
 	void editButtonClicked(ActionEvent event) {
 
+		toEdit.setMinorVersion(toEdit.getMinorVersion() + 1);
+
 		modifyRequirementCardToEdit();
 
-		model.insertEditedRqIntoDatabase(toEdit, false);
+		model.insertEditedRqIntoDatabase(toEdit);
 
 		// if successful, show alert to user
-		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+		new Alert(AlertType.INFORMATION, "Changes saved.").showAndWait();
 	}
 
 	private void modifyRequirementCardToEdit() {
@@ -122,6 +124,12 @@ public class EditRequirementCardController {
 		return string;
 	}
 
+	@FXML
+	void deleteRequirementButtonClicked(ActionEvent event) {
+		model.deleteRequirement(requirementCardNumberLabel.getText(), majorVersionLabel.getText(),
+				minorVersionLabel.getText());
+	}
+
 	private void fillRqCardDataInTextFields() {
 
 		// assign data to the displayed Nodes:
@@ -141,7 +149,7 @@ public class EditRequirementCardController {
 		if (toEdit.getIsFrozen() == 1) {
 			frozenChoiceBox.setSelected(true);
 		}
-		createdAtLabel.setText(toEdit.getCreatedAt().toString());
+		createdAtLabel.setText(toEdit.getCreatedAt().toString().substring(0, 19));
 		lastModifiedAtLabel.setText(toEdit.getLastModifiedAt().toString());
 		titleTextField.setText(toEdit.getTitle());
 		majorVersionLabel.setText(String.valueOf(toEdit.getMajorVersion()));
@@ -184,12 +192,15 @@ public class EditRequirementCardController {
 			@Override
 			public void handle(ActionEvent event) {
 
+				toEdit.setMajorVersion(toEdit.getMajorVersion() + 1);
+				toEdit.setMinorVersion(1);
+
 				modifyRequirementCardToEdit();
 
-				model.insertEditedRqIntoDatabase(toEdit, true);
+				model.insertEditedRqIntoDatabase(toEdit);
 
 				// if successful, show alert to user
-				new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+				new Alert(AlertType.INFORMATION, "Saved changes.").showAndWait();
 
 			}
 		});
