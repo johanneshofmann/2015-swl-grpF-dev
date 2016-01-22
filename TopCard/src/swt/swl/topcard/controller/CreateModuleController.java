@@ -12,7 +12,7 @@ import swt.swl.topcard.model.ModuleModel;
  * The Controller for creating Modules connects the {@code ModuleModel} with the
  * {@code RequirementCardController} Instantiated in the CreateModuleView
  */
-public class CreateModuleController {
+public class CreateModuleController implements Controller {
 
 	private ModuleModel model;
 	private RequirementCardController mainController;
@@ -39,30 +39,43 @@ public class CreateModuleController {
 	 */
 	@FXML
 	protected void create() {
+
 		// 0. Check whether a string has been entered in the text field
-		if (!this.moduleNameTextField.getText().isEmpty()) {
-			// 1. Check whether module with the name exists
-			String value = this.moduleNameTextField.getText();
-			if (!model.hasModule(value)) {
-				// 2. Add module to the database
-				model.insertModule(value);
-				new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
-				mainController.repaint();
-			} else {
-				new Alert(AlertType.WARNING, "Module with the name " + value + " already exists.").showAndWait();
-			}
+		checkEmpty();
+
+		// 1. Check whether module with the name exists
+		String value = this.moduleNameTextField.getText();
+
+		if (!model.hasModule(value)) {
+
+			// 2. Add module to the database
+			model.insertModule(value);
+
+			new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
+			mainController.repaint();
+
 		} else {
-			new Alert(AlertType.WARNING, "Module name is empty.").showAndWait();
+			new Alert(AlertType.WARNING, "Module with the name " + value + " already exists.").showAndWait();
 		}
 	}
 
 	@FXML
-	protected void cancel(ActionEvent event) {
+	public void cancel(ActionEvent event) {
+
 		mainController.repaint();
 		event.consume();
 	}
 
 	public void setMainController(RequirementCardController requirementCardController) {
+
 		this.mainController = requirementCardController;
+	}
+
+	@Override
+	public void checkEmpty() {
+
+		if (moduleNameTextField.getText().isEmpty()) {
+			new Alert(AlertType.WARNING, "Module name is empty.").showAndWait();
+		}
 	}
 }

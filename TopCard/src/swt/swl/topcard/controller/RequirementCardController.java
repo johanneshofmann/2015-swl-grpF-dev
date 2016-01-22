@@ -27,7 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.TeamChangeListener;
+import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class RequirementCardController implements Observer {
@@ -35,7 +35,7 @@ public class RequirementCardController implements Observer {
 	private MainApp mainApp;
 	private String loginName;
 	private RequirementCardModel model;
-	private LoginWindowController loginController;
+	private LoginController loginController;
 	private RequirementCardController this$;
 	private TeamChangeListener teamChangedListener;
 	private boolean cancelTransaction;
@@ -64,6 +64,8 @@ public class RequirementCardController implements Observer {
 			frozenResultLabel;
 
 	private ObservableList<RequirementCardSimple> observableList;
+
+	private FXMLLoader loader;
 
 	public RequirementCardController() {
 
@@ -108,88 +110,120 @@ public class RequirementCardController implements Observer {
 	@FXML
 	void createNewRequirementButtonClicked(ActionEvent event) {
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateRQCardView.fxml"));
-			ScrollPane rootLayout = (ScrollPane) loader.load();
-			((CreateRQCardController) loader.getController()).setData(this.model, this);
-			((CreateRQCardController) loader.getController()).initFXNodes();
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-			event.consume();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		xButtonClicked(event, "CreateRequirementCard", null);
 	}
 
 	@FXML
 	void createModuleButtonClicked(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateModuleView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
-			((CreateModuleController) loader.getController()).setMainController(this);
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-			event.consume();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		xButtonClicked(event, "CreateModule", null);
 	}
 
 	@FXML
 	void createNewTeamClicked(ActionEvent event) {
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateTeamView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
-			((CreateTeamController) loader.getController()).setMainController(this);
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-			event.consume();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		xButtonClicked(event, "CreateTeam", null);
 	}
 
 	@FXML
 	void createNewUserStoryClicked(ActionEvent event) {
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/CreateUserStoryView.fxml"));
-			Pane rootLayout = (Pane) loader.load();
-			((CreateUserStoryController) loader.getController()).setData(this);
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-			event.consume();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		xButtonClicked(event, "CreateUserStory", null);
 	}
 
 	@FXML
 	void searchRqButtonClicked(ActionEvent event) {
 
+		xButtonClicked(event, "SearchRequirementCard", null);
+	}
+
+	private void openVoteView(RequirementCardSimple rq) {
+
+		xButtonClicked(new ActionEvent(), "VoteRequirementCard", rq);
+	}
+
+	private void openEditView(RequirementCardSimple rq) {
+
+		xButtonClicked(new ActionEvent(), "EditRequirementCard", rq);
+	}
+
+	private void xButtonClicked(ActionEvent event, String operation, RequirementCardSimple rq) {
+
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/SearchRQCardView.fxml"));
-			ScrollPane rootLayout = (ScrollPane) loader.load();
-			((SearchRQCardController) loader.getController()).setData(this.model, this);
-			Scene scene = new Scene(rootLayout);
+			loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/" + operation + "View.fxml"));
+
+			Scene scene = null;
+
+			switch (operation) {
+
+			case "CreateModule":
+
+				Pane createModuleView = (Pane) loader.load();
+				((CreateModuleController) loader.getController()).setMainController(this);
+
+				scene = new Scene(createModuleView);
+
+				break;
+
+			case "CreateTeam":
+
+				Pane createTeamView = (Pane) loader.load();
+				((CreateTeamController) loader.getController()).setMainController(this);
+
+				scene = new Scene(createTeamView);
+
+				break;
+
+			case "CreateUserStory":
+
+				Pane createUserStoryView = (Pane) loader.load();
+				((CreateUserStoryController) loader.getController()).setMainController(this);
+
+				scene = new Scene(createUserStoryView);
+
+				break;
+
+			case "CreateRequirementCard":
+
+				ScrollPane createRequirementCardView = (ScrollPane) loader.load();
+				((CreateRequirementCardController) loader.getController()).setData(this.model, this);
+				((CreateRequirementCardController) loader.getController()).initFXNodes();
+
+				scene = new Scene(createRequirementCardView);
+
+				break;
+
+			case "SearchRequirementCard":
+
+				ScrollPane searchRequirementCardView = (ScrollPane) loader.load();
+				((SearchRequirementCardController) loader.getController()).setData(this.model, this);
+
+				scene = new Scene(searchRequirementCardView);
+
+				break;
+
+			case "EditRequirementCard":
+
+				ScrollPane editRequirementCardView = (ScrollPane) loader.load();
+
+				((EditRequirementCardController) loader.getController()).setData(this.model, this, rq);
+				((EditRequirementCardController) loader.getController()).initializeFXNodes();
+
+				scene = new Scene(editRequirementCardView);
+
+				break;
+
+			case "VoteRequirementCard":
+
+				ScrollPane voteRequirementCardView = (ScrollPane) loader.load();
+
+				((VoteRequirementCardController) loader.getController()).setData(this.model, this, rq);
+
+				scene = new Scene(voteRequirementCardView);
+
+				break;
+			}
+
 			mainApp.getPrimaryStage().setScene(scene);
 			mainApp.getPrimaryStage().show();
 
@@ -198,6 +232,7 @@ public class RequirementCardController implements Observer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@FXML
@@ -216,43 +251,6 @@ public class RequirementCardController implements Observer {
 				repaint();
 				return;
 			}
-		}
-	}
-
-	private void openVoteView(RequirementCardSimple rq) {
-
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/VoteRQCard.fxml"));
-			ScrollPane rootLayout = (ScrollPane) loader.load();
-
-			((VoteRqCardController) loader.getController()).setData(this.model, this, rq);
-
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void openEditView(RequirementCardSimple rq) {
-
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/EditRqCardView.fxml"));
-			ScrollPane rootLayout = (ScrollPane) loader.load();
-
-			((EditRqCardController) loader.getController()).setData(this.model, this, rq);
-			((EditRqCardController) loader.getController()).initializeFXNodes();
-
-			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -298,12 +296,14 @@ public class RequirementCardController implements Observer {
 
 			@Override
 			public void handle(MouseEvent event) {
+
 				if (requirementCardsTable.getSelectionModel().getSelectedItem() == null) {
 					return;
 				}
-				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
-					RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+				RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
+
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 					if (model.checkUserName(item.getOwnerName())) {
 						openEditView(item);
@@ -312,8 +312,6 @@ public class RequirementCardController implements Observer {
 					}
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
-
-						RequirementCardSimple item = requirementCardsTable.getSelectionModel().getSelectedItem();
 
 						titleResultLabel.setText(item.getTitle());
 						modulesResultLabel.setText(item.getModules());
@@ -346,7 +344,7 @@ public class RequirementCardController implements Observer {
 	 * @param mainApp
 	 * @param loginWindowController
 	 */
-	public void setData(String loginName, MainApp mainApp, LoginWindowController loginWindowController) {
+	public void setData(String loginName, MainApp mainApp, LoginController loginWindowController) {
 
 		this.loginName = loginName;
 		this.mainApp = mainApp;

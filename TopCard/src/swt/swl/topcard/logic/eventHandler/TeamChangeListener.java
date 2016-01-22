@@ -1,4 +1,4 @@
-package swt.swl.topcard.logic;
+package swt.swl.topcard.logic.eventHandler;
 
 import java.util.ArrayList;
 
@@ -26,11 +26,8 @@ public class TeamChangeListener implements ListChangeListener<String> {
 	public void onChanged(Change<? extends String> changedTeam) {
 
 		if (controller.getCancelTransaction()) {
-			System.out.println("canceltrans true;");
 			return;
 		}
-		System.out.println("canceltrans false;");
-
 		changedTeam.next();
 
 		// refrech List:

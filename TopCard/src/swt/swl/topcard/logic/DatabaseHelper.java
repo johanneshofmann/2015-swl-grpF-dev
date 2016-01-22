@@ -231,20 +231,20 @@ public class DatabaseHelper {
 		if (!isInitialized)
 			initialize();
 
-		ArrayList<Integer> modules = new ArrayList<>();
+		ArrayList<Integer> IDs = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
-			Statement getX = conn.createStatement();
+			Statement getIDs = conn.createStatement();
 
-			ResultSet xContainer = getX
+			ResultSet IDsContainer = getIDs
 					.executeQuery("SELECT " + x + "ID FROM Requirement" + x + " WHERE RequirementID=" + rQID);
 
-			while (xContainer.next()) {
+			while (IDsContainer.next()) {
 
-				modules.add(xContainer.getInt(1));
+				IDs.add(IDsContainer.getInt(1));
 			}
-			return modules;
+			return IDs;
 
 		} catch (SQLException e) {
 			e.printStackTrace();

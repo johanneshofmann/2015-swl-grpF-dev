@@ -32,14 +32,12 @@ public class RequirementCardModel extends Observable {
 
 		int minorVersion = toInsert.getMinorVersion() + 1;
 		int majorVersion = toInsert.getMajorVersion();
+		int ownerID = toInsert.getOwnerID();
 
 		if (newMajorVersion) {
 			majorVersion++;
 			minorVersion = 1;
 		}
-
-		// fetch ownerID
-		int ownerID = DatabaseHelper.XNameToID("User", loginName);
 
 		// first insert into Requirement table
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
@@ -53,7 +51,8 @@ public class RequirementCardModel extends Observable {
 
 		String[] modulesArray = toInsert.getModules().split(",");
 
-		// Fetch ID from added RQ:
+		// Fetch ID from added RQ :
+		// to avoid lostUpdate problems, method is synchronized
 		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
 		// then insert each (RqID,ModuleID)-Pair ..
@@ -114,16 +113,26 @@ public class RequirementCardModel extends Observable {
 
 		// then insert each (RqID,ModuleID)-Pair
 
-		for (Integer moduleID : DatabaseHelper.getIDsFromX("Module", modules)) {
+		// Fetch ID from added RQ :
+		// to avoid lostUpdate problems, method is synchronized
+
+		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
+
+		ArrayList<Integer> moduleIDs = DatabaseHelper.getIDsFromX("Module", modules);
+
+		for (Integer moduleID : moduleIDs) {
 
 			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-					+ DatabaseHelper.getMaxXFromY("ID", "Requirement") + "," + moduleID + ")";
+					+ rqID + "," + moduleID + ")";
 
 			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
 		}
+
 		// and each (RqID,UserStoryID)-Pair into table
 
-		for (Integer userStoryID : DatabaseHelper.getIDsFromX("UserStory", userStories)) {
+		ArrayList<Integer> userStoryIDs = DatabaseHelper.getIDsFromX("UserStory", userStories);
+
+		for (Integer userStoryID : userStoryIDs) {
 
 			String sqlInsertIntoRequirementUserStoryUpdate = "INSERT INTO RequirementUserStory(RequirementID,UserStoryID) VALUES("
 					+ DatabaseHelper.getMaxXFromY("ID", "Requirement") + "," + userStoryID + ")";
@@ -167,7 +176,7 @@ public class RequirementCardModel extends Observable {
 	 */
 	public RequirementCardSimple getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
 
-		return DatabaseHelper.IDToRequirementCardSimple(selected.getRqID());
+		return DatabaseHelper.IDToRequirementCardSimple(selected.getID());
 
 	}
 
@@ -178,6 +187,9 @@ public class RequirementCardModel extends Observable {
 		observableArray.clear();
 
 		for (RequirementCardSimple rqCard : requirements) {
+
+			System.out.println("Item.majorVersion= " + rqCard.getMajorVersion() + " Item.minorVersion= "
+					+ rqCard.getMinorVersion());
 
 			observableArray.add(rqCard);
 		}

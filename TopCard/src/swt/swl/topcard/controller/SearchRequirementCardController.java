@@ -17,7 +17,7 @@ import swt.swl.topcard.model.SearchHelper;
 import swt.swl.topcard.model.search.SearchOperator;
 import swt.swl.topcard.model.search.VoteValue;
 
-public class SearchRQCardController {
+public class SearchRequirementCardController {
 
 	// Nodes for MVC :
 
@@ -60,7 +60,7 @@ public class SearchRQCardController {
 			descriptionAtomicComboBox, rationaleTraceableComboBox, rationaleCorrectComboBox,
 			rationaleConsistentComboBox;
 
-	public SearchRQCardController() {
+	public SearchRequirementCardController() {
 	}
 
 	private void initiateComboBoxes() {

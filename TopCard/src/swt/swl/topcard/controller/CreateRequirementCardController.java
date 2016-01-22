@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class CreateRQCardController {
+public class CreateRequirementCardController implements Controller {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -47,13 +47,7 @@ public class CreateRQCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
-		confirmation.showAndWait();
-		if (confirmation.getResult().equals(ButtonType.OK)) {
-			mainController.repaint();
-		} else {
-			event.consume();
-		}
+		cancel(event);
 	}
 
 	/**
@@ -69,32 +63,19 @@ public class CreateRQCardController {
 	@FXML
 	void putUpForVote(ActionEvent event) {
 
-		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
-				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
-				|| fitCriterionTextField.getText().isEmpty()) {
-			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.")
-						.showAndWait();
-			} else if (userStoriesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one UserStory.")
-						.showAndWait();
-			} else {
-				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")
-						.showAndWait();
-			}
-		} else {
-			model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
-					descriptionTextArea.getText(), rationaleTextArea.getText(), sourceTextField.getText(),
-					userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
-					supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
-			new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
-		}
+		checkEmpty();
+
+		model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
+				descriptionTextArea.getText(), rationaleTextArea.getText(), sourceTextField.getText(),
+				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
+				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
 
 		this.model = rqModel;
-		this.mainController = requirementCardController;
+		setMainController(requirementCardController);
 	}
 
 	private void addActualModulesToCheckComboBox() {
@@ -113,6 +94,42 @@ public class CreateRQCardController {
 		userStoriesCheckComboBox = new CheckComboBox<>(userStories);
 		userStoriesHBox.getChildren().add(userStoriesCheckComboBox);
 
+	}
+
+	@Override
+	public void setMainController(RequirementCardController requirementCardController) {
+		this.mainController = requirementCardController;
+	}
+
+	@Override
+	public void cancel(ActionEvent event) {
+
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			mainController.repaint();
+		} else {
+			event.consume();
+		}
+	}
+
+	@Override
+	public void checkEmpty() {
+
+		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
+				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
+				|| fitCriterionTextField.getText().isEmpty()) {
+			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.")
+						.showAndWait();
+			} else if (userStoriesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one UserStory.")
+						.showAndWait();
+			} else {
+				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")
+						.showAndWait();
+			}
+		}
 	}
 
 }

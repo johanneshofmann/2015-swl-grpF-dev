@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
@@ -15,7 +14,7 @@ import javafx.scene.layout.VBox;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class VoteRqCardController {
+public class VoteRequirementCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -55,17 +54,8 @@ public class VoteRqCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Close without saving ?");
-		closeConfirmation.showAndWait();
-		ButtonType choice = closeConfirmation.getResult();
-		if (choice == ButtonType.OK) {
-			closeConfirmation.close();
-			event.consume();
-			mainController.repaint();
-
-		} else {
-			event.consume();
-		}
+		event.consume();
+		mainController.repaint();
 	}
 
 	@FXML
@@ -150,7 +140,7 @@ public class VoteRqCardController {
 		supportLabel.setText(rqCard.getSupportingMaterials());
 		fitCriterionLabel.setText(rqCard.getFitCriterion());
 		// "IsFrozen" (data[9]) not required here..
-		createdAtLabel.setText(rqCard.getCreatedAt().toString());
+		createdAtLabel.setText(rqCard.getCreatedAt().toString().substring(0, 19));
 		lastModifiedAtLabel.setText(rqCard.getLastModifiedAt());
 		titleLabel.setText(rqCard.getTitle());
 		majorVersionLabel.setText("" + rqCard.getMajorVersion());

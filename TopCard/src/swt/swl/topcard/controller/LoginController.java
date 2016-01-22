@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.model.LoginModel;
 
-public class LoginWindowController implements Observer {
+public class LoginController implements Observer {
 	private LoginModel model;
 	private MainApp mainApp;
 	private Pane rootLayout;
@@ -27,7 +27,7 @@ public class LoginWindowController implements Observer {
 	@FXML
 	private TextField userNameTextField;
 
-	public LoginWindowController() {
+	public LoginController() {
 		model = new LoginModel();
 		model.addObserver(this);
 	}

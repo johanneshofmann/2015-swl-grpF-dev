@@ -12,7 +12,7 @@ import swt.swl.topcard.model.LoginModel;
 public class RegistrationController {
 
 	private LoginModel model;
-	private LoginWindowController loginController;
+	private LoginController loginController;
 
 	@FXML
 	private TextField firstNameTextField, lastNameTextField, loginNameTextField;
@@ -52,7 +52,7 @@ public class RegistrationController {
 		this.model = model;
 	}
 
-	public void setLoginController(LoginWindowController loginWindowController) {
+	public void setLoginController(LoginController loginWindowController) {
 		this.loginController = loginWindowController;
 	}
 }

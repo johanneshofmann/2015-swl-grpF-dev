@@ -22,7 +22,7 @@ import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class EditRqCardController {
+public class EditRequirementCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -96,6 +96,7 @@ public class EditRqCardController {
 	}
 
 	private void modifyRequirementCardToEdit() {
+
 		toEdit.setModules(listToString(modulesCheckComboBox.getCheckModel().getCheckedItems()));
 		toEdit.setDescription(descriptionTextArea.getText());
 		toEdit.setRationale(rationaleTextArea.getText());

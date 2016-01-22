@@ -11,7 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import swt.swl.topcard.controller.LoginWindowController;
+import swt.swl.topcard.controller.LoginController;
 
 public class MainApp extends Application {
 
@@ -54,12 +54,12 @@ public class MainApp extends Application {
 
 			FXMLLoader loader = new FXMLLoader();
 
-			loader.setLocation(MainApp.class.getResource("view/UserLoginWindow.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/LoginView.fxml"));
 			rootLayout = (Pane) loader.load();
 
 			loginScene = new Scene(rootLayout);
 
-			((LoginWindowController) loader.getController()).setData(this, loginScene);
+			((LoginController) loader.getController()).setData(this, loginScene);
 
 			primaryStage.setScene(loginScene);
 			primaryStage.show();
