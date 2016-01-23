@@ -90,7 +90,7 @@
 				</HBox>
 				<Pane fx:id="showVoteResultsPane" layoutX="452.0" layoutY="129.0" prefHeight="517.0" prefWidth="219.0">
 					<children>
-						<Label layoutY="29.0" prefHeight="27.0" prefWidth="98.0" text="Vote Results : " underline="true" />
+						<Label layoutY="29.0" prefHeight="27.0" prefWidth="98.0" text="Vote Results : " textFill="#4e0ad8" underline="true" />
 						<VBox layoutX="4.0" layoutY="81.0" prefHeight="94.0" prefWidth="214.0">
 							<children>
 								<HBox prefHeight="18.0" prefWidth="261.0" spacing="10.0">
@@ -159,9 +159,9 @@
 								</HBox>
 							</children>
 						</VBox>
-						<Label layoutX="8.0" layoutY="214.0" prefHeight="27.0" prefWidth="208.0" text="___________Rationale___________" />
-						<Label layoutX="6.0" layoutY="56.0" prefHeight="27.0" prefWidth="212.0" text="__________Description __________" />
-						<Label layoutX="6.0" layoutY="462.0" prefHeight="27.0" prefWidth="212.0" text="__________FitCriterion:__________" />
+						<Label layoutX="8.0" layoutY="214.0" prefHeight="27.0" prefWidth="208.0" text="___________Rationale___________" textFill="#4e0ad8" />
+						<Label layoutX="6.0" layoutY="56.0" prefHeight="27.0" prefWidth="212.0" text="__________Description __________" textFill="#4e0ad8" />
+						<Label layoutX="6.0" layoutY="462.0" prefHeight="27.0" prefWidth="212.0" text="__________FitCriterion:__________" textFill="#4e0ad8" />
 						<HBox layoutX="7.0" layoutY="489.0" prefHeight="18.0" prefWidth="210.0">
 							<children>
 								<Label prefHeight="16.0" prefWidth="130.0" text="Complete:" />

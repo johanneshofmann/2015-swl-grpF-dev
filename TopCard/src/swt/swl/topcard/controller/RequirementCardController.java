@@ -20,6 +20,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -59,9 +60,11 @@ public class RequirementCardController implements Observer {
 	private CheckComboBox<String> chooseTeamBox;
 	// all Labels and ResultLabels
 	@FXML
-	private Label loginNameLabel, titleResultLabel, modulesResultLabel, descriptionResultLabel, rationaleResultLabel,
-			sourceResultLabel, userstoriesResultLabel, supportingMaterialsResultLabel, fitCriterionResultLabel,
-			frozenResultLabel;
+	private Label loginNameLabel;
+
+	@FXML
+	private TextArea titleTextArea, modulesTextArea, descriptionTextArea, rationaleTextArea, sourceTextArea,
+			userStoriesTextArea, supportingMaterialsTextArea, fitCriterionTextArea, isFrozenTextArea;
 
 	private ObservableList<RequirementCardSimple> observableList;
 
@@ -314,17 +317,17 @@ public class RequirementCardController implements Observer {
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
 
-						titleResultLabel.setText(item.getTitle());
-						modulesResultLabel.setText(item.getModules());
-						descriptionResultLabel.setText(item.getDescription());
-						rationaleResultLabel.setText(item.getRationale());
-						sourceResultLabel.setText(item.getSource());
+						titleTextArea.setText(item.getTitle());
+						modulesTextArea.setText(item.getModules());
+						descriptionTextArea.setText(item.getDescription());
+						rationaleTextArea.setText(item.getRationale());
+						sourceTextArea.setText(item.getSource());
 
-						userstoriesResultLabel.setText(item.getUserStories());
+						userStoriesTextArea.setText(item.getUserStories());
 
-						supportingMaterialsResultLabel.setText(item.getSupportingMaterials());
-						fitCriterionResultLabel.setText(item.getFitCriterion());
-						frozenResultLabel.setText(item.getIsFrozen() + "");
+						supportingMaterialsTextArea.setText(item.getSupportingMaterials());
+						fitCriterionTextArea.setText(item.getFitCriterion());
+						isFrozenTextArea.setText(item.getIsFrozen() + "");
 					}
 				}
 			}

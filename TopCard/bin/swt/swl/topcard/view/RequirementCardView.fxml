@@ -21,7 +21,7 @@
                         </TableView>
                      </children>
                   </Pane>
-                  <VBox prefHeight="685.0" prefWidth="177.0">
+                  <VBox prefHeight="569.0" prefWidth="177.0">
                      <children>
                         <Label prefHeight="50.0" prefWidth="159.0" text="Title:">
                            <font>
@@ -75,43 +75,15 @@
                   </VBox>
                   <VBox prefHeight="572.0" prefWidth="227.0">
                      <children>
-                        <Label fx:id="titleResultLabel" prefHeight="50.0" prefWidth="229.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="modulesResultLabel" layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="229.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="descriptionResultLabel" prefHeight="50.0" prefWidth="256.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="rationaleResultLabel" prefHeight="50.0" prefWidth="254.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="sourceResultLabel" prefHeight="50.0" prefWidth="292.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="userstoriesResultLabel" prefHeight="50.0" prefWidth="289.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="supportingMaterialsResultLabel" prefHeight="50.0" prefWidth="246.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="fitCriterionResultLabel" prefHeight="50.0" prefWidth="287.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
-                        <Label fx:id="frozenResultLabel" prefHeight="50.0" prefWidth="88.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Label>
+                        <TextArea fx:id="titleTextArea" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="52.0" prefWidth="227.0" />
+                        <TextArea fx:id="modulesTextArea" editable="false" layoutX="10.0" layoutY="113.0" prefHeight="51.0" prefWidth="227.0" />
+                        <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="46.0" prefWidth="227.0" />
+                        <TextArea fx:id="rationaleTextArea" editable="false" layoutX="10.0" layoutY="110.0" prefHeight="51.0" prefWidth="227.0" />
+                        <TextArea fx:id="sourceTextArea" editable="false" layoutX="10.0" layoutY="113.0" prefHeight="52.0" prefWidth="227.0" />
+                        <TextArea fx:id="userStoriesTextArea" editable="false" layoutX="10.0" layoutY="165.0" prefHeight="47.0" prefWidth="227.0" />
+                        <TextArea fx:id="supportingMaterialsTextArea" editable="false" layoutX="10.0" layoutY="269.0" prefHeight="45.0" prefWidth="227.0" />
+                        <TextArea fx:id="fitCriterionTextArea" editable="false" layoutX="10.0" layoutY="309.0" prefHeight="45.0" prefWidth="227.0" />
+                        <TextArea fx:id="isFrozenTextArea" editable="false" layoutX="10.0" layoutY="321.0" prefHeight="52.0" prefWidth="227.0" />
                      </children>
                   </VBox>
                </children>

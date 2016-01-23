@@ -399,14 +399,10 @@ public class DatabaseHelper {
 		ArrayList<RequirementCardSimple> requirements = new ArrayList<>();
 
 		ArrayList<Integer> reqIDs = getRequirementIDs();
-		System.err.println("\r \r need to debug DatabaseHelper. bug shown here: \r \r");
-		for (int i = 0; i < reqIDs.size(); i++) {
-			System.err.println("RQCard " + i + ":");
-			requirements.add(getDistinctRequirementCard(reqIDs.get(i)));
-			System.out.println("-getRequirements() : majorVersion= " + requirements.get(i).getMajorVersion()
-					+ " minorVersion= " + requirements.get(i).getMinorVersion());
-			System.out.println("-------------------------");
 
+		for (int i = 0; i < reqIDs.size(); i++) {
+
+			requirements.add(getDistinctRequirementCard(reqIDs.get(i)));
 		}
 		return requirements;
 	}
@@ -429,9 +425,8 @@ public class DatabaseHelper {
 
 				int ownerID = requirementSet.getInt(5);
 				int ID = requirementSet.getInt(1);
-				System.out.println("-getDistinctRequirementCard(id): majorVersion= " + majorVersion + " minorVersion= "
-						+ minorVersion);
-				return new RequirementCardSimple(ID, requirementSet.getString(2), majorVersion, minorVersion, ownerID,
+
+				return new RequirementCardSimple(ID, requirementSet.getString(2), minorVersion, majorVersion, ownerID,
 						XIDToName("User", ownerID), rqID, getXNameAsStringByRequirementID("Module", ID),
 						requirementSet.getString(7), requirementSet.getString(8), requirementSet.getString(9),
 						getXNameAsStringByRequirementID("UserStory", ID), requirementSet.getString(10),
