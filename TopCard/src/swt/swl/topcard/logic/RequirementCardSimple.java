@@ -138,14 +138,6 @@ public class RequirementCardSimple {
 		this.fitCriterion.set(fitCriterion);
 	}
 
-	public int getIsFrozen() {
-		return isFrozen.get();
-	}
-
-	public void setIsFrozen(int isFrozen) {
-		this.isFrozen.set(isFrozen);
-	}
-
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
@@ -187,6 +179,10 @@ public class RequirementCardSimple {
 
 	public void setUserStories(String userStories) {
 		this.userStories.set(userStories);
+	}
+
+	public int getIsFrozen() {
+		return isFrozen.get();
 	}
 
 }

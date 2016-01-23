@@ -46,10 +46,10 @@ public class VoteRequirementCardController {
 	private HBox voteFitCriterionHBox;
 
 	@FXML
-	private Label sourceLabel, userStoryLabel, supportLabel, fitCriterionLabel, createdAtLabel, lastModifiedAtLabel,
-			requirementCardNumberLabel, majorVersionLabel, minorVersionLabel, titleLabel, modulLabel, ownerLabel;
+	private Label createdAtLabel, lastModifiedAtLabel, requirementCardNumberLabel, majorVersionLabel, minorVersionLabel;
 	@FXML
-	private TextArea descriptionTextArea, rationaleTextArea;
+	private TextArea sourceTextArea, userStoriesTextArea, supportingMaterialsTextArea, fitCriterionTextArea,
+			titleTextArea, modulesTextArea, ownerTextArea, descriptionTextArea, rationaleTextArea;
 	@FXML
 	private Button closeButton, voteButton;
 
@@ -62,7 +62,7 @@ public class VoteRequirementCardController {
 	@FXML
 	void voteButtonClicked(ActionEvent event) {
 
-		model.newVoteSubmitted(toVote.getTitle(), getSelectedItems());
+		model.newVoteSubmitted(toVote.getID(), getSelectedItems());
 		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
 
 		mainController.repaint();
@@ -109,19 +109,19 @@ public class VoteRequirementCardController {
 
 		// assign it to the displayed Nodes:
 
-		ownerLabel.setText(rqCard.getOwnerName());
+		ownerTextArea.setText(rqCard.getOwnerName());
 		// moduleNamesTextField.setText(data);
 		requirementCardNumberLabel.setText("" + rqCard.getRqID());
 		descriptionTextArea.setText(rqCard.getDescription());
 		rationaleTextArea.setText(rqCard.getRationale());
-		sourceLabel.setText(rqCard.getSource());
-		userStoryLabel.setText(rqCard.getUserStories());
-		supportLabel.setText(rqCard.getSupportingMaterials());
-		fitCriterionLabel.setText(rqCard.getFitCriterion());
+		sourceTextArea.setText(rqCard.getSource());
+		userStoriesTextArea.setText(rqCard.getUserStories());
+		supportingMaterialsTextArea.setText(rqCard.getSupportingMaterials());
+		fitCriterionTextArea.setText(rqCard.getFitCriterion());
 		// "IsFrozen" (data[9]) not required here..
 		createdAtLabel.setText(rqCard.getCreatedAt().toString().substring(0, 19));
 		lastModifiedAtLabel.setText(rqCard.getLastModifiedAt());
-		titleLabel.setText(rqCard.getTitle());
+		titleTextArea.setText(rqCard.getTitle());
 		majorVersionLabel.setText("" + rqCard.getMajorVersion());
 		minorVersionLabel.setText("" + rqCard.getMinorVersion());
 	}

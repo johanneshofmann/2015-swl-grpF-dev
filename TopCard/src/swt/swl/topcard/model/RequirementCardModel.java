@@ -2,6 +2,7 @@ package swt.swl.topcard.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
@@ -23,65 +24,53 @@ public class RequirementCardModel extends Observable {
 
 	}
 
-	public boolean checkUserName(String ownerName) {
+	public boolean loginNameEqualsOwnerName(String ownerName) {
 
 		return (loginName.equals(ownerName) ? true : false);
 	}
 
-	public synchronized void insertEditedRqIntoDatabase(RequirementCardSimple toInsert) {
+	public synchronized void insertEditedRqIntoDatabase(ObservableList<String> modules, String title, int rqID,
+			int majorVersion, int minorVersion, String description, String rationale, ObservableList<String> source,
+			ObservableList<String> userStories, String fitCriterion, String supportingMaterials, boolean isFrozen,
+			Timestamp createdAt) {
 
-		int ownerID = toInsert.getOwnerID();
+		if (isFrozen) {
+			majorVersion += 1;
+			minorVersion = 1;
+		}
+		// fetch ownerID
+		int ownerID = DatabaseHelper.XNameToID("User", loginName);
 
 		// first insert into Requirement table
-		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
-				+ toInsert.getTitle() + "', " + toInsert.getMajorVersion() + ", " + toInsert.getMinorVersion() + ", "
-				+ ownerID + ", " + toInsert.getRqID() + ", '" + toInsert.getDescription() + "', '"
-				+ toInsert.getRationale() + "', '" + toInsert.getSource() + "', '" + toInsert.getSupportingMaterials()
-				+ "', '" + toInsert.getFitCriterion() + "', " + toInsert.getIsFrozen() + ", '"
-				+ createLastModifiedAtString() + "')";
+		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, SupportingMaterials, FitCriterion, CreatedAt,LastModifiedAt) VALUES ('"
+				+ title + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", " + rqID + ", '"
+				+ description + "', '" + rationale + "', '" + supportingMaterials + "', '" + fitCriterion + "', '"
+				+ createdAt + "', '" + createLastModifiedAtString() + "')";
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
-		String[] modulesArray = toInsert.getModules().split(",");
-
 		// Fetch ID from added RQ :
-		// to avoid lostUpdate problems, method is synchronized
-		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
+		int ID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
+		System.out.println("MAX ID : " + ID);
 
-		// then insert each (RqID,ModuleID)-Pair ..
+		// then insert each (RqID,ModuleID)-Pair,
+		insertEachRqIDXIDPairIntoDatabase("Module", userStories, ID);
 
-		for (String moduleName : modulesArray) {
+		// each (RqID,UserStoryID)-Pair ..
+		insertEachRqIDXIDPairIntoDatabase("UserStory", modules, ID);
 
-			int moduleID = DatabaseHelper.XNameToID("Module", moduleName);
-
-			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-					+ rqID + "," + moduleID + ")";
-
-			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
-		}
-
-		// .. and each (RqID,UserStoryID)-Pair into table
-		String[] userStoriesArray = toInsert.getUserStories().split(",");
-
-		for (String userStory : userStoriesArray) {
-
-			int userStoryID = DatabaseHelper.XNameToID("UserStory", userStory);
-
-			String sqlInsertIntoRequirementUserStoryUpdate = "INSERT INTO RequirementUserStory(RequirementID,UserStoryID) VALUES("
-					+ rqID + "," + userStoryID + ")";
-
-			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUserStoryUpdate);
-		}
+		// .. and each (RqID,TeamID)-Pair into table
+		insertEachRqIDXIDPairIntoDatabase("Team", source, ID);
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
 	}
 
 	public synchronized void insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
-			String rationale, String source, ObservableList<String> userStories, String fitCriterion,
-			String supportingMaterials, boolean isFrozen) {
+			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion,
+			String supportingMaterials) {
 
-		int minorVersion = 1;
+		int minorVersion = 0;
 		int majorVersion = 1;
 
 		// fetch ownerID
@@ -90,51 +79,43 @@ public class RequirementCardModel extends Observable {
 		// fetch biggest RqID
 		int rqCardID = 1 + DatabaseHelper.getMaxXFromY("Requirement", "Requirement");
 
-		// convert ifFrozen boolean to int:
-		int isFrozenInt = 0;
-		if (isFrozen) {
-			isFrozenInt = 1;
-		}
-
 		// first insert into Requirement table
-		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, Source, SupportingMaterials, FitCriterion, IsFrozen, LastModifiedAt) VALUES ('"
+		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, SupportingMaterials, FitCriterion, LastModifiedAt) VALUES ('"
 				+ title + "', " + majorVersion + ", " + minorVersion + ", " + ownerID + ", " + rqCardID + ", '"
-				+ description + "', '" + rationale + "', '" + source + "', '" + supportingMaterials + "', '"
-				+ fitCriterion + "', " + isFrozenInt + ", '" + createLastModifiedAtString() + "')";
+				+ description + "', '" + rationale + "', '" + supportingMaterials + "', '" + fitCriterion + "', '"
+				+ createLastModifiedAtString() + "')";
 
 		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
-		// then insert each (RqID,ModuleID)-Pair
-
 		// Fetch ID from added RQ :
-		// to avoid lostUpdate problems, method is synchronized
 
 		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
-		ArrayList<Integer> moduleIDs = DatabaseHelper.getIDsFromX("Module", modules);
+		// then insert each (RqID,ModuleID)-Pair,
+		insertEachRqIDXIDPairIntoDatabase("Module", modules, rqID);
 
-		for (Integer moduleID : moduleIDs) {
+		// each (RqID,UserStoryID)-Pair ..
+		insertEachRqIDXIDPairIntoDatabase("UserStory", userStories, rqID);
 
-			String sqlInsertIntoRequirementModuleUpdate = "INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES("
-					+ rqID + "," + moduleID + ")";
+		// .. and each (RqID,TeamID)-Pair into table
 
-			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementModuleUpdate);
-		}
-
-		// and each (RqID,UserStoryID)-Pair into table
-
-		ArrayList<Integer> userStoryIDs = DatabaseHelper.getIDsFromX("UserStory", userStories);
-
-		for (Integer userStoryID : userStoryIDs) {
-
-			String sqlInsertIntoRequirementUserStoryUpdate = "INSERT INTO RequirementUserStory(RequirementID,UserStoryID) VALUES("
-					+ DatabaseHelper.getMaxXFromY("ID", "Requirement") + "," + userStoryID + ")";
-
-			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUserStoryUpdate);
-		}
+		insertEachRqIDXIDPairIntoDatabase("Team", source, rqID);
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
+	}
+
+	private void insertEachRqIDXIDPairIntoDatabase(String source, ObservableList<String> itemNames, int rqID) {
+
+		ArrayList<Integer> sourceIDs = DatabaseHelper.getIDsFromX(source, itemNames);
+
+		for (Integer sourceID : sourceIDs) {
+
+			String sqlInsertIntoRequirementSourceUpdate = "INSERT INTO Requirement" + source + " (RequirementID, "
+					+ source + "ID) VALUES(" + rqID + "," + sourceID + ")";
+
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementSourceUpdate);
+		}
 	}
 
 	private String createLastModifiedAtString() {
@@ -190,15 +171,14 @@ public class RequirementCardModel extends Observable {
 		notifyObservers(message);
 	}
 
-	public void newVoteSubmitted(String requirement, int[] selectedItems) {
+	public void newVoteSubmitted(int requirementID, int[] selectedItems) {
 
-		int reqIDInt = DatabaseHelper.XNameToID("Requirement", requirement);
 		int userIDInt = DatabaseHelper.XNameToID("User", loginName);
 
 		String query = "INSERT INTO Vote(RequirementID, UserID ,DescriptionPrecise , DescriptionUnderstandable ,DescriptionCorrect ,"
 				+ "DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, "
-				+ "RationaleComplete, RationaleConsistent, FitCriterionComplete, CreatedAt) VALUES (" + reqIDInt + ","
-				+ userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + "," + selectedItems[2] + ", "
+				+ "RationaleComplete, RationaleConsistent, FitCriterionComplete, CreatedAt) VALUES (" + requirementID
+				+ "," + userIDInt + "," + selectedItems[0] + "," + selectedItems[1] + "," + selectedItems[2] + ", "
 				+ selectedItems[3] + ", " + selectedItems[4] + ", " + selectedItems[5] + "," + selectedItems[6] + ", "
 				+ selectedItems[7] + ", " + selectedItems[8] + ", " + selectedItems[9] + "," + selectedItems[10] + ", '"
 				+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')";
@@ -232,8 +212,8 @@ public class RequirementCardModel extends Observable {
 		int ratCompleteCounter = 0;
 		int ratConsistentCounter = 0;
 		int fitCriterionCompleteCounter = 0;
-
 		int preciseAndUnderstandableCounter = 0;
+
 		for (SubmittedVoteSimple vote : allVoteResults) {
 			// calculate everage of all votes::
 
@@ -289,12 +269,20 @@ public class RequirementCardModel extends Observable {
 			preciseAndUnderstandableCounter++;
 		}
 
-		return new SubmittedVoteSimple(descPrecise / preciseAndUnderstandableCounter,
-				descUnderstandable / preciseAndUnderstandableCounter, descCorrect / descCorrectCounter,
-				descComplete / descCompleteCounter, descAtomic / descAtomicCounter,
-				ratPrecise / preciseAndUnderstandableCounter, ratUnderstandable / preciseAndUnderstandableCounter,
-				ratTraceable / ratTraceableCounter, ratComplete / ratCompleteCounter,
-				ratConsistent / ratConsistentCounter, fitCriterionComplete / fitCriterionCompleteCounter);
+		DecimalFormat getDecimal = new DecimalFormat("#0.00");
+
+		return new SubmittedVoteSimple(
+				Double.parseDouble(getDecimal.format(descPrecise / preciseAndUnderstandableCounter)),
+				Double.parseDouble(getDecimal.format(descUnderstandable / preciseAndUnderstandableCounter)),
+				Double.parseDouble(getDecimal.format(descCorrect / descCorrectCounter)),
+				Double.parseDouble(getDecimal.format(descComplete / descCompleteCounter)),
+				Double.parseDouble(getDecimal.format(descAtomic / descAtomicCounter)),
+				Double.parseDouble(getDecimal.format(ratPrecise / preciseAndUnderstandableCounter)),
+				Double.parseDouble(getDecimal.format(ratUnderstandable / preciseAndUnderstandableCounter)),
+				Double.parseDouble(getDecimal.format(ratTraceable / ratTraceableCounter)),
+				Double.parseDouble(getDecimal.format(ratComplete / ratCompleteCounter)),
+				Double.parseDouble(getDecimal.format(ratConsistent / ratConsistentCounter)),
+				Double.parseDouble(getDecimal.format(fitCriterionComplete / fitCriterionCompleteCounter)));
 	}
 
 	public void setLoginName(String loginName) {
@@ -390,6 +378,18 @@ public class RequirementCardModel extends Observable {
 		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
 				Integer.parseInt(minorVersion));
 
+	}
+
+	public boolean userAlreadyVoted(int ID) {
+		return DatabaseHelper.userAlreadyVoted(loginName, ID);
+	}
+
+	public boolean noVotesSubmitted(int ID) {
+		return DatabaseHelper.noVotesSubmitted(ID);
+	}
+
+	public boolean isFrozen(String item) {
+		return DatabaseHelper.isFrozen(item);
 	}
 
 }

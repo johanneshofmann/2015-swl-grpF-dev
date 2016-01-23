@@ -179,4 +179,13 @@ public class SubmittedVoteSimple {
 		return rqID;
 	}
 
+	public String toString() {
+		return "ID= " + ID + ", RQID= " + rqID + ", UserID=" + userID + ", descriptionPrecise=" + descriptionPrecise
+				+ ", descriptionUnderstandable=" + descriptionUnderstandable + ", rationalePrecise=" + rationalePrecise
+				+ ", rationaleUnderstandable=" + rationaleUnderstandable + ", descriptionCorrect=" + descriptionCorrect
+				+ ", descriptionComplete" + descriptionComplete + ", descriptionAtomic=" + descriptionAtomic
+				+ ", rationaleTraceable=" + rationaleTraceable + ", rationaleComplete" + rationaleComplete
+				+ ", rationaleConsistent=" + rationaleConsistent + ", fitCriterionCorrect=" + fitCriterionCorrect;
+	}
+
 }

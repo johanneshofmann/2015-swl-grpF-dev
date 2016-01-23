@@ -63,11 +63,6 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label prefHeight="50.0" prefWidth="159.0" text="Frozen ?">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
                      </children>
                      <padding>
                         <Insets left="10.0" />
@@ -83,7 +78,6 @@
                         <TextArea fx:id="userStoriesTextArea" editable="false" layoutX="10.0" layoutY="165.0" prefHeight="47.0" prefWidth="227.0" />
                         <TextArea fx:id="supportingMaterialsTextArea" editable="false" layoutX="10.0" layoutY="269.0" prefHeight="45.0" prefWidth="227.0" />
                         <TextArea fx:id="fitCriterionTextArea" editable="false" layoutX="10.0" layoutY="309.0" prefHeight="45.0" prefWidth="227.0" />
-                        <TextArea fx:id="isFrozenTextArea" editable="false" layoutX="10.0" layoutY="321.0" prefHeight="52.0" prefWidth="227.0" />
                      </children>
                   </VBox>
                </children>

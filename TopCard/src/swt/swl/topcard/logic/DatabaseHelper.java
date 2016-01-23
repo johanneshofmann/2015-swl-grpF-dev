@@ -428,10 +428,10 @@ public class DatabaseHelper {
 
 				return new RequirementCardSimple(ID, requirementSet.getString(2), minorVersion, majorVersion, ownerID,
 						XIDToName("User", ownerID), rqID, getXNameAsStringByRequirementID("Module", ID),
-						requirementSet.getString(7), requirementSet.getString(8), requirementSet.getString(9),
-						getXNameAsStringByRequirementID("UserStory", ID), requirementSet.getString(10),
-						requirementSet.getString(11), requirementSet.getInt(12), requirementSet.getTimestamp(13),
-						requirementSet.getString(14));
+						requirementSet.getString(7), requirementSet.getString(8),
+						getXNameAsStringByRequirementID("Team", ID), getXNameAsStringByRequirementID("UserStory", ID),
+						requirementSet.getString(9), requirementSet.getString(10), requirementSet.getInt(11),
+						requirementSet.getTimestamp(12), requirementSet.getString(13));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -519,19 +519,19 @@ public class DatabaseHelper {
 
 			Statement stmt = conn.createStatement();
 
-			ResultSet requirementsSet = stmt.executeQuery("SELECT * FROM Requirement WHERE ID =" + ID);
+			ResultSet requirementSet = stmt.executeQuery("SELECT * FROM Requirement WHERE ID =" + ID);
 
-			if (requirementsSet.next()) {
+			if (requirementSet.next()) {
 
-				int ownerID = requirementsSet.getInt(5), requirementID = requirementsSet.getInt(6);
+				int ownerID = requirementSet.getInt(5), requirementID = requirementSet.getInt(6);
 
-				return new RequirementCardSimple(ID, requirementsSet.getString(2), requirementsSet.getInt(3),
-						requirementsSet.getInt(4), ownerID, XIDToName("User", ownerID), requirementID,
-						getXNameAsStringByRequirementID("Module", ID), requirementsSet.getString(7),
-						requirementsSet.getString(8), requirementsSet.getString(9),
-						getXNameAsStringByRequirementID("UserStory", ID), requirementsSet.getString(10),
-						requirementsSet.getString(11), requirementsSet.getInt(12), requirementsSet.getTimestamp(13),
-						requirementsSet.getString(14));
+				return new RequirementCardSimple(ID, requirementSet.getString(2), requirementSet.getInt(4),
+						requirementSet.getInt(3), ownerID, XIDToName("User", ownerID), requirementID,
+						getXNameAsStringByRequirementID("Module", ID), requirementSet.getString(7),
+						requirementSet.getString(8), getXNameAsStringByRequirementID("Team", ID),
+						getXNameAsStringByRequirementID("UserStory", ID), requirementSet.getString(9),
+						requirementSet.getString(10), requirementSet.getInt(11), requirementSet.getTimestamp(12),
+						requirementSet.getString(13));
 			} else {
 				throw new IllegalArgumentException("No requirementCards matching ID: " + ID);
 			}
@@ -573,10 +573,13 @@ public class DatabaseHelper {
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
 
 			while (rqVote.next()) {
+				SubmittedVoteSimple currentVote = new SubmittedVoteSimple(rqVote.getInt(4), rqVote.getInt(5),
+						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
+						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
+				allVoteResults.add(currentVote);
 
-				allVoteResults.add(new SubmittedVoteSimple(rqVote.getInt(4), rqVote.getInt(5), rqVote.getInt(6),
-						rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10), rqVote.getInt(11),
-						rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14)));
+				System.err.println("\r \r check wheather vote results are correct:  \r \r");
+				System.err.println(currentVote.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -708,8 +711,10 @@ public class DatabaseHelper {
 
 		int ID = getRqID(rqID, majorVersion, minorVersion);
 
-		executeUpdate("DELETE FROM RequirementModule WHERE RequirementID= " + ID);
-		executeUpdate("DELETE FROM RequirementUserStory WHERE RequirementID= " + ID);
+		executeUpdate("DELETE FROM RequirementModule WHERE RequirementID=" + ID);
+		executeUpdate("DELETE FROM RequirementUserStory WHERE RequirementID=" + ID);
+		executeUpdate("DELETE FROM RequirementTeam WHERE RequirementID=" + ID);
+		executeUpdate("DELETE FROM Vote WHERE RequirementID=" + ID);
 		executeUpdate("DELETE FROM Requirement WHERE ID= " + ID);
 	}
 
@@ -734,6 +739,65 @@ public class DatabaseHelper {
 			e.printStackTrace();
 		}
 		return ID;
+	}
+
+	public static boolean userAlreadyVoted(String loginName, int ID) {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT ID FROM Vote WHERE RequirementID=" + ID + " AND UserID="
+					+ XNameToID("User", loginName);
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			return (set.next() ? true : false);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public static boolean noVotesSubmitted(int ID) {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT ID FROM Vote WHERE RequirementID=" + ID;
+			ResultSet set = stmt.executeQuery(sql);
+
+			return (set.next() ? false : true);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		throw new IllegalStateException("Some unhandled exception occured.");
+	}
+
+	public static boolean isFrozen(String title) {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sql = "SELECT Requirement FROM Requirement WHERE Title='" + title + "'";
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			if (set.next()) {
+				int majorVersion = getMaxMajorVersion(set.getInt(1));
+				return getMaxMinorVersion(set.getInt(1), majorVersion) == 0 ? true : false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 }

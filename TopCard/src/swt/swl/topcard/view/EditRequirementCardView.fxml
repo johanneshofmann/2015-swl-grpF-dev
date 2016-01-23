@@ -39,10 +39,9 @@
 								<TextArea fx:id="rationaleTextArea" prefHeight="94.0" prefWidth="225.0" />
 							</children>
 						</HBox>
-						<HBox layoutX="10.0" layoutY="319.0" prefHeight="28.0" prefWidth="649.0" spacing="117.0">
+						<HBox fx:id="sourceHBox" layoutX="10.0" layoutY="319.0" prefHeight="28.0" prefWidth="649.0" spacing="117.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
-								<TextField fx:id="sourceTextField" />
 							</children>
 						</HBox>
 						<HBox fx:id="userStoriesHBox" layoutX="10.0" layoutY="475.0" prefHeight="22.0" prefWidth="649.0" spacing="93.0">

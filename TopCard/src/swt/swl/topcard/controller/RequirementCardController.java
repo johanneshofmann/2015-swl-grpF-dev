@@ -1,5 +1,6 @@
 package swt.swl.topcard.controller;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,10 +15,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -26,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
@@ -56,6 +61,7 @@ public class RequirementCardController implements Observer {
 	private TableView<RequirementCardSimple> requirementCardsTable;
 
 	private TableColumn<RequirementCardSimple, String> nameTableColumn, ownerTableColumn, modulesTableColumn;
+	private ArrayList<String> frozenRequirementCards;
 
 	private CheckComboBox<String> chooseTeamBox;
 	// all Labels and ResultLabels
@@ -64,7 +70,7 @@ public class RequirementCardController implements Observer {
 
 	@FXML
 	private TextArea titleTextArea, modulesTextArea, descriptionTextArea, rationaleTextArea, sourceTextArea,
-			userStoriesTextArea, supportingMaterialsTextArea, fitCriterionTextArea, isFrozenTextArea;
+			userStoriesTextArea, supportingMaterialsTextArea, fitCriterionTextArea;
 
 	private ObservableList<RequirementCardSimple> observableList;
 
@@ -258,10 +264,37 @@ public class RequirementCardController implements Observer {
 	}
 
 	private void initTableView() {
+
 		ObservableList<TableColumn<RequirementCardSimple, ?>> columns = requirementCardsTable.getColumns();
 
 		nameTableColumn = new TableColumn<>("Requirement Cards");
+		frozenRequirementCards = new ArrayList<>();
+
 		nameTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("title"));
+		nameTableColumn.setCellFactory(column -> {
+			return new TableCell<RequirementCardSimple, String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+
+					super.updateItem(item, empty);
+
+					if (item == null || empty) {
+
+						setText(null);
+						setStyle("");
+
+					} else {
+
+						setText(item);
+						if (model.isFrozen(item)) {
+
+							setTextFill(Color.SKYBLUE);
+							frozenRequirementCards.add(item);
+						}
+					}
+				}
+			};
+		});
 
 		ownerTableColumn = new TableColumn<>("Owner");
 		ownerTableColumn.setCellValueFactory(new PropertyValueFactory<RequirementCardSimple, String>("ownerName"));
@@ -283,6 +316,7 @@ public class RequirementCardController implements Observer {
 	private void refreshList() {
 
 		model.updateRequirementsList();
+
 		requirementCardsTable.setItems(observableList);
 	}
 
@@ -309,10 +343,19 @@ public class RequirementCardController implements Observer {
 
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
-					if (model.checkUserName(item.getOwnerName())) {
+					if (model.loginNameEqualsOwnerName(item.getOwnerName())) {
 						openEditView(item);
 					} else {
-						openVoteView(item);
+						if (frozenRequirementCards.contains((String) item.getTitle())) {
+							new Alert(AlertType.INFORMATION,
+									"As this requirement card is frozen,it is not voteable at the moment.")
+											.showAndWait();
+						} else if (model.userAlreadyVoted(item.getID())) {
+							new Alert(AlertType.INFORMATION,
+									"You already submitted your vote on that requirement card.").showAndWait();
+						} else {
+							openVoteView(item);
+						}
 					}
 				} else {
 					if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
@@ -327,7 +370,6 @@ public class RequirementCardController implements Observer {
 
 						supportingMaterialsTextArea.setText(item.getSupportingMaterials());
 						fitCriterionTextArea.setText(item.getFitCriterion());
-						isFrozenTextArea.setText(item.getIsFrozen() + "");
 					}
 				}
 			}

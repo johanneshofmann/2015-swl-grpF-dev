@@ -22,16 +22,16 @@ public class CreateRequirementCardController implements Controller {
 	private RequirementCardController mainController;
 
 	// need to instanciate manually cause we're using external jar
-	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox;
+	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox, teamsCheckComboBox;
 
 	@FXML
-	private HBox moduleHBox, userStoriesHBox;
+	private HBox moduleHBox, userStoriesHBox, sourceHBox;
 
 	@FXML
 	private TextArea descriptionTextArea, rationaleTextArea;
 
 	@FXML
-	private TextField titleTextField, sourceTextField, supportingMaterialsTextField, fitCriterionTextField;
+	private TextField titleTextField, supportingMaterialsTextField, fitCriterionTextField;
 
 	@FXML
 	private CheckBox frozenChoiceBox;
@@ -41,8 +41,11 @@ public class CreateRequirementCardController implements Controller {
 
 	public void initFXNodes() {
 
+		frozenChoiceBox.setDisable(true);
+
 		addActualModulesToCheckComboBox();
-		addActialUserStoriesToCheckComboBox();
+		addActualUserStoriesToCheckComboBox();
+		addActualTeamsToCheckComboBox();
 	}
 
 	@FXML
@@ -66,9 +69,10 @@ public class CreateRequirementCardController implements Controller {
 		checkEmpty();
 
 		model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
-				descriptionTextArea.getText(), rationaleTextArea.getText(), sourceTextField.getText(),
+				descriptionTextArea.getText(), rationaleTextArea.getText(),
+				teamsCheckComboBox.getCheckModel().getCheckedItems(),
 				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
-				supportingMaterialsTextField.getText(), frozenChoiceBox.isSelected());
+				supportingMaterialsTextField.getText());
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 
@@ -88,11 +92,19 @@ public class CreateRequirementCardController implements Controller {
 		moduleHBox.getChildren().add(modulesCheckComboBox);
 	}
 
-	private void addActialUserStoriesToCheckComboBox() {
+	private void addActualUserStoriesToCheckComboBox() {
 
 		ObservableList<String> userStories = model.getUserStories();
 		userStoriesCheckComboBox = new CheckComboBox<>(userStories);
 		userStoriesHBox.getChildren().add(userStoriesCheckComboBox);
+
+	}
+
+	private void addActualTeamsToCheckComboBox() {
+
+		ObservableList<String> teams = model.getTeams();
+		teamsCheckComboBox = new CheckComboBox<>(teams);
+		sourceHBox.getChildren().add(teamsCheckComboBox);
 
 	}
 
@@ -117,13 +129,15 @@ public class CreateRequirementCardController implements Controller {
 	public void checkEmpty() {
 
 		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
-				|| rationaleTextArea.getText().isEmpty() || sourceTextField.getText().isEmpty()
-				|| fitCriterionTextField.getText().isEmpty()) {
+				|| rationaleTextArea.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
 			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
 				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.")
 						.showAndWait();
 			} else if (userStoriesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
 				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one UserStory.")
+						.showAndWait();
+			} else if (teamsCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Team as source.")
 						.showAndWait();
 			} else {
 				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")

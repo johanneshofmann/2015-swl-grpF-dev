@@ -37,14 +37,14 @@ public class TestRequirementCardModel {
 		String title = "title";
 		String description = "description";
 		String rationale = "rationale";
-		String source = "source";
+		ObservableList<String> source = null;
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
 
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
-				supportingMaterials, isFrozen);
+				supportingMaterials);
 
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
@@ -76,14 +76,14 @@ public class TestRequirementCardModel {
 		String title = "title";
 		String description = "description";
 		String rationale = "rationale";
-		String source = "source";
+		ObservableList<String> source = null;
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
 		boolean isFrozen = false;
 
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
-				supportingMaterials, isFrozen);
+				supportingMaterials);
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
 

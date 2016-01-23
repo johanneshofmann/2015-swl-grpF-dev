@@ -1,6 +1,7 @@
 package swt.swl.topcard.logic.eventHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Alert;
@@ -40,10 +41,14 @@ public class TeamChangeListener implements ListChangeListener<String> {
 			// if team was added..
 			if (changedTeam.wasAdded()) {
 
-				for (String team : changedTeam.getAddedSubList()) {
-					model.letUserBeMemberOf(team);
+				List<? extends String> changed = changedTeam.getAddedSubList();
 
-					new Alert(AlertType.INFORMATION, "You are now member of the team " + team + ".").showAndWait();
+				if (changed.size() == 1) {
+
+					model.letUserBeMemberOf(changed.get(0));
+
+					new Alert(AlertType.INFORMATION, "You are now member of the team " + changed.get(0) + ".")
+							.showAndWait();
 				}
 				// if team was removed ..
 			}
@@ -52,11 +57,13 @@ public class TeamChangeListener implements ListChangeListener<String> {
 				Alert removeConfirmation = null;
 				String teamStr = null;
 
-				for (String team : changedTeam.getRemoved()) {
+				List<? extends String> changed = changedTeam.getRemoved();
 
-					teamStr = team;
+				if (changed.size() == 1) {
 
-					if (actualSize <= 1) {
+					teamStr = changed.get(0);
+
+					if (actualSize == 1) {
 
 						String textRow = "You're about to leave the only team you're joined. Really leave team?";
 
@@ -66,8 +73,8 @@ public class TeamChangeListener implements ListChangeListener<String> {
 						removeConfirmation.getButtonTypes().set(1, new ButtonType("Leave"));
 
 					} else {
-						model.letUserExitTeam(team);
-						removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + team + ".");
+						model.letUserExitTeam(changed.get(0));
+						removeConfirmation = new Alert(AlertType.INFORMATION, "Left team " + changed.get(0) + ".");
 					}
 				}
 				removeConfirmation.showAndWait();
@@ -75,9 +82,11 @@ public class TeamChangeListener implements ListChangeListener<String> {
 				if (removeConfirmation.getResult().getText().toString().equals("Leave")) {
 
 					model.letUserExitTeam(teamStr);
+
 					new Alert(AlertType.INFORMATION, "Left team " + teamStr + ".").showAndWait();
+
 				} else {
-					controller.setCancelTransaction(true);
+
 					// try {
 					controller.checkTeam(teamStr);
 					// } catch (UnsupportedOperationException e) {

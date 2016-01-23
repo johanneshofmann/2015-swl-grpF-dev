@@ -6,73 +6,71 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="905.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.VoteRequirementCardController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="913.0" prefWidth="786.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.VoteRequirementCardController">
 	<content>
-		<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="871.0" prefWidth="818.0">
+		<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="896.0" prefWidth="771.0">
 			<children>
-				<VBox layoutX="20.0" layoutY="58.0" prefHeight="696.0" prefWidth="449.0" spacing="20.0">
+				<VBox layoutX="20.0" layoutY="58.0" prefHeight="762.0" prefWidth="399.0" spacing="20.0">
 					<children>
 						<HBox prefHeight="39.0" prefWidth="406.0" spacing="161.0">
 							<children>
 								<Label text="Title:" />
-								<Label fx:id="titleLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="titleTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 						<HBox prefHeight="34.0" prefWidth="546.0" spacing="87.0">
 							<children>
 								<Label text="ModuleName(s):" />
-								<Label fx:id="modulLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="modulesTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 						<HBox prefHeight="34.0" prefWidth="546.0" spacing="92.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="101.0" text="Owner: " />
-								<Label fx:id="ownerLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="ownerTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
-						<HBox prefHeight="144.0" prefWidth="449.0" spacing="105.0">
+						<HBox prefHeight="160.0" prefWidth="399.0" spacing="105.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="84.0" text="Description:" />
-                        <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="91.0" prefWidth="263.0" />
+                        <TextArea fx:id="descriptionTextArea" editable="false" prefHeight="118.0" prefWidth="206.0" />
 							</children>
 						</HBox>
-						<HBox prefHeight="151.0" prefWidth="449.0" spacing="120.0">
+						<HBox prefHeight="139.0" prefWidth="399.0" spacing="120.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="68.0" text="Rationale:" />
-                        <TextArea fx:id="rationaleTextArea" editable="false" prefHeight="33.0" prefWidth="262.0" />
+                        <TextArea fx:id="rationaleTextArea" editable="false" prefHeight="104.0" prefWidth="207.0" />
 							</children>
 						</HBox>
 						<HBox layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="117.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
-								<Label fx:id="sourceLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="sourceTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 						<HBox layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="93.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
-								<Label fx:id="userStoryLabel" layoutX="204.0" layoutY="10.0" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="userStoriesTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 						<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="20.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="175.0" text="Supporting Materials:" />
-								<Label fx:id="supportLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="supportingMaterialsTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 						<HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="87.0">
 							<children>
 								<Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-								<Label fx:id="fitCriterionLabel" prefHeight="27.0" prefWidth="201.0" />
+                        <TextArea fx:id="fitCriterionTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
 							</children>
 						</HBox>
 					</children>
 				</VBox>
-				<Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="815.0" text="_____________________________________________________________________________________________________________________________" />
+				<Label layoutX="4.0" layoutY="28.0" prefHeight="27.0" prefWidth="763.0" text="_____________________________________________________________________________________________________________________" />
 				<Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="277.0" text="Vote Requirement Card: " underline="true" />
-				<Button fx:id="voteButton" layoutX="516.0" layoutY="798.0" mnemonicParsing="false" onAction="#voteButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
-				<Button fx:id="closeButton" layoutX="308.0" layoutY="798.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
-            <HBox layoutX="508.0" layoutY="55.0" prefHeight="16.0" prefWidth="310.0">
+            <HBox layoutX="457.0" layoutY="58.0" prefHeight="16.0" prefWidth="310.0">
                <children>
                   <Label layoutX="37.0" layoutY="10.0" prefHeight="27.0" prefWidth="41.0" text="RQID:" />
       				<Label fx:id="requirementCardNumberLabel" prefHeight="27.0" prefWidth="27.0" />
@@ -82,7 +80,7 @@
       				<Label fx:id="minorVersionLabel" prefHeight="27.0" prefWidth="24.0" />
                </children>
             </HBox>
-            <Pane layoutX="479.0" layoutY="144.0" prefHeight="649.0" prefWidth="347.0">
+            <Pane layoutX="426.0" layoutY="184.0" prefHeight="645.0" prefWidth="347.0">
                <children>
       				<VBox fx:id="voteDescriptionLabelsVBox" layoutX="11.0" layoutY="56.0" prefHeight="170.0" prefWidth="112.0" spacing="2.0">
       					<children>
@@ -95,8 +93,8 @@
       					</children>
       				</VBox>
                   <Label layoutX="14.0" layoutY="6.0" text="Vote: " textFill="#4e0ad8" underline="true" />
-                  <Label layoutY="226.0" text="___________Rationale___________" textFill="#4e0ad8" />
-                  <Label layoutX="11.0" layoutY="30.0" prefHeight="16.0" prefWidth="210.0" text="__________Description __________" textFill="#4e0ad8" />
+                  <Label layoutY="226.0" prefHeight="16.0" prefWidth="343.0" text="___________________Rationale________________________" textFill="#4e0ad8" />
+                  <Label layoutX="11.0" layoutY="30.0" prefHeight="16.0" prefWidth="336.0" text="__________________Description ____________________" textFill="#4e0ad8" />
       				<VBox fx:id="voteRationaleLabelsVBox" layoutX="14.0" layoutY="242.0" prefHeight="170.0" prefWidth="107.0" spacing="2.0">
       					<children>
       						<Label prefHeight="27.0" prefWidth="61.0" text="Precise:" />
@@ -197,7 +195,7 @@
       						</VBox>
       					</children>
       				</VBox>
-      				<HBox fx:id="voteFitCriterionHBox" layoutX="11.0" layoutY="580.0" prefHeight="18.0" prefWidth="303.0">
+      				<HBox fx:id="voteFitCriterionHBox" layoutX="11.0" layoutY="605.0" prefHeight="18.0" prefWidth="303.0">
       					<children>
       						<Label prefHeight="27.0" prefWidth="68.0" text="Complete:" />
       						<HBox prefHeight="18.0" prefWidth="224.0" spacing="10.0">
@@ -214,14 +212,14 @@
       						</HBox>
       					</children>
       				</HBox>
-                  <Label layoutX="11.0" layoutY="554.0" text="__________FitCriterion:__________" textFill="#4e0ad8" />
+                  <Label layoutX="13.0" layoutY="579.0" prefHeight="16.0" prefWidth="333.0" text="_________________FitCriterion:_____________________" textFill="#4e0ad8" />
                </children>
             </Pane>
             <VBox layoutX="508.0" layoutY="12.0" prefHeight="32.0" prefWidth="274.0">
                <children>
                   <HBox prefHeight="0.0" prefWidth="264.0">
                      <children>
-            				<Label prefHeight="16.0" prefWidth="120.0" text="Created At : " />
+            				<Label prefHeight="16.0" prefWidth="120.0" text="Date created : " />
             				<Label fx:id="createdAtLabel" prefHeight="16.0" prefWidth="164.0" />
                      </children>
                   </HBox>
@@ -233,6 +231,12 @@
                   </HBox>
                </children>
             </VBox>
+            <HBox layoutX="338.0" layoutY="831.0" prefHeight="66.0" prefWidth="429.0" spacing="15.0">
+               <children>
+      				<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close " />
+      				<Button fx:id="voteButton" mnemonicParsing="false" onAction="#voteButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Vote &gt;" />
+               </children>
+            </HBox>
 			</children>
 		</Pane>
 	</content>

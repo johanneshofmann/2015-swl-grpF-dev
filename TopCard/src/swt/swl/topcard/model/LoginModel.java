@@ -25,10 +25,8 @@ public class LoginModel extends Observable {
 
 	public void insertUserIntoDatabase(String firstName, String lastName, String loginName) {
 
-		int ownerID = DatabaseHelper.getMaxXFromY("ID", "User");
-
-		String sqlInsert = "INSERT INTO User(ID,FirstName,LastName,LoginName) VALUES (" + ownerID + ", '" + firstName
-				+ "', '" + lastName + "', '" + loginName + "');";
+		String sqlInsert = "INSERT INTO User(FirstName,LastName,LoginName) VALUES ('" + firstName + "', '" + lastName
+				+ "', '" + loginName + "');";
 
 		DatabaseHelper.executeUpdate(sqlInsert);
 

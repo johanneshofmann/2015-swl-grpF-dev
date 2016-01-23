@@ -1,10 +1,11 @@
 package swt.swl.topcard.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.controlsfx.control.CheckComboBox;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,21 +23,20 @@ import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class EditRequirementCardController {
+public class EditRequirementCardController implements Controller {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
 	private RequirementCardSimple toEdit;
 
-	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox;
+	private CheckComboBox<String> modulesCheckComboBox, userStoriesCheckComboBox, teamsCheckComboBox;
 
 	@FXML
 	private CheckBox frozenChoiceBox;
 	@FXML
 	private TextArea descriptionTextArea, rationaleTextArea;
 	@FXML
-	private TextField titleTextField, ownerTextField, sourceTextField, supportingMaterialsTextField,
-			fitCriterionTextField;
+	private TextField titleTextField, ownerTextField, supportingMaterialsTextField, fitCriterionTextField;
 	@FXML
 	private Button closeButton, editButton, showVoteResultsButton, deleteRequirementButton;
 	@FXML
@@ -44,7 +44,7 @@ public class EditRequirementCardController {
 	@FXML
 	private Pane showVoteResultsPane;
 	@FXML
-	private HBox modulesHBox, userStoriesHBox;
+	private HBox modulesHBox, userStoriesHBox, sourceHBox;
 	@FXML
 	private Label descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
 			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
@@ -56,6 +56,7 @@ public class EditRequirementCardController {
 		initCheckComboBoxes();
 		fillRqCardDataInTextFields();
 		addEventHandlerToFrozenChoiceBox();
+		fillVoteResultsLabels();
 
 		// all editable but..
 		ownerTextField.setEditable(false);
@@ -64,64 +65,55 @@ public class EditRequirementCardController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
+
 		Alert closeConfirmation = new Alert(AlertType.CONFIRMATION, "Close without saving ?");
 		closeConfirmation.showAndWait();
+
 		ButtonType choice = closeConfirmation.getResult();
+
 		if (choice == ButtonType.OK) {
+
 			mainController.repaint();
 			event.consume();
 			closeConfirmation.close();
+
 		} else {
+
 			event.consume();
 		}
-	}
-
-	@FXML
-	void showVoteResultsButtonClicked() {
-		showVoteResultsButton.setVisible(false);
-		fillVoteResultsLabels();
-		showVoteResultsPane.setVisible(true);
-
 	}
 
 	@FXML
 	void editButtonClicked(ActionEvent event) {
 
-		toEdit.setMinorVersion(toEdit.getMinorVersion() + 1);
+		checkEmpty();
 
-		modifyRequirementCardToEdit();
-
-		model.insertEditedRqIntoDatabase(toEdit);
+		model.insertEditedRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(),
+				titleTextField.getText(), Integer.parseInt(requirementCardNumberLabel.getText()),
+				Integer.parseInt(majorVersionLabel.getText()), (Integer.parseInt(minorVersionLabel.getText()) + 1),
+				descriptionTextArea.getText(), rationaleTextArea.getText(),
+				teamsCheckComboBox.getCheckModel().getCheckedItems(),
+				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
+				supportingMaterialsTextField.getText(), false, getCreatedAt());
 
 		// if successful, show alert to user
 		new Alert(AlertType.INFORMATION, "Changes saved.").showAndWait();
 	}
 
-	private void modifyRequirementCardToEdit() {
+	private Timestamp getCreatedAt() {
 
-		toEdit.setModules(listToString(modulesCheckComboBox.getCheckModel().getCheckedItems()));
-		toEdit.setDescription(descriptionTextArea.getText());
-		toEdit.setRationale(rationaleTextArea.getText());
-		toEdit.setSource(sourceTextField.getText());
-		toEdit.setUserStories(listToString(userStoriesCheckComboBox.getCheckModel().getCheckedItems()));
-		toEdit.setSupportingMaterials(supportingMaterialsTextField.getText());
-		toEdit.setFitCriterion(fitCriterionTextField.getText());
+		String date = createdAtLabel.getText();
 
-	}
+		String[] yearMonthDate = date.substring(0, 11).split("-");
+		String[] hourMinuteSecond = date.substring(11, 19).split(":");
 
-	private String listToString(ObservableList<String> list) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(yearMonthDate[0]), Integer.parseInt(yearMonthDate[1]) - 1,
+				Integer.parseInt(yearMonthDate[2].replaceAll(" ", "")), Integer.parseInt(hourMinuteSecond[0]),
+				Integer.parseInt(hourMinuteSecond[1]), Integer.parseInt(hourMinuteSecond[2]));
 
-		String string = "";
+		return new Timestamp(cal.getTimeInMillis());
 
-		int counter = 0;
-		for (String str : list) {
-			if (counter == 0) {
-				counter++;
-				string = str;
-			}
-			string += "," + str;
-		}
-		return string;
 	}
 
 	@FXML
@@ -143,24 +135,17 @@ public class EditRequirementCardController {
 		requirementCardNumberLabel.setText(String.valueOf(toEdit.getRqID()));
 		descriptionTextArea.setText(toEdit.getDescription());
 		rationaleTextArea.setText(toEdit.getRationale());
-		sourceTextField.setText(toEdit.getSource());
 		supportingMaterialsTextField.setText(toEdit.getSupportingMaterials());
 		fitCriterionTextField.setText(toEdit.getFitCriterion());
-		if (toEdit.getIsFrozen() == 1) {
-			frozenChoiceBox.setSelected(true);
-		}
 		createdAtLabel.setText(toEdit.getCreatedAt().toString().substring(0, 19));
 		lastModifiedAtLabel.setText(toEdit.getLastModifiedAt().toString());
 		titleTextField.setText(toEdit.getTitle());
 		majorVersionLabel.setText(String.valueOf(toEdit.getMajorVersion()));
 		minorVersionLabel.setText(String.valueOf(toEdit.getMinorVersion()));
-	}
-
-	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
-			RequirementCardSimple toEdit) {
-		this.model = rqModel;
-		this.mainController = requirementCardController;
-		this.toEdit = toEdit;
+		if (Integer.parseInt(minorVersionLabel.getText()) == 0) {
+			editButton.setText("Put up for Vote");
+		}
+		frozenChoiceBox.setSelected(true);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -174,6 +159,9 @@ public class EditRequirementCardController {
 		userStoriesCheckComboBox = new CheckComboBox<>(model.getUserStories());
 		userStoriesHBox.getChildren().add(userStoriesCheckComboBox);
 
+		teamsCheckComboBox = new CheckComboBox<>(model.getTeams());
+		sourceHBox.getChildren().add(teamsCheckComboBox);
+
 		int rqID = toEdit.getID();
 
 		// check the ones set in database
@@ -182,6 +170,9 @@ public class EditRequirementCardController {
 		}
 		for (String userStory : (ArrayList<String>) model.getXNamesAsStringByRqID("UserStory", rqID, true)) {
 			userStoriesCheckComboBox.getCheckModel().check(userStory);
+		}
+		for (String team : (ArrayList<String>) model.getXNamesAsStringByRqID("Team", rqID, true)) {
+			teamsCheckComboBox.getCheckModel().check(team);
 		}
 	}
 
@@ -192,22 +183,25 @@ public class EditRequirementCardController {
 			@Override
 			public void handle(ActionEvent event) {
 
-				toEdit.setMajorVersion(toEdit.getMajorVersion() + 1);
-				toEdit.setMinorVersion(1);
-
-				modifyRequirementCardToEdit();
-
-				model.insertEditedRqIntoDatabase(toEdit);
+				model.insertEditedRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(),
+						titleTextField.getText(), Integer.parseInt(requirementCardNumberLabel.getText()),
+						Integer.parseInt(majorVersionLabel.getText()),
+						(Integer.parseInt(minorVersionLabel.getText()) + 1), descriptionTextArea.getText(),
+						rationaleTextArea.getText(), teamsCheckComboBox.getCheckModel().getCheckedItems(),
+						userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
+						supportingMaterialsTextField.getText(), true, getCreatedAt());
 
 				// if successful, show alert to user
 				new Alert(AlertType.INFORMATION, "Saved changes.").showAndWait();
-
 			}
 		});
 	}
 
 	private void fillVoteResultsLabels() {
 
+		if (model.noVotesSubmitted(toEdit.getID())) {
+			return;
+		}
 		SubmittedVoteSimple voteResult = model.getVoteResults(toEdit.getID());
 
 		descriptionPreciseVoteResultLabel.setText("" + voteResult.getDescriptionPrecise());
@@ -221,6 +215,44 @@ public class EditRequirementCardController {
 		rationaleCompleteVoteResultLabel.setText("" + voteResult.getRationaleComplete());
 		rationaleConsistentVoteResultLabel.setText("" + voteResult.getRationaleConsistent());
 		fitCriterionCompleteVoteResultLabel.setText("" + voteResult.getFitCriterionCorrect());
+	}
+
+	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController,
+			RequirementCardSimple toEdit) {
+		this.model = rqModel;
+		setMainController(requirementCardController);
+		this.toEdit = toEdit;
+	}
+
+	@Override
+	public void setMainController(RequirementCardController requirementCardController) {
+		this.mainController = requirementCardController;
+	}
+
+	@Override
+	public void cancel(ActionEvent event) {
+		// already implemented
+	}
+
+	@Override
+	public void checkEmpty() {
+
+		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
+				|| rationaleTextArea.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
+			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.")
+						.showAndWait();
+			} else if (userStoriesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one UserStory.")
+						.showAndWait();
+			} else if (teamsCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
+				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Team as source.")
+						.showAndWait();
+			} else {
+				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")
+						.showAndWait();
+			}
+		}
 	}
 
 }
