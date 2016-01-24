@@ -46,7 +46,7 @@ public class EditRequirementCardController implements Controller {
 	@FXML
 	private HBox modulesHBox, userStoriesHBox, sourceHBox;
 	@FXML
-	private Label descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
+	private Label voteResultsAmountLabel, descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
 			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
 			rationalePreciseVoteResultLabel, rationaleUnderstandableVoteResultLabel, rationaleTraceableVoteResultLabel,
 			rationaleCompleteVoteResultLabel, rationaleConsistentVoteResultLabel, fitCriterionCompleteVoteResultLabel;
@@ -204,7 +204,10 @@ public class EditRequirementCardController implements Controller {
 		if (model.noVotesSubmitted(toEdit.getID())) {
 			return;
 		}
-		SubmittedVoteSimple voteResult = model.getVoteResults(toEdit.getID());
+		Object[] voteResults = model.getVoteResults(toEdit.getID());
+
+		SubmittedVoteSimple voteResult = (SubmittedVoteSimple) voteResults[0];
+		voteResultsAmountLabel.setText("Your vote results (total: " + voteResults[1].toString() + ") : ");
 
 		descriptionPreciseVoteResultLabel.setText("" + voteResult.getDescriptionPrecise());
 		descriptionUnderstandableVoteResultLabel.setText("" + voteResult.getDescriptionUnderstandable());

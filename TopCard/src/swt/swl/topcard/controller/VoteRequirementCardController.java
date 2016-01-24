@@ -110,7 +110,7 @@ public class VoteRequirementCardController {
 		// assign it to the displayed Nodes:
 
 		ownerTextArea.setText(rqCard.getOwnerName());
-		// moduleNamesTextField.setText(data);
+		modulesTextArea.setText(rqCard.getModules());
 		requirementCardNumberLabel.setText("" + rqCard.getRqID());
 		descriptionTextArea.setText(rqCard.getDescription());
 		rationaleTextArea.setText(rqCard.getRationale());
@@ -118,7 +118,7 @@ public class VoteRequirementCardController {
 		userStoriesTextArea.setText(rqCard.getUserStories());
 		supportingMaterialsTextArea.setText(rqCard.getSupportingMaterials());
 		fitCriterionTextArea.setText(rqCard.getFitCriterion());
-		// "IsFrozen" (data[9]) not required here..
+		// 'IsFrozen' not required here..
 		createdAtLabel.setText(rqCard.getCreatedAt().toString().substring(0, 19));
 		lastModifiedAtLabel.setText(rqCard.getLastModifiedAt());
 		titleTextArea.setText(rqCard.getTitle());

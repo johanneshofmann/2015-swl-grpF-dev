@@ -51,16 +51,8 @@ public class RequirementCardModel extends Observable {
 
 		// Fetch ID from added RQ :
 		int ID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
-		System.out.println("MAX ID : " + ID);
 
-		// then insert each (RqID,ModuleID)-Pair,
-		insertEachRqIDXIDPairIntoDatabase("Module", userStories, ID);
-
-		// each (RqID,UserStoryID)-Pair ..
-		insertEachRqIDXIDPairIntoDatabase("UserStory", modules, ID);
-
-		// .. and each (RqID,TeamID)-Pair into table
-		insertEachRqIDXIDPairIntoDatabase("Team", source, ID);
+		insertAllPairsIntoEachTable(ID, modules, userStories, source);
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
@@ -71,7 +63,7 @@ public class RequirementCardModel extends Observable {
 			String supportingMaterials) {
 
 		int minorVersion = 0;
-		int majorVersion = 0;
+		int majorVersion = 1;
 
 		// fetch ownerID
 		int ownerID = DatabaseHelper.XNameToID("User", loginName);
@@ -91,7 +83,16 @@ public class RequirementCardModel extends Observable {
 
 		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
-		// then insert each (RqID,ModuleID)-Pair,
+		insertAllPairsIntoEachTable(rqID, modules, userStories, source);
+
+		// let the controller know that sth. has changed
+		triggerNotification(loginName);
+	}
+
+	private void insertAllPairsIntoEachTable(int rqID, ObservableList<String> modules,
+			ObservableList<String> userStories, ObservableList<String> source) {
+
+		// insert each (RqID,ModuleID)-Pair,
 		insertEachRqIDXIDPairIntoDatabase("Module", modules, rqID);
 
 		// each (RqID,UserStoryID)-Pair ..
@@ -100,9 +101,6 @@ public class RequirementCardModel extends Observable {
 		// .. and each (RqID,TeamID)-Pair into table
 
 		insertEachRqIDXIDPairIntoDatabase("Team", source, rqID);
-
-		// let the controller know that sth. has changed
-		triggerNotification(loginName);
 	}
 
 	private void insertEachRqIDXIDPairIntoDatabase(String source, ObservableList<String> itemNames, int rqID) {
@@ -186,12 +184,12 @@ public class RequirementCardModel extends Observable {
 		DatabaseHelper.executeUpdate(query);
 	}
 
-	public SubmittedVoteSimple getVoteResults(int rqCardID) {
+	public Object[] getVoteResults(int rqCardID) {
 
 		return generateEverageVoteResult(DatabaseHelper.getVoteResultsFrom(rqCardID));
 	}
 
-	private SubmittedVoteSimple generateEverageVoteResult(ArrayList<SubmittedVoteSimple> allVoteResults) {
+	private Object[] generateEverageVoteResult(ArrayList<SubmittedVoteSimple> allVoteResults) {
 
 		double descPrecise = 0;
 		double descUnderstandable = 0;
@@ -214,8 +212,13 @@ public class RequirementCardModel extends Observable {
 		int fitCriterionCompleteCounter = 0;
 		int preciseAndUnderstandableCounter = 0;
 
+		int counter = 0;
+
 		for (SubmittedVoteSimple vote : allVoteResults) {
-			// calculate everage of all votes::
+
+			counter++;
+
+			// calculate everage of all votes:
 
 			descPrecise += vote.getDescriptionPrecise();
 			descUnderstandable += vote.getDescriptionUnderstandable();
@@ -271,18 +274,22 @@ public class RequirementCardModel extends Observable {
 
 		DecimalFormat getDecimal = new DecimalFormat("#0.00");
 
-		return new SubmittedVoteSimple(
-				Double.parseDouble(getDecimal.format(descPrecise / preciseAndUnderstandableCounter)),
-				Double.parseDouble(getDecimal.format(descUnderstandable / preciseAndUnderstandableCounter)),
-				Double.parseDouble(getDecimal.format(descCorrect / descCorrectCounter)),
-				Double.parseDouble(getDecimal.format(descComplete / descCompleteCounter)),
-				Double.parseDouble(getDecimal.format(descAtomic / descAtomicCounter)),
-				Double.parseDouble(getDecimal.format(ratPrecise / preciseAndUnderstandableCounter)),
-				Double.parseDouble(getDecimal.format(ratUnderstandable / preciseAndUnderstandableCounter)),
-				Double.parseDouble(getDecimal.format(ratTraceable / ratTraceableCounter)),
-				Double.parseDouble(getDecimal.format(ratComplete / ratCompleteCounter)),
-				Double.parseDouble(getDecimal.format(ratConsistent / ratConsistentCounter)),
-				Double.parseDouble(getDecimal.format(fitCriterionComplete / fitCriterionCompleteCounter)));
+		Object[] objArr = {
+				new SubmittedVoteSimple(
+						Double.parseDouble(getDecimal.format(descPrecise / preciseAndUnderstandableCounter)),
+						Double.parseDouble(getDecimal.format(descUnderstandable / preciseAndUnderstandableCounter)),
+						Double.parseDouble(getDecimal.format(descCorrect / descCorrectCounter)),
+						Double.parseDouble(getDecimal.format(descComplete / descCompleteCounter)),
+						Double.parseDouble(getDecimal.format(descAtomic / descAtomicCounter)),
+						Double.parseDouble(getDecimal.format(ratPrecise / preciseAndUnderstandableCounter)),
+						Double.parseDouble(getDecimal.format(ratUnderstandable / preciseAndUnderstandableCounter)),
+						Double.parseDouble(getDecimal.format(ratTraceable / ratTraceableCounter)),
+						Double.parseDouble(getDecimal.format(ratComplete / ratCompleteCounter)),
+						Double.parseDouble(getDecimal.format(ratConsistent / ratConsistentCounter)),
+						Double.parseDouble(getDecimal.format(fitCriterionComplete / fitCriterionCompleteCounter))),
+				counter };
+
+		return objArr;
 	}
 
 	public void setLoginName(String loginName) {

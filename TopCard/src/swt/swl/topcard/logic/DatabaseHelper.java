@@ -577,9 +577,6 @@ public class DatabaseHelper {
 						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
 						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
 				allVoteResults.add(currentVote);
-
-				System.err.println("\r \r check wheather vote results are correct:  \r \r");
-				System.err.println(currentVote.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
