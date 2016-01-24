@@ -42,6 +42,7 @@ public class CreateRequirementCardController implements Controller {
 	public void initFXNodes() {
 
 		frozenChoiceBox.setDisable(true);
+		createButton.setText("Create version 0.0");
 
 		addActualModulesToCheckComboBox();
 		addActualUserStoriesToCheckComboBox();

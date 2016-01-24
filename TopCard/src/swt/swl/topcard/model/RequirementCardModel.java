@@ -36,7 +36,7 @@ public class RequirementCardModel extends Observable {
 
 		if (isFrozen) {
 			majorVersion += 1;
-			minorVersion = 1;
+			minorVersion = 0;
 		}
 		// fetch ownerID
 		int ownerID = DatabaseHelper.XNameToID("User", loginName);
@@ -71,7 +71,7 @@ public class RequirementCardModel extends Observable {
 			String supportingMaterials) {
 
 		int minorVersion = 0;
-		int majorVersion = 1;
+		int majorVersion = 0;
 
 		// fetch ownerID
 		int ownerID = DatabaseHelper.XNameToID("User", loginName);
@@ -378,6 +378,8 @@ public class RequirementCardModel extends Observable {
 		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
 				Integer.parseInt(minorVersion));
 
+		// let the controller know that sth. has changed
+		triggerNotification(loginName);
 	}
 
 	public boolean userAlreadyVoted(int ID) {

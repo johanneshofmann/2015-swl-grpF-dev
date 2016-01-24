@@ -90,7 +90,7 @@ public class RequirementCardController implements Observer {
 
 		initChooseTeamComboBox();
 		initTableView();
-
+		addEventHandlerToTableView();
 	}
 
 	@FXML
@@ -100,7 +100,7 @@ public class RequirementCardController implements Observer {
 
 	public void repaint() {
 
-		refreshList();
+		initTableView();
 		refrechTeams();
 		mainApp.getPrimaryStage().close();
 		mainApp.getPrimaryStage().setScene(loginController.getRequirementCardViewScene());
@@ -284,7 +284,7 @@ public class RequirementCardController implements Observer {
 						setStyle("");
 
 					} else {
-
+						// color all frozen requirement cards:
 						setText(item);
 						if (model.isFrozen(item)) {
 
@@ -309,8 +309,6 @@ public class RequirementCardController implements Observer {
 		columns.add(modulesTableColumn);
 
 		refreshList();
-
-		addEventHandlerToTableView();
 	}
 
 	private void refreshList() {

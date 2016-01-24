@@ -183,6 +183,8 @@ public class EditRequirementCardController implements Controller {
 			@Override
 			public void handle(ActionEvent event) {
 
+				checkEmpty();
+
 				model.insertEditedRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(),
 						titleTextField.getText(), Integer.parseInt(requirementCardNumberLabel.getText()),
 						Integer.parseInt(majorVersionLabel.getText()),
