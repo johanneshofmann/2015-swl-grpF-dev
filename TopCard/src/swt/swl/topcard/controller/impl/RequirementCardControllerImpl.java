@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -41,6 +42,7 @@ import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.SearchRequirementCardController;
+import swt.swl.topcard.controller.ShowDiagramController;
 import swt.swl.topcard.controller.VoteRequirementCardController;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
@@ -243,6 +245,16 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 				scene = new Scene(voteRequirementCardView);
 
 				break;
+
+			case "ShowDiagram":
+
+				TabPane diagramPane = (TabPane) loader.load();
+
+				((ShowDiagramController) loader.getController()).setMainController(this);
+
+				scene = new Scene(diagramPane);
+
+				break;
 			}
 
 			mainApp.getPrimaryStage().setScene(scene);
@@ -259,6 +271,11 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	@FXML
 	void logoutButtonClicked(ActionEvent event) {
 		cancel(event);
+	}
+
+	@FXML
+	void showDiagramButtonClicked(ActionEvent event) {
+		xButtonClicked(event, "ShowDiagram", null);
 	}
 
 	@Override

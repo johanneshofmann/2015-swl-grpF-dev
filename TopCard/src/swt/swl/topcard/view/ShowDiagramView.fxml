@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+	minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+	tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.ShowDiagramControllerImpl" >
+	<tabs>
+		<Tab fx:id="tab1" text="PieChart">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+					prefWidth="200.0">
+					<children>
+						<HBox layoutX="463.0" layoutY="327.0" prefHeight="26.0"
+							prefWidth="123.0" spacing="15.0">
+							<children>
+								<Button fx:id="showButton1" mnemonicParsing="false"
+									onAction="#showButton1Clicked" text="Show" />
+								<Button fx:id="closeButton1" mnemonicParsing="false"
+									onAction="#closeButton1Clicked" text="Close" />
+							</children>
+						</HBox>
+						<PieChart fx:id="pieChart" layoutX="14.0" layoutY="14.0"
+	prefHeight="306.0" prefWidth="450.0" title="Pie Chart : " />
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+		<Tab fx:id="tab2" text="LineChart">
+			<content>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+					prefWidth="200.0">
+					<children>
+						<HBox layoutX="463.0" layoutY="327.0" prefHeight="26.0"
+							prefWidth="123.0" spacing="15.0">
+							<children>
+								<Button fx:id="showButton2" mnemonicParsing="false"
+									onAction="#showButton2Clicked" text="Show" />
+								<Button fx:id="closeButton2" mnemonicParsing="false"
+									onAction="#closeButton2Clicked" text="Close" />
+							</children>
+						</HBox>
+						<LineChart fx:id="lineChart" layoutX="23.0" layoutY="14.0"
+							prefHeight="300.0" prefWidth="487.0" title="Line Chart : ">
+							<xAxis>
+								<NumberAxis side="BOTTOM" />
+							</xAxis>
+							<yAxis>
+								<NumberAxis side="LEFT" />
+							</yAxis>
+						</LineChart>
+					</children>
+				</AnchorPane>
+			</content>
+		</Tab>
+	</tabs>
+</TabPane>
