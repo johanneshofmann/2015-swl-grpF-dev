@@ -11,7 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import swt.swl.topcard.controller.LoginController;
+import swt.swl.topcard.controller.impl.LoginControllerImpl;
 
 public class MainApp extends Application {
 
@@ -59,7 +59,7 @@ public class MainApp extends Application {
 
 			loginScene = new Scene(rootLayout);
 
-			((LoginController) loader.getController()).setData(this, loginScene);
+			((LoginControllerImpl) loader.getController()).setData(this, loginScene);
 
 			primaryStage.setScene(loginScene);
 			primaryStage.show();

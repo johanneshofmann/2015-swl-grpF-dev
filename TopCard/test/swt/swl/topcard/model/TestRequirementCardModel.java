@@ -9,7 +9,9 @@ import org.junit.Test;
 import javafx.collections.ObservableList;
 import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
+import swt.swl.topcard.controller.impl.RequirementCardControllerImpl;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
 
 public class TestRequirementCardModel {
 
@@ -20,7 +22,7 @@ public class TestRequirementCardModel {
 	@Before
 	public void init() {
 		// controller needed for initializing observableArray
-		controller = new RequirementCardController();
+		controller = new RequirementCardControllerImpl();
 		rqModel = controller.getRqModel();
 
 		loginName = "loginName";
@@ -41,7 +43,6 @@ public class TestRequirementCardModel {
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
-		boolean isFrozen = false;
 
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials);
@@ -51,7 +52,7 @@ public class TestRequirementCardModel {
 
 		// TODO: @Test not correct set here:
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
+		RequirementCardSimpleImpl addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 0, 0, supportingMaterials, 0,
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
 				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
 		boolean inArray = false;
@@ -88,7 +89,7 @@ public class TestRequirementCardModel {
 		this.rqModel.updateRequirementsList();
 
 		// here also
-		RequirementCardSimple addedRqCard = new RequirementCardSimple(0, title, 0, 0, 0, supportingMaterials, 0,
+		RequirementCardSimpleImpl addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 0, 0, supportingMaterials, 0,
 				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
 				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
 
@@ -96,7 +97,7 @@ public class TestRequirementCardModel {
 		// delete method with 3 parameters
 		// DatabaseHelper.deleteRqFromDatabase(title);
 
-		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
+		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimpleImpl) addedRqCard));
 
 	}
 

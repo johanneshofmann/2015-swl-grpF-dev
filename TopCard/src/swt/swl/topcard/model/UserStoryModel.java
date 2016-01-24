@@ -1,16 +1,15 @@
 package swt.swl.topcard.model;
 
-import swt.swl.topcard.logic.DatabaseHelper;
+/**
+ * 
+ * 
+ * @author swt-041649
+ *
+ */
+public interface UserStoryModel {
 
-public class UserStoryModel {
+	boolean hasUserStory(String userStory);
 
-	public boolean hasUserStory(String userStory) {
-		return DatabaseHelper.checkExistent("UserStory", userStory);
-	}
-
-	public void insertUserStory(String text) {
-		DatabaseHelper.insertSimpleX("UserStory", text);
-
-	}
+	void insertUserStory(String text);
 
 }

@@ -1,24 +1,11 @@
 package swt.swl.topcard.logic;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+/**
+ * 
+ * 
+ * @author swt-041649
+ *
+ */
+public interface ResultSetUtil {
 
-public class ResultSetUtil {
-
-	public static Boolean contains(ResultSet rs, int colidx, String value) {
-
-		try {
-			while (rs.next()) {
-
-				if (rs.getString(colidx).equals(value)) {
-					return true;
-				}
-			}
-			return false;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 }

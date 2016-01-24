@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/swt/swl/topcard/controller/VoteRequirementCardController.java=UTF-8
-encoding//src/swt/swl/topcard/model/RequirementCardModel.java=UTF-8
+encoding//src/swt/swl/topcard/controller/impl/LoginControllerImpl.java=UTF-8
+encoding//src/swt/swl/topcard/controller/impl/VoteRequirementCardControllerImpl.java=UTF-8
+encoding//src/swt/swl/topcard/model/impl/RequirementCardModelImpl.java=UTF-8
