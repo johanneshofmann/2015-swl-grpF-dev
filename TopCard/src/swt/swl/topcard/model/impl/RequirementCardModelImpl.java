@@ -60,7 +60,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 		triggerNotification(loginName);
 	}
 
-	public synchronized void insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
+	public synchronized int insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
 			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion,
 			String supportingMaterials) {
 
@@ -89,6 +89,8 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
+		
+		return rqID;
 	}
 
 	private void insertAllPairsIntoEachTable(int rqID, ObservableList<String> modules,

@@ -33,9 +33,9 @@ public interface RequirementCardModel extends Observable {
 
 	SubmittedVoteSimple getVoteResults(int id);
 
-	void insertRqIntoDatabase(ObservableList<String> checkedItems, String text, String text2, String text3,
-			ObservableList<String> checkedItems2, ObservableList<String> checkedItems3, String text4, String text5);
-
+	int insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
+			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion, String supportingMaterials);
+	
 	ArrayList<String> getTeamsUserIsSubscribed();
 
 	boolean isFrozen(String item);

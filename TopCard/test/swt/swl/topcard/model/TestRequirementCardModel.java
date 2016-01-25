@@ -2,16 +2,18 @@ package swt.swl.topcard.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.Timestamp;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javafx.collections.ObservableList;
-import junit.framework.TestSuite;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.impl.RequirementCardControllerImpl;
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
+import swt.swl.topcard.logic.RequirementCardSimple;
 
 public class TestRequirementCardModel {
 
@@ -43,18 +45,21 @@ public class TestRequirementCardModel {
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
-
+		int isFrozen = 0;
+		Timestamp createdAt = null;
+		String name = "Bob";
+		rqModel.setLoginName(name);
+		int rqID = 0;
+		
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials);
 
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
 
-		// TODO: @Test not correct set here:
-
-		RequirementCardSimpleImpl addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 0, 0, supportingMaterials, 0,
-				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
-				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
+				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
+		
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
 			if (rq.getTitle().equals(addedRqCard.getTitle())) {
@@ -64,9 +69,7 @@ public class TestRequirementCardModel {
 		assertEquals(true, inArray);
 
 		// delete after checking ..
-		// TODO: cant simply delete now because of child row constraints, use
-		// delete method with 3 parameters
-		// DatabaseHelper.deleteRqFromDatabase(title);
+		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(), addedRqCard.getMinorVersion());
 	}
 
 	@Test
@@ -77,31 +80,27 @@ public class TestRequirementCardModel {
 		String title = "title";
 		String description = "description";
 		String rationale = "rationale";
+		ObservableList<String> modules = null;
 		ObservableList<String> source = null;
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
-		boolean isFrozen = false;
-
-		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
-				supportingMaterials);
+		int isFrozen = 0;
+		Timestamp createdAt = null;
+		String name = "Bob";
+		rqModel.setLoginName(name);
+		int rqID = 0;
+		
+		rqID = rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion, supportingMaterials);
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
+		
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
+				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
+		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(), addedRqCard.getMinorVersion());
 
-		// here also
-		RequirementCardSimpleImpl addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 0, 0, supportingMaterials, 0,
-				supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials, supportingMaterials,
-				supportingMaterials, supportingMaterials, 0, null, supportingMaterials);
-
-		// TODO: cant simply delete now because of child row constraints, use
-		// delete method with 3 parameters
-		// DatabaseHelper.deleteRqFromDatabase(title);
-
-		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimpleImpl) addedRqCard));
+		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
 
 	}
 
-	public static junit.framework.Test suite() {
-		return new TestSuite(TestRequirementCardModel.class);
-	}
 }

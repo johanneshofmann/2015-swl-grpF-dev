@@ -21,6 +21,8 @@ public interface RequirementCardSimple {
 	Object getCreatedAt();
 
 	String getTitle();
+	
+	void setTitle(String title);
 
 	String getLastModifiedAt();
 

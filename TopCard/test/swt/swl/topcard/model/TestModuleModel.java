@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.Module;
+import swt.swl.topcard.model.impl.ModuleModelImpl;
 
 public class TestModuleModel {
 	private ObservableList<Module> observableArray;
@@ -24,7 +25,7 @@ public class TestModuleModel {
 	}
 
 	public TestModuleModel() {
-		moduleModel = new ModuleModel();
+		moduleModel = new ModuleModelImpl();
 	}
 
 	@Test

@@ -13,5 +13,7 @@ public interface LoginModel extends Observable {
 	boolean checkDatabase(String text);
 
 	void insertUserIntoDatabase(String firstName, String lastName, String loginName);
+	
+	void deleteUserFromDatabase(String loginName);
 
 }

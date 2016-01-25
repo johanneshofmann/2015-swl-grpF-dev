@@ -34,5 +34,7 @@ public interface DatabaseHelperDoc {
 	RequirementCardSimpleImpl IDToRequirementCardSimple(int id);
 
 	boolean checkUserAlreadySubscribed(String loginName);
+	
+	void deleteRqFromDatabase(int rqID, int majorVersion, int minorVersion);
 
 }
