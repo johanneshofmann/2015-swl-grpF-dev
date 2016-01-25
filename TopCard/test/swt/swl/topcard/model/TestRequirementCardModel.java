@@ -47,7 +47,8 @@ public class TestRequirementCardModel {
 		String supportingMaterials = "supportingMaterials";
 		int isFrozen = 0;
 		Timestamp createdAt = null;
-		String ownerName = "ownerName";
+		String name = "Bob";
+		rqModel.setLoginName(name);
 		int rqID = 0;
 		
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
@@ -57,7 +58,7 @@ public class TestRequirementCardModel {
 		this.rqModel.updateRequirementsList();
 
 		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
-				ownerName, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
+				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
 		
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
@@ -86,7 +87,8 @@ public class TestRequirementCardModel {
 		String supportingMaterials = "supportingMaterials";
 		int isFrozen = 0;
 		Timestamp createdAt = null;
-		String ownerName = "ownerName";
+		String name = "Bob";
+		rqModel.setLoginName(name);
 		int rqID = 0;
 		
 		rqID = rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion, supportingMaterials);
@@ -94,7 +96,7 @@ public class TestRequirementCardModel {
 		this.rqModel.updateRequirementsList();
 		
 		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
-				ownerName, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
+				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
 		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(), addedRqCard.getMinorVersion());
 
 		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
