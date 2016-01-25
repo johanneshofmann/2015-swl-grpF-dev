@@ -103,20 +103,39 @@ public interface StatisticsHelper {
 
 		case "RationaleComplete":
 
+			for (int i = 0; i < votesArray.size(); i++) {
+				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleComplete()));
+			}
+			return series;
+
 		case "RationaleTraceable":
+
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleTraceable()));
 			}
 			return series;
 
+		case "RationaleConsistent":
+
+			for (int i = 0; i < votesArray.size(); i++) {
+				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleConsistent()));
+			}
+			return series;
+
+		case "FitCriterionComplete":
+
+			for (int i = 0; i < votesArray.size(); i++) {
+				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getFitCriterionComplete()));
+			}
+			return series;
+
 		default:
+
 			throw new IllegalArgumentException("Invalid input value.");
 		}
 	}
 
 	/**
-	 * 
-	 * 
 	 * 
 	 * @param voteResults
 	 * @returns Object[] -> [0]=RequirementCardSimple everageVote;
@@ -129,14 +148,7 @@ public interface StatisticsHelper {
 		}
 		OverallVoteScore[] results = generateOverallVoteScore(voteResults);
 
-		String[] resultsAsString = new String[11];
-
-		for (int i = 0; i < results.length; i++) {
-
-			resultsAsString[i] = overallVoteScoreToString(results[i]);
-		}
-
-		return new SubmittedVoteSimpleImpl(resultsAsString);
+		return new SubmittedVoteSimpleImpl(results);
 	}
 
 	static OverallVoteScore[] generateOverallVoteScore(ArrayList<SubmittedVoteSimple> voteResults) {
@@ -145,11 +157,11 @@ public interface StatisticsHelper {
 
 		overallVoteScores[0] = getOverallVoteScore("DescriptionPrecise", voteResults);
 		overallVoteScores[1] = getOverallVoteScore("DescriptionUnderstandable", voteResults);
-		overallVoteScores[2] = getOverallVoteScore("DescriptionCorrect", voteResults);
-		overallVoteScores[3] = getOverallVoteScore("DescriptionComplete", voteResults);
-		overallVoteScores[4] = getOverallVoteScore("DescriptionAtomic", voteResults);
-		overallVoteScores[5] = getOverallVoteScore("RationalePrecise", voteResults);
-		overallVoteScores[6] = getOverallVoteScore("RationaleUnderstandable", voteResults);
+		overallVoteScores[2] = getOverallVoteScore("RationalePrecise", voteResults);
+		overallVoteScores[3] = getOverallVoteScore("RationaleUnderstandable", voteResults);
+		overallVoteScores[4] = getOverallVoteScore("DescriptionCorrect", voteResults);
+		overallVoteScores[5] = getOverallVoteScore("DescriptionComplete", voteResults);
+		overallVoteScores[6] = getOverallVoteScore("DescriptionAtomic", voteResults);
 		overallVoteScores[7] = getOverallVoteScore("RationaleTraceable", voteResults);
 		overallVoteScores[8] = getOverallVoteScore("RationaleComplete", voteResults);
 		overallVoteScores[9] = getOverallVoteScore("RationaleConsistent", voteResults);
@@ -301,12 +313,4 @@ public interface StatisticsHelper {
 					"Value for input string 'toPerform' is not valid. Value was: " + toPerform);
 		}
 	}
-
-	public static String overallVoteScoreToString(OverallVoteScore i) {
-
-		double amount = i.getTotalAmount();
-		return (i.getYes() + "/" + amount + " Y, " + i.getNo() + "/" + amount + " N, " + i.getDontKnow() + "/" + amount
-				+ " ?");
-	}
-
 }

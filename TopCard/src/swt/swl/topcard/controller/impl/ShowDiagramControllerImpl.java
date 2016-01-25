@@ -53,12 +53,6 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@FXML
 	void showButton1Clicked(ActionEvent event) {
 
-		optionChoiceBox.setItems(FXCollections.observableArrayList("=", "<", ">"));
-		voteChoiceBox.setItems(FXCollections.observableArrayList("DescriptionPrecise", "DescriptionUnderstandable",
-				"DescriptionCorrect", "DescriptionComplete", "DescriptionAtomic", "RationalePrecise",
-				"RationaleComplete", "RationaleUnderstandable", "RationaleTraceable", "RationaleConsistent",
-				"FitCriterionComplete"));
-
 		ObservableList<PieChart.Data> statisticViewData = FXCollections.observableArrayList(
 				new PieChart.Data("Team1", 5), new PieChart.Data("Team2", 2), new PieChart.Data("Team3", 7));
 		pieChart.setData(statisticViewData);
@@ -91,6 +85,14 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 		}
 	}
 
+	private void initFXNodes() {
+		optionChoiceBox.setItems(FXCollections.observableArrayList("=", "<", ">"));
+		voteChoiceBox.setItems(FXCollections.observableArrayList("DescriptionPrecise", "DescriptionUnderstandable",
+				"DescriptionCorrect", "DescriptionComplete", "DescriptionAtomic", "RationalePrecise",
+				"RationaleComplete", "RationaleUnderstandable", "RationaleTraceable", "RationaleConsistent",
+				"FitCriterionComplete"));
+	}
+
 	private void initLineChart(String option) {
 
 		lineChart.getXAxis().setLabel("Time");
@@ -121,6 +123,7 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 
 		setMainController(requirementCardController);
 		this.userName = userName;
+		initFXNodes();
 	}
 
 	@Override

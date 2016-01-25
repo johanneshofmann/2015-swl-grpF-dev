@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
 import swt.swl.topcard.logic.impl.StatisticsHelper;
 import swt.swl.topcard.model.RequirementCardModel;
 
@@ -126,30 +125,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 		return (new Date(System.currentTimeMillis()) + " " + time);
 	}
 
-	/**
-	 * Stores all Data for showing an overview from a selected Requirement Card
-	 * in a RequirementCardSimple and returns it.<br>
-	 *
-	 * @param selected,
-	 *            the selected Item from the RqCardTableView
-	 * @returns RequirementCardSimple containing all data of a selected
-	 *          requirement, including <br>
-	 *          <ul>
-	 *          <li>OwnerName,</li>
-	 *          <li>ModuleName</li>
-	 *          <li>Title</li>
-	 *          <li>Description,</li>
-	 *          <li>Rationale,</li>
-	 *          <li>Source,</li>
-	 *          <li>UserStories</li>
-	 *          <li>SupportingMaterials,</li>
-	 *          <li>FitCriterion,</li>
-	 *          <li>IsFrozen,</li>
-	 *          <li>CreatedAt</li>
-	 *          <li>LastUpdatedAt</li>
-	 *          </ul>
-	 */
-	public RequirementCardSimpleImpl getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
+	public RequirementCardSimple getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
 
 		return DatabaseHelper.IDToRequirementCardSimple(selected.getID());
 
@@ -157,11 +133,11 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 	public void updateRequirementsList() {
 
-		ArrayList<RequirementCardSimpleImpl> requirements = DatabaseHelper.getRequirements();
+		ArrayList<RequirementCardSimple> requirements = DatabaseHelper.getRequirements();
 
 		observableArray.clear();
 
-		for (RequirementCardSimpleImpl rqCard : requirements) {
+		for (RequirementCardSimple rqCard : requirements) {
 
 			observableArray.add(rqCard);
 		}
@@ -298,7 +274,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 	}
 
 	public boolean isFrozen(String item) {
-		return DatabaseHelper.isFrozen(DatabaseHelper.XNameToID("Requirement", item));
+		return DatabaseHelper.isFrozen(item);
 	}
 
 	@Override

@@ -7,10 +7,8 @@ import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
 
 /**
- * 
  * 
  * @author swt-041649
  *
@@ -62,6 +60,29 @@ public interface RequirementCardModel extends Observable {
 
 	void newVoteSubmitted(int id, int[] selectedItems);
 
-	RequirementCardSimpleImpl getOverviewDataFromSelectedRq(RequirementCardSimple toVote);
+	/**
+	 * Stores all Data for showing an overview from a selected Requirement Card
+	 * in a RequirementCardSimple and returns it.<br>
+	 *
+	 * @param selected,
+	 *            the selected Item from the RqCardTableView
+	 * @returns RequirementCardSimple containing all data of a selected
+	 *          requirement, including <br>
+	 *          <ul>
+	 *          <li>OwnerName,</li>
+	 *          <li>ModuleName</li>
+	 *          <li>Title</li>
+	 *          <li>Description,</li>
+	 *          <li>Rationale,</li>
+	 *          <li>Source,</li>
+	 *          <li>UserStories</li>
+	 *          <li>SupportingMaterials,</li>
+	 *          <li>FitCriterion,</li>
+	 *          <li>IsFrozen,</li>
+	 *          <li>CreatedAt</li>
+	 *          <li>LastUpdatedAt</li>
+	 *          </ul>
+	 */
+	RequirementCardSimple getOverviewDataFromSelectedRq(RequirementCardSimple toVote);
 
 }

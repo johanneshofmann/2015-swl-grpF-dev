@@ -1,5 +1,6 @@
 package swt.swl.topcard.logic.impl;
 
+import swt.swl.topcard.logic.OverallVoteScore;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.model.search.VoteValue;
 
@@ -68,9 +69,45 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 
 	}
 
-	public SubmittedVoteSimpleImpl(String[] voteScore) {
+	public SubmittedVoteSimpleImpl(OverallVoteScore[] voteScores) {
+
+		int[] voteScoresAsInt = new int[7];
+		overallVoteScore = new String[11];
+
+		for (int i = 0; i < 4; i++) {
+
+			overallVoteScore[i] = "" + voteScores[i].getTotalAmount();
+		}
+
+		for (int i = 0; i < voteScores.length; i++) {
+
+			voteScoresAsInt[i] = voteScores[i + 4].getYes();
+		}
+		for (int i = 0; i < voteScoresAsInt.length; i++) {
+			overallVoteScore[i] = overallVoteScoreToString(voteScores[i]);
+		}
+
 		this.rqID = 0;
-		this.overallVoteScore = voteScore;
+
+		this.descriptionPrecise = Double.parseDouble(overallVoteScore[0]);
+		this.descriptionUnderstandable = Double.parseDouble(overallVoteScore[1]);
+		this.rationalePrecise = Double.parseDouble(overallVoteScore[2]);
+		this.rationaleUnderstandable = Double.parseDouble(overallVoteScore[3]);
+
+		this.descriptionCorrect = getVoteValueType(voteScoresAsInt[0]);
+		this.descriptionComplete = getVoteValueType(voteScoresAsInt[1]);
+		this.descriptionAtomic = getVoteValueType(voteScoresAsInt[2]);
+		this.rationaleTraceable = getVoteValueType(voteScoresAsInt[3]);
+		this.rationaleComplete = getVoteValueType(voteScoresAsInt[4]);
+		this.rationaleConsistent = getVoteValueType(voteScoresAsInt[5]);
+		this.fitCriterionComplete = getVoteValueType(voteScoresAsInt[6]);
+	}
+
+	private String overallVoteScoreToString(OverallVoteScore overallVoteScore) {
+
+		double amount = overallVoteScore.getTotalAmount();
+		return (overallVoteScore.getYes() + "/" + amount + " Y, " + overallVoteScore.getNo() + "/" + amount + " N, "
+				+ overallVoteScore.getDontKnow() + "/" + amount + " ?");
 	}
 
 	public VoteValue getVoteValueType(double doubleValue) {

@@ -108,7 +108,7 @@ public class VoteRequirementCardControllerImpl implements Controller, VoteRequir
 	public void fillLabels() {
 
 		// fetch data:
-		RequirementCardSimpleImpl rqCard = model.getOverviewDataFromSelectedRq(toVote);
+		RequirementCardSimpleImpl rqCard = (RequirementCardSimpleImpl) model.getOverviewDataFromSelectedRq(toVote);
 
 		// assign it to the displayed Nodes:
 

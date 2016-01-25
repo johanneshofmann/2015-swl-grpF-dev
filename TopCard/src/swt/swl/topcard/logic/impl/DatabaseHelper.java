@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 
 public class DatabaseHelper {
@@ -104,6 +105,9 @@ public class DatabaseHelper {
 		if (source.equals("User")) {
 			return loginNameToID(name);
 		}
+		if (source.equals("Requirement")) {
+			return requirementNameToRqID(name);
+		}
 
 		ObservableList<String> nameList = FXCollections.observableArrayList();
 		nameList.add(name);
@@ -126,6 +130,59 @@ public class DatabaseHelper {
 		}
 		throw new IllegalStateException("Illegal state.");
 		// return getIDsFromX(source, nameList).get(0);
+	}
+
+	/**
+	 * 
+	 * may not work in some cases. That is when 2 or more requirements have the
+	 * same name
+	 * 
+	 * @param name
+	 * @returns the first Requirement(int) from table Requirement matching the
+	 *          given name
+	 */
+	public static Integer requirementNameToRqID(String name) {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT Requirement FROM Requirement WHERE Title='" + name + "'";
+
+			ResultSet resultSet = stmt.executeQuery(query);
+
+			if (resultSet.next()) {
+
+				return resultSet.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		int rqID = 0;
+
+		int majorVersion = getMaxMajorVersion(rqID);
+		int minorVersion = getMaxMinorVersion(rqID, majorVersion);
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String sqlSelectAllFromRequirementQuery = "SELECT * FROM Requirement WHERE Requirement=" + rqID
+					+ " AND MajorVersion=" + majorVersion + " AND MinorVersion=" + minorVersion;
+
+			ResultSet requirementSet = stmt.executeQuery(sqlSelectAllFromRequirementQuery);
+
+			if (requirementSet.next()) {
+
+				return requirementSet.getInt(1);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		throw new IllegalStateException("Should have returned RequirementSimple. Given rqID was: " + rqID);
 	}
 
 	private static Integer loginNameToID(String name) {
@@ -436,9 +493,9 @@ public class DatabaseHelper {
 		return null;
 	}
 
-	public static ArrayList<RequirementCardSimpleImpl> getRequirements() {
+	public static ArrayList<RequirementCardSimple> getRequirements() {
 
-		ArrayList<RequirementCardSimpleImpl> requirements = new ArrayList<>();
+		ArrayList<RequirementCardSimple> requirements = new ArrayList<>();
 
 		ArrayList<Integer> reqIDs = getRequirementIDs();
 
@@ -449,7 +506,7 @@ public class DatabaseHelper {
 		return requirements;
 	}
 
-	private static RequirementCardSimpleImpl getDistinctRequirementCard(int rqID) {
+	private static RequirementCardSimple getDistinctRequirementCard(int rqID) {
 
 		int majorVersion = getMaxMajorVersion(rqID);
 		int minorVersion = getMaxMinorVersion(rqID, majorVersion);
@@ -552,7 +609,7 @@ public class DatabaseHelper {
 		return -404;
 	}
 
-	public static RequirementCardSimpleImpl IDToRequirementCardSimple(int ID) {
+	public static RequirementCardSimple IDToRequirementCardSimple(int ID) {
 
 		if (!isInitialized)
 			initialize();
@@ -631,7 +688,6 @@ public class DatabaseHelper {
 	public static ArrayList<Integer> getIDsFromX(String source, ObservableList<String> names) {
 
 		String sqlSelectIdFromSourceQuery = generateSelectXIDsQuery(source, names);
-		System.out.println(sqlSelectIdFromSourceQuery);
 
 		if (!isInitialized)
 			initialize();
@@ -822,25 +878,29 @@ public class DatabaseHelper {
 		throw new IllegalStateException("Some unhandled exception occured.");
 	}
 
-	public static boolean isFrozen(Integer ID) {
+	public static boolean isFrozen(String name) {
 
-		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+		int ID = requirementNameToRqID(name);
+		int majorVersion = getMaxMajorVersion(ID);
 
-			Statement stmt = conn.createStatement();
+		if (getMaxMinorVersion(ID, majorVersion) == 0) {
 
-			String sql = "SELECT MinorVersion FROM Requirement WHERE ID=" + ID;
-
-			ResultSet set = stmt.executeQuery(sql);
-
-			if (set.next()) {
-				return (set.getInt(1) == 0) ? true : false;
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return (getMaxMinorVersion(ID, majorVersion) == 0) ? true : false;
 		}
-
 		return false;
+
+	}
+
+	public static boolean isFrozen(int ID) {
+
+		int majorVersion = getMaxMajorVersion(ID);
+
+		if (getMaxMinorVersion(ID, majorVersion) == 0) {
+
+			return (getMaxMinorVersion(ID, majorVersion) == 0) ? true : false;
+		}
+		return false;
+
 	}
 
 	public static ArrayList<Integer> getAllRQIDsFromUser(String userName) {
