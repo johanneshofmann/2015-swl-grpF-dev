@@ -58,6 +58,7 @@ public interface StatisticsHelper {
 			return series;
 
 		case "DescriptionUnderstandable":
+
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData()
 						.add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionUnderstandable()));
@@ -65,23 +66,42 @@ public interface StatisticsHelper {
 			return series;
 
 		case "DescriptionCorrect":
+
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionCorrect()));
 			}
 			return series;
 
+		case "DescriptionComplete":
+
+			for (int i = 0; i < votesArray.size(); i++) {
+				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionComplete()));
+			}
+			return series;
+
+		case "DescriptionAtomic":
+
+			for (int i = 0; i < votesArray.size(); i++) {
+				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionAtomic()));
+			}
+			return series;
+
 		case "RationalePrecise":
+
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationalePrecise()));
 			}
 			return series;
 
 		case "RationaleUnderstandable":
+
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData()
 						.add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleUnderstandable()));
 			}
 			return series;
+
+		case "RationaleComplete":
 
 		case "RationaleTraceable":
 			for (int i = 0; i < votesArray.size(); i++) {
