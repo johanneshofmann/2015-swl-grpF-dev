@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
 
 public class TestReqiurementCardSimple {
 
@@ -12,8 +13,7 @@ public class TestReqiurementCardSimple {
 
 	public TestReqiurementCardSimple() {
 
-		rqCard = new RequirementCardSimple(0, "title", 0, 0, 0, null, 0, null, null, null, null, null, null, 0, null,
-				null);
+		rqCard = new RequirementCardSimpleImpl(0, "title", 0, 0, 0, null, 0, null, null, null, null, null, null, null, 0, null, null);
 	}
 
 	@Test

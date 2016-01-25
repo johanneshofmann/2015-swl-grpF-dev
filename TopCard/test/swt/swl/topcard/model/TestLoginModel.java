@@ -4,13 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import swt.swl.topcard.model.impl.LoginModelImpl;
+
 public class TestLoginModel {
 
 	private LoginModel loginModel;
 
 	public TestLoginModel() {
 
-		loginModel = new LoginModel();
+		loginModel = new LoginModelImpl();
 	}
 
 	@Test
