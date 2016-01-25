@@ -7,50 +7,39 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.ShowDiagramController;
+import swt.swl.topcard.logic.impl.DatabaseHelper;
+import swt.swl.topcard.logic.impl.StatisticsHelper;
 
 public class ShowDiagramControllerImpl implements Controller, ShowDiagramController {
 
 	private RequirementCardController mainController;
+	private String userName;
 
 	@FXML
 	private Tab tab1, tab2;
 
 	@FXML
-	private Button showButton1, closeButton1, showButton2, closeButton2;
+	private Button showButton1, closeButton1, showButton2, closeButton2, executeButton;
+	@FXML
+	private TextField optionTextField, whereStringTextField, whereIntegerTextField, deleteFromTextField,
+			equalsTextField;
+
+	@FXML
+	private ComboBox<String> optionComboBox;
+
 	@FXML
 	private PieChart pieChart;
 	@FXML
-	private LineChart<Integer, Integer> lineChart;
-
-	private void initLineChart() {
-
-		lineChart.getXAxis().setLabel("Time");
-		lineChart.getYAxis().setLabel("Vote Scores");
-
-		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-		series.setName("RequirementVotes");
-
-		// TODO: model.getVoteResultsFromUserFrom(Date begin,Date end);
-		series.getData().add(new XYChart.Data<Integer, Integer>(1, 23));
-		series.getData().add(new XYChart.Data<Integer, Integer>(2, 11));
-		series.getData().add(new XYChart.Data<Integer, Integer>(3, 3));
-		series.getData().add(new XYChart.Data<Integer, Integer>(4, 22));
-		series.getData().add(new XYChart.Data<Integer, Integer>(5, 16));
-		series.getData().add(new XYChart.Data<Integer, Integer>(6, 23));
-		series.getData().add(new XYChart.Data<Integer, Integer>(7, 29));
-		series.getData().add(new XYChart.Data<Integer, Integer>(8, 3));
-		series.getData().add(new XYChart.Data<Integer, Integer>(9, 8));
-		series.getData().add(new XYChart.Data<Integer, Integer>(10, 10));
-		series.getData().add(new XYChart.Data<Integer, Integer>(11, 15));
-		series.getData().add(new XYChart.Data<Integer, Integer>(12, 23));
-
-		lineChart.getData().add(series);
-	}
+	private LineChart<Number, Double> lineChart;
 
 	@FXML
 	void closeButton1Clicked(ActionEvent event) {
@@ -65,6 +54,8 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@FXML
 	void showButton1Clicked(ActionEvent event) {
 
+		optionComboBox.getItems().addAll("=", "<", ">");
+
 		ObservableList<PieChart.Data> statisticViewData = FXCollections.observableArrayList(
 				new PieChart.Data("Team1", 5), new PieChart.Data("Team2", 2), new PieChart.Data("Team3", 7));
 		pieChart.setData(statisticViewData);
@@ -72,7 +63,43 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 
 	@FXML
 	void showButton2Clicked(ActionEvent event) {
-		initLineChart();
+
+		initLineChart(optionTextField.getText());
+	}
+
+	@FXML
+	void executeDelete() {
+
+		if (whereIntegerTextField.getText().isEmpty() && whereStringTextField.getText().isEmpty()) {
+			new Alert(AlertType.WARNING, "Input fields should not be empty.").showAndWait();
+		}
+
+		if (!whereStringTextField.getText().isEmpty()) {
+			DatabaseHelper.deleteXFromDatabaseByName(deleteFromTextField.getText(), equalsTextField.getText());
+			new Alert(AlertType.INFORMATION, "Deletion complete.").showAndWait();
+		}
+
+		if (!whereIntegerTextField.getText().isEmpty()) {
+			DatabaseHelper.deleteXFromDatabaseByID(deleteFromTextField.getText(),
+					optionComboBox.getSelectionModel().getSelectedItem(), Integer.parseInt(equalsTextField.getText()));
+			new Alert(AlertType.INFORMATION, "Deletion complete.").showAndWait();
+
+		}
+	}
+
+	private void initLineChart(String option) {
+
+		lineChart.getXAxis().setLabel("Time");
+		lineChart.getYAxis().setLabel("Vote Scores");
+
+		XYChart.Series<Number, Double> series = StatisticsHelper.modifyObservableList(option, userName);
+
+		if (lineChart.getData().isEmpty()) {
+			lineChart.getData().add(series);
+		} else {
+			lineChart.getData().set(0, series);
+		}
+
 	}
 
 	@Override
@@ -84,6 +111,12 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@Override
 	public void checkEmpty() {
 
+	}
+
+	public void setData(RequirementCardController requirementCardController, String userName) {
+
+		setMainController(requirementCardController);
+		this.userName = userName;
 	}
 
 	@Override

@@ -250,7 +250,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 				TabPane diagramPane = (TabPane) loader.load();
 
-				((ShowDiagramController) loader.getController()).setMainController(this);
+				((ShowDiagramController) loader.getController()).setData(this, loginName);
 
 				scene = new Scene(diagramPane);
 

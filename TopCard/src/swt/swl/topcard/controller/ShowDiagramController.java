@@ -6,5 +6,8 @@ package swt.swl.topcard.controller;
  *
  */
 public interface ShowDiagramController {
+
 	void setMainController(RequirementCardController requirementCardControllerImpl);
+
+	void setData(RequirementCardController requirementCardController, String userName);
 }

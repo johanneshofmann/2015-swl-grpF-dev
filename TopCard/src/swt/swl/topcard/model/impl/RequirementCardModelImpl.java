@@ -2,7 +2,6 @@ package swt.swl.topcard.model.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Observable;
@@ -10,9 +9,10 @@ import java.util.Observable;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.impl.DatabaseHelperImpl;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
-import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
+import swt.swl.topcard.logic.impl.StatisticsHelper;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class RequirementCardModelImpl extends Observable implements RequirementCardModel {
@@ -42,7 +42,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 			minorVersion = 0;
 		}
 		// fetch ownerID
-		int ownerID = DatabaseHelperImpl.XNameToID("User", loginName);
+		int ownerID = DatabaseHelper.XNameToID("User", loginName);
 
 		// first insert into Requirement table
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, SupportingMaterials, FitCriterion, CreatedAt,LastModifiedAt) VALUES ('"
@@ -50,10 +50,10 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 				+ description + "', '" + rationale + "', '" + supportingMaterials + "', '" + fitCriterion + "', '"
 				+ createdAt + "', '" + createLastModifiedAtString() + "')";
 
-		DatabaseHelperImpl.executeUpdate(sqlInsertIntoRequirementUpdate);
+		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
 		// Fetch ID from added RQ :
-		int ID = DatabaseHelperImpl.getMaxXFromY("ID", "Requirement");
+		int ID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
 		insertAllPairsIntoEachTable(ID, modules, userStories, source);
 
@@ -69,10 +69,10 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 		int majorVersion = 1;
 
 		// fetch ownerID
-		int ownerID = DatabaseHelperImpl.XNameToID("User", loginName);
+		int ownerID = DatabaseHelper.XNameToID("User", loginName);
 
 		// fetch biggest RqID
-		int rqCardID = 1 + DatabaseHelperImpl.getMaxXFromY("Requirement", "Requirement");
+		int rqCardID = 1 + DatabaseHelper.getMaxXFromY("Requirement", "Requirement");
 
 		// first insert into Requirement table
 		String sqlInsertIntoRequirementUpdate = "INSERT INTO Requirement(Title, MajorVersion, MinorVersion, OwnerID, Requirement, Description, Rationale, SupportingMaterials, FitCriterion, LastModifiedAt) VALUES ('"
@@ -80,11 +80,11 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 				+ description + "', '" + rationale + "', '" + supportingMaterials + "', '" + fitCriterion + "', '"
 				+ createLastModifiedAtString() + "')";
 
-		DatabaseHelperImpl.executeUpdate(sqlInsertIntoRequirementUpdate);
+		DatabaseHelper.executeUpdate(sqlInsertIntoRequirementUpdate);
 
 		// Fetch ID from added RQ :
 
-		int rqID = DatabaseHelperImpl.getMaxXFromY("ID", "Requirement");
+		int rqID = DatabaseHelper.getMaxXFromY("ID", "Requirement");
 
 		insertAllPairsIntoEachTable(rqID, modules, userStories, source);
 
@@ -108,14 +108,14 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 	private void insertEachRqIDXIDPairIntoDatabase(String source, ObservableList<String> itemNames, int rqID) {
 
-		ArrayList<Integer> sourceIDs = DatabaseHelperImpl.getIDsFromX(source, itemNames);
+		ArrayList<Integer> sourceIDs = DatabaseHelper.getIDsFromX(source, itemNames);
 
 		for (Integer sourceID : sourceIDs) {
 
 			String sqlInsertIntoRequirementSourceUpdate = "INSERT INTO Requirement" + source + " (RequirementID, "
 					+ source + "ID) VALUES(" + rqID + "," + sourceID + ")";
 
-			DatabaseHelperImpl.executeUpdate(sqlInsertIntoRequirementSourceUpdate);
+			DatabaseHelper.executeUpdate(sqlInsertIntoRequirementSourceUpdate);
 		}
 	}
 
@@ -151,13 +151,13 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 	 */
 	public RequirementCardSimpleImpl getOverviewDataFromSelectedRq(RequirementCardSimple selected) {
 
-		return DatabaseHelperImpl.IDToRequirementCardSimple(selected.getID());
+		return DatabaseHelper.IDToRequirementCardSimple(selected.getID());
 
 	}
 
 	public void updateRequirementsList() {
 
-		ArrayList<RequirementCardSimpleImpl> requirements = DatabaseHelperImpl.getRequirements();
+		ArrayList<RequirementCardSimpleImpl> requirements = DatabaseHelper.getRequirements();
 
 		observableArray.clear();
 
@@ -174,7 +174,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 	public void newVoteSubmitted(int requirementID, int[] selectedItems) {
 
-		int userIDInt = DatabaseHelperImpl.XNameToID("User", loginName);
+		int userIDInt = DatabaseHelper.XNameToID("User", loginName);
 
 		String query = "INSERT INTO Vote(RequirementID, UserID ,DescriptionPrecise , DescriptionUnderstandable ,DescriptionCorrect ,"
 				+ "DescriptionComplete, DescriptionAtomic, RationalePrecise, RationaleUnderstandable, RationaleTraceable, "
@@ -184,115 +184,12 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 				+ selectedItems[7] + ", " + selectedItems[8] + ", " + selectedItems[9] + "," + selectedItems[10] + ", '"
 				+ new Timestamp(Calendar.getInstance().getTime().getTime()) + "')";
 
-		DatabaseHelperImpl.executeUpdate(query);
+		DatabaseHelper.executeUpdate(query);
 	}
 
-	public Object[] getVoteResults(int rqCardID) {
+	public SubmittedVoteSimple getVoteResults(int rqCardID) {
 
-		return generateEverageVoteResult(DatabaseHelperImpl.getVoteResultsFrom(rqCardID));
-	}
-
-	private Object[] generateEverageVoteResult(ArrayList<SubmittedVoteSimpleImpl> allVoteResults) {
-
-		double descPrecise = 0;
-		double descUnderstandable = 0;
-		double descCorrect = 0;
-		double descComplete = 0;
-		double descAtomic = 0;
-		double ratPrecise = 0;
-		double ratUnderstandable = 0;
-		double ratTraceable = 0;
-		double ratComplete = 0;
-		double ratConsistent = 0;
-		double fitCriterionComplete = 0;
-
-		int descCompleteCounter = 0;
-		int descCorrectCounter = 0;
-		int descAtomicCounter = 0;
-		int ratTraceableCounter = 0;
-		int ratCompleteCounter = 0;
-		int ratConsistentCounter = 0;
-		int fitCriterionCompleteCounter = 0;
-		int preciseAndUnderstandableCounter = 0;
-
-		int counter = 0;
-
-		for (SubmittedVoteSimpleImpl vote : allVoteResults) {
-
-			counter++;
-
-			// calculate everage of all votes:
-
-			descPrecise += vote.getDescriptionPrecise();
-			descUnderstandable += vote.getDescriptionUnderstandable();
-
-			ratPrecise += vote.getRationalePrecise();
-			ratUnderstandable += vote.getDescriptionUnderstandable();
-
-			if (vote.getDescriptionCorrect() == 1) {
-				descCorrect += vote.getDescriptionCorrect();
-				descCorrectCounter++;
-			} else {
-				descCorrectCounter++;
-			}
-			if (vote.getDescriptionComplete() == 1) {
-				descComplete += vote.getDescriptionComplete();
-				descCompleteCounter++;
-			} else {
-				descCompleteCounter++;
-			}
-			if (vote.getDescriptionAtomic() == 1) {
-				descAtomic += vote.getDescriptionAtomic();
-				descAtomicCounter++;
-			} else {
-				descAtomicCounter++;
-			}
-			if (vote.getRationaleTraceable() == 1) {
-				ratTraceable += vote.getRationaleTraceable();
-				ratTraceableCounter++;
-			} else {
-				ratTraceableCounter++;
-			}
-			if (vote.getRationaleComplete() == 1) {
-				ratComplete += vote.getRationaleComplete();
-				ratCompleteCounter++;
-			} else {
-				ratCompleteCounter++;
-			}
-			if (vote.getRationaleConsistent() == 1) {
-				ratConsistent += vote.getRationaleConsistent();
-				ratConsistentCounter++;
-			} else {
-				ratConsistentCounter++;
-			}
-			if (vote.getFitCriterionCorrect() == 1) {
-				fitCriterionComplete += vote.getFitCriterionCorrect();
-				fitCriterionCompleteCounter++;
-			} else {
-				fitCriterionCompleteCounter++;
-			}
-
-			preciseAndUnderstandableCounter++;
-		}
-
-		DecimalFormat getDecimal = new DecimalFormat("#0.00");
-
-		Object[] objArr = {
-				new SubmittedVoteSimpleImpl(
-						Double.parseDouble(getDecimal.format(descPrecise / preciseAndUnderstandableCounter)),
-						Double.parseDouble(getDecimal.format(descUnderstandable / preciseAndUnderstandableCounter)),
-						Double.parseDouble(getDecimal.format(descCorrect / descCorrectCounter)),
-						Double.parseDouble(getDecimal.format(descComplete / descCompleteCounter)),
-						Double.parseDouble(getDecimal.format(descAtomic / descAtomicCounter)),
-						Double.parseDouble(getDecimal.format(ratPrecise / preciseAndUnderstandableCounter)),
-						Double.parseDouble(getDecimal.format(ratUnderstandable / preciseAndUnderstandableCounter)),
-						Double.parseDouble(getDecimal.format(ratTraceable / ratTraceableCounter)),
-						Double.parseDouble(getDecimal.format(ratComplete / ratCompleteCounter)),
-						Double.parseDouble(getDecimal.format(ratConsistent / ratConsistentCounter)),
-						Double.parseDouble(getDecimal.format(fitCriterionComplete / fitCriterionCompleteCounter))),
-				counter };
-
-		return objArr;
+		return StatisticsHelper.generateEverageVoteResult(DatabaseHelper.getVoteResultsFrom(rqCardID));
 	}
 
 	public void setLoginName(String loginName) {
@@ -313,79 +210,79 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 	public ObservableList<String> getModules() {
 
-		return DatabaseHelperImpl.getNamesFromSource("Module");
+		return DatabaseHelper.getNamesFromSource("Module");
 	}
 
 	public ObservableList<String> getTeams() {
-		return DatabaseHelperImpl.getNamesFromSource("Team");
+		return DatabaseHelper.getNamesFromSource("Team");
 	}
 
 	public ObservableList<String> getUserStories() {
-		return DatabaseHelperImpl.getNamesFromSource("UserStory");
+		return DatabaseHelper.getNamesFromSource("UserStory");
 	}
 
 	public boolean userAlreadySubscribed() {
-		return DatabaseHelperImpl.checkUserAlreadySubscribed(loginName);
+		return DatabaseHelper.checkUserAlreadySubscribed(loginName);
 	}
 
 	public void letUserBeMemberOf(String team) {
 
-		DatabaseHelperImpl.subscribe(loginName, team);
+		DatabaseHelper.subscribe(loginName, team);
 
 	}
 
 	public void letUserExitTeam(String team) {
-		DatabaseHelperImpl.exitUserFromTeam(loginName, team);
+		DatabaseHelper.exitUserFromTeam(loginName, team);
 	}
 
 	public ArrayList<String> getTeamsUserIsSubscribed() {
-		return DatabaseHelperImpl.getTeamsUserIsSubscribed(loginName);
+		return DatabaseHelper.getTeamsUserIsSubscribed(loginName);
 	}
 
 	public void letUserExitAllTeams() {
-		DatabaseHelperImpl.exitUserFromAllTeams(loginName);
+		DatabaseHelper.exitUserFromAllTeams(loginName);
 	}
 
 	public ArrayList<Integer> getXFromRequirement(String x, int id) {
-		return DatabaseHelperImpl.getXIDsByRequirementID(x, id);
+		return DatabaseHelper.getXIDsByRequirementID(x, id);
 	}
 
 	public ArrayList<Integer> getIDsFromModules(ObservableList<String> observableList) {
-		return DatabaseHelperImpl.XNamesToIDs("Module", observableList);
+		return DatabaseHelper.XNamesToIDs("Module", observableList);
 	}
 
 	public Integer getIDFromModule(String module) {
-		return DatabaseHelperImpl.XNameToID("Module", module);
+		return DatabaseHelper.XNameToID("Module", module);
 	}
 
 	// for modules or userStories:
 	public Object getXNamesAsStringByRqID(String x, int rQID, boolean asList) {
 
 		if (asList) {
-			return DatabaseHelperImpl.getXNameAsListByRequirementID(x, rQID);
+			return DatabaseHelper.getXNameAsListByRequirementID(x, rQID);
 		} else {
-			return DatabaseHelperImpl.getXNameAsStringByRequirementID(x, rQID);
+			return DatabaseHelper.getXNameAsStringByRequirementID(x, rQID);
 		}
 
 	}
 
 	public void deleteModulesFromRequirement(int rqID) {
 
-		DatabaseHelperImpl.executeUpdate("DELETE * FROM RequirementModule WHERE RequirementID=" + rqID);
+		DatabaseHelper.executeUpdate("DELETE * FROM RequirementModule WHERE RequirementID=" + rqID);
 	}
 
 	public void addModuleToRequirement(String module, int rqID) {
-		DatabaseHelperImpl.executeUpdate("INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES(" + rqID + ","
+		DatabaseHelper.executeUpdate("INSERT INTO RequirementModule(RequirementID,ModuleID) VALUES(" + rqID + ","
 				+ getIDFromModule(module) + ")");
 	}
 
 	public void removeModuleFromRequirement(String module, int rqID) {
-		DatabaseHelperImpl.executeUpdate("DELETE * FROM RequirementModule WHERE ModuleID=" + getIDFromModule(module)
+		DatabaseHelper.executeUpdate("DELETE * FROM RequirementModule WHERE ModuleID=" + getIDFromModule(module)
 				+ " AND RequirementID=" + rqID);
 	}
 
 	public void deleteRequirement(String rqID, String majorVersion, String minorVersion) {
-		DatabaseHelperImpl.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
+		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
 				Integer.parseInt(minorVersion));
 
 		// let the controller know that sth. has changed
@@ -393,15 +290,15 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 	}
 
 	public boolean userAlreadyVoted(int ID) {
-		return DatabaseHelperImpl.userAlreadyVoted(loginName, ID);
+		return DatabaseHelper.userAlreadyVoted(loginName, ID);
 	}
 
 	public boolean noVotesSubmitted(int ID) {
-		return DatabaseHelperImpl.noVotesSubmitted(ID);
+		return DatabaseHelper.noVotesSubmitted(ID);
 	}
 
 	public boolean isFrozen(String item) {
-		return DatabaseHelperImpl.isFrozen(item);
+		return DatabaseHelper.isFrozen(DatabaseHelper.XNameToID("Requirement", item));
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
 import swt.swl.topcard.model.RequirementCardModel;
 
@@ -207,10 +208,10 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 		if (model.noVotesSubmitted(toEdit.getID())) {
 			return;
 		}
-		Object[] voteResults = model.getVoteResults(toEdit.getID());
+		SubmittedVoteSimple voteResults = model.getVoteResults(toEdit.getID());
 
-		SubmittedVoteSimpleImpl voteResult = (SubmittedVoteSimpleImpl) voteResults[0];
-		voteResultsAmountLabel.setText("Your vote results (total: " + voteResults[1].toString() + ") : ");
+		SubmittedVoteSimpleImpl voteResult = (SubmittedVoteSimpleImpl) voteResults;
+		voteResultsAmountLabel.setText("Your vote results (total: " + voteResults.toString() + ") : ");
 
 		descriptionPreciseVoteResultLabel.setText("" + voteResult.getDescriptionPrecise());
 		descriptionUnderstandableVoteResultLabel.setText("" + voteResult.getDescriptionUnderstandable());
@@ -222,7 +223,7 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 		rationaleTraceableVoteResultLabel.setText("" + voteResult.getRationaleTraceable());
 		rationaleCompleteVoteResultLabel.setText("" + voteResult.getRationaleComplete());
 		rationaleConsistentVoteResultLabel.setText("" + voteResult.getRationaleConsistent());
-		fitCriterionCompleteVoteResultLabel.setText("" + voteResult.getFitCriterionCorrect());
+		fitCriterionCompleteVoteResultLabel.setText("" + voteResult.getFitCriterionComplete());
 	}
 
 	@Override

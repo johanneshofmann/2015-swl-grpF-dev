@@ -5,52 +5,60 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-	minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
-	tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.40"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.ShowDiagramControllerImpl" >
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.ShowDiagramControllerImpl">
 	<tabs>
 		<Tab fx:id="tab1" text="PieChart">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-					prefWidth="200.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="541.0">
 					<children>
-						<HBox layoutX="463.0" layoutY="327.0" prefHeight="26.0"
-							prefWidth="123.0" spacing="15.0">
+						<HBox layoutX="449.0" layoutY="24.0" prefHeight="26.0" prefWidth="123.0" spacing="15.0">
 							<children>
-								<Button fx:id="showButton1" mnemonicParsing="false"
-									onAction="#showButton1Clicked" text="Show" />
-								<Button fx:id="closeButton1" mnemonicParsing="false"
-									onAction="#closeButton1Clicked" text="Close" />
+								<Button fx:id="showButton1" mnemonicParsing="false" onAction="#showButton1Clicked" text="Show" />
+								<Button fx:id="closeButton1" mnemonicParsing="false" onAction="#closeButton1Clicked" text="Close" />
 							</children>
 						</HBox>
-						<PieChart fx:id="pieChart" layoutX="14.0" layoutY="14.0"
-	prefHeight="306.0" prefWidth="450.0" title="Pie Chart : " />
+						<PieChart fx:id="pieChart" layoutX="13.0" prefHeight="277.0" prefWidth="450.0" title="Pie Chart : " />
+                  <VBox layoutX="271.0" layoutY="301.0" prefHeight="31.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="whereStringTextField" prefHeight="26.0" prefWidth="97.0" promptText="String" />
+                        <TextField fx:id="whereIntegerTextField" prefHeight="26.0" prefWidth="97.0" promptText="Integer" />
+                     </children>
+                  </VBox>
+                  <HBox layoutY="314.0" prefHeight="26.0" prefWidth="272.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="16.0" prefWidth="112.0" text="DELETE FROM :" />
+                        <TextField fx:id="deleteFromTextField" prefHeight="26.0" prefWidth="97.0" />
+                        <Label prefHeight="16.0" prefWidth="53.0" text="WHERE " />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="371.0" layoutY="314.0" prefHeight="26.0" prefWidth="207.0" spacing="5.0">
+                     <children>
+                        <ComboBox fx:id="optionComboBox" prefHeight="26.0" prefWidth="42.0" />
+                        <TextField fx:id="equalsTextField" prefHeight="26.0" prefWidth="73.0" />
+                        <Button fx:id="executeButton" mnemonicParsing="false" onAction="#executeDelete" text="Execute" />
+                     </children>
+                  </HBox>
 					</children>
 				</AnchorPane>
 			</content>
 		</Tab>
 		<Tab fx:id="tab2" text="LineChart">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-					prefWidth="200.0">
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
-						<HBox layoutX="463.0" layoutY="327.0" prefHeight="26.0"
-							prefWidth="123.0" spacing="15.0">
+						<HBox layoutX="258.0" layoutY="327.0" prefHeight="26.0" prefWidth="328.0" spacing="15.0">
 							<children>
-								<Button fx:id="showButton2" mnemonicParsing="false"
-									onAction="#showButton2Clicked" text="Show" />
-								<Button fx:id="closeButton2" mnemonicParsing="false"
-									onAction="#closeButton2Clicked" text="Close" />
+                        <TextField fx:id="optionTextField" />
+								<Button fx:id="showButton2" mnemonicParsing="false" onAction="#showButton2Clicked" text="Show" />
+								<Button fx:id="closeButton2" mnemonicParsing="false" onAction="#closeButton2Clicked" text="Close" />
 							</children>
 						</HBox>
-						<LineChart fx:id="lineChart" layoutX="23.0" layoutY="14.0"
-							prefHeight="300.0" prefWidth="487.0" title="Line Chart : ">
+						<LineChart fx:id="lineChart" layoutX="23.0" layoutY="14.0" prefHeight="300.0" prefWidth="487.0" title="Line Chart : ">
 							<xAxis>
-								<NumberAxis side="BOTTOM" />
+								<NumberAxis lowerBound="1.0" minorTickCount="10" side="BOTTOM" upperBound="95.0" />
 							</xAxis>
 							<yAxis>
-								<NumberAxis side="LEFT" />
+								<NumberAxis lowerBound="1.0" minorTickCount="1" side="LEFT" upperBound="9.0" />
 							</yAxis>
 						</LineChart>
 					</children>

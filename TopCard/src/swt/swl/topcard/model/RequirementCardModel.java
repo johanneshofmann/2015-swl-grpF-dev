@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
 
 /**
@@ -32,7 +33,7 @@ public interface RequirementCardModel extends Observable {
 
 	boolean noVotesSubmitted(int id);
 
-	Object[] getVoteResults(int id);
+	SubmittedVoteSimple getVoteResults(int id);
 
 	void insertRqIntoDatabase(ObservableList<String> checkedItems, String text, String text2, String text3,
 			ObservableList<String> checkedItems2, ObservableList<String> checkedItems3, String text4, String text5);

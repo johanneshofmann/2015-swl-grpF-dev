@@ -1,6 +1,7 @@
 package swt.swl.topcard.logic.impl;
 
 import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.model.search.VoteValue;
 
 /**
  * 0-> Don't know; 1-> Yes; 2-> ;
@@ -14,20 +15,14 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 	private final int rqID;
 	private int userID;
 
+	private String[] overallVoteScore;
+
 	// 1-10
-	private double descriptionPrecise;
-	private double descriptionUnderstandable;
-	private double rationalePrecise;
-	private double rationaleUnderstandable;
+	private double descriptionPrecise, descriptionUnderstandable, rationalePrecise, rationaleUnderstandable;
 
 	// Yes/No/Don't know
-	private double descriptionCorrect;
-	private double descriptionComplete;
-	private double descriptionAtomic;
-	private double rationaleTraceable;
-	private double rationaleComplete;
-	private double rationaleConsistent;
-	private double fitCriterionCorrect;
+	private VoteValue descriptionCorrect, descriptionComplete, descriptionAtomic, rationaleTraceable, rationaleComplete,
+			rationaleConsistent, fitCriterionComplete;
 
 	public SubmittedVoteSimpleImpl(int rqID) {
 		this.rqID = rqID;
@@ -40,145 +35,121 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 		this.rqID = 0;
 		this.descriptionPrecise = descriptionPrecise;
 		this.descriptionUnderstandable = descriptionUnderstandable;
-		this.descriptionCorrect = descriptionCorrect;
-		this.descriptionComplete = descriptionComplete;
-		this.descriptionAtomic = descriptionAtomic;
+		this.descriptionCorrect = getVoteValueType(descriptionCorrect);
+		this.descriptionComplete = getVoteValueType(descriptionComplete);
+		this.descriptionAtomic = getVoteValueType(descriptionAtomic);
 		this.rationalePrecise = rationalePrecise;
 		this.rationaleUnderstandable = rationaleUnderstandable;
-		this.rationaleTraceable = rationaleTraceable;
-		this.rationaleComplete = rationaleComplete;
-		this.rationaleConsistent = rationaleConsistent;
-		this.fitCriterionCorrect = fitCriterionCorrect;
+		this.rationaleTraceable = getVoteValueType(rationaleTraceable);
+		this.rationaleComplete = getVoteValueType(rationaleComplete);
+		this.rationaleConsistent = getVoteValueType(rationaleConsistent);
+		this.fitCriterionComplete = getVoteValueType(fitCriterionCorrect);
+
 	}
 
-	public SubmittedVoteSimpleImpl(int ID, int rqID, int userID, double descriptionPrecise,
-			double descriptionUnderstandable, double descriptionCorrect, double descriptionComplete,
-			int descriptionAtomic, double rationalePrecise, double rationaleUnderstandable, double rationaleTraceable,
-			double rationaleComplete, double rationaleConsistent, double fitCriterionCorrect) {
+	public SubmittedVoteSimpleImpl(int ID, int rqID, int userID, int descriptionPrecise, int descriptionUnderstandable,
+			int descriptionCorrect, int descriptionComplete, int descriptionAtomic, int rationalePrecise,
+			int rationaleUnderstandable, int rationaleTraceable, int rationaleComplete, int rationaleConsistent,
+			int fitCriterionCorrect) {
 		this.ID = ID;
 		this.rqID = rqID;
 		this.userID = userID;
 		this.descriptionPrecise = descriptionPrecise;
 		this.descriptionUnderstandable = descriptionUnderstandable;
-		this.descriptionCorrect = descriptionCorrect;
-		this.descriptionComplete = descriptionComplete;
-		this.descriptionAtomic = descriptionAtomic;
+		this.descriptionCorrect = getVoteValueType(descriptionCorrect);
+		this.descriptionComplete = getVoteValueType(descriptionComplete);
+		this.descriptionAtomic = getVoteValueType(descriptionAtomic);
 		this.rationalePrecise = rationalePrecise;
 		this.rationaleUnderstandable = rationaleUnderstandable;
-		this.rationaleTraceable = rationaleTraceable;
-		this.rationaleComplete = rationaleComplete;
-		this.rationaleConsistent = rationaleConsistent;
-		this.fitCriterionCorrect = fitCriterionCorrect;
+		this.rationaleTraceable = getVoteValueType(rationaleTraceable);
+		this.rationaleComplete = getVoteValueType(rationaleComplete);
+		this.rationaleConsistent = getVoteValueType(rationaleConsistent);
+		this.fitCriterionComplete = getVoteValueType(fitCriterionCorrect);
+
 	}
 
-	// Getters & Setters:
+	public SubmittedVoteSimpleImpl(String[] voteScore) {
+		this.rqID = 0;
+		this.overallVoteScore = voteScore;
+	}
+
+	public VoteValue getVoteValueType(double doubleValue) {
+
+		int value = (int) doubleValue;
+		if (value == 0) {
+			return VoteValue.NO;
+
+		} else if (value == 1) {
+			return VoteValue.YES;
+		} else {
+			return (value > 2 ? VoteValue.ALL : VoteValue.UNKNOWN);
+		}
+	}
+
+	// Getters :
 
 	public int getID() {
 		return ID;
-	}
-
-	public void setID(int iD) {
-		ID = iD;
 	}
 
 	public int getUserID() {
 		return userID;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-
 	public double getDescriptionPrecise() {
 		return descriptionPrecise;
-	}
-
-	public void setDescriptionPrecise(int descriptionPrecise) {
-		this.descriptionPrecise = descriptionPrecise;
 	}
 
 	public double getDescriptionUnderstandable() {
 		return descriptionUnderstandable;
 	}
 
-	public void setDescriptionUnderstandable(int descriptionUnderstandable) {
-		this.descriptionUnderstandable = descriptionUnderstandable;
-	}
-
 	public double getDescriptionCorrect() {
-		return descriptionCorrect;
-	}
-
-	public void setDescriptionCorrect(int descriptionCorrect) {
-		this.descriptionCorrect = descriptionCorrect;
+		return descriptionCorrect.getValue();
 	}
 
 	public double getDescriptionComplete() {
-		return descriptionComplete;
-	}
-
-	public void setDescriptionComplete(int descriptionComplete) {
-		this.descriptionComplete = descriptionComplete;
+		return descriptionComplete.getValue();
 	}
 
 	public double getDescriptionAtomic() {
-		return descriptionAtomic;
-	}
-
-	public void setDescriptionAtomic(int descriptionAtomic) {
-		this.descriptionAtomic = descriptionAtomic;
+		return descriptionAtomic.getValue();
 	}
 
 	public double getRationalePrecise() {
 		return rationalePrecise;
 	}
 
-	public void setRationalePrecise(int rationalePrecise) {
-		this.rationalePrecise = rationalePrecise;
-	}
-
 	public double getRationaleUnderstandable() {
 		return rationaleUnderstandable;
 	}
 
-	public void setRationaleUnderstandable(int rationaleUnderstandable) {
-		this.rationaleUnderstandable = rationaleUnderstandable;
-	}
-
 	public double getRationaleTraceable() {
-		return rationaleTraceable;
-	}
-
-	public void setRationaleTraceable(int rationaleTraceable) {
-		this.rationaleTraceable = rationaleTraceable;
+		return rationaleTraceable.getValue();
 	}
 
 	public double getRationaleComplete() {
-		return rationaleComplete;
-	}
-
-	public void setRationaleComplete(int rationaleComplete) {
-		this.rationaleComplete = rationaleComplete;
+		return rationaleComplete.getValue();
 	}
 
 	public double getRationaleConsistent() {
-		return rationaleConsistent;
+		return rationaleConsistent.getValue();
 	}
 
-	public void setRationaleConsistent(int rationaleConsistent) {
-		this.rationaleConsistent = rationaleConsistent;
-	}
-
-	public double getFitCriterionCorrect() {
-		return fitCriterionCorrect;
-	}
-
-	public void setFitCriterionCorrect(int fitCriterionCorrect) {
-		this.fitCriterionCorrect = fitCriterionCorrect;
+	public double getFitCriterionComplete() {
+		return fitCriterionComplete.getValue();
 	}
 
 	public int getRqID() {
 		return rqID;
+	}
+
+	public String[] getOverallVoteScores() {
+		return overallVoteScore;
+	}
+
+	public void setOverallVoteScores(String[] overallVoteScores) {
+		this.overallVoteScore = overallVoteScores;
 	}
 
 	public String toString() {
@@ -187,7 +158,7 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 				+ ", rationaleUnderstandable=" + rationaleUnderstandable + ", descriptionCorrect=" + descriptionCorrect
 				+ ", descriptionComplete" + descriptionComplete + ", descriptionAtomic=" + descriptionAtomic
 				+ ", rationaleTraceable=" + rationaleTraceable + ", rationaleComplete" + rationaleComplete
-				+ ", rationaleConsistent=" + rationaleConsistent + ", fitCriterionCorrect=" + fitCriterionCorrect;
+				+ ", rationaleConsistent=" + rationaleConsistent + ", fitCriterionCorrect=" + fitCriterionComplete;
 	}
 
 }

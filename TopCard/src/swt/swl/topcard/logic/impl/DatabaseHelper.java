@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.DatabaseHelper;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 
-public class DatabaseHelperImpl implements DatabaseHelper {
+public class DatabaseHelper {
 
 	private static Boolean isInitialized = false;
 	private static String connString = "jdbc:mysql://db.swt.wiai.uni-bamberg.de/GroupF";
@@ -101,9 +101,50 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 
 	public static Integer XNameToID(String source, String name) {
 
+		if (source.equals("User")) {
+			return loginNameToID(name);
+		}
+
 		ObservableList<String> nameList = FXCollections.observableArrayList();
 		nameList.add(name);
-		return getIDsFromX(source, nameList).get(0);
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = generateSelectXIDsQuery(source, nameList);
+
+			ResultSet resultSet = stmt.executeQuery(query);
+
+			if (resultSet.next()) {
+				return resultSet.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		throw new IllegalStateException("Illegal state.");
+		// return getIDsFromX(source, nameList).get(0);
+	}
+
+	private static Integer loginNameToID(String name) {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			String query = "SELECT ID FROM User WHERE LoginName='" + name + "'";
+			ResultSet resultSet = stmt.executeQuery(query);
+
+			if (resultSet.next()) {
+				return resultSet.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		throw new IllegalStateException("Illegal State.");
 	}
 
 	public static ObservableList<String> getNameFrom(String x) {
@@ -560,21 +601,20 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 	 * @returns SubmittedVoteSimple containing all voteResults of a specific
 	 *          rqCard
 	 */
-	public static ArrayList<SubmittedVoteSimpleImpl> getVoteResultsFrom(int rqCardID) {
+	public static ArrayList<SubmittedVoteSimple> getVoteResultsFrom(int rqCardUniqueID) {
 
 		if (!isInitialized)
 			initialize();
 
-		ArrayList<SubmittedVoteSimpleImpl> allVoteResults = new ArrayList<SubmittedVoteSimpleImpl>();
+		ArrayList<SubmittedVoteSimple> allVoteResults = new ArrayList<SubmittedVoteSimple>();
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement getVoteResults = conn.createStatement();
-			String sql = "SELECT * FROM Vote WHERE RequirementID =" + rqCardID;
+			String sql = "SELECT * FROM Vote WHERE RequirementID =" + rqCardUniqueID;
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
-
 			while (rqVote.next()) {
-				SubmittedVoteSimpleImpl currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
+				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
 						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
 						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
 				allVoteResults.add(currentVote);
@@ -582,33 +622,39 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (allVoteResults.isEmpty()) {
+			throw new IllegalStateException("no votes added.. \r\r");
+		}
 		return allVoteResults;
 	}
 
-	public static ArrayList<Integer> getIDsFromX(String x, ObservableList<String> modules) {
+	public static ArrayList<Integer> getIDsFromX(String source, ObservableList<String> names) {
+
+		String sqlSelectIdFromSourceQuery = generateSelectXIDsQuery(source, names);
+		System.out.println(sqlSelectIdFromSourceQuery);
 
 		if (!isInitialized)
 			initialize();
-
-		ArrayList<Integer> xIDs = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
-			String sqlSelectIdFromModuleQuery = generateSelectXIDsQuery(x, modules);
+			ResultSet xIDsContainer = stmt.executeQuery(sqlSelectIdFromSourceQuery);
 
-			ResultSet xIDsContainer = stmt.executeQuery(sqlSelectIdFromModuleQuery);
+			ArrayList<Integer> xIDs = new ArrayList<>();
 
 			while (xIDsContainer.next()) {
 
 				xIDs.add(xIDsContainer.getInt(1));
 			}
+			return xIDs;
+
 		} catch (SQLException e) {
 
 			e.printStackTrace();
 		}
-		return xIDs;
+		throw new IllegalStateException("Illegal state.");
 	}
 
 	private static String generateSelectXIDsQuery(String x, ObservableList<String> names) {
@@ -674,9 +720,9 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 
 	}
 
-	public static void deleteXFromDatabaseByID(String x, int ID) {
+	public static void deleteXFromDatabaseByID(String x, String option, int ID) {
 
-		String sql = "DELETE FROM " + x + " WHERE ID=" + ID;
+		String sql = "DELETE FROM " + x + " WHERE ID" + option + +ID;
 
 		executeUpdate(sql);
 	}
@@ -776,19 +822,18 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 		throw new IllegalStateException("Some unhandled exception occured.");
 	}
 
-	public static boolean isFrozen(String title) {
+	public static boolean isFrozen(Integer ID) {
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement stmt = conn.createStatement();
 
-			String sql = "SELECT Requirement FROM Requirement WHERE Title='" + title + "'";
+			String sql = "SELECT MinorVersion FROM Requirement WHERE ID=" + ID;
 
 			ResultSet set = stmt.executeQuery(sql);
 
 			if (set.next()) {
-				int majorVersion = getMaxMajorVersion(set.getInt(1));
-				return getMaxMinorVersion(set.getInt(1), majorVersion) == 0 ? true : false;
+				return (set.getInt(1) == 0) ? true : false;
 			}
 
 		} catch (SQLException e) {
@@ -796,6 +841,29 @@ public class DatabaseHelperImpl implements DatabaseHelper {
 		}
 
 		return false;
+	}
+
+	public static ArrayList<Integer> getAllRQIDsFromUser(String userName) {
+
+		String sql = "SELECT ID FROM Requirement where OwnerID=" + DatabaseHelper.loginNameToID(userName);
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement stmt = conn.createStatement();
+
+			ResultSet set = stmt.executeQuery(sql);
+
+			ArrayList<Integer> rqIDs = new ArrayList<>();
+			while (set.next()) {
+				rqIDs.add(set.getInt(1));
+			}
+
+			return rqIDs;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		throw new IllegalStateException("Illegal state.");
 	}
 
 }

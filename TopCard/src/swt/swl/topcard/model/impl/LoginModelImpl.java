@@ -4,14 +4,14 @@ import java.util.Observable;
 
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.impl.DatabaseHelperImpl;
+import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.model.LoginModel;
 
 public class LoginModelImpl extends Observable implements LoginModel {
 
 	public boolean checkDatabase(String loginName) {
 
-		ObservableList<String> users = DatabaseHelperImpl.getNamesFromSource("User");
+		ObservableList<String> users = DatabaseHelper.getNamesFromSource("User");
 
 		for (String userName : users) {
 
@@ -30,7 +30,7 @@ public class LoginModelImpl extends Observable implements LoginModel {
 		String sqlInsert = "INSERT INTO User(FirstName,LastName,LoginName) VALUES ('" + firstName + "', '" + lastName
 				+ "', '" + loginName + "');";
 
-		DatabaseHelperImpl.executeUpdate(sqlInsert);
+		DatabaseHelper.executeUpdate(sqlInsert);
 
 		triggerNotification(loginName);
 	}
@@ -38,7 +38,7 @@ public class LoginModelImpl extends Observable implements LoginModel {
 	// only invoked for testing..
 	public void deleteUserFromDatabase(String loginName) {
 
-		DatabaseHelperImpl.deleteXFromDatabaseByName("User", loginName);
+		DatabaseHelper.deleteXFromDatabaseByName("User", loginName);
 	}
 
 	private void triggerNotification(String message) {
