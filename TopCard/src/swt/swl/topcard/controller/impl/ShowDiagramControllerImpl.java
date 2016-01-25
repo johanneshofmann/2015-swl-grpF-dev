@@ -10,7 +10,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
@@ -25,16 +25,15 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	private String userName;
 
 	@FXML
-	private Tab tab1, tab2;
+	private Tab tab1, tab2, tab3;
 
 	@FXML
 	private Button showButton1, closeButton1, showButton2, closeButton2, executeButton;
 	@FXML
-	private TextField optionTextField, whereStringTextField, whereIntegerTextField, deleteFromTextField,
-			equalsTextField;
+	private TextField equalsTextField, whereStringTextField, whereIntegerTextField, deleteFromTextField;
 
 	@FXML
-	private ComboBox<String> optionComboBox;
+	private ChoiceBox<String> optionChoiceBox, voteChoiceBox;
 
 	@FXML
 	private PieChart pieChart;
@@ -54,7 +53,10 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@FXML
 	void showButton1Clicked(ActionEvent event) {
 
-		optionComboBox.getItems().addAll("=", "<", ">");
+		optionChoiceBox.getItems().addAll("=", "<", ">");
+		voteChoiceBox.getItems().addAll("DescriptionPrecise", "DescriptionUnderstandable", "DescriptionCorrect",
+				"DescriptionComplete", "DescriptionAtomic", "RationalePrecise", "RationaleComplete",
+				"RationaleUnderstandable", "RationaleTraceable", "RationaleConsistent", "FitCriterionComplete");
 
 		ObservableList<PieChart.Data> statisticViewData = FXCollections.observableArrayList(
 				new PieChart.Data("Team1", 5), new PieChart.Data("Team2", 2), new PieChart.Data("Team3", 7));
@@ -64,7 +66,7 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@FXML
 	void showButton2Clicked(ActionEvent event) {
 
-		initLineChart(optionTextField.getText());
+		initLineChart(voteChoiceBox.getSelectionModel().getSelectedItem());
 	}
 
 	@FXML
@@ -81,7 +83,8 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 
 		if (!whereIntegerTextField.getText().isEmpty()) {
 			DatabaseHelper.deleteXFromDatabaseByID(deleteFromTextField.getText(),
-					optionComboBox.getSelectionModel().getSelectedItem(), Integer.parseInt(equalsTextField.getText()));
+					optionChoiceBox.getSelectionModel().getSelectedItem(),
+					Integer.parseInt(optionChoiceBox.getSelectionModel().getSelectedItem()));
 			new Alert(AlertType.INFORMATION, "Deletion complete.").showAndWait();
 
 		}

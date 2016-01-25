@@ -44,7 +44,6 @@ public interface StatisticsHelper {
 		return series;
 	}
 
-
 	static Series<Number, Double> switchOption(Series<Number, Double> series, String option,
 			ArrayList<SubmittedVoteSimple> votesArray) {
 
