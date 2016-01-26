@@ -15,8 +15,9 @@ import swt.swl.topcard.logic.SubmittedVoteSimple;
  */
 public interface StatisticsHelper {
 
-	static Series<Number, Number> modifyObservableList(String option, String userName) {
+	static Series<Number, Number> getSeriesWithXYChartData(String option, String userName) {
 
+		// null-check:
 		if (option == null) {
 			throw new IllegalArgumentException("option null");
 		}
@@ -24,27 +25,40 @@ public interface StatisticsHelper {
 			throw new IllegalArgumentException("userName null");
 		}
 
+		// instanciate series
 		Series<Number, Number> series = new XYChart.Series<Number, Number>();
 
+		// fetch all current RQ-IDs from user
 		ArrayList<Integer> rqIDs = DatabaseHelper.getAllRQIDsFromUser(userName);
 
+		// votesArray where all votes are stored
 		ArrayList<SubmittedVoteSimple> votesArray = new ArrayList<>();
 
+		// for every RQ-ID (that means every !UNIQUE! ID a user has created
+		// during the livetime of the application
 		for (Integer id : rqIDs) {
 
 			if (!DatabaseHelper.isFrozen(id)) {
 
-				votesArray.add((SubmittedVoteSimple) StatisticsHelper
-						.generateAverageVoteResult(DatabaseHelper.getVoteResultsFrom(id)));
+				// if not frozen, add averageVoteResult from all votes of each
+				// RQ-ID to the ArrayList
+				SubmittedVoteSimple vote = StatisticsHelper
+						.generateAverageVoteResult(DatabaseHelper.getVoteResultsFrom(id));
+
+				votesArray.add(vote);
+
+				System.err.println("adding vote with ID=" + vote.getID());
 			}
 		}
 
-		series = switchOption(series, option, votesArray);
+		// fill the series with the requested data..
+		series = fillSeriesWithXYChartData(series, option, votesArray);
 
+		// .. and return it
 		return series;
 	}
 
-	static Series<Number, Number> switchOption(Series<Number, Number> series, String option,
+	static Series<Number, Number> fillSeriesWithXYChartData(Series<Number, Number> series, String option,
 			ArrayList<SubmittedVoteSimple> votesArray) {
 
 		switch (option) {
@@ -52,9 +66,15 @@ public interface StatisticsHelper {
 		case "DescriptionPrecise":
 
 			for (int xAxis = 0; xAxis < votesArray.size(); xAxis++) {
-				series.getData()
-						.add(new XYChart.Data<Number, Number>(xAxis, votesArray.get(xAxis).getDescriptionPrecise()));
+
+				XYChart.Data<Number, Number> data = new XYChart.Data<Number, Number>(xAxis,
+						votesArray.get(xAxis).getDescriptionPrecise());
+
+				System.err.println("x,y: " + data.getXValue() + "," + data.getYValue());
+
+				series.getData().add(data);
 			}
+
 			return series;
 
 		case "DescriptionUnderstandable":

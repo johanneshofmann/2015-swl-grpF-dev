@@ -13,8 +13,8 @@
 					<children>
 						<HBox layoutX="449.0" layoutY="24.0" prefHeight="26.0" prefWidth="123.0" spacing="15.0">
 							<children>
-								<Button fx:id="showButton1" mnemonicParsing="false" onAction="#showButton1Clicked" text="Show" />
-								<Button fx:id="closeButton1" mnemonicParsing="false" onAction="#closeButton1Clicked" text="Close" />
+								<Button fx:id="showPieChartButton" mnemonicParsing="false" onAction="#showPieChartClicked" text="Show" />
+								<Button fx:id="closeTab1Button" mnemonicParsing="false" onAction="#closeTab1Clicked" text="Close" />
 							</children>
 						</HBox>
 						<PieChart fx:id="pieChart" layoutX="13.0" prefHeight="277.0" prefWidth="450.0" title="Pie Chart : " />
@@ -43,27 +43,29 @@
 			</content>
 		</Tab>
 		<Tab fx:id="tab2" text="LineChart">
-			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-					<children>
-						<HBox layoutX="258.0" layoutY="327.0" prefHeight="26.0" prefWidth="328.0" spacing="15.0">
+         <content>
+            <BorderPane fx:id="tab2BorderPane" prefHeight="200.0" prefWidth="200.0">
+               <bottom>
+						<HBox alignment="TOP_CENTER" prefHeight="26.0" prefWidth="328.0" spacing="15.0" BorderPane.alignment="CENTER">
 							<children>
                         <ChoiceBox fx:id="voteChoiceBox" prefHeight="26.0" prefWidth="97.0" />
-								<Button fx:id="showButton2" mnemonicParsing="false" onAction="#showButton2Clicked" text="Show" />
-								<Button fx:id="closeButton2" mnemonicParsing="false" onAction="#closeButton2Clicked" text="Close" />
+								<Button fx:id="showLineChartButton" mnemonicParsing="false" onAction="#showLineChartClicked" text="Show" />
+								<Button fx:id="closeTab2Button" mnemonicParsing="false" onAction="#closeTab2Clicked" text="Close" />
 							</children>
 						</HBox>
-						<LineChart fx:id="lineChart" layoutX="23.0" layoutY="14.0" prefHeight="300.0" prefWidth="487.0" title="Line Chart : ">
-							<xAxis>
-								<NumberAxis lowerBound="1.0" minorTickCount="10" side="BOTTOM" upperBound="95.0" />
-							</xAxis>
-							<yAxis>
-								<NumberAxis lowerBound="1.0" minorTickCount="1" side="LEFT" upperBound="9.0" />
-							</yAxis>
-						</LineChart>
-					</children>
-				</AnchorPane>
-			</content>
+               </bottom>
+               <center>
+                  <LineChart BorderPane.alignment="CENTER">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" upperBound="9.5" />
+                    </yAxis>
+                  </LineChart>
+               </center>
+            </BorderPane>
+         </content>
 		</Tab>
       <Tab fx:id="tab3" text="Global">
         <content>

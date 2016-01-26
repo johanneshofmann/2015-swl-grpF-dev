@@ -8,6 +8,8 @@ package swt.swl.topcard.logic;
  */
 public interface SubmittedVoteSimple {
 
+	public int getID();
+
 	double getDescriptionPrecise();
 
 	double getDescriptionUnderstandable();
