@@ -24,7 +24,6 @@ import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.RequirementCardSimple;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class EditRequirementCardControllerImpl implements Controller, EditRequirementCardController {
@@ -208,22 +207,24 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 		if (model.noVotesSubmitted(toEdit.getID())) {
 			return;
 		}
-		SubmittedVoteSimple voteResults = model.getVoteResults(toEdit.getID());
+		Object[] container = model.getVoteResults(toEdit.getID());
 
-		SubmittedVoteSimpleImpl voteResult = (SubmittedVoteSimpleImpl) voteResults;
-		voteResultsAmountLabel.setText("Your vote results (total: " + voteResults.toString() + ") : ");
+		SubmittedVoteSimple voteResult = (SubmittedVoteSimple) container[0];
 
-		descriptionPreciseVoteResultLabel.setText("" + voteResult.getDescriptionPrecise());
-		descriptionUnderstandableVoteResultLabel.setText("" + voteResult.getDescriptionUnderstandable());
-		descriptionCorrectVoteResultLabel.setText("" + voteResult.getDescriptionCorrect());
-		descriptionCompleteVoteResultLabel.setText("" + voteResult.getDescriptionComplete());
-		descriptionAtomicVoteResultLabel.setText("" + voteResult.getDescriptionAtomic());
-		rationalePreciseVoteResultLabel.setText("" + voteResult.getRationalePrecise());
-		rationaleUnderstandableVoteResultLabel.setText("" + voteResult.getRationaleUnderstandable());
-		rationaleTraceableVoteResultLabel.setText("" + voteResult.getRationaleTraceable());
-		rationaleCompleteVoteResultLabel.setText("" + voteResult.getRationaleComplete());
-		rationaleConsistentVoteResultLabel.setText("" + voteResult.getRationaleConsistent());
-		fitCriterionCompleteVoteResultLabel.setText("" + voteResult.getFitCriterionComplete());
+		voteResultsAmountLabel.setText("Your vote results (total: " + container[1] + ") : ");
+
+		descriptionPreciseVoteResultLabel.setText(voteResult.getOverallVoteScore()[0]);
+		descriptionUnderstandableVoteResultLabel.setText(voteResult.getOverallVoteScore()[1]);
+		rationalePreciseVoteResultLabel.setText(voteResult.getOverallVoteScore()[2]);
+		rationaleUnderstandableVoteResultLabel.setText(voteResult.getOverallVoteScore()[3]);
+		descriptionCorrectVoteResultLabel.setText(voteResult.getOverallVoteScore()[4]);
+		descriptionCompleteVoteResultLabel.setText(voteResult.getOverallVoteScore()[5]);
+		descriptionAtomicVoteResultLabel.setText(voteResult.getOverallVoteScore()[6]);
+
+		rationaleTraceableVoteResultLabel.setText(voteResult.getOverallVoteScore()[7]);
+		rationaleCompleteVoteResultLabel.setText(voteResult.getOverallVoteScore()[8]);
+		rationaleConsistentVoteResultLabel.setText(voteResult.getOverallVoteScore()[9]);
+		fitCriterionCompleteVoteResultLabel.setText(voteResult.getOverallVoteScore()[10]);
 	}
 
 	@Override

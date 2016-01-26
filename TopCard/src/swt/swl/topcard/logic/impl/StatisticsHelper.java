@@ -35,7 +35,7 @@ public interface StatisticsHelper {
 			if (!DatabaseHelper.isFrozen(id)) {
 
 				votesArray.add((SubmittedVoteSimple) StatisticsHelper
-						.generateEverageVoteResult(DatabaseHelper.getVoteResultsFrom(id)));
+						.generateAverageVoteResult(DatabaseHelper.getVoteResultsFrom(id)));
 			}
 		}
 
@@ -141,11 +141,12 @@ public interface StatisticsHelper {
 	 * @returns Object[] -> [0]=RequirementCardSimple everageVote;
 	 *          [1]=submittedVotesAmountInt
 	 */
-	static SubmittedVoteSimple generateEverageVoteResult(ArrayList<SubmittedVoteSimple> voteResults) {
+	static SubmittedVoteSimple generateAverageVoteResult(ArrayList<SubmittedVoteSimple> voteResults) {
 
 		if (voteResults.isEmpty()) {
 			throw new IllegalArgumentException("voteResults empty.");
 		}
+
 		OverallVoteScore[] results = generateOverallVoteScore(voteResults);
 
 		return new SubmittedVoteSimpleImpl(results);
@@ -156,6 +157,7 @@ public interface StatisticsHelper {
 		OverallVoteScore[] overallVoteScores = new OverallVoteScoreImpl[11];
 
 		overallVoteScores[0] = getOverallVoteScore("DescriptionPrecise", voteResults);
+		System.out.println(overallVoteScores[0].getTotalAmount());
 		overallVoteScores[1] = getOverallVoteScore("DescriptionUnderstandable", voteResults);
 		overallVoteScores[2] = getOverallVoteScore("RationalePrecise", voteResults);
 		overallVoteScores[3] = getOverallVoteScore("RationaleUnderstandable", voteResults);
@@ -172,7 +174,7 @@ public interface StatisticsHelper {
 
 	public static OverallVoteScore getOverallVoteScore(String toPerform, ArrayList<SubmittedVoteSimple> voteResults) {
 
-		int yesCounter = 0, noCounter = 0, dontKnowCounter = 0;
+		double yesCounter = 0, noCounter = 0, dontKnowCounter = 0;
 
 		DecimalFormat getDecimal = new DecimalFormat("#0.00");
 
@@ -206,7 +208,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "DescriptionComplete":
 
@@ -220,7 +222,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "DescriptionAtomic":
 
@@ -234,7 +236,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "RationalePrecise":
 
@@ -264,7 +266,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "RationaleTraceable":
 
@@ -278,7 +280,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "RationaleConsistent":
 
@@ -292,7 +294,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		case "FitCriterionComplete":
 
@@ -306,7 +308,7 @@ public interface StatisticsHelper {
 					dontKnowCounter++;
 				}
 			}
-			return new OverallVoteScoreImpl(yesCounter, noCounter, dontKnowCounter);
+			return new OverallVoteScoreImpl((int) yesCounter, (int) noCounter, (int) dontKnowCounter);
 
 		default:
 			throw new IllegalArgumentException(

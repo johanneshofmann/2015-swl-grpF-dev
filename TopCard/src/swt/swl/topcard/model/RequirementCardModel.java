@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
 
 /**
  * 
@@ -31,11 +30,12 @@ public interface RequirementCardModel extends Observable {
 
 	boolean noVotesSubmitted(int id);
 
-	SubmittedVoteSimple getVoteResults(int id);
+	Object[] getVoteResults(int id);
 
-	int insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
-			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion, String supportingMaterials);
-	
+	int insertRqIntoDatabase(ObservableList<String> modules, String title, String description, String rationale,
+			ObservableList<String> source, ObservableList<String> userStories, String fitCriterion,
+			String supportingMaterials);
+
 	ArrayList<String> getTeamsUserIsSubscribed();
 
 	boolean isFrozen(String item);

@@ -30,4 +30,7 @@ public interface SubmittedVoteSimple {
 
 	double getFitCriterionComplete();
 
+	void setOverallVoteScore(String[] overallVoteScore);
+
+	public String[] getOverallVoteScore();
 }

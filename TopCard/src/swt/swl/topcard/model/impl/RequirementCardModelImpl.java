@@ -89,7 +89,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 
 		// let the controller know that sth. has changed
 		triggerNotification(loginName);
-		
+
 		return rqID;
 	}
 
@@ -165,9 +165,12 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 		DatabaseHelper.executeUpdate(query);
 	}
 
-	public SubmittedVoteSimple getVoteResults(int rqCardID) {
+	public Object[] getVoteResults(int rqCardID) {
 
-		return StatisticsHelper.generateEverageVoteResult(DatabaseHelper.getVoteResultsFrom(rqCardID));
+		ArrayList<SubmittedVoteSimple> voteResults = DatabaseHelper.getVoteResultsFrom(rqCardID);
+
+		Object[] result = { StatisticsHelper.generateAverageVoteResult(voteResults), voteResults.size() };
+		return result;
 	}
 
 	public void setLoginName(String loginName) {
