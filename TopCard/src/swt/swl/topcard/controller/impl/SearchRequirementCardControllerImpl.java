@@ -69,8 +69,8 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 	private void initiateComboBoxes() {
 
 		ObservableList<String> compare = FXCollections.observableArrayList("*", "<", "=", ">");
-		ObservableList<String> numbers = FXCollections.observableArrayList("0", "1", "2", "3", "4", "5", "6", "7", "8",
-				"9", "10");
+		ObservableList<String> numbers = FXCollections.observableArrayList("*", "0", "1", "2", "3", "4", "5", "6", "7",
+				"8", "9", "10");
 		ObservableList<String> yesno = FXCollections.observableArrayList("*", "Yes", "No", "Unknown");
 
 		descriptionPreciseCompareComboBox.setItems(compare);
@@ -90,20 +90,20 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 		rationaleConsistentComboBox.setItems(yesno);
 
 		// Select default items
-		descriptionPreciseCompareComboBox.setValue("*");
-		descriptionPreciseNumberComboBox.setValue("10");
-		descriptionUnderstandableCompareComboBox.setValue("*");
-		descriptionUnderstandableNumberComboBox.setValue("10");
-		descriptionCorrectComboBox.setValue("*");
-		descriptionCompleteComboBox.setValue("*");
-		descriptionAtomicComboBox.setValue("*");
-		rationalePreciseCompareComboBox.setValue("*");
-		rationalePreciseNumberComboBox.setValue("10");
-		rationaleUnderstandableCompareComboBox.setValue("*");
-		rationaleUnderstandableNumberComboBox.setValue("10");
-		rationaleTraceableComboBox.setValue("*");
-		rationaleCorrectComboBox.setValue("*");
-		rationaleConsistentComboBox.setValue("*");
+		descriptionPreciseCompareComboBox.getSelectionModel().select(0);
+		descriptionPreciseNumberComboBox.getSelectionModel().select(0);
+		descriptionUnderstandableCompareComboBox.getSelectionModel().select(0);
+		descriptionUnderstandableNumberComboBox.getSelectionModel().select(0);
+		descriptionCorrectComboBox.getSelectionModel().select(0);
+		descriptionCompleteComboBox.getSelectionModel().select(0);
+		descriptionAtomicComboBox.getSelectionModel().select(0);
+		rationalePreciseCompareComboBox.getSelectionModel().select(0);
+		rationalePreciseNumberComboBox.getSelectionModel().select(0);
+		rationaleUnderstandableCompareComboBox.getSelectionModel().select(0);
+		rationaleUnderstandableNumberComboBox.getSelectionModel().select(0);
+		rationaleTraceableComboBox.getSelectionModel().select(0);
+		rationaleCorrectComboBox.getSelectionModel().select(0);
+		rationaleConsistentComboBox.getSelectionModel().select(0);
 	}
 
 	@FXML

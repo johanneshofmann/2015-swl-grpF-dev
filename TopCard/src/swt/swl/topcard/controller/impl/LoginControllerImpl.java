@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.controller.Controller;
@@ -38,6 +40,14 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	public LoginControllerImpl() {
 		model = new LoginModelImpl();
 		((Observable) model).addObserver(this);
+	}
+
+	@FXML
+	public void enterPressed(KeyEvent ke) {
+		if (ke.getCode().equals(KeyCode.ENTER)) {
+			System.out.println("Enter Pressed");
+			loginButton.fire();
+		}
 	}
 
 	@FXML

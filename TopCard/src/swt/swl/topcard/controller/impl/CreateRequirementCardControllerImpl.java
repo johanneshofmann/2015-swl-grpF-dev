@@ -62,11 +62,12 @@ public class CreateRequirementCardControllerImpl implements Controller, CreateRe
 
 		checkEmpty();
 
+		ObservableList<String> userStories = userStoriesCheckComboBox.getCheckModel().getCheckedItems(),
+				teams = teamsCheckComboBox.getCheckModel().getCheckedItems();
+
 		model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
-				descriptionTextArea.getText(), rationaleTextArea.getText(),
-				teamsCheckComboBox.getCheckModel().getCheckedItems(),
-				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
-				supportingMaterialsTextField.getText());
+				descriptionTextArea.getText(), rationaleTextArea.getText(), userStories, teams,
+				fitCriterionTextField.getText(), supportingMaterialsTextField.getText());
 		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 
@@ -122,21 +123,25 @@ public class CreateRequirementCardControllerImpl implements Controller, CreateRe
 	@Override
 	public void checkEmpty() {
 
-		if (titleTextField.getText().isEmpty() || descriptionTextArea.getText().isEmpty()
-				|| rationaleTextArea.getText().isEmpty() || fitCriterionTextField.getText().isEmpty()) {
+		if (descriptionTextArea.getText().isEmpty() || rationaleTextArea.getText().isEmpty()) {
+
+			Alert al;
+
 			if (modulesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.")
-						.showAndWait();
-			} else if (userStoriesCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one UserStory.")
-						.showAndWait();
+
+				al = new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Module.");
+
 			} else if (teamsCheckComboBox.getCheckModel().getCheckedItems().size() == 0) {
-				new Alert(AlertType.WARNING, "For reasons of integrity you should choose at least one Team as source.")
-						.showAndWait();
+
+				al = new Alert(AlertType.WARNING,
+						"For reasons of integrity you should choose at least one Team as source.");
 			} else {
-				new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.")
-						.showAndWait();
+
+				al = new Alert(AlertType.WARNING, "For reasons of integrity these fields should not be empty.");
 			}
+			al.getDialogPane().setPrefWidth(al.getDialogPane().getWidth() + 150);
+			al.showAndWait();
+
 		}
 	}
 

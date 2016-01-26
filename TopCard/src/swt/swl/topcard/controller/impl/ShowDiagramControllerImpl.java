@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
@@ -17,7 +18,6 @@ import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.ShowDiagramController;
-import swt.swl.topcard.logic.OverallVoteScore;
 import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.StatisticsHelper;
@@ -41,8 +41,8 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@FXML
 	private PieChart pieChart;
 	@FXML
-	private LineChart<Number, Double> lineChart;
-	
+	private LineChart<Number, Number> lineChart;
+
 	@FXML
 	private Label voteResultsAmountLabel, descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
 			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
@@ -106,21 +106,26 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 
 	private void initLineChart(String option) {
 
-		lineChart.getXAxis().setLabel("Time");
+		final NumberAxis xAxis = new NumberAxis();
+		xAxis.setLabel("Time");
+		final NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("VoteScores");
+		lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+
 		lineChart.getYAxis().setLabel("Vote Scores");
 
-		XYChart.Series<Number, Double> series = StatisticsHelper.modifyObservableList(option, userName);
+		XYChart.Series<Number, Number> series = StatisticsHelper.modifyObservableList(option, userName);
 
 		if (lineChart.getData().isEmpty()) {
 			lineChart.getData().add(series);
 		} else {
 			lineChart.getData().set(0, series);
 		}
+		lineChart = null;
 
 	}
-	
-	private void setGlobalStatistics(SubmittedVoteSimple vote)
-	{
+
+	private void setGlobalStatistics(SubmittedVoteSimple vote) {
 		this.descriptionPreciseVoteResultLabel.setText(String.valueOf(vote.getDescriptionPrecise()));
 		this.descriptionUnderstandableVoteResultLabel.setText(String.valueOf(vote.getDescriptionUnderstandable()));
 		this.rationalePreciseVoteResultLabel.setText(String.valueOf(vote.getRationalePrecise()));
