@@ -105,6 +105,7 @@
 				<Label layoutX="145.0" layoutY="44.0" prefHeight="16.0" prefWidth="529.0" text="- - -  Design options: show MODULES in TABLE or in the PANE on the right ..? - - - " />
 				<Button fx:id="logoutButton" layoutX="331.0" mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
             <Button fx:id="showDiagramButton" alignment="TOP_LEFT" blendMode="DIFFERENCE" contentDisplay="TOP" layoutX="397.0" mnemonicParsing="false" onAction="#showDiagramButtonClicked" text="ShowDiagram" textFill="#1b1010" />
+            <Button fx:id="helpButton" layoutX="514.0" mnemonicParsing="false" onAction="#helpButtonClicked" prefHeight="26.0" prefWidth="88.0" text="Help" />
 			</children>
 		</Pane>
 	</children>

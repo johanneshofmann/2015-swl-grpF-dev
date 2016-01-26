@@ -65,7 +65,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	@FXML
 	private HBox menuListHBox;
 	@FXML
-	private Button searchRqButton, logoutButton;
+	private Button searchRqButton, logoutButton, helpButton;
 
 	@FXML
 	private ImageView startButton;
@@ -110,6 +110,17 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	@FXML
 	void startButtonClicked(MouseEvent event) {
 		repaint();
+	}
+
+	@FXML
+	void helpButtonClicked(ActionEvent event) {
+		/*
+		 * String pfad =
+		 * "/afs/swt.wiai.uni-bamberg.de/users/home.swt-040350/GIT Johannes/2015-swl-grpF-dev/TopCard/src/swt/swl/topcard/view/mozilla.pdf"
+		 * ; // "swt/swl/topcard/view/mozilla.pdf"; try {
+		 * Desktop.getDesktop().open(new File(pfad)); } catch (IOException e) {
+		 * e.printStackTrace(); }
+		 */
 	}
 
 	public void repaint() {
@@ -399,7 +410,6 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 			}
 		});
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private void addEventHandlerToChooseTeamBox() {
