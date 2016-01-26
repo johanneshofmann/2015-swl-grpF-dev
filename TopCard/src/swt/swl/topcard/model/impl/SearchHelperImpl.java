@@ -74,12 +74,14 @@ public class SearchHelperImpl implements SearchHelper {
 		 */
 		if (descPreciseOp != SearchOperator.ALL) {
 			if (descPreciseOp == SearchOperator.EQUAL) {
-				// observableList.stream().filter(r -> (r.get() ==
-				// intFrozen)).forEach(observableList::remove);
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() == descPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
 			} else if (descPreciseOp == SearchOperator.LESS) {
-
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() < descPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
 			} else if (descPreciseOp == SearchOperator.GREATER) {
-
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() > descPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
 			}
 		}
 		if (descUnderstandableOp != SearchOperator.ALL) {

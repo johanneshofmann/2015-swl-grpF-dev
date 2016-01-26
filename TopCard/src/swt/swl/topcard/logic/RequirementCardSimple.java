@@ -1,5 +1,7 @@
 package swt.swl.topcard.logic;
 
+import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
+
 /**
  * 
  * 
@@ -39,5 +41,7 @@ public interface RequirementCardSimple {
 	String getSource();
 
 	String getUserStories();
+	
+	SubmittedVoteSimpleImpl getSubmittedVote();
 
 }
