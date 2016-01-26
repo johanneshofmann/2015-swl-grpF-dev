@@ -74,38 +74,75 @@ public class SearchHelperImpl implements SearchHelper {
 		 */
 		if (descPreciseOp != SearchOperator.ALL) {
 			if (descPreciseOp == SearchOperator.EQUAL) {
-				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() == descPrecise));
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() == descPrecise)).forEach(observableList::remove);
 				requirements = FXCollections.observableArrayList(observableList);
 			} else if (descPreciseOp == SearchOperator.LESS) {
-				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() < descPrecise));
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() < descPrecise)).forEach(observableList::remove);
 				requirements = FXCollections.observableArrayList(observableList);
 			} else if (descPreciseOp == SearchOperator.GREATER) {
-				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() > descPrecise));
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionPrecise() > descPrecise)).forEach(observableList::remove);
 				requirements = FXCollections.observableArrayList(observableList);
 			}
 		}
 		if (descUnderstandableOp != SearchOperator.ALL) {
-
+			if (descUnderstandableOp == SearchOperator.EQUAL) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() == descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (descUnderstandableOp == SearchOperator.LESS) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() < descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (descUnderstandableOp == SearchOperator.GREATER) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getDescriptionUnderstandable() > descUnderstandable)).forEach(observableList::remove);
+				requirements = FXCollections.observableArrayList(observableList);
+			}
 		}
 		if (descCorrect != VoteValue.ALL) {
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getDescriptionCorrect() == (double)descCorrect.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 		if (descComplete != VoteValue.ALL) {
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getDescriptionComplete() == (double)descComplete.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 		if (descAtomic != VoteValue.ALL) {
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getDescriptionAtomic() == (double)descAtomic.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 		if (ratPreciseOp != SearchOperator.ALL) {
-
+			if (ratPreciseOp == SearchOperator.EQUAL) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationalePrecise() == ratPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (ratPreciseOp == SearchOperator.LESS) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationalePrecise() < ratPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (ratPreciseOp == SearchOperator.GREATER) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationalePrecise() > ratPrecise));
+				requirements = FXCollections.observableArrayList(observableList);
+			}
 		}
 		if (ratUnderstableOp != SearchOperator.ALL) {
+					if (ratUnderstableOp == SearchOperator.EQUAL) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationaleUnderstandable() == ratUnderstandable));
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (ratUnderstableOp == SearchOperator.LESS) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationaleUnderstandable() < ratUnderstandable));
+				requirements = FXCollections.observableArrayList(observableList);
+			} else if (ratUnderstableOp == SearchOperator.GREATER) {
+				observableList.stream().filter(r -> (r.getSubmittedVote().getRationaleUnderstandable() > ratUnderstandable));
+				requirements = FXCollections.observableArrayList(observableList);
+			}
 		}
 		if (ratTraceable != null) {
-
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getRationaleTraceable() == (double)ratTraceable.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 		if (ratCorrect != VoteValue.ALL) {
-
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getRationaleComplete() == (double)ratCorrect.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 		if (ratConsistent != VoteValue.ALL) {
-
+			observableList.stream().filter(r -> (!(r.getSubmittedVote().getRationaleConsistent() == (double)ratConsistent.getValue()))).forEach(observableList::remove);
+			requirements = FXCollections.observableArrayList(observableList);
 		}
 
 		observableArray = observableList;
