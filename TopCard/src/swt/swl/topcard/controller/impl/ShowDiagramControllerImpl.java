@@ -100,7 +100,7 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 				"DescriptionCorrect", "DescriptionComplete", "DescriptionAtomic", "RationalePrecise",
 				"RationaleComplete", "RationaleUnderstandable", "RationaleTraceable", "RationaleConsistent",
 				"FitCriterionComplete"));
-		SubmittedVoteSimple vote = StatisticsHelper.generateEverageVoteResult(DatabaseHelper.getAllVoteResults());
+		SubmittedVoteSimple vote = StatisticsHelper.generateAverageVoteResult(DatabaseHelper.getAllVoteResults());
 		this.setGlobalStatistics(vote);
 	}
 
@@ -117,12 +117,6 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 			lineChart.getData().set(0, series);
 		}
 
-	}
-	
-	private void initGlobalStatistics()
-	{
-		SubmittedVoteSimple vote = StatisticsHelper.generateEverageVoteResult(DatabaseHelper.getAllVoteResults());
-		this.setGlobalStatistics(vote);
 	}
 	
 	private void setGlobalStatistics(SubmittedVoteSimple vote)
