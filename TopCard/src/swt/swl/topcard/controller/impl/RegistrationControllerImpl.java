@@ -23,7 +23,7 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 
 	@FXML
 	private Button applyButton, cancelButton;
-	private Boolean cancelTransaction;
+	private Boolean cancelTransaction = new Boolean(false);
 
 	@FXML
 	public void cancelButtonClicked(ActionEvent event) {

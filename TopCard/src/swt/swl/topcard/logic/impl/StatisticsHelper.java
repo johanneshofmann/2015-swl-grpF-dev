@@ -15,7 +15,7 @@ import swt.swl.topcard.logic.SubmittedVoteSimple;
  */
 public interface StatisticsHelper {
 
-	static Series<Number, Double> modifyObservableList(String option, String userName) {
+	static Series<Number, Number> modifyObservableList(String option, String userName) {
 
 		if (option == null) {
 			throw new IllegalArgumentException("option null");
@@ -24,7 +24,7 @@ public interface StatisticsHelper {
 			throw new IllegalArgumentException("userName null");
 		}
 
-		Series<Number, Double> series = new XYChart.Series<Number, Double>();
+		Series<Number, Number> series = new XYChart.Series<Number, Number>();
 
 		ArrayList<Integer> rqIDs = DatabaseHelper.getAllRQIDsFromUser(userName);
 
@@ -44,7 +44,7 @@ public interface StatisticsHelper {
 		return series;
 	}
 
-	static Series<Number, Double> switchOption(Series<Number, Double> series, String option,
+	static Series<Number, Number> switchOption(Series<Number, Number> series, String option,
 			ArrayList<SubmittedVoteSimple> votesArray) {
 
 		switch (option) {
@@ -53,7 +53,7 @@ public interface StatisticsHelper {
 
 			for (int xAxis = 0; xAxis < votesArray.size(); xAxis++) {
 				series.getData()
-						.add(new XYChart.Data<Number, Double>(xAxis, votesArray.get(xAxis).getDescriptionPrecise()));
+						.add(new XYChart.Data<Number, Number>(xAxis, votesArray.get(xAxis).getDescriptionPrecise()));
 			}
 			return series;
 
@@ -61,35 +61,35 @@ public interface StatisticsHelper {
 
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData()
-						.add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionUnderstandable()));
+						.add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getDescriptionUnderstandable()));
 			}
 			return series;
 
 		case "DescriptionCorrect":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionCorrect()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getDescriptionCorrect()));
 			}
 			return series;
 
 		case "DescriptionComplete":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionComplete()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getDescriptionComplete()));
 			}
 			return series;
 
 		case "DescriptionAtomic":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getDescriptionAtomic()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getDescriptionAtomic()));
 			}
 			return series;
 
 		case "RationalePrecise":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationalePrecise()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getRationalePrecise()));
 			}
 			return series;
 
@@ -97,35 +97,35 @@ public interface StatisticsHelper {
 
 			for (int i = 0; i < votesArray.size(); i++) {
 				series.getData()
-						.add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleUnderstandable()));
+						.add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getRationaleUnderstandable()));
 			}
 			return series;
 
 		case "RationaleComplete":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleComplete()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getRationaleComplete()));
 			}
 			return series;
 
 		case "RationaleTraceable":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleTraceable()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getRationaleTraceable()));
 			}
 			return series;
 
 		case "RationaleConsistent":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getRationaleConsistent()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getRationaleConsistent()));
 			}
 			return series;
 
 		case "FitCriterionComplete":
 
 			for (int i = 0; i < votesArray.size(); i++) {
-				series.getData().add(new XYChart.Data<Number, Double>(i, votesArray.get(i).getFitCriterionComplete()));
+				series.getData().add(new XYChart.Data<Number, Number>(i, votesArray.get(i).getFitCriterionComplete()));
 			}
 			return series;
 

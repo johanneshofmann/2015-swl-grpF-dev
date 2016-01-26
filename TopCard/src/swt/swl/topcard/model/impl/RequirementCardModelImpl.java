@@ -64,7 +64,7 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion,
 			String supportingMaterials) {
 
-		int minorVersion = 0;
+		int minorVersion = 1;
 		int majorVersion = 1;
 
 		// fetch ownerID
@@ -99,8 +99,10 @@ public class RequirementCardModelImpl extends Observable implements RequirementC
 		// insert each (RqID,ModuleID)-Pair,
 		insertEachRqIDXIDPairIntoDatabase("Module", modules, rqID);
 
-		// each (RqID,UserStoryID)-Pair ..
-		insertEachRqIDXIDPairIntoDatabase("UserStory", userStories, rqID);
+		if (userStories.size() != 0) {
+			// each (RqID,UserStoryID)-Pair ..
+			insertEachRqIDXIDPairIntoDatabase("UserStory", userStories, rqID);
+		}
 
 		// .. and each (RqID,TeamID)-Pair into table
 

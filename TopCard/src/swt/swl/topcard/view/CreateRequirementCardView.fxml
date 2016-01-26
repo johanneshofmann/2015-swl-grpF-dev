@@ -105,7 +105,7 @@
                      </children>
                   </HBox>
 						<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="69.0" prefWidth="189.0" text="Close without saving" />
-						<Button fx:id="createButton" mnemonicParsing="false" onAction="#putUpForVote" prefHeight="69.0" prefWidth="149.0" text="Create" />
+						<Button fx:id="createButton" mnemonicParsing="false" onAction="#putUpForVote" prefHeight="69.0" prefWidth="149.0" text="Put up for vote" />
 					</children>
 				</HBox>
 			</children>
