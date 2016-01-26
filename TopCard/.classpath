@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="lib/mockito-all-1.10.19.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/controlsfx-8.40.10.jar"/>
+	<classpathentry kind="lib" path="lib/pdfbox-app-2.0.0-RC3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
