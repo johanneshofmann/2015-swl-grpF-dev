@@ -400,6 +400,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		});
 	}
 
+
 	@SuppressWarnings("unchecked")
 	private void addEventHandlerToChooseTeamBox() {
 
