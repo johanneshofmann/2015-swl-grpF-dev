@@ -641,23 +641,6 @@ public class DatabaseHelper {
 
 	}
 
-	/**
-	 * voteResults[0] = description precise voteResult<br>
-	 * voteResults[1] = description understandable voteResult<br>
-	 * voteResults[2] = description correct voteResult<br>
-	 * voteResults[3] = description complete voteResult<br>
-	 * voteResults[4] = description atomic voteResult<br>
-	 * voteResults[5] = rationale precise voteResult<br>
-	 * voteResults[6] = rationale understandable voteResult<br>
-	 * voteResults[7] = rationale traceable voteResult<br>
-	 * voteResults[8] = rationale complete voteResult<br>
-	 * voteResults[9] = rationale consistent voteResult<br>
-	 * voteResults[10] = fit Criterion complete voteResult<br>
-	 *
-	 *
-	 * @returns SubmittedVoteSimple containing all voteResults of a specific
-	 *          rqCard
-	 */
 	public static ArrayList<SubmittedVoteSimple> getVoteResultsFrom(int rqCardUniqueID) {
 
 		if (!isInitialized)
@@ -668,12 +651,17 @@ public class DatabaseHelper {
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 
 			Statement getVoteResults = conn.createStatement();
+
 			String sql = "SELECT * FROM Vote WHERE RequirementID =" + rqCardUniqueID;
+
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
+
 			while (rqVote.next()) {
+
 				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
 						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
 						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
+
 				allVoteResults.add(currentVote);
 			}
 		} catch (SQLException e) {
