@@ -11,11 +11,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.ShowDiagramController;
+import swt.swl.topcard.logic.OverallVoteScore;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.StatisticsHelper;
 
@@ -39,6 +42,12 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	private PieChart pieChart;
 	@FXML
 	private LineChart<Number, Double> lineChart;
+	
+	@FXML
+	private Label voteResultsAmountLabel, descriptionPreciseVoteResultLabel, descriptionUnderstandableVoteResultLabel,
+			descriptionCorrectVoteResultLabel, descriptionCompleteVoteResultLabel, descriptionAtomicVoteResultLabel,
+			rationalePreciseVoteResultLabel, rationaleUnderstandableVoteResultLabel, rationaleTraceableVoteResultLabel,
+			rationaleCompleteVoteResultLabel, rationaleConsistentVoteResultLabel, fitCriterionCompleteVoteResultLabel;
 
 	@FXML
 	void closeButton1Clicked(ActionEvent event) {
@@ -91,6 +100,8 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 				"DescriptionCorrect", "DescriptionComplete", "DescriptionAtomic", "RationalePrecise",
 				"RationaleComplete", "RationaleUnderstandable", "RationaleTraceable", "RationaleConsistent",
 				"FitCriterionComplete"));
+		SubmittedVoteSimple vote = StatisticsHelper.generateAverageVoteResult(DatabaseHelper.getAllVoteResults());
+		this.setGlobalStatistics(vote);
 	}
 
 	private void initLineChart(String option) {
@@ -106,6 +117,21 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 			lineChart.getData().set(0, series);
 		}
 
+	}
+	
+	private void setGlobalStatistics(SubmittedVoteSimple vote)
+	{
+		this.descriptionPreciseVoteResultLabel.setText(String.valueOf(vote.getDescriptionPrecise()));
+		this.descriptionUnderstandableVoteResultLabel.setText(String.valueOf(vote.getDescriptionUnderstandable()));
+		this.rationalePreciseVoteResultLabel.setText(String.valueOf(vote.getRationalePrecise()));
+		this.rationaleUnderstandableVoteResultLabel.setText(String.valueOf(vote.getRationaleUnderstandable()));
+		this.descriptionCorrectVoteResultLabel.setText(String.valueOf(vote.getDescriptionCorrect()));
+		this.descriptionCompleteVoteResultLabel.setText(String.valueOf(vote.getDescriptionComplete()));
+		this.descriptionAtomicVoteResultLabel.setText(String.valueOf(vote.getDescriptionAtomic()));
+		this.rationaleTraceableVoteResultLabel.setText(String.valueOf(vote.getRationaleTraceable()));
+		this.rationaleCompleteVoteResultLabel.setText(String.valueOf(vote.getRationaleComplete()));
+		this.rationaleConsistentVoteResultLabel.setText(String.valueOf(vote.getRationaleConsistent()));
+		this.fitCriterionCompleteVoteResultLabel.setText(String.valueOf(vote.getFitCriterionComplete()));
 	}
 
 	@Override

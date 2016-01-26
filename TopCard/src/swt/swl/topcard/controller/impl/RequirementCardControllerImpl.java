@@ -405,8 +405,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 		teamChangedListener = new TeamChangeListenerImpl(model, this);
 
-		chooseTeamBox.getCheckModel().getCheckedItems()
-				.addListener((ListChangeListener<? super String>) teamChangedListener);
+		chooseTeamBox.getCheckModel().getCheckedItems().addListener((ListChangeListener<String>) teamChangedListener);
 	}
 
 	/**
