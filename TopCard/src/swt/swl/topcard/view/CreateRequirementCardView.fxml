@@ -1,93 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<ScrollPane prefHeight="843.0" prefWidth="548.0"
-	xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="swt.swl.topcard.controller.impl.CreateRequirementCardControllerImpl">
+<ScrollPane prefHeight="843.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.CreateRequirementCardControllerImpl">
 	<content>
 		<VBox prefHeight="835.0" prefWidth="530.0" spacing="20.0">
 			<children>
-				<Label prefHeight="27.0" prefWidth="257.0"
-					text="Create new Requirement Card: " underline="true" />
-				<Label prefHeight="27.0" prefWidth="553.0"
-					text="______________________________________________________________________________" />
-				<HBox prefHeight="39.0" prefWidth="410.0" spacing="118.0">
+				<Label prefHeight="30.0" prefWidth="413.0" text="Create new Requirement Card: " underline="true">
+               <font>
+                  <Font size="25.0" />
+               </font></Label>
+				<Label prefHeight="27.0" prefWidth="553.0" text="______________________________________________________________________________" />
+				<HBox prefHeight="39.0" prefWidth="510.0" spacing="125.0">
 					<children>
-						<Label prefHeight="16.0" prefWidth="44.0" text="Title:" />
-						<TextField fx:id="titleTextField" layoutX="138.0"
-							layoutY="10.0" />
+                  <HBox prefHeight="44.0" prefWidth="42.0">
+                     <children>
+      						<Label prefHeight="22.0" prefWidth="35.0" text="Title:" />
+                        <Label text="*" textFill="#d01414" />
+                     </children>
+                  </HBox>
+						<TextField fx:id="titleTextField" layoutX="138.0" layoutY="10.0" prefHeight="26.0" prefWidth="343.0" />
 					</children>
 				</HBox>
-				<HBox fx:id="moduleHBox" prefHeight="39.0" prefWidth="358.0"
-					spacing="40.0">
+				<HBox fx:id="moduleHBox" prefHeight="39.0" prefWidth="358.0" spacing="58.0">
 					<children>
-						<Label prefHeight="27.0" prefWidth="121.0" text="Modulename:" />
+                  <HBox>
+                     <children>
+      						<Label prefHeight="27.0" prefWidth="92.0" text="Modulename:" />
+                        <Label prefHeight="22.0" prefWidth="16.0" text="*" textFill="#b81717" />
+                     </children>
+                  </HBox>
 					</children>
 				</HBox>
-				<HBox prefHeight="117.0" prefWidth="555.0" spacing="40.0">
+				<HBox prefHeight="117.0" prefWidth="555.0" spacing="80.0">
 					<children>
-						<Label prefHeight="27.0" prefWidth="121.0" text="Description:" />
-						<TextArea fx:id="descriptionTextArea" layoutX="140.0"
-							layoutY="10.0" prefHeight="113.0" prefWidth="346.0" />
+                  <HBox>
+                     <children>
+      						<Label prefHeight="27.0" prefWidth="83.0" text="Description:" />
+                        <Label text="*" textFill="#d01414" />
+                     </children>
+                  </HBox>
+						<TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="113.0" prefWidth="346.0" />
 					</children>
 				</HBox>
-				<HBox prefHeight="108.0" prefWidth="538.0" spacing="69.0">
+				<HBox prefHeight="108.0" prefWidth="538.0" spacing="90.0">
 					<children>
-						<Label prefHeight="27.0" prefWidth="94.0" text="Rationale:" />
-						<TextArea fx:id="rationaleTextArea" prefHeight="94.0"
-							prefWidth="346.0" />
+                  <HBox>
+                     <children>
+      						<Label prefHeight="27.0" prefWidth="73.0" text="Rationale:" />
+                        <Label text="*" textFill="#d01414" />
+                     </children>
+                  </HBox>
+						<TextArea fx:id="rationaleTextArea" prefHeight="94.0" prefWidth="346.0" />
 					</children>
 				</HBox>
-				<HBox fx:id="sourceHBox" layoutX="10.0" layoutY="319.0"
-					prefHeight="46.0" prefWidth="546.0" spacing="86.0">
+				<HBox fx:id="sourceHBox" layoutX="10.0" layoutY="319.0" prefHeight="46.0" prefWidth="546.0" spacing="99.0">
 					<children>
-						<Label prefHeight="27.0" prefWidth="77.0" text="Source: " />
+                  <HBox>
+                     <children>
+      						<Label prefHeight="27.0" prefWidth="60.0" text="Source: " />
+                        <Label text="*" textFill="#d01414" />
+                     </children>
+                  </HBox>
 					</children>
 				</HBox>
-				<HBox fx:id="userStoriesHBox" layoutX="10.0" layoutY="475.0"
-					prefHeight="34.0" prefWidth="546.0" spacing="63.0">
+				<HBox fx:id="userStoriesHBox" layoutX="10.0" layoutY="475.0" prefHeight="34.0" prefWidth="546.0" spacing="66.0">
 					<children>
 						<Label prefHeight="27.0" prefWidth="101.0" text="Userstories:" />
 					</children>
 				</HBox>
-				<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0"
-					prefWidth="546.0" spacing="20.0">
+				<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="22.0">
 					<children>
 						<Label prefHeight="27.0" prefWidth="145.0" text="Supporting Materials:" />
-						<TextField fx:id="supportingMaterialsTextField"
-							prefHeight="27.0" prefWidth="183.0" />
+						<TextField fx:id="supportingMaterialsTextField" prefHeight="27.0" prefWidth="347.0" />
 					</children>
 				</HBox>
-				<HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0"
-					prefWidth="546.0" spacing="58.0">
+				<HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="60.0">
 					<children>
 						<Label prefHeight="27.0" prefWidth="107.0" text="Fit criterion:" />
-						<TextField fx:id="fitCriterionTextField" prefHeight="29.0"
-							prefWidth="185.0" />
+						<TextField fx:id="fitCriterionTextField" prefHeight="29.0" prefWidth="349.0" />
 					</children>
 				</HBox>
-				<HBox layoutX="10.0" layoutY="662.0" prefHeight="18.0"
-					prefWidth="400.0" spacing="92.0">
+				<HBox layoutX="10.0" layoutY="662.0" prefHeight="18.0" prefWidth="400.0" spacing="95.0">
 					<children>
 						<Label prefHeight="27.0" prefWidth="72.0" text="Frozen? " />
-						<CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false"
-							prefHeight="18.0" prefWidth="16.0" />
+						<CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="16.0" />
 					</children>
 				</HBox>
-				<HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="767.0"
-					spacing="18.0">
+				<HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="767.0" spacing="18.0">
 					<children>
-						<Button fx:id="closeButton" mnemonicParsing="false"
-							onAction="#closeWindow" prefHeight="69.0" prefWidth="189.0"
-							text="Close without saving" />
-						<Button fx:id="createButton" mnemonicParsing="false"
-							onAction="#putUpForVote" prefHeight="69.0" prefWidth="149.0"
-							text="Create" />
+                  <HBox>
+                     <children>
+                        <Label prefHeight="52.0" prefWidth="5.0" text="*" textFill="#bc1212" />
+                        <Label prefHeight="63.0" prefWidth="146.0" text="required fields" textFill="#bf0e0e">
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+						<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="69.0" prefWidth="189.0" text="Close without saving" />
+						<Button fx:id="createButton" mnemonicParsing="false" onAction="#putUpForVote" prefHeight="69.0" prefWidth="149.0" text="Create" />
 					</children>
 				</HBox>
 			</children>
