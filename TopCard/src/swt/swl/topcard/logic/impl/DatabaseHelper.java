@@ -684,6 +684,33 @@ public class DatabaseHelper {
 		}
 		return allVoteResults;
 	}
+	
+	public static ArrayList<SubmittedVoteSimple> getAllVoteResults() {
+
+		if (!isInitialized)
+			initialize();
+
+		ArrayList<SubmittedVoteSimple> allVoteResults = new ArrayList<SubmittedVoteSimple>();
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			Statement getVoteResults = conn.createStatement();
+			String sql = "SELECT * FROM Vote";
+			ResultSet rqVote = getVoteResults.executeQuery(sql);
+			while (rqVote.next()) {
+				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
+						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
+						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
+				allVoteResults.add(currentVote);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (allVoteResults.isEmpty()) {
+			throw new IllegalStateException("no votes added.. \r\r");
+		}
+		return allVoteResults;
+	}
 
 	public static ArrayList<Integer> getIDsFromX(String source, ObservableList<String> names) {
 
