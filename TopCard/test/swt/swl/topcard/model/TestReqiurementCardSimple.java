@@ -13,7 +13,7 @@ public class TestReqiurementCardSimple {
 
 	public TestReqiurementCardSimple() {
 
-		rqCard = new RequirementCardSimpleImpl(0, "title", 0, 0, 0, null, 0, null, null, null, null, null, null, null, 0, null, null);
+		rqCard = new RequirementCardSimpleImpl.RQBuilderImpl().buildRQ();
 	}
 
 	@Test
@@ -28,7 +28,7 @@ public class TestReqiurementCardSimple {
 	public void afterSettingTitleItShouldHaveChanged() {
 
 		String newTitle = "newTitle";
-		rqCard.setTitle(newTitle);
+		rqCard = new RequirementCardSimpleImpl.RQBuilderImpl().setTitle(newTitle).buildRQ();
 
 		String toCheck = rqCard.getTitle();
 

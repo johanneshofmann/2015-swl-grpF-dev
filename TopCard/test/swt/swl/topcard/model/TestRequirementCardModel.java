@@ -50,16 +50,15 @@ public class TestRequirementCardModel {
 		String name = "Bob";
 		rqModel.setLoginName(name);
 		int rqID = 0;
-		
+
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials);
 
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
-				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
-		
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RQBuilderImpl().buildRQ();
+
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
 			if (rq.getTitle().equals(addedRqCard.getTitle())) {
@@ -69,7 +68,8 @@ public class TestRequirementCardModel {
 		assertEquals(true, inArray);
 
 		// delete after checking ..
-		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(), addedRqCard.getMinorVersion());
+		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(),
+				addedRqCard.getMinorVersion());
 	}
 
 	@Test
@@ -90,14 +90,15 @@ public class TestRequirementCardModel {
 		String name = "Bob";
 		rqModel.setLoginName(name);
 		int rqID = 0;
-		
-		rqID = rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion, supportingMaterials);
+
+		rqID = rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion,
+				supportingMaterials);
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
-		
-		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl(0, title, 0, 1, 0,
-				name, rqID, null, null, null, null, null, null, null, isFrozen, createdAt, null);
-		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(), addedRqCard.getMinorVersion());
+
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RQBuilderImpl().buildRQ();
+		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(),
+				addedRqCard.getMinorVersion());
 
 		assertEquals(false, rqModel.getObservableArray().contains((RequirementCardSimple) addedRqCard));
 

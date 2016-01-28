@@ -5,185 +5,226 @@ import java.sql.Timestamp;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.SubmittedVoteSimple;
 
 public class RequirementCardSimpleImpl implements RequirementCardSimple {
 
-	private final SimpleIntegerProperty ID, minorVersion, majorVersion, ownerID, rqID, isFrozen;
-	private final SimpleStringProperty title, ownerName, modules, description, rationale, source, userStories,
+	private SimpleIntegerProperty ID, minorVersion, majorVersion, ownerID, rqID, isFrozen;
+	private SimpleStringProperty title, ownerName, modules, teams, description, rationale, source, userStories,
 			supportingMaterials, fitCriterion, lastModifiedAt;
 	private Timestamp createdAt;
 
-	private SubmittedVoteSimpleImpl submittedVote;
+	private SubmittedVoteSimple submittedVote;
 
-	public RequirementCardSimpleImpl(int ID, String title, int minorVersion, int majorVersion, int ownerID,
-			String ownerName, int rqID, String modules, String description, String rationale, String source,
-			String userStories, String supportingMaterials, String fitCriterion, int isFrozen, Timestamp createdAt,
-			String lastModifiedAt) {
+	RQBuilder RQBuilder;
 
-		super();
+	private RequirementCardSimpleImpl() {
 
-		this.ID = new SimpleIntegerProperty(ID);
-		this.title = new SimpleStringProperty(title);
-		this.majorVersion = new SimpleIntegerProperty(majorVersion);
-		this.minorVersion = new SimpleIntegerProperty(minorVersion);
-		this.ownerID = new SimpleIntegerProperty(ownerID);
-		this.ownerName = new SimpleStringProperty(ownerName);
-		this.rqID = new SimpleIntegerProperty(rqID);
-		this.modules = new SimpleStringProperty(modules);
-		this.description = new SimpleStringProperty(description);
-		this.rationale = new SimpleStringProperty(rationale);
-		this.source = new SimpleStringProperty(source);
-		this.userStories = new SimpleStringProperty(userStories);
-		this.supportingMaterials = new SimpleStringProperty(supportingMaterials);
-		this.fitCriterion = new SimpleStringProperty(fitCriterion);
-		this.isFrozen = new SimpleIntegerProperty(isFrozen);
-		this.createdAt = createdAt;
-		this.lastModifiedAt = new SimpleStringProperty(lastModifiedAt);
+		this.ID = new SimpleIntegerProperty();
+		this.title = new SimpleStringProperty();
+		this.majorVersion = new SimpleIntegerProperty();
+		this.minorVersion = new SimpleIntegerProperty();
+		this.ownerID = new SimpleIntegerProperty();
+		this.ownerName = new SimpleStringProperty();
+		this.rqID = new SimpleIntegerProperty();
+		this.modules = new SimpleStringProperty();
+		this.teams = new SimpleStringProperty();
+
+		this.description = new SimpleStringProperty();
+		this.rationale = new SimpleStringProperty();
+		this.source = new SimpleStringProperty();
+		this.userStories = new SimpleStringProperty();
+		this.supportingMaterials = new SimpleStringProperty();
+		this.fitCriterion = new SimpleStringProperty();
+		this.isFrozen = new SimpleIntegerProperty();
+		this.lastModifiedAt = new SimpleStringProperty();
 	}
 
-	// Getters & Setters:
+	public static class RQBuilderImpl implements RQBuilder {
 
-	public String getTitle() {
-		return title.get();
-	}
+		RequirementCardSimpleImpl requirementCard = new RequirementCardSimpleImpl();
 
-	public void setTitle(String title) {
-		this.title.set(title);
-	}
+		public RQBuilder setID(int ID) {
 
-	public int getMinorVersion() {
-		return minorVersion.get();
-	}
+			requirementCard.ID.set(ID);
+			return this;
+		}
 
-	public void setMinorVersion(int minorVersion) {
-		this.minorVersion.set(minorVersion);
-	}
+		public RQBuilder setTitle(String title) {
 
-	public int getMajorVersion() {
-		return majorVersion.get();
-	}
+			requirementCard.title.set(title);
+			return this;
+		}
 
-	public void setMajorVersion(int majorVersion) {
-		this.majorVersion.set(majorVersion);
-	}
+		public RQBuilder setMinorVersion(int minorVersion) {
 
-	public int getOwnerID() {
-		return ownerID.get();
-	}
+			requirementCard.minorVersion.set(minorVersion);
+			return this;
+		}
 
-	public void setOwnerID(int ownerID) {
-		this.ownerID.set(ownerID);
-	}
+		public RQBuilder setMajorVersion(int majorVersion) {
 
-	public String getOwnerName() {
-		return ownerName.get();
-	}
+			requirementCard.majorVersion.set(majorVersion);
+			return this;
+		}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName.set(ownerName);
-	}
+		public RQBuilder setOwnerID(int ownerID) {
+			requirementCard.ownerID.set(ownerID);
+			return this;
+		}
 
-	public int getRqID() {
-		return rqID.get();
-	}
+		public RQBuilder setOwnerName(String ownerName) {
+			requirementCard.ownerName.set(ownerName);
+			return this;
+		}
 
-	public void setRqID(int rqID) {
-		this.rqID.set(rqID);
-	}
+		public RQBuilder setRqID(int rqID) {
+			requirementCard.rqID.set(rqID);
+			return this;
+		}
 
-	public String getModules() {
-		return modules.get();
-	}
+		public RQBuilder setModules(String modules) {
+			requirementCard.modules.set(modules);
+			return this;
+		}
 
-	public void setModules(String modules) {
-		this.modules.set(modules);
-	}
+		public RQBuilder setTeams(String teams) {
+			requirementCard.teams.set(teams);
+			return this;
+		}
 
-	public String getDescription() {
-		return description.get();
-	}
+		public RQBuilder setDescription(String description) {
+			requirementCard.description.set(description);
+			return this;
+		}
 
-	public void setDescription(String description) {
-		this.description.set(description);
-	}
+		public RQBuilder setRationale(String rationale) {
+			requirementCard.rationale.set(rationale);
+			return this;
+		}
 
-	public String getRationale() {
-		return rationale.get();
-	}
+		public RQBuilder setSource(String source) {
+			requirementCard.source.set(source);
+			return this;
+		}
 
-	public void setRationale(String rationale) {
-		this.rationale.set(rationale);
-	}
+		public RQBuilder setSupportingMaterials(String supportingMaterials) {
+			requirementCard.supportingMaterials.set(supportingMaterials);
+			return this;
+		}
 
-	public String getSource() {
-		return source.get();
-	}
+		public RQBuilder setFitCriterion(String fitCriterion) {
+			requirementCard.fitCriterion.set(fitCriterion);
+			return this;
+		}
 
-	public void setSource(String source) {
-		this.source.set(source);
-	}
+		public RQBuilder setFrozen(int frozen) {
 
-	public String getSupportingMaterials() {
-		return supportingMaterials.get();
-	}
+			requirementCard.isFrozen.set(frozen);
+			return this;
+		}
 
-	public void setSupportingMaterials(String supportingMaterials) {
-		this.supportingMaterials.set(supportingMaterials);
-	}
+		public RQBuilder setCreatedAt(Timestamp createdAt) {
+			requirementCard.createdAt = createdAt;
+			return this;
+		}
 
-	public String getFitCriterion() {
-		return fitCriterion.get();
-	}
+		public RQBuilder setLastModifiedAt(String lastModifiedAt) {
+			requirementCard.lastModifiedAt.set(lastModifiedAt);
+			return null;
+		}
 
-	public void setFitCriterion(String fitCriterion) {
-		this.fitCriterion.set(fitCriterion);
-	}
+		/**
+		 * @param submittedVote
+		 *            the submittedVote to set
+		 */
+		public RQBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote) {
+			requirementCard.submittedVote = submittedVote;
+			return null;
+		}
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
+		public RQBuilder setUserStories(String userStories) {
+			requirementCard.userStories.set(userStories);
+			return null;
+		}
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getLastModifiedAt() {
-		return lastModifiedAt.get();
-	}
-
-	public void setLastModifiedAt(String lastModifiedAt) {
-		this.lastModifiedAt.set(lastModifiedAt);
+		public RequirementCardSimple buildRQ() {
+			return requirementCard;
+		}
 	}
 
 	public int getID() {
 		return ID.get();
 	}
 
-	/**
-	 * @return the submittedVote
-	 */
-	public SubmittedVoteSimpleImpl getSubmittedVote() {
-		return submittedVote;
+	public int getMinorVersion() {
+		return minorVersion.get();
 	}
 
-	/**
-	 * @param submittedVote
-	 *            the submittedVote to set
-	 */
-	public void setSubmittedVote(SubmittedVoteSimpleImpl submittedVote) {
-		this.submittedVote = submittedVote;
+	public int getMajorVersion() {
+		return majorVersion.get();
+	}
+
+	public int getOwnerID() {
+		return ownerID.get();
+	}
+
+	public int getRqID() {
+		return rqID.get();
+	}
+
+	public int getIsFrozen() {
+		return isFrozen.get();
+	}
+
+	public String getTitle() {
+		return title.get();
+	}
+
+	public String getOwnerName() {
+		return ownerName.get();
+	}
+
+	public String getModules() {
+		return modules.get();
+	}
+
+	public String getDescription() {
+		return description.get();
+	}
+
+	public String getRationale() {
+		return rationale.get();
+	}
+
+	public String getSource() {
+		return source.get();
 	}
 
 	public String getUserStories() {
 		return userStories.get();
 	}
 
-	public void setUserStories(String userStories) {
-		this.userStories.set(userStories);
+	public String getSupportingMaterials() {
+		return supportingMaterials.get();
 	}
 
-	public int getIsFrozen() {
-		return isFrozen.get();
+	public String getFitCriterion() {
+		return fitCriterion.get();
 	}
+
+	public String getLastModifiedAt() {
+		return lastModifiedAt.get();
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public SubmittedVoteSimple getSubmittedVote() {
+		return submittedVote;
+	}
+
+	// Getters
 
 }

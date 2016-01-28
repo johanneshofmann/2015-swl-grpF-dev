@@ -1,14 +1,63 @@
 package swt.swl.topcard.logic;
 
+import java.sql.Timestamp;
+
 import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
 
 /**
- * 
  * 
  * @author swt-041649
  *
  */
 public interface RequirementCardSimple {
+
+	public interface RQBuilder {
+
+		public RQBuilder setID(int ID);
+
+		public RQBuilder setTitle(String title);
+
+		public RQBuilder setMinorVersion(int minorVersion);
+
+		public RQBuilder setMajorVersion(int majorVersion);
+
+		public RQBuilder setOwnerID(int ownerID);
+
+		public RQBuilder setOwnerName(String ownerName);
+
+		public RQBuilder setRqID(int rqID);
+
+		public RQBuilder setModules(String modules);
+
+		public RQBuilder setTeams(String teams);
+
+		public RQBuilder setDescription(String description);
+
+		public RQBuilder setRationale(String rationale);
+
+		public RQBuilder setSource(String source);
+
+		public RQBuilder setSupportingMaterials(String supportingMaterials);
+
+		public RQBuilder setFitCriterion(String fitCriterion);
+
+		public RQBuilder setFrozen(int frozen);
+
+		public RQBuilder setCreatedAt(Timestamp createdAt);
+
+		public RQBuilder setLastModifiedAt(String lastModifiedAt);
+
+		/**
+		 * @param submittedVote
+		 *            the submittedVote to set
+		 */
+		public RQBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote);
+
+		public RQBuilder setUserStories(String userStories);
+
+		public RequirementCardSimple buildRQ();
+
+	}
 
 	String getOwnerName();
 
@@ -23,8 +72,6 @@ public interface RequirementCardSimple {
 	Object getCreatedAt();
 
 	String getTitle();
-	
-	void setTitle(String title);
 
 	String getLastModifiedAt();
 
@@ -41,7 +88,7 @@ public interface RequirementCardSimple {
 	String getSource();
 
 	String getUserStories();
-	
-	SubmittedVoteSimpleImpl getSubmittedVote();
+
+	SubmittedVoteSimple getSubmittedVote();
 
 }

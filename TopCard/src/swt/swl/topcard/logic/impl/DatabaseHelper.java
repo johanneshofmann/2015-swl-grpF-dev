@@ -525,12 +525,16 @@ public class DatabaseHelper {
 				int ownerID = requirementSet.getInt(5);
 				int ID = requirementSet.getInt(1);
 
-				return new RequirementCardSimpleImpl(ID, requirementSet.getString(2), minorVersion, majorVersion,
-						ownerID, XIDToName("User", ownerID), rqID, getXNameAsStringByRequirementID("Module", ID),
-						requirementSet.getString(7), requirementSet.getString(8),
-						getXNameAsStringByRequirementID("Team", ID), getXNameAsStringByRequirementID("UserStory", ID),
-						requirementSet.getString(9), requirementSet.getString(10), requirementSet.getInt(11),
-						requirementSet.getTimestamp(12), requirementSet.getString(13));
+				return new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
+						.setMinorVersion(minorVersion).setMajorVersion(majorVersion).setOwnerID(ownerID)
+						.setOwnerName(XIDToName("User", ownerID)).setRqID(rqID)
+						.setModules(getXNameAsStringByRequirementID("Module", ID))
+						.setTeams(getXNameAsStringByRequirementID("Team", ID))
+						.setUserStories(getXNameAsStringByRequirementID("UserStory", ID))
+						.setDescription(requirementSet.getString(7)).setRationale(requirementSet.getString(8))
+						.setSource(requirementSet.getString(9)).setFitCriterion(requirementSet.getString(10))
+						.setFrozen(requirementSet.getInt(11)).setCreatedAt(requirementSet.getTimestamp(12))
+						.setLastModifiedAt(requirementSet.getString(13)).buildRQ();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -622,15 +626,19 @@ public class DatabaseHelper {
 
 			if (requirementSet.next()) {
 
-				int ownerID = requirementSet.getInt(5), requirementID = requirementSet.getInt(6);
+				int minorVersion = requirementSet.getInt(3), majorVersion = requirementSet.getInt(4),
+						ownerID = requirementSet.getInt(5), requirementID = requirementSet.getInt(6);
 
-				return new RequirementCardSimpleImpl(ID, requirementSet.getString(2), requirementSet.getInt(4),
-						requirementSet.getInt(3), ownerID, XIDToName("User", ownerID), requirementID,
-						getXNameAsStringByRequirementID("Module", ID), requirementSet.getString(7),
-						requirementSet.getString(8), getXNameAsStringByRequirementID("Team", ID),
-						getXNameAsStringByRequirementID("UserStory", ID), requirementSet.getString(9),
-						requirementSet.getString(10), requirementSet.getInt(11), requirementSet.getTimestamp(12),
-						requirementSet.getString(13));
+				return new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
+						.setMinorVersion(minorVersion).setMajorVersion(majorVersion).setOwnerID(ownerID)
+						.setOwnerName(XIDToName("User", ownerID)).setRqID(requirementID)
+						.setModules(getXNameAsStringByRequirementID("Module", ID))
+						.setTeams(getXNameAsStringByRequirementID("Team", ID))
+						.setUserStories(getXNameAsStringByRequirementID("UserStory", ID))
+						.setDescription(requirementSet.getString(7)).setRationale(requirementSet.getString(8))
+						.setSource(requirementSet.getString(9)).setFitCriterion(requirementSet.getString(10))
+						.setFrozen(requirementSet.getInt(11)).setCreatedAt(requirementSet.getTimestamp(12))
+						.setLastModifiedAt(requirementSet.getString(13)).buildRQ();
 			} else {
 				throw new IllegalArgumentException("No requirementCards matching ID: " + ID);
 			}
@@ -672,7 +680,7 @@ public class DatabaseHelper {
 		}
 		return allVoteResults;
 	}
-	
+
 	public static ArrayList<SubmittedVoteSimple> getAllVoteResults() {
 
 		if (!isInitialized)
