@@ -169,7 +169,7 @@ public interface StatisticsHelper {
 
 		OverallVoteScore[] results = generateOverallVoteScore(voteResults);
 
-		return new SubmittedVoteSimpleImpl(results);
+		return new SubmittedVoteSimpleImpl.VoteBuilderImpl().setOverallVoteScore(results).buildVote();
 	}
 
 	static OverallVoteScore[] generateOverallVoteScore(ArrayList<SubmittedVoteSimple> voteResults) {

@@ -666,9 +666,21 @@ public class DatabaseHelper {
 
 			while (rqVote.next()) {
 
-				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
-						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
-						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
+				// TODO: @Steve last modified here:
+
+				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl.VoteBuilderImpl()
+						.setDescriptionPrecise(rqVote.getInt(4)).setDescriptionUnderstandable(rqVote.getInt(5))
+						.setDescriptionCorrect(rqVote.getInt(6)).setDescriptionComplete(rqVote.getInt(7))
+						.setDescriptionAtomic(rqVote.getInt(8)).setRationalePrecise(rqVote.getInt(9))
+						.setRationaleUnderstandable(rqVote.getInt(10)).setRationaleTraceable(rqVote.getInt(11))
+						.setRationaleComplete(rqVote.getInt(12)).setRationaleConsistent(rqVote.getInt(13))
+						.setFitCriterionComplete(rqVote.getInt(14)).buildVote();
+
+				// (, rqVote.getInt(5),
+				// rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8),
+				// rqVote.getInt(9), rqVote.getInt(10),
+				// rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13),
+				// rqVote.getInt(14));
 
 				allVoteResults.add(currentVote);
 			}
@@ -693,10 +705,17 @@ public class DatabaseHelper {
 			Statement getVoteResults = conn.createStatement();
 			String sql = "SELECT * FROM Vote";
 			ResultSet rqVote = getVoteResults.executeQuery(sql);
+
 			while (rqVote.next()) {
-				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl(rqVote.getInt(4), rqVote.getInt(5),
-						rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8), rqVote.getInt(9), rqVote.getInt(10),
-						rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13), rqVote.getInt(14));
+
+				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl.VoteBuilderImpl()
+						.setDescriptionPrecise(rqVote.getInt(4)).setDescriptionUnderstandable(rqVote.getInt(5))
+						.setDescriptionCorrect(rqVote.getInt(6)).setDescriptionComplete(rqVote.getInt(7))
+						.setDescriptionAtomic(rqVote.getInt(8)).setRationalePrecise(rqVote.getInt(9))
+						.setRationaleUnderstandable(rqVote.getInt(10)).setRationaleTraceable(rqVote.getInt(11))
+						.setRationaleComplete(rqVote.getInt(12)).setRationaleConsistent(rqVote.getInt(13))
+						.setFitCriterionComplete(rqVote.getInt(14)).buildVote();
+
 				allVoteResults.add(currentVote);
 			}
 		} catch (SQLException e) {

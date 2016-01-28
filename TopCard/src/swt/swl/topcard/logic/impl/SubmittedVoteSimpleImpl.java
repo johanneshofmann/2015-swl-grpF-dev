@@ -13,7 +13,7 @@ import swt.swl.topcard.model.search.VoteValue;
 public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 
 	private int ID;
-	private final int rqID;
+	private int rqID;
 	private int userID;
 
 	private String[] overallVoteScore;
@@ -25,92 +25,154 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 	private VoteValue descriptionCorrect, descriptionComplete, descriptionAtomic, rationaleTraceable, rationaleComplete,
 			rationaleConsistent, fitCriterionComplete;
 
-	public SubmittedVoteSimpleImpl(int rqID) {
+	private SubmittedVoteSimpleImpl(int rqID) {
 		this.rqID = rqID;
 	}
 
-	public SubmittedVoteSimpleImpl(double descriptionPrecise, double descriptionUnderstandable,
-			double descriptionCorrect, double descriptionComplete, double descriptionAtomic, double rationalePrecise,
-			double rationaleUnderstandable, double rationaleTraceable, double rationaleComplete,
-			double rationaleConsistent, double fitCriterionCorrect) {
-		this.rqID = 0;
-		this.descriptionPrecise = descriptionPrecise;
-		this.descriptionUnderstandable = descriptionUnderstandable;
-		this.descriptionCorrect = getVoteValueType(descriptionCorrect);
-		this.descriptionComplete = getVoteValueType(descriptionComplete);
-		this.descriptionAtomic = getVoteValueType(descriptionAtomic);
-		this.rationalePrecise = rationalePrecise;
-		this.rationaleUnderstandable = rationaleUnderstandable;
-		this.rationaleTraceable = getVoteValueType(rationaleTraceable);
-		this.rationaleComplete = getVoteValueType(rationaleComplete);
-		this.rationaleConsistent = getVoteValueType(rationaleConsistent);
-		this.fitCriterionComplete = getVoteValueType(fitCriterionCorrect);
+	private SubmittedVoteSimpleImpl() {
 
 	}
 
-	public SubmittedVoteSimpleImpl(int ID, int rqID, int userID, int descriptionPrecise, int descriptionUnderstandable,
-			int descriptionCorrect, int descriptionComplete, int descriptionAtomic, int rationalePrecise,
-			int rationaleUnderstandable, int rationaleTraceable, int rationaleComplete, int rationaleConsistent,
-			int fitCriterionCorrect) {
-		this.ID = ID;
-		this.rqID = rqID;
-		this.userID = userID;
-		this.descriptionPrecise = descriptionPrecise;
-		this.descriptionUnderstandable = descriptionUnderstandable;
-		this.descriptionCorrect = getVoteValueType(descriptionCorrect);
-		this.descriptionComplete = getVoteValueType(descriptionComplete);
-		this.descriptionAtomic = getVoteValueType(descriptionAtomic);
-		this.rationalePrecise = rationalePrecise;
-		this.rationaleUnderstandable = rationaleUnderstandable;
-		this.rationaleTraceable = getVoteValueType(rationaleTraceable);
-		this.rationaleComplete = getVoteValueType(rationaleComplete);
-		this.rationaleConsistent = getVoteValueType(rationaleConsistent);
-		this.fitCriterionComplete = getVoteValueType(fitCriterionCorrect);
+	public static class VoteBuilderImpl implements VoteBuilder {
 
-	}
+		private SubmittedVoteSimpleImpl vote;
 
-	public SubmittedVoteSimpleImpl(OverallVoteScore[] voteScores) {
-
-		double[] voteScoresAsDouble = new double[11];
-
-		overallVoteScore = new String[11];
-
-		for (int i = 0; i < 4; i++) {
-
-			overallVoteScore[i] = "" + voteScores[i].getTotalAmount();
-			voteScoresAsDouble[i] = voteScores[i].getTotalAmount();
+		public VoteBuilderImpl() {
+			vote = new SubmittedVoteSimpleImpl();
 		}
 
-		for (int i = 4; i < overallVoteScore.length; i++) {
-
-			overallVoteScore[i] = overallVoteScoreToString(voteScores[i]);
-			voteScoresAsDouble[i] = voteScores[i].getYes();
+		public VoteBuilderImpl(int ID) {
+			vote = new SubmittedVoteSimpleImpl();
+			setrqID(ID);
 		}
 
-		this.rqID = 0;
+		@Override
+		public VoteBuilder setID(int ID) {
+			vote.ID = ID;
+			return this;
+		}
 
-		this.descriptionPrecise = voteScoresAsDouble[0];
-		this.descriptionUnderstandable = voteScoresAsDouble[1];
-		this.rationalePrecise = voteScoresAsDouble[2];
-		this.rationaleUnderstandable = voteScoresAsDouble[3];
+		@Override
+		public VoteBuilder setrqID(int rqID) {
+			vote.rqID = rqID;
+			return this;
+		}
 
-		this.descriptionCorrect = getVoteValueType(voteScoresAsDouble[4]);
-		this.descriptionComplete = getVoteValueType(voteScoresAsDouble[5]);
-		this.descriptionAtomic = getVoteValueType(voteScoresAsDouble[6]);
-		this.rationaleTraceable = getVoteValueType(voteScoresAsDouble[7]);
-		this.rationaleComplete = getVoteValueType(voteScoresAsDouble[8]);
-		this.rationaleConsistent = getVoteValueType(voteScoresAsDouble[9]);
-		this.fitCriterionComplete = getVoteValueType(voteScoresAsDouble[10]);
+		@Override
+		public VoteBuilder setuserID(int userID) {
+			vote.userID = userID;
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setOverallVoteScore(OverallVoteScore[] voteScores) {
+
+			double[] voteScoresAsDouble = new double[11];
+
+			vote.overallVoteScore = new String[11];
+
+			for (int i = 0; i < 4; i++) {
+
+				vote.overallVoteScore[i] = "" + voteScores[i].getTotalAmount();
+				voteScoresAsDouble[i] = voteScores[i].getTotalAmount();
+			}
+
+			for (int i = 4; i < voteScores.length; i++) {
+
+				vote.overallVoteScore[i] = overallVoteScoreToString(voteScores[i]);
+				voteScoresAsDouble[i] = voteScores[i].getYes();
+			}
+
+			return this.setDescriptionPrecise(voteScoresAsDouble[0]).setDescriptionUnderstandable(voteScoresAsDouble[1])
+					.setRationalePrecise(voteScoresAsDouble[2]).setRationaleUnderstandable(voteScoresAsDouble[3])
+					.setDescriptionCorrect(voteScoresAsDouble[4]).setDescriptionComplete(voteScoresAsDouble[5])
+					.setDescriptionAtomic(voteScoresAsDouble[6]).setRationaleTraceable(voteScoresAsDouble[7])
+					.setRationaleComplete(voteScoresAsDouble[8]).setRationaleConsistent(voteScoresAsDouble[9])
+					.setFitCriterionComplete(voteScoresAsDouble[10]);
+		}
+
+		@Override
+		public VoteBuilder setDescriptionPrecise(double value) {
+			vote.descriptionPrecise = value;
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setDescriptionUnderstandable(double value) {
+			vote.descriptionUnderstandable = value;
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setDescriptionCorrect(double value) {
+			vote.descriptionCorrect = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setDescriptionComplete(double value) {
+			vote.descriptionComplete = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setDescriptionAtomic(double value) {
+			vote.descriptionAtomic = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setRationalePrecise(double value) {
+			vote.rationalePrecise = value;
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setRationaleUnderstandable(double value) {
+			vote.rationaleUnderstandable = value;
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setRationaleTraceable(double value) {
+			vote.rationaleTraceable = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setRationaleComplete(double value) {
+			vote.rationaleComplete = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setRationaleConsistent(double value) {
+			vote.rationaleConsistent = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public VoteBuilder setFitCriterionComplete(double value) {
+
+			vote.fitCriterionComplete = getVoteValueType(value);
+			return this;
+		}
+
+		@Override
+		public SubmittedVoteSimple buildVote() {
+			return vote;
+		}
+
 	}
 
-	private String overallVoteScoreToString(OverallVoteScore overallVoteScore) {
+	private static String overallVoteScoreToString(OverallVoteScore overallVoteScore) {
 
 		double amount = overallVoteScore.getTotalAmount();
 		return (overallVoteScore.getYes() + "/" + (int) amount + " Y, " + overallVoteScore.getNo() + "/" + (int) amount
 				+ " N, " + overallVoteScore.getDontKnow() + "/" + (int) amount + " ?");
 	}
 
-	public VoteValue getVoteValueType(double doubleValue) {
+	public static VoteValue getVoteValueType(double doubleValue) {
 
 		int value = (int) doubleValue;
 		if (value == 0) {
@@ -185,10 +247,6 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 		return overallVoteScore;
 	}
 
-	public void setOverallVoteScore(String[] overallVoteScore) {
-		this.overallVoteScore = overallVoteScore;
-	}
-
 	public String toString() {
 		return "ID= " + ID + ", RQID= " + rqID + ", UserID=" + userID + ", descriptionPrecise=" + descriptionPrecise
 				+ ", descriptionUnderstandable=" + descriptionUnderstandable + ", rationalePrecise=" + rationalePrecise
@@ -196,6 +254,12 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 				+ ", descriptionComplete" + descriptionComplete + ", descriptionAtomic=" + descriptionAtomic
 				+ ", rationaleTraceable=" + rationaleTraceable + ", rationaleComplete" + rationaleComplete
 				+ ", rationaleConsistent=" + rationaleConsistent + ", fitCriterionCorrect=" + fitCriterionComplete;
+	}
+
+	@Override
+	public void setOverallVoteScore(String[] overallVoteScore) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
