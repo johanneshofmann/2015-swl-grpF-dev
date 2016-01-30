@@ -9,12 +9,12 @@ import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.CreateTeamController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.model.TeamModel;
-import swt.swl.topcard.model.impl.TeamModelImpl;
+import swt.swl.topcard.logic.DAOs.TeamDAO;
+import swt.swl.topcard.logic.DAOs.impl.TeamDAOImpl;
 
 public class CreateTeamControllerImpl implements Controller, CreateTeamController {
 
-	private TeamModel model;
+	private TeamDAO model;
 	private RequirementCardController mainController;
 
 	@FXML
@@ -24,7 +24,7 @@ public class CreateTeamControllerImpl implements Controller, CreateTeamControlle
 	private TextField teamNameTextField;
 
 	public CreateTeamControllerImpl() {
-		model = new TeamModelImpl();
+		model = new TeamDAOImpl();
 	}
 
 	@FXML

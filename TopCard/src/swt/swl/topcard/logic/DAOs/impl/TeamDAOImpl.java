@@ -1,13 +1,13 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.logic.DAOs.impl;
 
 import java.util.Observable;
 
 import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.DAOs.TeamDAO;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.ModuleImpl;
-import swt.swl.topcard.model.TeamModel;
 
-public class TeamModelImpl extends Observable implements TeamModel {
+public class TeamDAOImpl extends Observable implements TeamDAO {
 
 	private ObservableList<ModuleImpl> observableArray;
 
@@ -15,7 +15,7 @@ public class TeamModelImpl extends Observable implements TeamModel {
 		return this.observableArray;
 	}
 
-	public TeamModelImpl() {
+	public TeamDAOImpl() {
 	}
 
 	public void selectTeams() {

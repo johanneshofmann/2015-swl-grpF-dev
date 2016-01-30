@@ -10,11 +10,12 @@ import java.sql.Statement;
 import org.junit.Before;
 import org.junit.Test;
 
-import swt.swl.topcard.model.impl.ModuleModelImpl;
+import swt.swl.topcard.logic.DAOs.ModuleDAO;
+import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
 
 public class TestModuleModel {
 	// private ObservableList<Module> observableArray;
-	private ModuleModel moduleModel;
+	private ModuleDAO moduleModel;
 
 	@Before
 
@@ -23,7 +24,7 @@ public class TestModuleModel {
 	}
 
 	public TestModuleModel() {
-		moduleModel = new ModuleModelImpl();
+		moduleModel = new ModuleDAOImpl();
 	}
 
 	@Test

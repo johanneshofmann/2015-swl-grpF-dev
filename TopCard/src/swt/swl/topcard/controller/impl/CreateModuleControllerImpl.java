@@ -9,17 +9,17 @@ import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.CreateModuleController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.model.ModuleModel;
-import swt.swl.topcard.model.impl.ModuleModelImpl;
+import swt.swl.topcard.logic.DAOs.ModuleDAO;
+import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
 
 public class CreateModuleControllerImpl implements Controller, CreateModuleController {
 
-	private ModuleModel model;
+	private ModuleDAO model;
 	private RequirementCardController mainController;
 
 	public CreateModuleControllerImpl() {
 		// create the model :
-		model = new ModuleModelImpl();
+		model = new ModuleDAOImpl();
 	}
 
 	@FXML

@@ -9,13 +9,13 @@ import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.CreateUserStoryController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.model.UserStoryModel;
-import swt.swl.topcard.model.impl.UserStoryModelImpl;
+import swt.swl.topcard.logic.DAOs.UserStoryDAO;
+import swt.swl.topcard.logic.DAOs.impl.UserStoryDAOImpl;
 
 public class CreateUserStoryControllerImpl implements Controller, CreateUserStoryController {
 
 	private RequirementCardController mainController;
-	private UserStoryModel model;
+	private UserStoryDAO model;
 
 	@FXML
 	private TextField userStoryTextField;
@@ -25,7 +25,7 @@ public class CreateUserStoryControllerImpl implements Controller, CreateUserStor
 
 	public CreateUserStoryControllerImpl() {
 
-		model = new UserStoryModelImpl();
+		model = new UserStoryDAOImpl();
 
 	}
 

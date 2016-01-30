@@ -1,9 +1,9 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.logic.DAOs.impl;
 
+import swt.swl.topcard.logic.DAOs.UserStoryDAO;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.model.UserStoryModel;
 
-public class UserStoryModelImpl implements UserStoryModel {
+public class UserStoryDAOImpl implements UserStoryDAO {
 
 	public boolean hasUserStory(String userStory) {
 		return DatabaseHelper.checkExistent("UserStory", userStory);

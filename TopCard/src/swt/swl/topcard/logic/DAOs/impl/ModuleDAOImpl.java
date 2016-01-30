@@ -1,14 +1,14 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.logic.DAOs.impl;
 
 import java.util.Observable;
 
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.Module;
+import swt.swl.topcard.logic.DAOs.ModuleDAO;
 import swt.swl.topcard.logic.impl.DatabaseHelper;
 import swt.swl.topcard.logic.impl.ModuleImpl;
-import swt.swl.topcard.model.ModuleModel;
 
-public class ModuleModelImpl extends Observable implements ModuleModel {
+public class ModuleDAOImpl extends Observable implements ModuleDAO {
 
 	private ObservableList<Module> observableArray;
 

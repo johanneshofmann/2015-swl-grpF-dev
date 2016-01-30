@@ -1,4 +1,4 @@
-package swt.swl.topcard.model;
+package swt.swl.topcard.logic.DAOs;
 
 /**
  * 
@@ -7,7 +7,7 @@ package swt.swl.topcard.model;
  * @author swt-041649
  *
  */
-public interface TeamModel {
+public interface TeamDAO {
 
 	boolean hasTeam(String value);
 
