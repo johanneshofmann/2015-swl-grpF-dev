@@ -25,7 +25,7 @@ public interface LoginController {
 
 	void update(Observable o, Object message);
 
-	void setData(MainApp mainApp, Scene loginScene);
+	void setData(RequirementCardController mainController, Scene loginScene);
 
 	MainApp getMainApp();
 

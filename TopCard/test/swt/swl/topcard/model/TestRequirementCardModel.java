@@ -2,7 +2,7 @@ package swt.swl.topcard.model;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +19,9 @@ public class TestRequirementCardModel {
 
 	private RequirementCardModel rqModel;
 	RequirementCardController controller;
-	private String loginName;
+	String loginName;
+
+	// private String loginName;
 
 	@Before
 	public void init() {
@@ -45,11 +47,11 @@ public class TestRequirementCardModel {
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
-		int isFrozen = 0;
-		Timestamp createdAt = null;
+		// int isFrozen = 0;
+		// Timestamp createdAt = null;
 		String name = "Bob";
 		rqModel.setLoginName(name);
-		int rqID = 0;
+		// int rqID = 0;
 
 		rqModel.insertRqIntoDatabase(null, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials);
@@ -85,13 +87,13 @@ public class TestRequirementCardModel {
 		ObservableList<String> userStories = null;
 		String fitCriterion = "fitCriterion";
 		String supportingMaterials = "supportingMaterials";
-		int isFrozen = 0;
-		Timestamp createdAt = null;
+		// int isFrozen = 0;
+		// Timestamp createdAt = null;
 		String name = "Bob";
 		rqModel.setLoginName(name);
-		int rqID = 0;
+		// int rqID = 0;
 
-		rqID = rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion,
+		rqModel.insertRqIntoDatabase(modules, title, description, rationale, source, userStories, fitCriterion,
 				supportingMaterials);
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();

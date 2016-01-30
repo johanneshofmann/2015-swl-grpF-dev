@@ -6,11 +6,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RegistrationController;
 import swt.swl.topcard.controller.RequirementCardController;
+import swt.swl.topcard.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
 
 public class RegistrationControllerImpl implements Controller, RegistrationController {
@@ -53,11 +53,9 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 		return model;
 	}
 
-	public void setModel(LoginModel model) {
-		this.model = model;
-	}
+	public void setData(LoginController loginWindowController, LoginModel model) {
 
-	public void setLoginController(LoginController loginWindowController) {
+		this.model = model;
 		this.loginController = loginWindowController;
 	}
 
@@ -69,10 +67,7 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 	@Override
 	public void cancel(ActionEvent event) {
 
-		Stage stage = loginController.getMainApp().getPrimaryStage();
-		stage.close();
-		stage.setScene(loginController.getLoginScene());
-		stage.show();
+		ViewBuilder.refreshView(loginController.getLoginScene());
 	}
 
 	@Override

@@ -10,12 +10,10 @@ import java.sql.Statement;
 import org.junit.Before;
 import org.junit.Test;
 
-import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.Module;
 import swt.swl.topcard.model.impl.ModuleModelImpl;
 
 public class TestModuleModel {
-	private ObservableList<Module> observableArray;
+	// private ObservableList<Module> observableArray;
 	private ModuleModel moduleModel;
 
 	@Before

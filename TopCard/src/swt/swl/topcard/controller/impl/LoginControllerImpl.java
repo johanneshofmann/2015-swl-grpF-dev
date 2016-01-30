@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
+import swt.swl.topcard.MainAppImpl;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RegistrationController;
@@ -71,7 +72,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 			al.showAndWait();
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
-				mainApp.getPrimaryStage().close();
+				MainAppImpl.primaryStage.close();
 				createRegistrationView();
 				event.consume();
 			} else {
@@ -86,30 +87,36 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	}
 
 	public void createRegistrationView() {
+
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((RegistrationController) loader.getController()).setModel(this.model);
-			((RegistrationController) loader.getController()).setLoginController(this);
+			((RegistrationController) loader.getController()).setData(this, this.model);
 			Scene scene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(scene);
-			mainApp.getPrimaryStage().show();
+
+			MainAppImpl.primaryStage.setScene(scene);
+			MainAppImpl.primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void createRequirementCardView(String loginName) {
+
 		try {
+
 			FXMLLoader loader = new FXMLLoader();
+
 			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
 			rootLayout = (Pane) loader.load();
-			((RequirementCardControllerImpl) loader.getController()).setData(loginName, mainApp, this);
+			((RequirementCardControllerImpl) loader.getController()).setData(loginName, this);
 			((RequirementCardControllerImpl) loader.getController()).initializeFXNodes();
 			requirementCardViewScene = new Scene(rootLayout);
-			mainApp.getPrimaryStage().setScene(requirementCardViewScene);
-			mainApp.getPrimaryStage().show();
+
+			MainAppImpl.primaryStage.setScene(requirementCardViewScene);
+			MainAppImpl.primaryStage.show();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,4 +176,11 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		}
 
 	}
+
+	@Override
+	public void setData(RequirementCardController mainController, Scene loginScene) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

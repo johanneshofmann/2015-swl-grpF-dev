@@ -19,8 +19,6 @@ public interface RegistrationController {
 
 	LoginModel getModel();
 
-	void setModel(LoginModel model);
-
-	void setLoginController(LoginController loginControllerImpl);
+	void setData(LoginController loginController, LoginModel model);
 
 }

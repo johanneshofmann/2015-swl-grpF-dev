@@ -1,10 +1,6 @@
 package swt.swl.topcard.logic;
 
-import swt.swl.topcard.logic.SubmittedVoteSimple.VoteBuilder;
-import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl.VoteBuilderImpl;
-
 /**
- * 
  * 
  * @author swt-041649
  *
