@@ -1,13 +1,14 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.model._impl;
 
 import java.util.Observable;
 
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.model.LoginModel;
+import swt.swl.topcard.model.Model;
 
-public class LoginModelImpl extends Observable implements LoginModel {
+public class LoginModelImpl extends Observable implements Model, LoginModel {
 
 	public boolean checkDatabase(String loginName) {
 

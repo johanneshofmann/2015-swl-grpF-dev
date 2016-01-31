@@ -18,10 +18,13 @@ import swt.swl.topcard.MainApp;
 import swt.swl.topcard.MainAppImpl;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
-import swt.swl.topcard.controller.RegistrationController;
 import swt.swl.topcard.controller.RequirementCardController;
+import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
+import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
-import swt.swl.topcard.model.impl.LoginModelImpl;
+import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._impl.LoginModelImpl;
 
 public class LoginControllerImpl implements Observer, Controller, LoginController {
 
@@ -29,6 +32,8 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	private MainApp mainApp;
 	private Pane rootLayout;
 	private Scene thisLoginScene, requirementCardViewScene;
+
+	private ViewBuilder viewBuilder;
 
 	private Boolean cancelEvent = false;
 
@@ -39,7 +44,10 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	private TextField userNameTextField;
 
 	public LoginControllerImpl() {
+
 		model = new LoginModelImpl();
+		ModelDAOImpl.models.put("Login", (Model) model);
+
 		((Observable) model).addObserver(this);
 	}
 
@@ -86,24 +94,16 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		createRegistrationView();
 	}
 
-	public void createRegistrationView() {
+	private void createRegistrationView() {
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RegistrationView.fxml"));
-			rootLayout = (Pane) loader.load();
-			((RegistrationController) loader.getController()).setData(this, this.model);
-			Scene scene = new Scene(rootLayout);
+		ViewBuilderImpl i = new ViewBuilderImpl(null);
 
-			MainAppImpl.primaryStage.setScene(scene);
-			MainAppImpl.primaryStage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		i.buildView("Registration", this);
 	}
 
-	public void createRequirementCardView(String loginName) {
+	private void createRequirementCardView(String loginName) {
 
+		viewBuilder.buildView("RequirementCard", loginName, this);
 		try {
 
 			FXMLLoader loader = new FXMLLoader();
@@ -135,6 +135,14 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 
 	public MainApp getMainApp() {
 		return mainApp;
+	}
+
+	public Model getModel() {
+		return (Model) model;
+	}
+
+	public void setModel(LoginModel model) {
+		this.model = model;
 	}
 
 	public Scene getRequirementCardViewScene() {

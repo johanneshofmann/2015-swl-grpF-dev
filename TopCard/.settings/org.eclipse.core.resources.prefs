@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/swt/swl/topcard/controller/impl/LoginControllerImpl.java=UTF-8
 encoding//src/swt/swl/topcard/controller/impl/VoteRequirementCardControllerImpl.java=UTF-8
-encoding//src/swt/swl/topcard/logic/impl/DatabaseHelper.java=UTF-8
-encoding//src/swt/swl/topcard/model/impl/RequirementCardModelImpl.java=UTF-8
+encoding//src/swt/swl/topcard/logic/_impl/DatabaseHelper.java=UTF-8
+encoding//src/swt/swl/topcard/model/_impl/RequirementCardModelImpl.java=UTF-8

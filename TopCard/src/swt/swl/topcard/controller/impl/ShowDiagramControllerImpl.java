@@ -19,9 +19,9 @@ import javafx.scene.layout.BorderPane;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.ShowDiagramController;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.StatisticsHelper;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
+import swt.swl.topcard.logic._impl.StatisticsHelper;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 
 public class ShowDiagramControllerImpl implements Controller, ShowDiagramController {
 

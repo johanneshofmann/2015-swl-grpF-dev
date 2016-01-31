@@ -10,12 +10,13 @@ import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RegistrationController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.logic.ViewBuilder;
+import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
+import swt.swl.topcard.model.Model;
 
 public class RegistrationControllerImpl implements Controller, RegistrationController {
 
-	private LoginModel model;
+	private Model model;
 	private LoginController loginController;
 
 	@FXML
@@ -45,15 +46,15 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 			return;
 		}
 
-		model.insertUserIntoDatabase(firstName, lastName, loginName);
+		((LoginModel) model).insertUserIntoDatabase(firstName, lastName, loginName);
 		new Alert(AlertType.INFORMATION, "Registration successful.").showAndWait();
 	}
 
-	public LoginModel getModel() {
+	public Model getModel() {
 		return model;
 	}
 
-	public void setData(LoginController loginWindowController, LoginModel model) {
+	public void setData(LoginController loginWindowController, Model model) {
 
 		this.model = model;
 		this.loginController = loginWindowController;
@@ -67,7 +68,7 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 	@Override
 	public void cancel(ActionEvent event) {
 
-		ViewBuilder.refreshView(loginController.getLoginScene());
+		ViewBuilder.changeGUI(loginController.getLoginScene());
 	}
 
 	@Override

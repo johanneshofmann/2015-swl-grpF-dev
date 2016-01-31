@@ -22,8 +22,8 @@ import javafx.scene.layout.Pane;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class EditRequirementCardControllerImpl implements Controller, EditRequirementCardController {

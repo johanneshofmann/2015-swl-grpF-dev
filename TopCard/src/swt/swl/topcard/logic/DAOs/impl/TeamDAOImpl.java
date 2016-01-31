@@ -4,8 +4,8 @@ import java.util.Observable;
 
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DAOs.TeamDAO;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.ModuleImpl;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
+import swt.swl.topcard.logic.entity.impl.ModuleImpl;
 
 public class TeamDAOImpl extends Observable implements TeamDAO {
 

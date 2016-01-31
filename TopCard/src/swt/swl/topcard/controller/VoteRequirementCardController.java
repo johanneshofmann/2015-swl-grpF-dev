@@ -1,6 +1,6 @@
 package swt.swl.topcard.controller;
 
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
 /**

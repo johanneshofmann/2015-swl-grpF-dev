@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 
 public class TestReqiurementCardSimple {
 

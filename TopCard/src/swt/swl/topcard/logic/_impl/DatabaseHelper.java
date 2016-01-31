@@ -1,4 +1,4 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic._impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,8 +9,10 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
+import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
 
 public class DatabaseHelper {
 

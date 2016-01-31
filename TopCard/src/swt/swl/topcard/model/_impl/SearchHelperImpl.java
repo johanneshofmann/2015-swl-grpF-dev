@@ -1,11 +1,11 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.model._impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.model.SearchHelper;
-import swt.swl.topcard.model.search.SearchOperator;
-import swt.swl.topcard.model.search.VoteValue;
+import swt.swl.topcard.model.enums.SearchOperator;
+import swt.swl.topcard.model.enums.VoteValue;
 
 public class SearchHelperImpl implements SearchHelper {
 

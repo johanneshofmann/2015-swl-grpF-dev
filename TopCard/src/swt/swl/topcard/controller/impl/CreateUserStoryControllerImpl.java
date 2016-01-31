@@ -11,6 +11,8 @@ import swt.swl.topcard.controller.CreateUserStoryController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.UserStoryDAO;
 import swt.swl.topcard.logic.DAOs.impl.UserStoryDAOImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
+import swt.swl.topcard.model.Model;
 
 public class CreateUserStoryControllerImpl implements Controller, CreateUserStoryController {
 
@@ -26,6 +28,7 @@ public class CreateUserStoryControllerImpl implements Controller, CreateUserStor
 	public CreateUserStoryControllerImpl() {
 
 		model = new UserStoryDAOImpl();
+		ModelDAOImpl.models.put("UserStory", (Model) model);
 
 	}
 

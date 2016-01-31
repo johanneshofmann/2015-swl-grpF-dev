@@ -3,7 +3,10 @@ package swt.swl.topcard.logic;
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
+import swt.swl.topcard.logic.entitiy.Module;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entitiy.Team;
+import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 
 public interface DatabaseHelperDoc {
 

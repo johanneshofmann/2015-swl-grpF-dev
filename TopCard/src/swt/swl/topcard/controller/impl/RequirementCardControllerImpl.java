@@ -33,17 +33,15 @@ import javafx.scene.paint.Color;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RequirementCardController;
-
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
 import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
 import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
-import swt.swl.topcard.logic.ViewBuilder;
-
-import swt.swl.topcard.logic.impl.ViewBuilderImpl;
-
+import swt.swl.topcard.controller.logic.ViewBuilder;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.model.Model;
 import swt.swl.topcard.model.RequirementCardModel;
-
-import swt.swl.topcard.model.impl.RequirementCardModelImpl;
+import swt.swl.topcard.model._impl.RequirementCardModelImpl;
 
 public class RequirementCardControllerImpl implements Observer, Controller, RequirementCardController {
 
@@ -89,11 +87,13 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		this.observableList = FXCollections.observableArrayList();
 
 		model = new RequirementCardModelImpl();
+		ModelDAOImpl.models.put("RequirementCard", (Model) model);
+
 		model.setObservableArray(this.observableList);
 		((Observable) model).addObserver(this);
 		setMainController(this);
 
-		viewBuilder = new ViewBuilderImpl();
+		viewBuilder = new ViewBuilderImpl(this);
 		viewBuilder.setMainController(this);
 	}
 
@@ -125,7 +125,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		initTableView();
 		refrechTeams();
 
-		ViewBuilder.refreshView(loginController.getRequirementCardViewScene());
+		ViewBuilder.changeGUI(loginController.getRequirementCardViewScene());
 	}
 
 	private void refrechTeams() {
@@ -336,16 +336,16 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	 *
 	 * @param loginName
 	 * @param mainApp
-	 * @param loginWindowController
+	 * @param loginController
 	 */
-	public void setData(String loginName, LoginController loginWindowController) {
+	public void setData(String loginName, LoginController loginController) {
 
-		if (loginName == null || loginName.isEmpty() || loginWindowController == null) {
+		if (loginName == null || loginName.isEmpty() || loginController == null) {
 			new Alert(AlertType.WARNING, "Given arguments are null or empty.");
 		}
 
 		this.loginName = loginName;
-		this.loginController = loginWindowController;
+		this.loginController = loginController;
 		model.setLoginName(loginName);
 		this.loginNameLabel.setText(loginName);
 	}
@@ -409,7 +409,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	@Override
 	public void cancel(ActionEvent event) {
 
-		ViewBuilder.refreshView(loginController.getLoginScene());
+		ViewBuilder.changeGUI(loginController.getLoginScene());
 
 		event.consume();
 	}

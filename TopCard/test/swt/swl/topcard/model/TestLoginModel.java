@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import swt.swl.topcard.model.impl.LoginModelImpl;
+import swt.swl.topcard.model._impl.LoginModelImpl;
 
 public class TestLoginModel {
 

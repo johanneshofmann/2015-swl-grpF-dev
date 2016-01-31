@@ -1,8 +1,8 @@
-package swt.swl.topcard.logic;
+package swt.swl.topcard.logic.entitiy;
 
 import java.sql.Timestamp;
 
-import swt.swl.topcard.logic.impl.SubmittedVoteSimpleImpl;
+import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
 
 /**
  * 

@@ -1,6 +1,6 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic.entity.impl;
 
-import swt.swl.topcard.logic.OverallVoteScore;
+import swt.swl.topcard.logic.entitiy.OverallVoteScore;
 
 public class OverallVoteScoreImpl implements OverallVoteScore {
 

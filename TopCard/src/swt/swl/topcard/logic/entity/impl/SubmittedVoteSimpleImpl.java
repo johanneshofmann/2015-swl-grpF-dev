@@ -1,8 +1,8 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic.entity.impl;
 
-import swt.swl.topcard.logic.OverallVoteScore;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.model.search.VoteValue;
+import swt.swl.topcard.logic.entitiy.OverallVoteScore;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
+import swt.swl.topcard.model.enums.VoteValue;
 
 /**
  * 0-> Don't know; 1-> Yes; 2-> ;

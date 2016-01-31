@@ -11,6 +11,8 @@ import swt.swl.topcard.controller.CreateModuleController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.ModuleDAO;
 import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
+import swt.swl.topcard.model.Model;
 
 public class CreateModuleControllerImpl implements Controller, CreateModuleController {
 
@@ -20,6 +22,7 @@ public class CreateModuleControllerImpl implements Controller, CreateModuleContr
 	public CreateModuleControllerImpl() {
 		// create the model :
 		model = new ModuleDAOImpl();
+		ModelDAOImpl.models.put("Module", (Model) model);
 	}
 
 	@FXML

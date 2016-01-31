@@ -1,6 +1,6 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic.entity.impl;
 
-import swt.swl.topcard.logic.Module;
+import swt.swl.topcard.logic.entitiy.Module;
 
 public class ModuleImpl implements Module {
 	private int id;

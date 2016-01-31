@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
 /**

@@ -1,4 +1,4 @@
-package swt.swl.topcard.model.impl;
+package swt.swl.topcard.model._impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -8,13 +8,14 @@ import java.util.Observable;
 
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.StatisticsHelper;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
+import swt.swl.topcard.logic._impl.StatisticsHelper;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
+import swt.swl.topcard.model.Model;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class RequirementCardModelImpl extends Observable implements RequirementCardModel {
+public class RequirementCardModelImpl extends Observable implements Model, RequirementCardModel {
 
 	// loginName is set when the registrationView is created.
 	private String loginName;

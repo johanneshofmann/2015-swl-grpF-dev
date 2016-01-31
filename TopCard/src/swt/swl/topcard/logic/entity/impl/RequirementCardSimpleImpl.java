@@ -1,11 +1,11 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic.entity.impl;
 
 import java.sql.Timestamp;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 
 public class RequirementCardSimpleImpl implements RequirementCardSimple {
 

@@ -15,8 +15,8 @@ import javafx.scene.layout.VBox;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.VoteRequirementCardController;
-import swt.swl.topcard.logic.RequirementCardSimple;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 import swt.swl.topcard.model.RequirementCardModel;
 
 public class VoteRequirementCardControllerImpl implements Controller, VoteRequirementCardController {

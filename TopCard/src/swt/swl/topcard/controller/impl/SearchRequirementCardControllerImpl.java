@@ -16,9 +16,9 @@ import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.SearchRequirementCardController;
 import swt.swl.topcard.model.RequirementCardModel;
-import swt.swl.topcard.model.impl.SearchHelperImpl;
-import swt.swl.topcard.model.search.SearchOperator;
-import swt.swl.topcard.model.search.VoteValue;
+import swt.swl.topcard.model._impl.SearchHelperImpl;
+import swt.swl.topcard.model.enums.SearchOperator;
+import swt.swl.topcard.model.enums.VoteValue;
 
 public class SearchRequirementCardControllerImpl implements Controller, SearchRequirementCardController {
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 
 /**
  * 

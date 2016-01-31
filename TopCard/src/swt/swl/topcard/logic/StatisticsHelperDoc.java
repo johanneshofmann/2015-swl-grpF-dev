@@ -3,6 +3,7 @@ package swt.swl.topcard.logic;
 import java.util.ArrayList;
 
 import javafx.scene.chart.XYChart.Series;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 
 /**
  * 

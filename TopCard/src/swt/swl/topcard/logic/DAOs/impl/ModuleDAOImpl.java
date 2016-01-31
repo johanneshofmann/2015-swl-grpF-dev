@@ -3,10 +3,10 @@ package swt.swl.topcard.logic.DAOs.impl;
 import java.util.Observable;
 
 import javafx.collections.ObservableList;
-import swt.swl.topcard.logic.Module;
 import swt.swl.topcard.logic.DAOs.ModuleDAO;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.ModuleImpl;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
+import swt.swl.topcard.logic.entitiy.Module;
+import swt.swl.topcard.logic.entity.impl.ModuleImpl;
 
 public class ModuleDAOImpl extends Observable implements ModuleDAO {
 

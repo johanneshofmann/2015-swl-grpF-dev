@@ -1,6 +1,6 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic.entity.impl;
 
-import swt.swl.topcard.logic.Team;
+import swt.swl.topcard.logic.entitiy.Team;
 
 public class TeamImpl implements Team {
 	private int id;

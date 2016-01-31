@@ -21,4 +21,6 @@ public interface RequirementCardController {
 
 	RequirementCardModel getRqModel();
 
+	void setData(String loginName, LoginController loginController);
+
 }

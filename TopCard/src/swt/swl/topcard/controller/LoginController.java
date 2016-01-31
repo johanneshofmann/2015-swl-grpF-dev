@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import swt.swl.topcard.MainApp;
+import swt.swl.topcard.model.Model;
 
 /**
  * 
@@ -19,10 +20,6 @@ public interface LoginController {
 	@FXML
 	void registerButtonClicked(ActionEvent event);
 
-	void createRegistrationView();
-
-	public void createRequirementCardView(String loginName);
-
 	void update(Observable o, Object message);
 
 	void setData(RequirementCardController mainController, Scene loginScene);
@@ -34,4 +31,6 @@ public interface LoginController {
 	void setLoginScene(Scene scene);
 
 	Scene getLoginScene();
+
+	Model getModel();
 }

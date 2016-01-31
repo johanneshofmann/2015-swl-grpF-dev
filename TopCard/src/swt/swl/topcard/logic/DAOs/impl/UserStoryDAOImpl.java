@@ -1,7 +1,7 @@
 package swt.swl.topcard.logic.DAOs.impl;
 
 import swt.swl.topcard.logic.DAOs.UserStoryDAO;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
 
 public class UserStoryDAOImpl implements UserStoryDAO {
 

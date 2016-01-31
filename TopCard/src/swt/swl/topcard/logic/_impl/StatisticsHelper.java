@@ -1,12 +1,14 @@
-package swt.swl.topcard.logic.impl;
+package swt.swl.topcard.logic._impl;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
-import swt.swl.topcard.logic.OverallVoteScore;
-import swt.swl.topcard.logic.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entitiy.OverallVoteScore;
+import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
+import swt.swl.topcard.logic.entity.impl.OverallVoteScoreImpl;
+import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
 
 /**
  * 

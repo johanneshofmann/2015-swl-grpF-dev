@@ -11,9 +11,9 @@ import org.junit.Test;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.impl.RequirementCardControllerImpl;
-import swt.swl.topcard.logic.impl.DatabaseHelper;
-import swt.swl.topcard.logic.impl.RequirementCardSimpleImpl;
-import swt.swl.topcard.logic.RequirementCardSimple;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
+import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 
 public class TestRequirementCardModel {
 

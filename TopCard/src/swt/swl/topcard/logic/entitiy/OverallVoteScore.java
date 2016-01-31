@@ -1,4 +1,4 @@
-package swt.swl.topcard.logic;
+package swt.swl.topcard.logic.entitiy;
 
 public interface OverallVoteScore {
 
