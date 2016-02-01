@@ -4,8 +4,6 @@ import swt.swl.topcard.model.RequirementCardModel;
 
 /**
  * 
- * 
- * 
  * @author swt-041649
  *
  */
@@ -22,5 +20,7 @@ public interface RequirementCardController {
 	RequirementCardModel getRqModel();
 
 	void setData(String loginName, LoginController loginController);
+
+	void initializeFXNodes();
 
 }

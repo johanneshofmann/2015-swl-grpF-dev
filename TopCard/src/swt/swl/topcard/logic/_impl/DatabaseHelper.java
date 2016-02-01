@@ -13,6 +13,7 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
+import swt.swl.topcard.logic.exception.TopCardException;
 
 public class DatabaseHelper {
 
@@ -203,7 +204,7 @@ public class DatabaseHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		throw new IllegalStateException("Illegal State.");
+		return -1;
 	}
 
 	public static ObservableList<String> getNameFrom(String x) {
@@ -527,21 +528,37 @@ public class DatabaseHelper {
 				int ownerID = requirementSet.getInt(5);
 				int ID = requirementSet.getInt(1);
 
-				return new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
-						.setMinorVersion(minorVersion).setMajorVersion(majorVersion).setOwnerID(ownerID)
-						.setOwnerName(XIDToName("User", ownerID)).setRqID(rqID)
-						.setModules(getXNameAsStringByRequirementID("Module", ID))
+				// set default values in return type; source and fitCriterion
+				// are not set here..
+
+				if (requirementSet.getString(7) == null) {
+					throw new TopCardException("7null");
+				}
+				if (requirementSet.getString(8) == null) {
+					throw new TopCardException("8null");
+				}
+				RequirementCardSimple result = new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID)
+						.setTitle(requirementSet.getString(2)).setMinorVersion(minorVersion)
+						.setMajorVersion(majorVersion).setOwnerID(ownerID).setOwnerName(XIDToName("User", ownerID))
+						.setRqID(rqID).setModules(getXNameAsStringByRequirementID("Module", ID))
 						.setTeams(getXNameAsStringByRequirementID("Team", ID))
 						.setUserStories(getXNameAsStringByRequirementID("UserStory", ID))
 						.setDescription(requirementSet.getString(7)).setRationale(requirementSet.getString(8))
 						.setSource(requirementSet.getString(9)).setFitCriterion(requirementSet.getString(10))
 						.setFrozen(requirementSet.getInt(11)).setCreatedAt(requirementSet.getTimestamp(12))
 						.setLastModifiedAt(requirementSet.getString(13)).buildRQ();
+
+				return result;
 			}
-		} catch (SQLException e) {
+		} catch (
+
+		SQLException e)
+
+		{
 			e.printStackTrace();
 		}
 		throw new IllegalStateException("Should have returned RequirementSimple. Given rqID was: " + rqID);
+
 	}
 
 	private static ArrayList<Integer> getRequirementIDs() {
@@ -949,7 +966,12 @@ public class DatabaseHelper {
 
 	public static ArrayList<Integer> getAllRQIDsFromUser(String userName) {
 
-		String sql = "SELECT ID FROM Requirement where OwnerID=" + DatabaseHelper.loginNameToID(userName);
+		int ID = loginNameToID(userName);
+		if (ID < 0) {
+			throw new IllegalArgumentException("Invalid userName. Return value was: " + ID + ".");
+		}
+
+		String sql = "SELECT ID FROM Requirement where OwnerID=" + ID;
 
 		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
 

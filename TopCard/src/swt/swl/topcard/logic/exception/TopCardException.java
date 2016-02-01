@@ -1,6 +1,6 @@
 package swt.swl.topcard.logic.exception;
 
-public class TopCardException extends Exception {
+public class TopCardException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

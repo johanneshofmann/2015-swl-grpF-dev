@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -29,16 +28,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
-import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
-import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
+import swt.swl.topcard.controller.ShowDiagramController;
 import swt.swl.topcard.controller.logic.ViewBuilder;
+import swt.swl.topcard.controller.logic.ViewBuilderImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
+import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
+import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
 import swt.swl.topcard.model.Model;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model._impl.RequirementCardModelImpl;
@@ -98,6 +98,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	}
 
 	public void initializeFXNodes() {
+		System.out.println("inti FX Nodes (@RQC.)");
 
 		initChooseTeamComboBox();
 		initTableView();
@@ -196,7 +197,9 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	@FXML
 	void showDiagramButtonClicked(ActionEvent event) {
 
-		viewBuilder.buildView("ShowDiagram", loginName);
+		viewBuilder.buildView("ShowDiagram");
+		ShowDiagramController controller = (ShowDiagramController) ControllerDAOImpl.controllers.get("ShowDiagram");
+		controller.setData(this, loginName);
 	}
 
 	@Override
