@@ -537,7 +537,7 @@ public class DatabaseHelper {
 				if (requirementSet.getString(8) == null) {
 					throw new TopCardException("8null");
 				}
-				RequirementCardSimple result = new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID)
+				RequirementCardSimple result = new RequirementCardSimpleImpl.RequirementCardBuilderImpl().setID(ID)
 						.setTitle(requirementSet.getString(2)).setMinorVersion(minorVersion)
 						.setMajorVersion(majorVersion).setOwnerID(ownerID).setOwnerName(XIDToName("User", ownerID))
 						.setRqID(rqID).setModules(getXNameAsStringByRequirementID("Module", ID))
@@ -648,7 +648,7 @@ public class DatabaseHelper {
 				int minorVersion = requirementSet.getInt(3), majorVersion = requirementSet.getInt(4),
 						ownerID = requirementSet.getInt(5), requirementID = requirementSet.getInt(6);
 
-				return new RequirementCardSimpleImpl.RQBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
+				return new RequirementCardSimpleImpl.RequirementCardBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
 						.setMinorVersion(minorVersion).setMajorVersion(majorVersion).setOwnerID(ownerID)
 						.setOwnerName(XIDToName("User", ownerID)).setRqID(requirementID)
 						.setModules(getXNameAsStringByRequirementID("Module", ID))

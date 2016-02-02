@@ -38,96 +38,96 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 		this.lastModifiedAt = new SimpleStringProperty();
 	}
 
-	public static class RQBuilderImpl implements RQBuilder {
+	public static class RequirementCardBuilderImpl implements RequirementCardBuilder {
 
 		private RequirementCardSimpleImpl requirementCard = new RequirementCardSimpleImpl();
 
-		public RQBuilder setID(int ID) {
+		public RequirementCardBuilder setID(int ID) {
 
 			requirementCard.ID.set(ID);
 			return this;
 		}
 
-		public RQBuilder setTitle(String title) {
+		public RequirementCardBuilder setTitle(String title) {
 
 			requirementCard.title.set(title);
 			return this;
 		}
 
-		public RQBuilder setMinorVersion(int minorVersion) {
+		public RequirementCardBuilder setMinorVersion(int minorVersion) {
 
 			requirementCard.minorVersion.set(minorVersion);
 			return this;
 		}
 
-		public RQBuilder setMajorVersion(int majorVersion) {
+		public RequirementCardBuilder setMajorVersion(int majorVersion) {
 
 			requirementCard.majorVersion.set(majorVersion);
 			return this;
 		}
 
-		public RQBuilder setOwnerID(int ownerID) {
+		public RequirementCardBuilder setOwnerID(int ownerID) {
 			requirementCard.ownerID.set(ownerID);
 			return this;
 		}
 
-		public RQBuilder setOwnerName(String ownerName) {
+		public RequirementCardBuilder setOwnerName(String ownerName) {
 			requirementCard.ownerName.set(ownerName);
 			return this;
 		}
 
-		public RQBuilder setRqID(int rqID) {
+		public RequirementCardBuilder setRqID(int rqID) {
 			requirementCard.rqID.set(rqID);
 			return this;
 		}
 
-		public RQBuilder setModules(String modules) {
+		public RequirementCardBuilder setModules(String modules) {
 			requirementCard.modules.set(modules);
 			return this;
 		}
 
-		public RQBuilder setTeams(String teams) {
+		public RequirementCardBuilder setTeams(String teams) {
 			requirementCard.teams.set(teams);
 			return this;
 		}
 
-		public RQBuilder setDescription(String description) {
+		public RequirementCardBuilder setDescription(String description) {
 			requirementCard.description.set(description);
 			return this;
 		}
 
-		public RQBuilder setRationale(String rationale) {
+		public RequirementCardBuilder setRationale(String rationale) {
 			requirementCard.rationale.set(rationale);
 			return this;
 		}
 
-		public RQBuilder setSource(String source) {
+		public RequirementCardBuilder setSource(String source) {
 			requirementCard.source.set(source);
 			return this;
 		}
 
-		public RQBuilder setSupportingMaterials(String supportingMaterials) {
+		public RequirementCardBuilder setSupportingMaterials(String supportingMaterials) {
 			requirementCard.supportingMaterials.set(supportingMaterials);
 			return this;
 		}
 
-		public RQBuilder setFitCriterion(String fitCriterion) {
+		public RequirementCardBuilder setFitCriterion(String fitCriterion) {
 			requirementCard.fitCriterion.set(fitCriterion);
 			return this;
 		}
 
-		public RQBuilder setFrozen(int frozen) {
+		public RequirementCardBuilder setFrozen(int frozen) {
 
 			requirementCard.isFrozen.set(frozen);
 			return this;
 		}
 
-		public RQBuilder setCreatedAt(Timestamp createdAt) {
+		public RequirementCardBuilder setCreatedAt(Timestamp createdAt) {
 			requirementCard.createdAt = createdAt;
 			return this;
 		}
 
-		public RQBuilder setLastModifiedAt(String lastModifiedAt) {
+		public RequirementCardBuilder setLastModifiedAt(String lastModifiedAt) {
 			requirementCard.lastModifiedAt.set(lastModifiedAt);
 			return this;
 		}
@@ -136,12 +136,12 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 		 * @param submittedVote
 		 *            the submittedVote to set
 		 */
-		public RQBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote) {
+		public RequirementCardBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote) {
 			requirementCard.submittedVote = submittedVote;
 			return this;
 		}
 
-		public RQBuilder setUserStories(String userStories) {
+		public RequirementCardBuilder setUserStories(String userStories) {
 			requirementCard.userStories.set(userStories);
 			return this;
 		}

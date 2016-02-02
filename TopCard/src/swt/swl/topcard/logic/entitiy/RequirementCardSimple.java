@@ -11,49 +11,49 @@ import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
  */
 public interface RequirementCardSimple {
 
-	public static interface RQBuilder {
+	public static interface RequirementCardBuilder {
 
-		public RQBuilder setID(int ID);
+		public RequirementCardBuilder setID(int ID);
 
-		public RQBuilder setTitle(String title);
+		public RequirementCardBuilder setTitle(String title);
 
-		public RQBuilder setMinorVersion(int minorVersion);
+		public RequirementCardBuilder setMinorVersion(int minorVersion);
 
-		public RQBuilder setMajorVersion(int majorVersion);
+		public RequirementCardBuilder setMajorVersion(int majorVersion);
 
-		public RQBuilder setOwnerID(int ownerID);
+		public RequirementCardBuilder setOwnerID(int ownerID);
 
-		public RQBuilder setOwnerName(String ownerName);
+		public RequirementCardBuilder setOwnerName(String ownerName);
 
-		public RQBuilder setRqID(int rqID);
+		public RequirementCardBuilder setRqID(int rqID);
 
-		public RQBuilder setModules(String modules);
+		public RequirementCardBuilder setModules(String modules);
 
-		public RQBuilder setTeams(String teams);
+		public RequirementCardBuilder setTeams(String teams);
 
-		public RQBuilder setDescription(String description);
+		public RequirementCardBuilder setDescription(String description);
 
-		public RQBuilder setRationale(String rationale);
+		public RequirementCardBuilder setRationale(String rationale);
 
-		public RQBuilder setSource(String source);
+		public RequirementCardBuilder setSource(String source);
 
-		public RQBuilder setSupportingMaterials(String supportingMaterials);
+		public RequirementCardBuilder setSupportingMaterials(String supportingMaterials);
 
-		public RQBuilder setFitCriterion(String fitCriterion);
+		public RequirementCardBuilder setFitCriterion(String fitCriterion);
 
-		public RQBuilder setFrozen(int frozen);
+		public RequirementCardBuilder setFrozen(int frozen);
 
-		public RQBuilder setCreatedAt(Timestamp createdAt);
+		public RequirementCardBuilder setCreatedAt(Timestamp createdAt);
 
-		public RQBuilder setLastModifiedAt(String lastModifiedAt);
+		public RequirementCardBuilder setLastModifiedAt(String lastModifiedAt);
 
 		/**
 		 * @param submittedVote
 		 *            the submittedVote to set
 		 */
-		public RQBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote);
+		public RequirementCardBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote);
 
-		public RQBuilder setUserStories(String userStories);
+		public RequirementCardBuilder setUserStories(String userStories);
 
 		public RequirementCardSimple buildRQ();
 

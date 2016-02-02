@@ -59,7 +59,7 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RQBuilderImpl().buildRQ();
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RequirementCardBuilderImpl().buildRQ();
 
 		boolean inArray = false;
 		for (RequirementCardSimple rq : rqModel.getObservableArray()) {
@@ -98,7 +98,7 @@ public class TestRequirementCardModel {
 		// 'call' update-Method:
 		this.rqModel.updateRequirementsList();
 
-		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RQBuilderImpl().buildRQ();
+		RequirementCardSimple addedRqCard = new RequirementCardSimpleImpl.RequirementCardBuilderImpl().buildRQ();
 		DatabaseHelper.deleteRqFromDatabase(addedRqCard.getRqID(), addedRqCard.getMajorVersion(),
 				addedRqCard.getMinorVersion());
 
