@@ -91,9 +91,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 
 	private void createRegistrationView() {
 
-		ViewBuilderImpl i = new ViewBuilderImpl(null);
-
-		i.buildView("Registration", this);
+		ViewBuilderImpl.INSTANCE.buildView("Registration", this);
 	}
 
 	public void createRequirementCardView(String loginName) {

@@ -95,8 +95,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 		setMainController(this);
 
-		viewBuilder = new ViewBuilderImpl(this);
-		viewBuilder.setMainController(this);
+		ViewBuilderImpl.INSTANCE.setMainController(this);
 	}
 
 	public void initializeFXNodes() {

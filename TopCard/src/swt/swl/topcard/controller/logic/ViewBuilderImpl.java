@@ -31,7 +31,9 @@ import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.exception.TopCardException;
 
-public class ViewBuilderImpl implements ViewBuilder {
+public enum ViewBuilderImpl implements ViewBuilder {
+
+	INSTANCE;
 
 	protected static Stage primaryStage;
 
@@ -43,14 +45,7 @@ public class ViewBuilderImpl implements ViewBuilder {
 	private final String[] scenes = { "Login", "CreateRequirementCard", "SearchRequirementCard", "ShowDiagram",
 			"CreateModule", "CreateTeam", "CreateUserStory" }; // length=7
 
-	public ViewBuilderImpl(RequirementCardController mainController) {
-
-		setMainController(mainController);
-
-		preLoadScenes();
-	}
-
-	public ViewBuilderImpl() {
+	private ViewBuilderImpl() {
 	}
 
 	static {
@@ -379,6 +374,21 @@ public class ViewBuilderImpl implements ViewBuilder {
 
 	public void setMainController(RequirementCardController mainController) {
 		this.mainController = mainController;
+	}
+
+	@Override
+	public void configureYourself() {
+
+		buildView("RequirementCard", null, null);
+
+		RequirementCardController controller = (RequirementCardController) ControllerDAOImpl.controllers
+				.get("RequirementCard");
+
+		controller.initializeFXNodes();
+
+		setMainController(controller);
+
+		preLoadScenes();
 	}
 
 }
