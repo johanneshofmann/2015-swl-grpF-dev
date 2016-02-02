@@ -16,8 +16,6 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 
 	private SubmittedVoteSimple submittedVote;
 
-	RQBuilder RQBuilder;
-
 	private RequirementCardSimpleImpl() {
 
 		this.ID = new SimpleIntegerProperty();
@@ -42,7 +40,7 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 
 	public static class RQBuilderImpl implements RQBuilder {
 
-		RequirementCardSimpleImpl requirementCard = new RequirementCardSimpleImpl();
+		private RequirementCardSimpleImpl requirementCard = new RequirementCardSimpleImpl();
 
 		public RQBuilder setID(int ID) {
 
@@ -131,7 +129,7 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 
 		public RQBuilder setLastModifiedAt(String lastModifiedAt) {
 			requirementCard.lastModifiedAt.set(lastModifiedAt);
-			return null;
+			return this;
 		}
 
 		/**
@@ -140,12 +138,12 @@ public class RequirementCardSimpleImpl implements RequirementCardSimple {
 		 */
 		public RQBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote) {
 			requirementCard.submittedVote = submittedVote;
-			return null;
+			return this;
 		}
 
 		public RQBuilder setUserStories(String userStories) {
 			requirementCard.userStories.set(userStories);
-			return null;
+			return this;
 		}
 
 		public RequirementCardSimple buildRQ() {

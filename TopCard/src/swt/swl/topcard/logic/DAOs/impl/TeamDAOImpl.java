@@ -6,8 +6,9 @@ import javafx.collections.ObservableList;
 import swt.swl.topcard.logic.DAOs.TeamDAO;
 import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic.entity.impl.ModuleImpl;
+import swt.swl.topcard.model._Model;
 
-public class TeamDAOImpl extends Observable implements TeamDAO {
+public class TeamDAOImpl extends Observable implements _Model, TeamDAO {
 
 	private ObservableList<ModuleImpl> observableArray;
 

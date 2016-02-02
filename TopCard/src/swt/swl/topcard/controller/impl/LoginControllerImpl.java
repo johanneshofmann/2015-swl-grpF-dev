@@ -5,7 +5,6 @@ import java.util.Observer;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,15 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import swt.swl.topcard.MainApp;
 import swt.swl.topcard.MainAppImpl;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RequirementCardController;
-import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
+import swt.swl.topcard.controller.logic.ViewBuilderImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
-import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model._impl.LoginModelImpl;
@@ -30,10 +28,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 
 	private LoginModel model;
 	private MainApp mainApp;
-	private Pane rootLayout;
 	private Scene thisLoginScene, requirementCardViewScene;
-
-	private ViewBuilder viewBuilder;
 
 	private Boolean cancelEvent = false;
 
@@ -52,8 +47,9 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	}
 
 	@FXML
-	public void enterPressed(KeyEvent ke) {
-		if (ke.getCode().equals(KeyCode.ENTER)) {
+	public void enterPressed(KeyEvent key) {
+		System.out.println("enter pressed entered.....");
+		if (key.getCode().equals(KeyCode.ENTER)) {
 			System.out.println("Enter Pressed");
 			loginButton.fire();
 		}
@@ -80,7 +76,6 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 			al.showAndWait();
 			String confirmation = al.getResult().getText();
 			if (confirmation.equals("OK")) {
-				MainAppImpl.primaryStage.close();
 				createRegistrationView();
 				event.consume();
 			} else {
@@ -103,23 +98,17 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 
 	private void createRequirementCardView(String loginName) {
 
-		viewBuilder.buildView("RequirementCard", loginName, this);
-		try {
+		String requirementCard = "RequirementCard";
 
-			FXMLLoader loader = new FXMLLoader();
+		// fetch pre-loaded view
+		MainAppImpl.vB.buildView(requirementCard);
 
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/RequirementCardView.fxml"));
-			rootLayout = (Pane) loader.load();
-			((RequirementCardControllerImpl) loader.getController()).setData(loginName, this);
-			((RequirementCardControllerImpl) loader.getController()).initializeFXNodes();
-			requirementCardViewScene = new Scene(rootLayout);
+		// fetch corresponding controller
+		RequirementCardController controller = (RequirementCardController) ControllerDAOImpl.controllers
+				.get(requirementCard);
 
-			MainAppImpl.primaryStage.setScene(requirementCardViewScene);
-			MainAppImpl.primaryStage.show();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// and call setData()-method in the common way..
+		controller.setData(userNameTextField.getText(), this);
 	}
 
 	@Override

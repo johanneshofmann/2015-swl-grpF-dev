@@ -5,6 +5,6 @@ public interface MainApp {
 	/**
 	 * 
 	 */
-	public void initRootLayout();
+	public void initLoginView();
 
 }

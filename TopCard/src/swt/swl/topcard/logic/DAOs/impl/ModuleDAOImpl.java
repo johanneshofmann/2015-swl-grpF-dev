@@ -7,8 +7,9 @@ import swt.swl.topcard.logic.DAOs.ModuleDAO;
 import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic.entitiy.Module;
 import swt.swl.topcard.logic.entity.impl.ModuleImpl;
+import swt.swl.topcard.model._Model;
 
-public class ModuleDAOImpl extends Observable implements ModuleDAO {
+public class ModuleDAOImpl extends Observable implements _Model, ModuleDAO {
 
 	private ObservableList<Module> observableArray;
 

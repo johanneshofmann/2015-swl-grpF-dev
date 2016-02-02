@@ -8,21 +8,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-	minWidth="-Infinity" prefHeight="754.0" prefWidth="902.0"
-	xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="swt.swl.topcard.controller.impl.RequirementCardControllerImpl">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="754.0" prefWidth="902.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.RequirementCardControllerImpl">
 	<children>
-		<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-			minWidth="-Infinity" prefHeight="743.0" prefWidth="902.0">
+		<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="902.0">
 			<children>
 				<HBox layoutY="62.0" prefHeight="685.0" prefWidth="902.0">
 					<children>
-						<Pane fx:id="mainWindowPainLeft" prefHeight="692.0"
-							prefWidth="446.0">
+						<Pane fx:id="mainWindowPainLeft" prefHeight="692.0" prefWidth="446.0">
 							<children>
-								<TableView fx:id="requirementCardsTable" layoutX="1.0"
-									layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
+								<TableView fx:id="requirementCardsTable" layoutX="1.0" layoutY="7.0" prefHeight="685.0" prefWidth="445.0">
 
 								</TableView>
 							</children>
@@ -34,8 +28,7 @@
 										<Font size="15.0" />
 									</font>
 								</Label>
-								<Label layoutX="20.0" layoutY="110.0" prefHeight="50.0"
-									prefWidth="159.0" text="Modules:">
+								<Label layoutX="20.0" layoutY="110.0" prefHeight="50.0" prefWidth="159.0" text="Modules:">
 									<font>
 										<Font size="15.0" />
 									</font>
@@ -77,69 +70,46 @@
 						</VBox>
 						<VBox prefHeight="572.0" prefWidth="227.0">
 							<children>
-								<TextArea fx:id="titleTextArea" editable="false"
-									layoutX="10.0" layoutY="10.0" prefHeight="52.0" prefWidth="227.0" />
-								<TextArea fx:id="modulesTextArea" editable="false"
-									layoutX="10.0" layoutY="113.0" prefHeight="51.0" prefWidth="227.0" />
-								<TextArea fx:id="descriptionTextArea" editable="false"
-									prefHeight="46.0" prefWidth="227.0" />
-								<TextArea fx:id="rationaleTextArea" editable="false"
-									layoutX="10.0" layoutY="110.0" prefHeight="51.0" prefWidth="227.0" />
-								<TextArea fx:id="sourceTextArea" editable="false"
-									layoutX="10.0" layoutY="113.0" prefHeight="52.0" prefWidth="227.0" />
-								<TextArea fx:id="userStoriesTextArea" editable="false"
-									layoutX="10.0" layoutY="165.0" prefHeight="47.0" prefWidth="227.0" />
-								<TextArea fx:id="supportingMaterialsTextArea" editable="false"
-									layoutX="10.0" layoutY="269.0" prefHeight="45.0" prefWidth="227.0" />
-								<TextArea fx:id="fitCriterionTextArea" editable="false"
-									layoutX="10.0" layoutY="309.0" prefHeight="45.0" prefWidth="227.0" />
+								<TextArea fx:id="titleTextArea" editable="false" layoutX="10.0" layoutY="10.0" prefHeight="52.0" prefWidth="227.0" />
+								<TextArea fx:id="modulesTextArea" editable="false" layoutX="10.0" layoutY="113.0" prefHeight="51.0" prefWidth="227.0" />
+								<TextArea fx:id="descriptionTextArea" editable="false" prefHeight="46.0" prefWidth="227.0" />
+								<TextArea fx:id="rationaleTextArea" editable="false" layoutX="10.0" layoutY="110.0" prefHeight="51.0" prefWidth="227.0" />
+								<TextArea fx:id="sourceTextArea" editable="false" layoutX="10.0" layoutY="113.0" prefHeight="52.0" prefWidth="227.0" />
+								<TextArea fx:id="userStoriesTextArea" editable="false" layoutX="10.0" layoutY="165.0" prefHeight="47.0" prefWidth="227.0" />
+								<TextArea fx:id="supportingMaterialsTextArea" editable="false" layoutX="10.0" layoutY="269.0" prefHeight="45.0" prefWidth="227.0" />
+								<TextArea fx:id="fitCriterionTextArea" editable="false" layoutX="10.0" layoutY="309.0" prefHeight="45.0" prefWidth="227.0" />
 							</children>
 						</VBox>
 					</children>
 				</HBox>
-				<HBox fx:id="menuListHBox" prefHeight="26.0" prefWidth="331.0">
+				<HBox fx:id="menuListHBox" prefHeight="26.0" prefWidth="341.0" spacing="5.0">
 					<children>
-						<MenuButton mnemonicParsing="false" prefHeight="26.0"
-							prefWidth="100.0" text="New">
+						<MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="New">
 							<items>
-								<MenuItem fx:id="createModuleButton" mnemonicParsing="false"
-									onAction="#createModuleButtonClicked" text="Module" />
-								<MenuItem fx:id="createNewRqButton" mnemonicParsing="false"
-									onAction="#createNewRequirementButtonClicked" text="Requirement Card" />
-								<MenuItem fx:id="createNewTeam" mnemonicParsing="false"
-									onAction="#createNewTeamClicked" text="Team" />
-								<MenuItem fx:id="createNewUserStory" mnemonicParsing="false"
-									onAction="#createNewUserStoryClicked" text="UserStory" />
+								<MenuItem fx:id="createModuleButton" mnemonicParsing="false" onAction="#createModuleButtonClicked" text="Module" />
+								<MenuItem fx:id="createNewRqButton" mnemonicParsing="false" onAction="#createNewRequirementButtonClicked" text="Requirement Card" />
+								<MenuItem fx:id="createNewTeam" mnemonicParsing="false" onAction="#createNewTeamClicked" text="Team" />
+								<MenuItem fx:id="createNewUserStory" mnemonicParsing="false" onAction="#createNewUserStoryClicked" text="UserStory" />
 							</items>
 						</MenuButton>
-						<Button fx:id="searchRqButton" mnemonicParsing="false"
-							onAction="#searchRqButtonClicked" prefHeight="11.0" prefWidth="126.0"
-							text="Search" textAlignment="CENTER" />
+						<Button fx:id="searchRqButton" mnemonicParsing="false" onAction="#searchRqButtonClicked" prefHeight="11.0" prefWidth="126.0" text="Search" textAlignment="CENTER" />
 					</children>
 				</HBox>
-				<ImageView fx:id="startButton" fitHeight="35.0" fitWidth="26.0"
-					layoutX="17.0" layoutY="39.0" onMouseClicked="#startButtonClicked"
-					pickOnBounds="true" preserveRatio="true">
+				<ImageView fx:id="startButton" fitHeight="35.0" fitWidth="26.0" layoutX="17.0" layoutY="39.0" onMouseClicked="#startButtonClicked" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@icons/Button-Refresh-icon.png" />
 					</image>
 				</ImageView>
-				<Label layoutX="704.0" layoutY="18.0" prefHeight="16.0"
-					prefWidth="88.0" text="signed in as: " />
-				<Label fx:id="loginNameLabel" layoutX="792.0" layoutY="18.0"
-					prefHeight="16.0" prefWidth="100.0" />
-				<Label layoutX="145.0" layoutY="44.0" prefHeight="16.0"
-					prefWidth="529.0"
-					text="- - -  Design options: show MODULES in TABLE or in the PANE on the right ..? - - - " />
-				<Button fx:id="logoutButton" layoutX="331.0" mnemonicParsing="false"
-					onAction="#logoutButtonClicked" text="Logout" />
-				<Button fx:id="showDiagramButton" alignment="TOP_LEFT"
-					blendMode="DIFFERENCE" contentDisplay="TOP" layoutX="397.0"
-					mnemonicParsing="false" onAction="#showDiagramButtonClicked" text="ShowDiagram"
-					textFill="#1b1010" />
-				<Button fx:id="helpButton" layoutX="514.0" mnemonicParsing="false"
-					onAction="#helpButtonClicked" prefHeight="26.0" prefWidth="88.0"
-					text="Help" />
+				<Label layoutX="704.0" layoutY="18.0" prefHeight="16.0" prefWidth="88.0" text="signed in as: " />
+				<Label fx:id="loginNameLabel" layoutX="792.0" layoutY="18.0" prefHeight="16.0" prefWidth="100.0" />
+				<Label layoutX="145.0" layoutY="44.0" prefHeight="16.0" prefWidth="529.0" text="- - -  Design options: show MODULES in TABLE or in the PANE on the right ..? - - - " />
+            <HBox layoutX="341.0" prefHeight="26.0" prefWidth="270.0" spacing="5.0">
+               <children>
+      				<Button fx:id="showDiagramButton" alignment="TOP_LEFT" blendMode="DIFFERENCE" contentDisplay="TOP" mnemonicParsing="false" onAction="#showDiagramButtonClicked" text="ShowDiagram" textFill="#1b1010" />
+      				<Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpButtonClicked" prefHeight="26.0" prefWidth="88.0" text="Help" />
+      				<Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
+               </children>
+            </HBox>
 			</children>
 		</Pane>
 	</children>

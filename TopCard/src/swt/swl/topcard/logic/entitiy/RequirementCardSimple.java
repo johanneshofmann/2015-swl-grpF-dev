@@ -11,7 +11,7 @@ import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
  */
 public interface RequirementCardSimple {
 
-	public interface RQBuilder {
+	public static interface RQBuilder {
 
 		public RQBuilder setID(int ID);
 
