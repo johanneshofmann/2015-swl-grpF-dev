@@ -10,14 +10,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
-import swt.swl.topcard.controller.CreateUserStoryController;
+import swt.swl.topcard.controller.CreateEntityController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.UserStoryDAO;
 import swt.swl.topcard.logic.DAOs.impl.UserStoryDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateUserStoryControllerImpl implements Observer, Controller, CreateUserStoryController {
+public class CreateUserStoryControllerImpl implements Observer, Controller, CreateEntityController {
 
 	private RequirementCardController mainController;
 	private UserStoryDAO model;

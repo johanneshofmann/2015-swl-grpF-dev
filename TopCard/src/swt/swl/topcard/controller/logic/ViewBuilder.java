@@ -15,16 +15,46 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
  */
 public interface ViewBuilder {
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void preLoadScenes();
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void buildView(String string);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void buildView(String view, RequirementCardSimple rq);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	Scene buildView(String view, String loginName);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void setMainController(RequirementCardController mainController);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	public static void changeGUI(Scene scene) {
 
 		ViewBuilderImpl.primaryStage.close();

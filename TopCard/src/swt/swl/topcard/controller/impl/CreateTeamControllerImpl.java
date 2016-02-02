@@ -10,14 +10,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
-import swt.swl.topcard.controller.CreateTeamController;
+import swt.swl.topcard.controller.CreateEntityController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.TeamDAO;
 import swt.swl.topcard.logic.DAOs.impl.TeamDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateTeamControllerImpl implements Observer, Controller, CreateTeamController {
+public class CreateTeamControllerImpl implements Observer, Controller, CreateEntityController {
 
 	private TeamDAO model;
 	private RequirementCardController mainController;
@@ -37,7 +37,7 @@ public class CreateTeamControllerImpl implements Observer, Controller, CreateTea
 	}
 
 	@FXML
-	public void create() {
+	public void create(ActionEvent event) {
 		// 0. Check whether a string has been entered in the text field
 		checkEmpty();
 		// 1. Check whether module with the name exists

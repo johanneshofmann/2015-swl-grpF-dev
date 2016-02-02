@@ -2,11 +2,20 @@ package swt.swl.topcard.logic.entitiy;
 
 /**
  * 
+ * TODO: javadoc
+ * 
  * @author swt-041649
  *
  */
 public interface SubmittedVoteSimple {
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 * @author -steve-
+	 *
+	 */
 	public interface VoteBuilder {
 
 		public VoteBuilder setID(int ID);
@@ -37,9 +46,15 @@ public interface SubmittedVoteSimple {
 
 		public VoteBuilder setRationaleConsistent(double value);
 
-		public SubmittedVoteSimple buildVote();
-
 		public VoteBuilder setFitCriterionComplete(double d);
+
+		/**
+		 * 
+		 * TODO: javadoc
+		 * 
+		 * @return
+		 */
+		public SubmittedVoteSimple buildVote();
 	}
 
 	public int getID();

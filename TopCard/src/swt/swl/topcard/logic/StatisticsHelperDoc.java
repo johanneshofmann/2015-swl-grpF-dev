@@ -14,6 +14,8 @@ public interface StatisticsHelperDoc {
 
 	/**
 	 * 
+	 * TODO: javadoc
+	 * 
 	 * @param series
 	 * @param option
 	 * @param votesArray

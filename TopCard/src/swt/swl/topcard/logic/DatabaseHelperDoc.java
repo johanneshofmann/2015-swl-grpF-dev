@@ -10,8 +10,18 @@ import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 
 public interface DatabaseHelperDoc {
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	int XNameToID(String string, String userName);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	ArrayList<Integer> getAllRQIDsFromUser(String userName);
 
 	/**
@@ -43,26 +53,81 @@ public interface DatabaseHelperDoc {
 	 */
 	ObservableList<String> getNamesFromSource(String string);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void executeUpdate(String sqlInsert);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void deleteXFromDatabaseByName(String string, String loginName);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	ObservableList<String> getNameFrom(String string);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	boolean checkExistent(String string, String name);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void insertSimpleX(String string, String moduleName);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void deleteXFromDatabaseByID(String string, int iD);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	int getMaxXFromY(String string, String string2);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	ArrayList<Integer> getIDsFromX(String source, ObservableList<String> itemNames);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	RequirementCardSimpleImpl IDToRequirementCardSimple(int id);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	boolean checkUserAlreadySubscribed(String loginName);
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 */
 	void deleteRqFromDatabase(int rqID, int majorVersion, int minorVersion);
 
 }

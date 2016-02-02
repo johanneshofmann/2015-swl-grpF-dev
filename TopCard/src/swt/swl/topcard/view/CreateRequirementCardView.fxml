@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<ScrollPane prefHeight="845.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.CreateRequirementCardControllerImpl">
+<ScrollPane prefHeight="857.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="swt.swl.topcard.controller.impl.CreateRequirementCardControllerImpl">
 	<content>
 		<VBox prefHeight="835.0" prefWidth="530.0" spacing="20.0">
 			<children>
@@ -15,12 +15,12 @@
                <font>
                   <Font size="25.0" />
                </font></Label>
-				<Label prefHeight="27.0" prefWidth="553.0" text="______________________________________________________________________________" />
-				<HBox prefHeight="39.0" prefWidth="510.0" spacing="125.0">
+				<Label prefHeight="27.0" prefWidth="531.0" text="____________________________________________________________________" />
+				<HBox prefHeight="39.0" prefWidth="510.0" spacing="115.0">
 					<children>
-                  <HBox prefHeight="44.0" prefWidth="42.0">
+                  <HBox prefHeight="39.0" prefWidth="56.0">
                      <children>
-      						<Label prefHeight="22.0" prefWidth="35.0" text="Title:" />
+      						<Label prefHeight="27.0" prefWidth="59.0" text="Title:" />
                         <Label text="*" textFill="#d01414" />
                      </children>
                   </HBox>
@@ -31,7 +31,7 @@
 					<children>
                   <HBox>
                      <children>
-      						<Label prefHeight="27.0" prefWidth="92.0" text="Modulename:" />
+      						<Label prefHeight="27.0" prefWidth="92.0" text="Modules:" />
                         <Label prefHeight="22.0" prefWidth="16.0" text="*" textFill="#b81717" />
                      </children>
                   </HBox>
@@ -48,11 +48,11 @@
 						<TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="113.0" prefWidth="346.0" />
 					</children>
 				</HBox>
-				<HBox prefHeight="108.0" prefWidth="538.0" spacing="90.0">
+				<HBox prefHeight="108.0" prefWidth="538.0" spacing="52.0">
 					<children>
-                  <HBox>
+                  <HBox prefHeight="105.0" prefWidth="120.0">
                      <children>
-      						<Label prefHeight="27.0" prefWidth="73.0" text="Rationale:" />
+      						<Label prefHeight="27.0" prefWidth="84.0" text="Rationale:" />
                         <Label text="*" textFill="#d01414" />
                      </children>
                   </HBox>
@@ -63,7 +63,7 @@
 					<children>
                   <HBox>
                      <children>
-      						<Label prefHeight="27.0" prefWidth="60.0" text="Source: " />
+      						<Label prefHeight="27.0" prefWidth="66.0" text="Source: " />
                         <Label text="*" textFill="#d01414" />
                      </children>
                   </HBox>
@@ -76,8 +76,11 @@
 				</HBox>
 				<HBox layoutX="10.0" layoutY="541.0" prefHeight="42.0" prefWidth="546.0" spacing="22.0">
 					<children>
-						<Label prefHeight="27.0" prefWidth="145.0" text="Supporting Materials:" />
-						<TextField fx:id="supportingMaterialsTextField" prefHeight="27.0" prefWidth="347.0" />
+						<Label prefHeight="27.0" prefWidth="207.0" text="Supporting Materials:">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+						<TextField fx:id="supportingMaterialsTextField" prefHeight="39.0" prefWidth="409.0" />
 					</children>
 				</HBox>
 				<HBox layoutX="10.0" layoutY="600.0" prefHeight="42.0" prefWidth="546.0" spacing="60.0">
@@ -92,9 +95,9 @@
 						<CheckBox fx:id="frozenChoiceBox" mnemonicParsing="false" prefHeight="18.0" prefWidth="16.0" />
 					</children>
 				</HBox>
-				<HBox alignment="BOTTOM_RIGHT" prefHeight="73.0" prefWidth="767.0" spacing="18.0">
+				<HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="548.0" spacing="18.0">
 					<children>
-                  <HBox>
+                  <HBox prefHeight="66.0" prefWidth="115.0">
                      <children>
                         <Label prefHeight="52.0" prefWidth="5.0" text="*" textFill="#bc1212" />
                         <Label prefHeight="63.0" prefWidth="146.0" text="required fields" textFill="#bf0e0e">
@@ -104,8 +107,8 @@
                         </Label>
                      </children>
                   </HBox>
-						<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="69.0" prefWidth="189.0" text="Close without saving" />
-						<Button fx:id="createButton" mnemonicParsing="false" onAction="#putUpForVote" prefHeight="69.0" prefWidth="149.0" text="Put up for vote" />
+						<Button fx:id="closeButton" mnemonicParsing="false" onAction="#cancel" prefHeight="69.0" prefWidth="203.0" text="Close without saving" />
+						<Button fx:id="createButton" mnemonicParsing="false" onAction="#putUpForVote" prefHeight="69.0" prefWidth="154.0" text="Put up for vote" />
 					</children>
 				</HBox>
 			</children>

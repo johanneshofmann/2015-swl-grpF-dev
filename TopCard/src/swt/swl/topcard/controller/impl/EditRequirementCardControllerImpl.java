@@ -43,7 +43,7 @@ public class EditRequirementCardControllerImpl implements Observer, Controller, 
 	@FXML
 	private TextField titleTextField, ownerTextField, supportingMaterialsTextField, fitCriterionTextField;
 	@FXML
-	private Button closeButton, editButton, showVoteResultsButton, deleteRequirementButton;
+	private Button cancelButton, editButton, showVoteResultsButton, deleteRequirementButton;
 	@FXML
 	private Label createdAtLabel, lastModifiedAtLabel, requirementCardNumberLabel, majorVersionLabel, minorVersionLabel;
 	@FXML
@@ -101,10 +101,10 @@ public class EditRequirementCardControllerImpl implements Observer, Controller, 
 				descriptionTextArea.getText(), rationaleTextArea.getText(),
 				teamsCheckComboBox.getCheckModel().getCheckedItems(),
 				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
-				supportingMaterialsTextField.getText(), false, getCreatedAt());
+				supportingMaterialsTextField.getText(), false, buildCreatedAtString());
 	}
 
-	public Timestamp getCreatedAt() {
+	private Timestamp buildCreatedAtString() {
 
 		String date = createdAtLabel.getText();
 
@@ -195,7 +195,7 @@ public class EditRequirementCardControllerImpl implements Observer, Controller, 
 						(Integer.parseInt(minorVersionLabel.getText()) + 1), descriptionTextArea.getText(),
 						rationaleTextArea.getText(), teamsCheckComboBox.getCheckModel().getCheckedItems(),
 						userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
-						supportingMaterialsTextField.getText(), true, getCreatedAt());
+						supportingMaterialsTextField.getText(), true, buildCreatedAtString());
 
 				// if successful, show alert to user
 				new Alert(AlertType.INFORMATION, "Saved changes.").showAndWait();

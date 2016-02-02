@@ -6,11 +6,20 @@ import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
 
 /**
  * 
+ * TODO: javadoc
+ * 
  * @author swt-041649
  *
  */
 public interface RequirementCardSimple {
 
+	/**
+	 * 
+	 * TODO: javadoc
+	 * 
+	 * @author -steve-
+	 *
+	 */
 	public static interface RequirementCardBuilder {
 
 		public RequirementCardBuilder setID(int ID);
@@ -47,14 +56,16 @@ public interface RequirementCardSimple {
 
 		public RequirementCardBuilder setLastModifiedAt(String lastModifiedAt);
 
-		/**
-		 * @param submittedVote
-		 *            the submittedVote to set
-		 */
 		public RequirementCardBuilder setSubmittedVote(SubmittedVoteSimpleImpl submittedVote);
 
 		public RequirementCardBuilder setUserStories(String userStories);
 
+		/**
+		 * 
+		 * TODO: javadoc
+		 * 
+		 * @return
+		 */
 		public RequirementCardSimple buildRQ();
 
 	}

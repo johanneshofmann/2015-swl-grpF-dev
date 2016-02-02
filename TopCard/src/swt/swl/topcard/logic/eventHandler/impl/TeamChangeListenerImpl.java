@@ -105,7 +105,8 @@ public class TeamChangeListenerImpl implements ListChangeListener<String>, TeamC
 		}
 	}
 
-	private ArrayList<String> checkAndGetTeamsUserIsSubscribed() {
+	@Override
+	public ArrayList<String> checkAndGetTeamsUserIsSubscribed() {
 
 		ArrayList<String> teamsFromUser = new ArrayList<>();
 
@@ -117,6 +118,7 @@ public class TeamChangeListenerImpl implements ListChangeListener<String>, TeamC
 		return teamsFromUser;
 	}
 
+	@Override
 	public void setData(RequirementCardModel model, RequirementCardController requirementCardController) {
 		this.model = model;
 		this.controller = requirementCardController;

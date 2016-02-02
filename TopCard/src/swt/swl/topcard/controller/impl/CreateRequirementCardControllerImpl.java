@@ -56,8 +56,15 @@ public class CreateRequirementCardControllerImpl implements Observer, Controller
 	}
 
 	@FXML
-	public void closeWindow(ActionEvent event) {
-		cancel(event);
+	public void cancel(ActionEvent event) {
+
+		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
+		confirmation.showAndWait();
+		if (confirmation.getResult().equals(ButtonType.OK)) {
+			mainController.repaint();
+		} else {
+			event.consume();
+		}
 	}
 
 	@FXML
@@ -115,18 +122,6 @@ public class CreateRequirementCardControllerImpl implements Observer, Controller
 	@Override
 	public void setMainController(RequirementCardController requirementCardController) {
 		this.mainController = requirementCardController;
-	}
-
-	@Override
-	public void cancel(ActionEvent event) {
-
-		Alert confirmation = new Alert(AlertType.CONFIRMATION, "Close without creating RQ-Card?");
-		confirmation.showAndWait();
-		if (confirmation.getResult().equals(ButtonType.OK)) {
-			mainController.repaint();
-		} else {
-			event.consume();
-		}
 	}
 
 	@Override

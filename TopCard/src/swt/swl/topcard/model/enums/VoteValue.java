@@ -1,5 +1,12 @@
 package swt.swl.topcard.model.enums;
 
+/**
+ * 
+ * TODO: javadoc
+ * 
+ * @author -steve-
+ *
+ */
 public enum VoteValue {
 
 	ALL(3), YES(1), NO(0), UNKNOWN(2);

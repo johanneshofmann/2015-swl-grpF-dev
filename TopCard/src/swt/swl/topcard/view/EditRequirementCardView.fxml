@@ -36,7 +36,7 @@
 							<children>
                         <HBox>
                            <children>
-      								<Label prefHeight="26.0" prefWidth="51.0" text="Owner: " />
+      								<Label prefHeight="27.0" prefWidth="64.0" text="Owner: " />
                               <Label layoutX="61.0" layoutY="10.0" text="*" textFill="#d00a0a" />
                            </children>
                         </HBox>
@@ -54,11 +54,11 @@
 								<TextArea fx:id="descriptionTextArea" layoutX="140.0" layoutY="10.0" prefHeight="85.0" prefWidth="223.0" />
 							</children>
 						</HBox>
-						<HBox prefHeight="99.0" prefWidth="432.0" spacing="105.0">
+						<HBox prefHeight="99.0" prefWidth="432.0" spacing="87.0">
 							<children>
                         <HBox>
                            <children>
-      								<Label prefHeight="27.0" prefWidth="68.0" text="Rationale:" />
+      								<Label prefHeight="27.0" prefWidth="86.0" text="Rationale:" />
                               <Label text="*" textFill="#d00a0a" />
                            </children>
                         </HBox>
@@ -69,7 +69,7 @@
 							<children>
                         <HBox>
                            <children>
-      								<Label prefHeight="27.0" prefWidth="54.0" text="Source: " />
+      								<Label prefHeight="27.0" prefWidth="64.0" text="Source: " />
                               <Label text="*" textFill="#d00a0a" />
                            </children>
                         </HBox>
@@ -107,15 +107,15 @@
                </font></Label>
 				<HBox alignment="BOTTOM_RIGHT" layoutX="301.0" layoutY="737.0" prefHeight="73.0" prefWidth="425.0" spacing="50.0">
 					<children>
-						<Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefHeight="70.0" prefWidth="200.0" text="Close without saving" />
+						<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" prefHeight="70.0" prefWidth="200.0" text="Close without saving" />
 						<Button fx:id="editButton" mnemonicParsing="false" onAction="#editButtonClicked" prefHeight="70.0" prefWidth="200.0" text="Update" />
 					</children>
 				</HBox>
-				<HBox layoutX="440.0" layoutY="55.0" prefHeight="28.0" prefWidth="314.0">
+				<HBox layoutX="422.0" layoutY="55.0" prefHeight="28.0" prefWidth="332.0">
 					<children>
-						<Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="97.0" text="Requirement:" />
+						<Label layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="120.0" text="Requirement:" />
 						<Label fx:id="requirementCardNumberLabel" prefHeight="27.0" prefWidth="34.0" />
-						<Label prefHeight="27.0" prefWidth="159.0" text=", major.minor version:" />
+						<Label prefHeight="27.0" prefWidth="192.0" text=", major.minor version:" />
 						<Label fx:id="majorVersionLabel" prefHeight="27.0" prefWidth="19.0" />
                   <Label prefHeight="64.0" prefWidth="11.0" text="." />
 						<Label fx:id="minorVersionLabel" prefHeight="27.0" prefWidth="23.0" />

@@ -10,14 +10,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import swt.swl.topcard.controller.Controller;
-import swt.swl.topcard.controller.CreateModuleController;
+import swt.swl.topcard.controller.CreateEntityController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.ModuleDAO;
 import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateModuleControllerImpl implements Observer, Controller, CreateModuleController {
+public class CreateModuleControllerImpl implements Observer, Controller, CreateEntityController {
 
 	private ModuleDAO model;
 	private RequirementCardController mainController;
@@ -38,7 +38,7 @@ public class CreateModuleControllerImpl implements Observer, Controller, CreateM
 	private TextField moduleNameTextField;
 
 	@FXML
-	public void create() {
+	public void create(ActionEvent event) {
 
 		// 0. Check whether a string has been entered in the text field
 		checkEmpty();

@@ -10,6 +10,12 @@ import swt.swl.topcard.controller.impl.RequirementCardControllerImpl;
  */
 public interface Controller {
 
+	/**
+	 * 
+	 * As we use MVC and Observer-Pattern in our application, each
+	 * {@link Controller} should provide a method for registering on the
+	 * corresponding {@link Model}.
+	 */
 	void registerOnModel();
 
 	/**

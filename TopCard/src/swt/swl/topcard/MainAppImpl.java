@@ -14,11 +14,12 @@ public class MainAppImpl extends Application implements MainApp {
 	}
 
 	// maybe preloader could be cool here :)
+	@Override
 	public synchronized void start(Stage primaryStage) {
 
 		// instanciate ViewBuilder
 
-		preLoadApplication();
+		MainApp.drawDots();
 
 		vB = ViewBuilderImpl.INSTANCE;
 
@@ -27,31 +28,10 @@ public class MainAppImpl extends Application implements MainApp {
 		this.initLoginView();
 	}
 
-	// TODO: remove after finishing..
-	private static void preLoadApplication() {
-
-		try {
-			System.out.println("starting..\r");
-			for (int i = 0; i < 10; i++) {
-				Thread.sleep(300);
-				System.out.print(". ");
-			}
-			for (int i = 0; i < 10; i++) {
-				Thread.sleep(200);
-				System.out.print(".");
-			}
-			System.out.println("\r\r");
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public void initLoginView() {
 
 		vB.buildView("Login");
 
 		System.out.println("Starting up Application at System Time: " + new java.util.Date());
 	}
-
 }

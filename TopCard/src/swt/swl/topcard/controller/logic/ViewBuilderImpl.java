@@ -16,10 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import swt.swl.topcard.controller.Controller;
-import swt.swl.topcard.controller.CreateModuleController;
 import swt.swl.topcard.controller.CreateRequirementCardController;
-import swt.swl.topcard.controller.CreateTeamController;
-import swt.swl.topcard.controller.CreateUserStoryController;
 import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RegistrationController;
@@ -159,39 +156,15 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 			case "CreateModule":
 
-				Pane createModule = (Pane) loader.load();
-
-				CreateModuleController moduleController = (CreateModuleController) loader.getController();
-
-				moduleController.setMainController(mainController);
-
-				ControllerDAOImpl.controllers.put(view, (Controller) moduleController);
-
-				return new Scene(createModule);
+				proceedStandardEntityOperation(view);
 
 			case "CreateTeam":
 
-				Pane createTeam = (Pane) loader.load();
-
-				CreateTeamController teamController = (CreateTeamController) loader.getController();
-
-				teamController.setMainController(mainController);
-
-				ControllerDAOImpl.controllers.put(view, (Controller) teamController);
-
-				return new Scene(createTeam);
+				proceedStandardEntityOperation(view);
 
 			case "CreateUserStory":
 
-				Pane createStory = (Pane) loader.load();
-
-				CreateUserStoryController userStoryController = (CreateUserStoryController) loader.getController();
-
-				userStoryController.setMainController(mainController);
-
-				ControllerDAOImpl.controllers.put(view, (Controller) userStoryController);
-
-				return new Scene(createStory);
+				proceedStandardEntityOperation(view);
 
 			case "CreateRequirementCard":
 
@@ -233,17 +206,31 @@ public enum ViewBuilderImpl implements ViewBuilder {
 			}
 		} catch (Exception e) {
 
-			System.err.println(e.getClass().getName());
-
-			System.err.println(
-					"\r\r---------------AN EXCEPTION OCCURED DURING THIS PROCESS--------------\r\r----------------------PRINTING STACK TRACE-------------------------- \r \r");
-			e.printStackTrace();
-
-			System.err.println(
-					"\r\r----------------------------END OF EXCEPTION STACKTRACE----------------------------\r\r");
+			throw new TopCardException("TopCardException!");
 		}
 
 		throw new IllegalArgumentException("Invalid value for input parameter 'view'. Given value was: " + view + ".");
+	}
+
+	private Scene proceedStandardEntityOperation(String view) {
+
+		try {
+
+			Pane create = (Pane) loader.load();
+
+			Controller controller = (Controller) loader.getController();
+
+			controller.setMainController(mainController);
+
+			ControllerDAOImpl.controllers.put(view, (Controller) controller);
+
+			return new Scene(create);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		throw new IllegalStateException("Illegal State.");
+
 	}
 
 	// simply return one of the pre-loaded views

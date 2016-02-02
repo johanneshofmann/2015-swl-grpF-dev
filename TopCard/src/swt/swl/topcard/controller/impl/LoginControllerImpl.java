@@ -27,8 +27,7 @@ import swt.swl.topcard.model._impl.LoginModelImpl;
 public class LoginControllerImpl implements Observer, Controller, LoginController {
 
 	private LoginModel model;
-	private MainApp mainApp;
-	private Scene thisLoginScene, requirementCardViewScene;
+	private Scene loginScene, requirementCardViewScene;
 
 	private Boolean cancelEvent = false;
 
@@ -48,7 +47,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 
 	@FXML
 	public void enterPressed(KeyEvent key) {
-		System.out.println("enter pressed entered.....");
+
 		if (key.getCode().equals(KeyCode.ENTER)) {
 			System.out.println("Enter Pressed");
 			loginButton.fire();
@@ -113,14 +112,9 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		createRequirementCardView(message.toString());
 	}
 
-	public void setData(MainApp mainApp, Scene loginScene) {
+	public void setLoginScene(MainApp mainApp, Scene loginScene) {
 
-		this.mainApp = mainApp;
 		setLoginScene(loginScene);
-	}
-
-	public MainApp getMainApp() {
-		return mainApp;
 	}
 
 	public _Model getModel() {
@@ -136,23 +130,18 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	}
 
 	public void setLoginScene(Scene scene) {
-		this.thisLoginScene = scene;
+		this.loginScene = scene;
 	}
 
 	public Scene getLoginScene() {
 		this.userNameTextField.setText("");
-		return thisLoginScene;
-	}
-
-	@Override
-	public void setMainController(RequirementCardController requirementCardController) {
-		// not necessary here..
+		return loginScene;
 	}
 
 	@Override
 	public void cancel(ActionEvent event) {
-		// not necessary here..
-
+		// not necessary here.. only cancel option is exit programm.
+		throw new UnsupportedOperationException("Not supported. Only cancel operation is exit programm.");
 	}
 
 	@Override
@@ -162,19 +151,21 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 			cancelEvent = true;
 			Alert al = new Alert(AlertType.INFORMATION, "No username given, please enter one. ");
 
-			// TODO: k??nnte man mal bei allen Alerts die so gezeigt werden
-			// machen..
+			// TODO: maybe idea for all alerts ..?
 			al.setTitle("No username given");
 
 			al.showAndWait();
 		}
+	}
 
+	public void setData(RequirementCardController mainController, Scene loginScene) {
+
+		setLoginScene(loginScene);
 	}
 
 	@Override
-	public void setData(RequirementCardController mainController, Scene loginScene) {
-		// TODO Auto-generated method stub
-
+	public void setMainController(RequirementCardController requirementCardController) {
+		// not necessary here..
 	}
 
 	@Override
