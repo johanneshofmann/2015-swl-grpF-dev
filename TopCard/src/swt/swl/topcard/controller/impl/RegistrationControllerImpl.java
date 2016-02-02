@@ -12,11 +12,11 @@ import swt.swl.topcard.controller.RegistrationController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 
 public class RegistrationControllerImpl implements Controller, RegistrationController {
 
-	private Model model;
+	private _Model model;
 	private LoginController loginController;
 
 	@FXML
@@ -50,11 +50,11 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 		new Alert(AlertType.INFORMATION, "Registration successful.").showAndWait();
 	}
 
-	public Model getModel() {
+	public _Model getModel() {
 		return model;
 	}
 
-	public void setData(LoginController loginWindowController, Model model) {
+	public void setData(LoginController loginWindowController, _Model model) {
 
 		this.model = model;
 		this.loginController = loginWindowController;

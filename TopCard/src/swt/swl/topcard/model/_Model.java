@@ -1,5 +1,5 @@
 package swt.swl.topcard.model;
 
-public interface Model {
+public interface _Model {
 
 }

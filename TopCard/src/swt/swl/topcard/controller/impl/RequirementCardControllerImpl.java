@@ -39,7 +39,7 @@ import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model.RequirementCardModel;
 import swt.swl.topcard.model._impl.RequirementCardModelImpl;
 
@@ -87,7 +87,7 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		this.observableList = FXCollections.observableArrayList();
 
 		model = new RequirementCardModelImpl();
-		ModelDAOImpl.models.put("RequirementCard", (Model) model);
+		ModelDAOImpl.models.put("RequirementCard", (_Model) model);
 
 		model.setObservableArray(this.observableList);
 		((Observable) model).addObserver(this);

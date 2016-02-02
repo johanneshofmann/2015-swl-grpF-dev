@@ -1,9 +1,9 @@
-package swt.swl.topcard.model._impl;
+package swt.swl.topcard.logic._impl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import swt.swl.topcard.logic.SearchHelper;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
-import swt.swl.topcard.model.SearchHelper;
 import swt.swl.topcard.model.enums.SearchOperator;
 import swt.swl.topcard.model.enums.VoteValue;
 

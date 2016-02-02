@@ -14,7 +14,7 @@ import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 
-public class MainAppImpl extends Application {
+public class MainAppImpl extends Application  implements MainApp{
 
 	public static Stage primaryStage;
 

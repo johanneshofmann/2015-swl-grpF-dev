@@ -12,10 +12,10 @@ import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic._impl.StatisticsHelper;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class RequirementCardModelImpl extends Observable implements Model, RequirementCardModel {
+public class RequirementCardModelImpl extends Observable implements _Model, RequirementCardModel {
 
 	// loginName is set when the registrationView is created.
 	private String loginName;

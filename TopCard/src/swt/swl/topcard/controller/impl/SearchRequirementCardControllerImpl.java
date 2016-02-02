@@ -15,8 +15,8 @@ import javafx.scene.layout.HBox;
 import swt.swl.topcard.controller.Controller;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.controller.SearchRequirementCardController;
+import swt.swl.topcard.logic._impl.SearchHelperImpl;
 import swt.swl.topcard.model.RequirementCardModel;
-import swt.swl.topcard.model._impl.SearchHelperImpl;
 import swt.swl.topcard.model.enums.SearchOperator;
 import swt.swl.topcard.model.enums.VoteValue;
 

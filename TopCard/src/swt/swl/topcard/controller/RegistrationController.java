@@ -2,7 +2,7 @@ package swt.swl.topcard.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 
 /**
  * 
@@ -17,6 +17,6 @@ public interface RegistrationController {
 	@FXML
 	void register(ActionEvent event);
 
-	void setData(LoginController loginController, Model model);
+	void setData(LoginController loginController, _Model model);
 
 }

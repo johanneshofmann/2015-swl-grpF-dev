@@ -54,7 +54,7 @@ public class ViewBuilderImpl implements ViewBuilder {
 	}
 
 	private Scene generateScene(String view) {
-
+		// TODO: remove after testing..
 		System.out.println("input: " + view);
 		try {
 
@@ -155,7 +155,7 @@ public class ViewBuilderImpl implements ViewBuilder {
 	public void buildView(String view) {
 
 		System.out.println(view);
-		
+
 		if (systemScenes == null) {
 			throw new IllegalAccessError("scenes null");
 		}

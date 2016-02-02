@@ -12,7 +12,7 @@ import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.logic.DAOs.TeamDAO;
 import swt.swl.topcard.logic.DAOs.impl.TeamDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 
 public class CreateTeamControllerImpl implements Controller, CreateTeamController {
 
@@ -27,7 +27,7 @@ public class CreateTeamControllerImpl implements Controller, CreateTeamControlle
 
 	public CreateTeamControllerImpl() {
 		model = new TeamDAOImpl();
-		ModelDAOImpl.models.put("Team", (Model) model);
+		ModelDAOImpl.models.put("Team", (_Model) model);
 
 	}
 

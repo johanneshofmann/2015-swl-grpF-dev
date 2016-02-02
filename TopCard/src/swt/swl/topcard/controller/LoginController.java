@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import swt.swl.topcard.MainApp;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 
 /**
  * 
@@ -32,5 +32,5 @@ public interface LoginController {
 
 	Scene getLoginScene();
 
-	Model getModel();
+	_Model getModel();
 }

@@ -23,7 +23,7 @@ import swt.swl.topcard.controller.logic.impl.ViewBuilderImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model._impl.LoginModelImpl;
 
 public class LoginControllerImpl implements Observer, Controller, LoginController {
@@ -46,7 +46,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	public LoginControllerImpl() {
 
 		model = new LoginModelImpl();
-		ModelDAOImpl.models.put("Login", (Model) model);
+		ModelDAOImpl.models.put("Login", (_Model) model);
 
 		((Observable) model).addObserver(this);
 	}
@@ -137,8 +137,8 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		return mainApp;
 	}
 
-	public Model getModel() {
-		return (Model) model;
+	public _Model getModel() {
+		return (_Model) model;
 	}
 
 	public void setModel(LoginModel model) {

@@ -6,9 +6,9 @@ import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.model.LoginModel;
-import swt.swl.topcard.model.Model;
+import swt.swl.topcard.model._Model;
 
-public class LoginModelImpl extends Observable implements Model, LoginModel {
+public class LoginModelImpl extends Observable implements _Model, LoginModel {
 
 	public boolean checkDatabase(String loginName) {
 

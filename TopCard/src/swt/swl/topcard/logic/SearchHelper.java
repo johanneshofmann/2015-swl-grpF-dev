@@ -1,4 +1,4 @@
-package swt.swl.topcard.model;
+package swt.swl.topcard.logic;
 
 /**
  * 
