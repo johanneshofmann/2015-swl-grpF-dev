@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +26,7 @@ import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic._impl.StatisticsHelper;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 
-public class ShowDiagramControllerImpl implements Controller, ShowDiagramController {
+public class ShowDiagramControllerImpl implements Observer, Controller, ShowDiagramController {
 
 	private RequirementCardController mainController;
 	private String userName;
@@ -180,6 +183,16 @@ public class ShowDiagramControllerImpl implements Controller, ShowDiagramControl
 	@Override
 	public void setMainController(RequirementCardController requirementCardController) {
 		this.mainController = requirementCardController;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO
+	}
+
+	@Override
+	public void registerOnModel() {
+		// ((Observable) model).addObserver(this);
 	}
 
 }

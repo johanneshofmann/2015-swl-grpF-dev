@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,7 +17,7 @@ import swt.swl.topcard.logic.DAOs.impl.TeamDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateTeamControllerImpl implements Controller, CreateTeamController {
+public class CreateTeamControllerImpl implements Observer, Controller, CreateTeamController {
 
 	private TeamDAO model;
 	private RequirementCardController mainController;
@@ -26,9 +29,11 @@ public class CreateTeamControllerImpl implements Controller, CreateTeamControlle
 	private TextField teamNameTextField;
 
 	public CreateTeamControllerImpl() {
+
 		model = new TeamDAOImpl();
 		ModelDAOImpl.models.put("Team", (_Model) model);
 
+		registerOnModel();
 	}
 
 	@FXML
@@ -40,8 +45,6 @@ public class CreateTeamControllerImpl implements Controller, CreateTeamControlle
 		if (!model.hasTeam(value)) {
 			// 2. Add module to the database
 			model.insertTeam(value);
-			new Alert(AlertType.CONFIRMATION, "Team has been added successfully.").showAndWait();
-			mainController.repaint();
 		} else {
 			new Alert(AlertType.WARNING, "Team with the name " + value + " already exists.").showAndWait();
 		}
@@ -63,5 +66,17 @@ public class CreateTeamControllerImpl implements Controller, CreateTeamControlle
 		if (!this.teamNameTextField.getText().isEmpty()) {
 			new Alert(AlertType.WARNING, "Team name is empty.").showAndWait();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		new Alert(AlertType.CONFIRMATION, "Team has been added successfully.").showAndWait();
+		mainController.repaint();
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 }

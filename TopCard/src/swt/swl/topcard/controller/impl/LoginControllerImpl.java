@@ -43,7 +43,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		model = new LoginModelImpl();
 		ModelDAOImpl.models.put("Login", (_Model) model);
 
-		((Observable) model).addObserver(this);
+		registerOnModel();
 	}
 
 	@FXML
@@ -96,16 +96,14 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 		i.buildView("Registration", this);
 	}
 
-	private void createRequirementCardView(String loginName) {
-
-		String requirementCard = "RequirementCard";
+	public void createRequirementCardView(String loginName) {
 
 		// fetch pre-loaded view
-		MainAppImpl.vB.buildView(requirementCard);
+		MainAppImpl.vB.buildView("RequirementCard");
 
 		// fetch corresponding controller
 		RequirementCardController controller = (RequirementCardController) ControllerDAOImpl.controllers
-				.get(requirementCard);
+				.get("RequirementCard");
 
 		// and call setData()-method in the common way..
 		controller.setData(userNameTextField.getText(), this);
@@ -118,6 +116,7 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	}
 
 	public void setData(MainApp mainApp, Scene loginScene) {
+
 		this.mainApp = mainApp;
 		setLoginScene(loginScene);
 	}
@@ -178,6 +177,11 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	public void setData(RequirementCardController mainController, Scene loginScene) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 
 }

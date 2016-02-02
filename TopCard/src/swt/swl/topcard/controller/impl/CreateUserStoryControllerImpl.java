@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,7 +17,7 @@ import swt.swl.topcard.logic.DAOs.impl.UserStoryDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateUserStoryControllerImpl implements Controller, CreateUserStoryController {
+public class CreateUserStoryControllerImpl implements Observer, Controller, CreateUserStoryController {
 
 	private RequirementCardController mainController;
 	private UserStoryDAO model;
@@ -30,6 +33,7 @@ public class CreateUserStoryControllerImpl implements Controller, CreateUserStor
 		model = new UserStoryDAOImpl();
 		ModelDAOImpl.models.put("UserStory", (_Model) model);
 
+		registerOnModel();
 	}
 
 	@FXML
@@ -51,9 +55,6 @@ public class CreateUserStoryControllerImpl implements Controller, CreateUserStor
 			// 2. Add userStory to the database
 			model.insertUserStory(userStoryTextField.getText());
 
-			new Alert(AlertType.CONFIRMATION, "UserStoriy has been added successfully.").showAndWait();
-			mainController.repaint();
-
 		} else {
 			new Alert(AlertType.WARNING, "UserStory with the name " + userStory + " already exists.").showAndWait();
 		}
@@ -71,5 +72,17 @@ public class CreateUserStoryControllerImpl implements Controller, CreateUserStor
 		if (userStoryTextField.getText().isEmpty()) {
 			new Alert(AlertType.WARNING, "UserStory name is empty.").showAndWait();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		new Alert(AlertType.CONFIRMATION, "UserStoriy has been added successfully.").showAndWait();
+		mainController.repaint();
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 }

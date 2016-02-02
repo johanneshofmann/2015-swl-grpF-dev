@@ -90,7 +90,9 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		ModelDAOImpl.models.put("RequirementCard", (_Model) model);
 
 		model.setObservableArray(this.observableList);
-		((Observable) model).addObserver(this);
+
+		registerOnModel();
+
 		setMainController(this);
 
 		viewBuilder = new ViewBuilderImpl(this);
@@ -203,15 +205,13 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	}
 
 	@Override
-	public void update(Observable o, Object update) {
+	public void update(Observable o, Object bool) {
 
-		if (update != null) {
+		if (bool != null) {
 
-			if (update.toString().equals(loginName)) {
+			if ((boolean) bool == true || (boolean) bool == false) {
 
 				repaint();
-
-				return;
 			}
 		}
 	}
@@ -421,5 +421,10 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	public void checkEmpty() {
 		// not really necessary here, validation takes place in each method for
 		// its own..
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 }

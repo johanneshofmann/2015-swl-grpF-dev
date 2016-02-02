@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -19,7 +22,7 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.entity.impl.RequirementCardSimpleImpl;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class VoteRequirementCardControllerImpl implements Controller, VoteRequirementCardController {
+public class VoteRequirementCardControllerImpl implements Observer, Controller, VoteRequirementCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -65,10 +68,8 @@ public class VoteRequirementCardControllerImpl implements Controller, VoteRequir
 	@FXML
 	void voteButtonClicked(ActionEvent event) {
 
+		registerOnModel();
 		model.newVoteSubmitted(toVote.getID(), getSelectedItems());
-		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
-
-		mainController.repaint();
 	}
 
 	private int[] getSelectedItems() {
@@ -168,7 +169,22 @@ public class VoteRequirementCardControllerImpl implements Controller, VoteRequir
 
 	@Override
 	public void checkEmpty() {
-		// not necessary here..
+
+		// As not necessary here..
+		throw new UnsupportedOperationException("Not supported on VoteRequirementCardController.");
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		new Alert(AlertType.INFORMATION, "Vote submitted !").showAndWait();
+
+		mainController.repaint();
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 
 }

@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,7 +17,7 @@ import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model.LoginModel;
 import swt.swl.topcard.model._Model;
 
-public class RegistrationControllerImpl implements Controller, RegistrationController {
+public class RegistrationControllerImpl implements Observer, Controller, RegistrationController {
 
 	private _Model model;
 	private LoginController loginController;
@@ -46,8 +49,9 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 			return;
 		}
 
+		registerOnModel();
+
 		((LoginModel) model).insertUserIntoDatabase(firstName, lastName, loginName);
-		new Alert(AlertType.INFORMATION, "Registration successful.").showAndWait();
 	}
 
 	public _Model getModel() {
@@ -80,5 +84,17 @@ public class RegistrationControllerImpl implements Controller, RegistrationContr
 			new Alert(AlertType.WARNING, "Field(s) should not be empty.").showAndWait();
 
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		new Alert(AlertType.INFORMATION, "Registration successful.").showAndWait();
+		loginController.createRequirementCardView(loginNameTextField.getText());
+	}
+
+	@Override
+	public void registerOnModel() {
+		((Observable) model).addObserver(this);
 	}
 }

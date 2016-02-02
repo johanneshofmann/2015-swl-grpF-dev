@@ -28,6 +28,8 @@ public interface LoginController {
 
 	Scene getRequirementCardViewScene();
 
+	void createRequirementCardView(String loginName);
+
 	void setLoginScene(Scene scene);
 
 	Scene getLoginScene();

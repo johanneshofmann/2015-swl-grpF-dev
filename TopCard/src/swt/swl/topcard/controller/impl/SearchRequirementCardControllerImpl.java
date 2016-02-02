@@ -64,6 +64,7 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 			rationaleConsistentComboBox;
 
 	public SearchRequirementCardControllerImpl() {
+		registerOnModel();
 	}
 
 	private void initiateComboBoxes() {
@@ -244,6 +245,14 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 	@Override
 	public void checkEmpty() {
 		// TODO don't know wheather its necessary here..
+	}
+
+	@Override
+	public void registerOnModel() {
+
+		// As no model necessary for this Controller ..
+
+		throw new UnsupportedOperationException("Not supported for SearchRequirementCardController");
 	}
 
 }

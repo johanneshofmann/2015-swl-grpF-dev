@@ -1,6 +1,9 @@
 
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.controlsfx.control.CheckComboBox;
 
 import javafx.collections.ObservableList;
@@ -19,7 +22,7 @@ import swt.swl.topcard.controller.CreateRequirementCardController;
 import swt.swl.topcard.controller.RequirementCardController;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class CreateRequirementCardControllerImpl implements Controller, CreateRequirementCardController {
+public class CreateRequirementCardControllerImpl implements Observer, Controller, CreateRequirementCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -62,13 +65,19 @@ public class CreateRequirementCardControllerImpl implements Controller, CreateRe
 
 		checkEmpty();
 
+		registerOnModel();
+
 		ObservableList<String> userStories = userStoriesCheckComboBox.getCheckModel().getCheckedItems(),
 				teams = teamsCheckComboBox.getCheckModel().getCheckedItems();
 
 		model.insertRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(), titleTextField.getText(),
 				descriptionTextArea.getText(), rationaleTextArea.getText(), userStories, teams,
 				fitCriterionTextField.getText(), supportingMaterialsTextField.getText());
-		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
+	}
+
+	public void registerOnModel() {
+
+		((Observable) model).addObserver(this);
 	}
 
 	public void setData(RequirementCardModel rqModel, RequirementCardController requirementCardController) {
@@ -143,6 +152,12 @@ public class CreateRequirementCardControllerImpl implements Controller, CreateRe
 			al.showAndWait();
 
 		}
+
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		new Alert(AlertType.INFORMATION, "Reqirement in database now.").showAndWait();
 	}
 
 }

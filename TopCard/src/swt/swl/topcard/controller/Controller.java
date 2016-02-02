@@ -10,6 +10,8 @@ import swt.swl.topcard.controller.impl.RequirementCardControllerImpl;
  */
 public interface Controller {
 
+	void registerOnModel();
+
 	/**
 	 * A 'setter'-method which sets the main controller instance of each
 	 * Controller e.g. necessary for an efficient redirect after performing some

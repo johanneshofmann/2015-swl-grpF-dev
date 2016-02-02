@@ -3,6 +3,8 @@ package swt.swl.topcard.controller.impl;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.controlsfx.control.CheckComboBox;
 
@@ -26,7 +28,7 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 import swt.swl.topcard.model.RequirementCardModel;
 
-public class EditRequirementCardControllerImpl implements Controller, EditRequirementCardController {
+public class EditRequirementCardControllerImpl implements Observer, Controller, EditRequirementCardController {
 
 	private RequirementCardModel model;
 	private RequirementCardController mainController;
@@ -91,6 +93,8 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 
 		checkEmpty();
 
+		registerOnModel();
+
 		model.insertEditedRqIntoDatabase(modulesCheckComboBox.getCheckModel().getCheckedItems(),
 				titleTextField.getText(), Integer.parseInt(requirementCardNumberLabel.getText()),
 				Integer.parseInt(majorVersionLabel.getText()), (Integer.parseInt(minorVersionLabel.getText()) + 1),
@@ -98,9 +102,6 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 				teamsCheckComboBox.getCheckModel().getCheckedItems(),
 				userStoriesCheckComboBox.getCheckModel().getCheckedItems(), fitCriterionTextField.getText(),
 				supportingMaterialsTextField.getText(), false, getCreatedAt());
-
-		// if successful, show alert to user
-		new Alert(AlertType.INFORMATION, "Changes saved.").showAndWait();
 	}
 
 	public Timestamp getCreatedAt() {
@@ -268,6 +269,19 @@ public class EditRequirementCardControllerImpl implements Controller, EditRequir
 			al.showAndWait();
 
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		// if successful, show alert to user
+		new Alert(AlertType.INFORMATION, "Changes saved.").showAndWait();
+	}
+
+	@Override
+	public void registerOnModel() {
+
+		((Observable) model).addObserver(this);
 	}
 
 }

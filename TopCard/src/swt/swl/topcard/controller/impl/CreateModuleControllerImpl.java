@@ -1,5 +1,8 @@
 package swt.swl.topcard.controller.impl;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,7 +17,7 @@ import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.model._Model;
 
-public class CreateModuleControllerImpl implements Controller, CreateModuleController {
+public class CreateModuleControllerImpl implements Observer, Controller, CreateModuleController {
 
 	private ModuleDAO model;
 	private RequirementCardController mainController;
@@ -22,7 +25,10 @@ public class CreateModuleControllerImpl implements Controller, CreateModuleContr
 	public CreateModuleControllerImpl() {
 		// create the model :
 		model = new ModuleDAOImpl();
+
 		ModelDAOImpl.models.put("Module", (_Model) model);
+
+		registerOnModel();
 	}
 
 	@FXML
@@ -44,9 +50,6 @@ public class CreateModuleControllerImpl implements Controller, CreateModuleContr
 
 			// 2. Add module to the database
 			model.insertModule(value);
-
-			new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
-			mainController.repaint();
 
 		} else {
 			new Alert(AlertType.WARNING, "Module with the name " + value + " already exists.").showAndWait();
@@ -72,5 +75,18 @@ public class CreateModuleControllerImpl implements Controller, CreateModuleContr
 		if (moduleNameTextField.getText().isEmpty()) {
 			new Alert(AlertType.WARNING, "Module name is empty.").showAndWait();
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+		new Alert(AlertType.CONFIRMATION, "Module has been added successfully.").showAndWait();
+		mainController.repaint();
+	}
+
+	@Override
+	public void registerOnModel() {
+
+		((Observable) model).addObserver(this);
 	}
 }

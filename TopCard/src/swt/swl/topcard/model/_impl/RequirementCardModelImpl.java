@@ -20,6 +20,8 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 	// loginName is set when the registrationView is created.
 	private String loginName;
 
+	private static boolean INSERTFIRSTVERSION = true;
+
 	private ObservableList<RequirementCardSimple> observableArray;
 
 	public RequirementCardModelImpl() {
@@ -36,6 +38,8 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 			int majorVersion, int minorVersion, String description, String rationale, ObservableList<String> source,
 			ObservableList<String> userStories, String fitCriterion, String supportingMaterials, boolean isFrozen,
 			Timestamp createdAt) {
+
+		INSERTFIRSTVERSION = false;
 
 		if (isFrozen) {
 			majorVersion += 1;
@@ -58,12 +62,14 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 		insertAllPairsIntoEachTable(ID, modules, userStories, source);
 
 		// let the controller know that sth. has changed
-		triggerNotification(loginName);
+		triggerNotification(INSERTFIRSTVERSION);
 	}
 
 	public synchronized int insertRqIntoDatabase(ObservableList<String> modules, String title, String description,
 			String rationale, ObservableList<String> source, ObservableList<String> userStories, String fitCriterion,
 			String supportingMaterials) {
+
+		INSERTFIRSTVERSION = true;
 
 		int minorVersion = 1;
 		int majorVersion = 1;
@@ -89,7 +95,7 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 		insertAllPairsIntoEachTable(rqID, modules, userStories, source);
 
 		// let the controller know that sth. has changed
-		triggerNotification(loginName);
+		triggerNotification(INSERTFIRSTVERSION);
 
 		return rqID;
 	}
@@ -148,7 +154,7 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 		}
 	}
 
-	private void triggerNotification(Object message) {
+	private void triggerNotification(Boolean message) {
 		setChanged();
 		notifyObservers(message);
 	}
@@ -266,11 +272,12 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 	}
 
 	public void deleteRequirement(String rqID, String majorVersion, String minorVersion) {
+		
 		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
 				Integer.parseInt(minorVersion));
 
 		// let the controller know that sth. has changed
-		triggerNotification(loginName);
+		triggerNotification(false);
 	}
 
 	public boolean userAlreadyVoted(int ID) {
