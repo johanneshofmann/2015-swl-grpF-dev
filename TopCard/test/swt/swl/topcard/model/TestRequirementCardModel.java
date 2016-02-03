@@ -21,8 +21,6 @@ public class TestRequirementCardModel {
 	RequirementCardController controller;
 	String loginName;
 
-	// private String loginName;
-
 	@Before
 	public void init() {
 		// controller needed for initializing observableArray

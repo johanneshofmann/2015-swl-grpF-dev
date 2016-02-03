@@ -14,7 +14,6 @@ import swt.swl.topcard.logic.DAOs.ModuleDAO;
 import swt.swl.topcard.logic.DAOs.impl.ModuleDAOImpl;
 
 public class TestModuleModel {
-	// private ObservableList<Module> observableArray;
 	private ModuleDAO moduleModel;
 
 	@Before
