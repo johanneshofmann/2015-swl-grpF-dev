@@ -12,8 +12,8 @@ import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic._impl.StatisticsHelper;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
-import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model._Model;
 
 public class RequirementCardModelImpl extends Observable implements _Model, RequirementCardModel {
 
@@ -271,10 +271,9 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 				+ " AND RequirementID=" + rqID);
 	}
 
-	public void deleteRequirement(String rqID, String majorVersion, String minorVersion) {
-		
-		DatabaseHelper.deleteRqFromDatabase(Integer.parseInt(rqID), Integer.parseInt(majorVersion),
-				Integer.parseInt(minorVersion));
+	public void deleteRequirement(int rqID, int majorVersion, int minorVersion) {
+
+		DatabaseHelper.deleteRqFromDatabase(rqID, majorVersion, minorVersion);
 
 		// let the controller know that sth. has changed
 		triggerNotification(false);
@@ -294,13 +293,11 @@ public class RequirementCardModelImpl extends Observable implements _Model, Requ
 
 	@Override
 	public void addListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void removeListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 

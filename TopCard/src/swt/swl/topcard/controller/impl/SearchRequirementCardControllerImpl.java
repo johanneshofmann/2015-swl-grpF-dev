@@ -147,7 +147,6 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 		if (!ownerTextField.getText().isEmpty()) {
 			owner = ownerTextField.getText();
 		}
-		// TODO: Modules
 		if (!descriptionTextArea.getText().isEmpty()) {
 			description = descriptionTextArea.getText();
 		}
@@ -243,7 +242,7 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 
 	@Override
 	public void checkEmpty() {
-		// TODO don't know wheather its necessary here..
+		// not necessary here..
 	}
 
 	@Override

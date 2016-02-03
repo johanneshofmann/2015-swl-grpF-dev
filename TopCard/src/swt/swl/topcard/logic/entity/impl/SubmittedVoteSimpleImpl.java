@@ -258,8 +258,7 @@ public class SubmittedVoteSimpleImpl implements SubmittedVoteSimple {
 
 	@Override
 	public void setOverallVoteScore(String[] overallVoteScore) {
-		// TODO Auto-generated method stub
-
+		// not used ..
 	}
 
 }

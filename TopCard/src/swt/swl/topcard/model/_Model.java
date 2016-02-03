@@ -2,7 +2,7 @@ package swt.swl.topcard.model;
 
 /**
  * 
- * TODO: Model interface
+ * Model interface for all Models of the MVC
  * 
  * @author -steve-
  *

@@ -122,8 +122,8 @@ public class EditRequirementCardControllerImpl implements Observer, Controller, 
 
 	@FXML
 	public void deleteRequirementButtonClicked(ActionEvent event) {
-		model.deleteRequirement(requirementCardNumberLabel.getText(), majorVersionLabel.getText(),
-				minorVersionLabel.getText());
+		model.deleteRequirement(Integer.parseInt(requirementCardNumberLabel.getText()),
+				Integer.parseInt(majorVersionLabel.getText()), Integer.parseInt(minorVersionLabel.getText()));
 	}
 
 	public void fillRqCardDataInTextFields() {

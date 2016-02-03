@@ -49,13 +49,11 @@ public class LoginModelImpl extends Observable implements _Model, LoginModel {
 
 	@Override
 	public void addListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void removeListener(InvalidationListener listener) {
-		// TODO Auto-generated method stub
 
 	}
 

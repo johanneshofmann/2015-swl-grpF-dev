@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import swt.swl.topcard.controller.Controller;
+import swt.swl.topcard.controller.CreateEntityController;
 import swt.swl.topcard.controller.CreateRequirementCardController;
 import swt.swl.topcard.controller.EditRequirementCardController;
 import swt.swl.topcard.controller.LoginController;
@@ -151,18 +152,23 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 			case "CreateModule":
 
-				proceedStandardEntityOperation(view);
-				break;
+				Scene cm = new Scene((Pane) loader.load());
+
+				return cm;
 
 			case "CreateTeam":
 
+				Scene ct = new Scene((Pane) loader.load());
 				proceedStandardEntityOperation(view);
-				break;
+
+				return ct;
 
 			case "CreateUserStory":
 
+				Scene cu = new Scene((Pane) loader.load());
 				proceedStandardEntityOperation(view);
-				break;
+
+				return cu;
 
 			case "CreateRequirementCard":
 
@@ -213,30 +219,13 @@ public enum ViewBuilderImpl implements ViewBuilder {
 		// 'view'. Given value was: " + view + ".");
 	}
 
-	private Scene proceedStandardEntityOperation(String view) {
+	private void proceedStandardEntityOperation(String view) {
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
+		CreateEntityController c = (CreateEntityController) loader.getController();
 
-			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/" + view + "View.fxml"));
+		((Controller) c).setMainController(mainController);
 
-			Scene scene = new Scene((Pane) loader.load());
-
-			ViewBuilder.changeGUI(scene);
-			Thread.sleep(5000);
-
-			Controller controller = (Controller) loader.getController();
-
-			controller.setMainController(mainController);
-
-			ControllerDAOImpl.controllers.put(view, (Controller) controller);
-
-			return scene;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		throw new IllegalStateException("Illegal State.");
+		ControllerDAOImpl.controllers.put(view, (Controller) c);
 
 	}
 

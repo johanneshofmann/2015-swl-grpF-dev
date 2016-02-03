@@ -9,7 +9,7 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 
 /**
  * 
- * TODO: javadoc
+ * The Model for all operations dealing with Requirements
  * 
  * @author swt-041649
  *
@@ -40,41 +40,41 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Deletes a requirement by
 	 * 
 	 * @param text
 	 * @param text2
 	 * @param text3
 	 */
-	void deleteRequirement(String text, String text2, String text3);
+	void deleteRequirement(int text, int text2, int text3);
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the DatabaseHelper fetch all current Modules from database.
 	 * 
-	 * @return
+	 * @return it in an ObservableList
+	 * 
 	 */
 	ObservableList<String> getModules();
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the DatabaseHelper fetch all current serStories from database.
 	 * 
-	 * @return
+	 * @return it in an ObservableList
 	 */
 	ObservableList<String> getUserStories();
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the DatabaseHelper fetch all current Teams from database.
 	 * 
-	 * @return
+	 * @return it in an ObservableList
 	 */
 	ObservableList<String> getTeams();
 
 	/**
 	 * 
-	 * TODO: javadoc
 	 * 
 	 * @param string
 	 * @param rqID
@@ -84,9 +84,9 @@ public interface RequirementCardModel extends Observable {
 	Object getXNamesAsStringByRqID(String string, int rqID, boolean b);
 
 	/**
-	 * 
-	 * TODO: javadoc
-	 * 
+	 *
+	 * Checks wheather there are any votes on the given requirementID
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -94,16 +94,15 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
-	 * 
 	 * @param id
-	 * @return
+	 * @returns the vote results of a given requirementID
 	 */
 	Object[] getVoteResults(int id);
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * This method makes the DatabaseHelper insert the requirement into
+	 * database.
 	 * 
 	 * @param modules
 	 * @param title
@@ -121,7 +120,8 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the DatabaseHelper fetch all teams the user is subsribed from
+	 * database.
 	 * 
 	 * @return
 	 */
@@ -129,23 +129,21 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
-	 * 
 	 * @param item
-	 * @return
+	 * @return true, if RQ is frozen.
 	 */
 	boolean isFrozen(String item);
 
 	/**
+	 * Calls the getRequirements()-method on DatabaseHelper and allocates all
+	 * current requirements to the observable list.
 	 * 
-	 * 
-	 * TODO: javadoc
 	 */
 	void updateRequirementsList();
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather the loginName equals the ownerName.
 	 * 
 	 * @param ownerName
 	 * @return
@@ -154,7 +152,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather an user has already votes on a requirement card.
 	 * 
 	 * @param id
 	 * @return
@@ -163,7 +161,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather an user is already subscribed.
 	 * 
 	 * @return
 	 */
@@ -171,7 +169,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the user enter a team identified by the given string.
 	 * 
 	 * @param string
 	 */
@@ -179,7 +177,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the user exit a team identified by the given string.
 	 * 
 	 * @param string
 	 */
@@ -187,7 +185,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple Setter-Method.
 	 * 
 	 * @param loginName
 	 */
@@ -195,7 +193,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple Setter-Method.
 	 * 
 	 * @param observableList
 	 */
@@ -203,7 +201,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple Getter-Method.
 	 * 
 	 * @return
 	 */
@@ -211,7 +209,8 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Lets the DatabaseHelper insert a new Vote with the given values into
+	 * database.
 	 * 
 	 * @param id
 	 * @param selectedItems

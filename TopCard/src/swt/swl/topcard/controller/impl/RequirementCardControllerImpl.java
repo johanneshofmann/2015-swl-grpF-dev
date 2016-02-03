@@ -276,9 +276,10 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 	private void initChooseTeamComboBox() {
 
-		chooseTeamBox = new CheckComboBox<>(model.getTeams());
-
-		menuListHBox.getChildren().add(chooseTeamBox);
+		if (chooseTeamBox == null) {
+			chooseTeamBox = new CheckComboBox<>(model.getTeams());
+			menuListHBox.getChildren().add(chooseTeamBox);
+		}
 
 		addEventHandlerToChooseTeamBox();
 	}

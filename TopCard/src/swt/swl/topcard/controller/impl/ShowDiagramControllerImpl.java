@@ -186,12 +186,12 @@ public class ShowDiagramControllerImpl implements Observer, Controller, ShowDiag
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO
 	}
 
 	@Override
 	public void registerOnModel() {
-		// ((Observable) model).addObserver(this);
+		// model instance replaced with static class StatisticsHelper
+		throw new UnsupportedOperationException("Unsupported.");
 	}
 
 }

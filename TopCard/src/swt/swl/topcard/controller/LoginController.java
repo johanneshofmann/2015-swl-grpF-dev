@@ -49,8 +49,7 @@ public interface LoginController {
 	void registerButtonClicked(ActionEvent event);
 
 	/**
-	 * 
-	 * TODO: javadoc
+	 * Opens RequirementCardView.fxml.
 	 * 
 	 * @param loginName
 	 */
@@ -67,7 +66,9 @@ public interface LoginController {
 
 	/**
 	 * 
-	 * @param hashMap
+	 * Simple Setter.
+	 * 
+	 * @param sc
 	 */
 	void setScenes(Scene sc);
 

@@ -13,7 +13,7 @@ public interface RequirementCardSimple {
 
 	/**
 	 * 
-	 * TODO: The interface for the classes' Builder.
+	 * The interface for the classes' Builder.
 	 * 
 	 * @author -steve-
 	 *

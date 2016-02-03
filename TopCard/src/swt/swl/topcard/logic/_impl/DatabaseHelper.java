@@ -648,10 +648,10 @@ public class DatabaseHelper {
 				int minorVersion = requirementSet.getInt(3), majorVersion = requirementSet.getInt(4),
 						ownerID = requirementSet.getInt(5), requirementID = requirementSet.getInt(6);
 
-				return new RequirementCardSimpleImpl.RequirementCardBuilderImpl().setID(ID).setTitle(requirementSet.getString(2))
-						.setMinorVersion(minorVersion).setMajorVersion(majorVersion).setOwnerID(ownerID)
-						.setOwnerName(XIDToName("User", ownerID)).setRqID(requirementID)
-						.setModules(getXNameAsStringByRequirementID("Module", ID))
+				return new RequirementCardSimpleImpl.RequirementCardBuilderImpl().setID(ID)
+						.setTitle(requirementSet.getString(2)).setMinorVersion(minorVersion)
+						.setMajorVersion(majorVersion).setOwnerID(ownerID).setOwnerName(XIDToName("User", ownerID))
+						.setRqID(requirementID).setModules(getXNameAsStringByRequirementID("Module", ID))
 						.setTeams(getXNameAsStringByRequirementID("Team", ID))
 						.setUserStories(getXNameAsStringByRequirementID("UserStory", ID))
 						.setDescription(requirementSet.getString(7)).setRationale(requirementSet.getString(8))
@@ -685,8 +685,6 @@ public class DatabaseHelper {
 
 			while (rqVote.next()) {
 
-				// TODO: @Steve last modified here:
-
 				SubmittedVoteSimple currentVote = new SubmittedVoteSimpleImpl.VoteBuilderImpl()
 						.setDescriptionPrecise(rqVote.getInt(4)).setDescriptionUnderstandable(rqVote.getInt(5))
 						.setDescriptionCorrect(rqVote.getInt(6)).setDescriptionComplete(rqVote.getInt(7))
@@ -694,12 +692,6 @@ public class DatabaseHelper {
 						.setRationaleUnderstandable(rqVote.getInt(10)).setRationaleTraceable(rqVote.getInt(11))
 						.setRationaleComplete(rqVote.getInt(12)).setRationaleConsistent(rqVote.getInt(13))
 						.setFitCriterionComplete(rqVote.getInt(14)).buildVote();
-
-				// (, rqVote.getInt(5),
-				// rqVote.getInt(6), rqVote.getInt(7), rqVote.getInt(8),
-				// rqVote.getInt(9), rqVote.getInt(10),
-				// rqVote.getInt(11), rqVote.getInt(12), rqVote.getInt(13),
-				// rqVote.getInt(14));
 
 				allVoteResults.add(currentVote);
 			}

@@ -106,10 +106,9 @@
             <HBox layoutX="341.0" prefHeight="26.0" prefWidth="270.0" spacing="5.0">
                <children>
       				<Button fx:id="showDiagramButton" alignment="TOP_LEFT" blendMode="DIFFERENCE" contentDisplay="TOP" mnemonicParsing="false" onAction="#showDiagramButtonClicked" text="ShowDiagram" textFill="#1b1010" />
-      				<Button fx:id="helpButton" mnemonicParsing="false" onAction="#helpButtonClicked" prefHeight="26.0" prefWidth="88.0" text="Help" />
-      				<Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
                </children>
             </HBox>
+				<Button fx:id="logoutButton" layoutX="839.0" mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
 			</children>
 		</Pane>
 	</children>
