@@ -346,7 +346,6 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 			ShowDiagramController diagramController = (ShowDiagramController) loader.getController();
 
-			System.out.println("setting loginName to null in diagramController..");
 			diagramController.setData(mainController, null);
 
 			ControllerDAOImpl.controllers.put(view, (Controller) diagramController);
