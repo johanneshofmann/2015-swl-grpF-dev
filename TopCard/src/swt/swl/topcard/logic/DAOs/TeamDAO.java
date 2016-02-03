@@ -9,7 +9,7 @@ public interface TeamDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather the team exists in the database.
 	 * 
 	 * @param value
 	 * @return
@@ -18,7 +18,7 @@ public interface TeamDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Inserts a Team into the database.
 	 * 
 	 * @param value
 	 */

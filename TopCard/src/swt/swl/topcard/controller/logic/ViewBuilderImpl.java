@@ -32,7 +32,7 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 	INSTANCE;
 
-	protected static Stage primaryStage;
+	private Stage primaryStage;
 
 	private FXMLLoader loader;
 	private RequirementCardController mainController;
@@ -43,9 +43,6 @@ public enum ViewBuilderImpl implements ViewBuilder {
 			"CreateModule", "CreateTeam", "CreateUserStory" }; // length=7
 
 	private ViewBuilderImpl() {
-	}
-
-	static {
 		primaryStage = new Stage();
 		primaryStage.setTitle("TopCard");
 		setOnCloseRequest();
@@ -63,7 +60,7 @@ public enum ViewBuilderImpl implements ViewBuilder {
 	/**
 	 * 
 	 */
-	private static void setOnCloseRequest() {
+	private void setOnCloseRequest() {
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
@@ -122,8 +119,6 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 	private Scene generateScene(String view) {
 
-		System.out.println("input: " + view);
-
 		try {
 
 			loader = new FXMLLoader();
@@ -157,14 +152,17 @@ public enum ViewBuilderImpl implements ViewBuilder {
 			case "CreateModule":
 
 				proceedStandardEntityOperation(view);
+				break;
 
 			case "CreateTeam":
 
 				proceedStandardEntityOperation(view);
+				break;
 
 			case "CreateUserStory":
 
 				proceedStandardEntityOperation(view);
+				break;
 
 			case "CreateRequirementCard":
 
@@ -206,17 +204,26 @@ public enum ViewBuilderImpl implements ViewBuilder {
 			}
 		} catch (Exception e) {
 
-			throw new TopCardException("TopCardException!");
+			e.printStackTrace();
+			throw new TopCardException("TopCardException!" + view);
 		}
+		return null;
 
-		throw new IllegalArgumentException("Invalid value for input parameter 'view'. Given value was: " + view + ".");
+		// throw new IllegalArgumentException("Invalid value for input parameter
+		// 'view'. Given value was: " + view + ".");
 	}
 
 	private Scene proceedStandardEntityOperation(String view) {
 
 		try {
+			FXMLLoader loader = new FXMLLoader();
 
-			Pane create = (Pane) loader.load();
+			loader.setLocation(getClass().getResource("/swt/swl/topcard/view/" + view + "View.fxml"));
+
+			Scene scene = new Scene((Pane) loader.load());
+
+			ViewBuilder.changeGUI(scene);
+			Thread.sleep(5000);
 
 			Controller controller = (Controller) loader.getController();
 
@@ -224,9 +231,9 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 			ControllerDAOImpl.controllers.put(view, (Controller) controller);
 
-			return new Scene(create);
+			return scene;
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		throw new IllegalStateException("Illegal State.");
@@ -236,17 +243,23 @@ public enum ViewBuilderImpl implements ViewBuilder {
 	// simply return one of the pre-loaded views
 	public void buildView(String view) {
 
-		System.err.println("fetching scene '" + view + "Scene'.");
-
 		if (systemScenes == null) {
 			throw new IllegalAccessError("scenes null");
 		}
 		if (!systemScenes.containsKey(view)) {
-			System.err.println("key '" + view + "' not present.");
-		}
+			new Alert(AlertType.ERROR, "An unexpected error occured. System will exit now..").showAndWait();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			ViewBuilder.changeGUI(systemScenes.get("Login"));
 
-		Scene scene = systemScenes.get(view);
-		ViewBuilder.changeGUI(scene);
+		} else {
+
+			Scene scene = systemScenes.get(view);
+			ViewBuilder.changeGUI(scene);
+		}
 	}
 
 	// Views that need to be instanciated dinymically (as some fields are filled
@@ -375,6 +388,22 @@ public enum ViewBuilderImpl implements ViewBuilder {
 		setMainController(controller);
 
 		preLoadScenes();
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
+
+	public HashMap<String, Scene> getSystemScenes() {
+		return systemScenes;
+	}
+
+	public void setSystemScenes(HashMap<String, Scene> systemScenes) {
+		this.systemScenes = systemScenes;
 	}
 
 }

@@ -9,16 +9,16 @@ public interface UserStoryDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather a UserStory exists.
 	 * 
 	 * @param userStory
-	 * @return
+	 * @returns true, if yes
 	 */
 	boolean hasUserStory(String userStory);
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Inserts a UserStory into the database.
 	 * 
 	 * @param text
 	 */

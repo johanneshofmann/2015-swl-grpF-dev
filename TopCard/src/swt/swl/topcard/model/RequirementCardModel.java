@@ -18,7 +18,7 @@ public interface RequirementCardModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Inserts an edited Requirement Card into the database.
 	 * 
 	 * @param checkedItems
 	 * @param text

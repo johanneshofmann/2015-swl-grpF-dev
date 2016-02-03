@@ -151,16 +151,15 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 			cancelEvent = true;
 			Alert al = new Alert(AlertType.INFORMATION, "No username given, please enter one. ");
 
-			// TODO: maybe idea for all alerts ..?
 			al.setTitle("No username given");
 
 			al.showAndWait();
 		}
 	}
 
-	public void setData(RequirementCardController mainController, Scene loginScene) {
+	public void setData(RequirementCardController mainController, Scene requirementCardScene) {
 
-		setLoginScene(loginScene);
+		setScenes(requirementCardScene);
 	}
 
 	@Override
@@ -171,6 +170,12 @@ public class LoginControllerImpl implements Observer, Controller, LoginControlle
 	@Override
 	public void registerOnModel() {
 		((Observable) model).addObserver(this);
+	}
+
+	@Override
+	public void setScenes(Scene sc) {
+		this.loginScene = MainAppImpl.vB.getSystemScenes().get("Login");
+		this.requirementCardViewScene = sc;
 	}
 
 }

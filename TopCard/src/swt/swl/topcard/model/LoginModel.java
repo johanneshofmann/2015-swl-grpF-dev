@@ -4,7 +4,7 @@ import javafx.beans.Observable;
 
 /**
  * 
- * TODO: javadoc
+ * The Login Models' Interface
  * 
  * @author swt-041649
  *
@@ -12,17 +12,15 @@ import javafx.beans.Observable;
 public interface LoginModel extends Observable {
 
 	/**
-	 * 
-	 * TODO: javadoc
+	 * checks wheather an user is in the database or not.
 	 * 
 	 * @param text
-	 * @return
 	 */
 	boolean checkDatabase(String text);
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Inserts an User into the Database.
 	 * 
 	 * @param firstName
 	 * @param lastName
@@ -32,7 +30,7 @@ public interface LoginModel extends Observable {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Deletes an User from the database.
 	 * 
 	 * @param loginName
 	 */

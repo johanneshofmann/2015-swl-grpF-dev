@@ -37,10 +37,10 @@ import swt.swl.topcard.controller.logic.ViewBuilderImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
-import swt.swl.topcard.model._Model;
 import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
 import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
 import swt.swl.topcard.model.RequirementCardModel;
+import swt.swl.topcard.model._Model;
 import swt.swl.topcard.model._impl.RequirementCardModelImpl;
 
 public class RequirementCardControllerImpl implements Observer, Controller, RequirementCardController {
@@ -96,10 +96,11 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 		setMainController(this);
 
 		ViewBuilderImpl.INSTANCE.setMainController(this);
+
+		viewBuilder = ViewBuilderImpl.INSTANCE;
 	}
 
 	public void initializeFXNodes() {
-		System.out.println("inti FX Nodes (@RQC.)");
 
 		initChooseTeamComboBox();
 		initTableView();
@@ -124,10 +125,13 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 	public void repaint() {
 
+		System.out.println("repainting");
 		initTableView();
 		refrechTeams();
+		System.out.println("ready");
 
 		ViewBuilder.changeGUI(loginController.getRequirementCardViewScene());
+		System.out.println("gui changed");
 	}
 
 	private void refrechTeams() {

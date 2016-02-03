@@ -1,5 +1,7 @@
 package swt.swl.topcard.controller.logic;
 
+import java.util.HashMap;
+
 import javafx.scene.Scene;
 import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.RequirementCardController;
@@ -16,50 +18,49 @@ import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 public interface ViewBuilder {
 
 	/**
-	 * 
-	 * TODO: javadoc
+	 * Pre-Loads a few scenes of TopCard Application.
 	 * 
 	 */
 	void preLoadScenes();
 
 	/**
 	 * 
-	 * TODO: javadoc
-	 * 
+	 * Changes to the view matching the given String.
 	 */
 	void buildView(String string);
 
 	/**
 	 * 
-	 * TODO: javadoc
-	 * 
+	 * Creates a View.
 	 */
 	void buildView(String view, RequirementCardSimple rq);
 
 	/**
-	 * 
-	 * TODO: javadoc
+	 * Creates a View.
 	 * 
 	 */
 	Scene buildView(String view, String loginName);
 
 	/**
-	 * 
-	 * TODO: javadoc
-	 * 
+	 * Sets the Main-Controller-Instance of the ViewBuilder.
 	 */
 	void setMainController(RequirementCardController mainController);
 
 	/**
+	 * Performs a well-known operation in JavaFX Applications:
 	 * 
-	 * TODO: javadoc
+	 * <ul>
+	 * <li>close PrimaryStage
+	 * <li>change Scene on PrimaryStage
+	 * <li>shop PrimaryStage again
+	 * </ul>
 	 * 
 	 */
 	public static void changeGUI(Scene scene) {
 
-		ViewBuilderImpl.primaryStage.close();
-		ViewBuilderImpl.primaryStage.setScene(scene);
-		ViewBuilderImpl.primaryStage.show();
+		ViewBuilderImpl.INSTANCE.getPrimaryStage().close();
+		ViewBuilderImpl.INSTANCE.getPrimaryStage().setScene(scene);
+		ViewBuilderImpl.INSTANCE.getPrimaryStage().show();
 	}
 
 	/**
@@ -80,5 +81,7 @@ public interface ViewBuilder {
 	 * ViewBuilder Singleton
 	 */
 	void configureYourself();
+
+	HashMap<String, Scene> getSystemScenes();
 
 }

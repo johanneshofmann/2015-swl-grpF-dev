@@ -2,8 +2,6 @@ package swt.swl.topcard.logic.entitiy;
 
 /**
  * 
- * TODO: javadoc
- * 
  * @author swt-041649
  *
  */
@@ -11,7 +9,7 @@ public interface SubmittedVoteSimple {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * The interface for the classes' Builder.
 	 * 
 	 * @author -steve-
 	 *
@@ -50,13 +48,19 @@ public interface SubmittedVoteSimple {
 
 		/**
 		 * 
-		 * TODO: javadoc
+		 * This method is called, when the entity is configured correctly.
 		 * 
 		 * @return
 		 */
 		public SubmittedVoteSimple buildVote();
 	}
 
+	/**
+	 * 
+	 * Simple getters..
+	 * 
+	 * @return
+	 */
 	public int getID();
 
 	double getDescriptionPrecise();

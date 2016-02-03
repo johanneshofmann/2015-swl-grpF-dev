@@ -6,8 +6,6 @@ import swt.swl.topcard.logic.entity.impl.SubmittedVoteSimpleImpl;
 
 /**
  * 
- * TODO: javadoc
- * 
  * @author swt-041649
  *
  */
@@ -15,12 +13,20 @@ public interface RequirementCardSimple {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * TODO: The interface for the classes' Builder.
 	 * 
 	 * @author -steve-
 	 *
 	 */
 	public static interface RequirementCardBuilder {
+
+		/**
+		 * 
+		 * Just simple setter-methods
+		 * 
+		 * @param ID
+		 * @return
+		 */
 
 		public RequirementCardBuilder setID(int ID);
 
@@ -62,7 +68,7 @@ public interface RequirementCardSimple {
 
 		/**
 		 * 
-		 * TODO: javadoc
+		 * This method is called, when the entity is configured correctly.
 		 * 
 		 * @return
 		 */
@@ -70,6 +76,12 @@ public interface RequirementCardSimple {
 
 	}
 
+	/**
+	 * 
+	 * Simple getters..
+	 * 
+	 * @return
+	 */
 	String getOwnerName();
 
 	String getModules();

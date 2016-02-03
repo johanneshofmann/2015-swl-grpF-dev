@@ -4,7 +4,7 @@ import swt.swl.topcard.model._Model;
 
 /**
  * 
- * TODO: javadoc
+ * Interface for a DAO(Data-Access-Object) that deals with models.
  * 
  * @author -steve-
  *
@@ -13,7 +13,7 @@ public interface ModelDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * The commom way to add an entity.
 	 * 
 	 * @param name
 	 * @param model

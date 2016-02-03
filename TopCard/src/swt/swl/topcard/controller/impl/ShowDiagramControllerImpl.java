@@ -105,7 +105,6 @@ public class ShowDiagramControllerImpl implements Observer, Controller, ShowDiag
 	}
 
 	private void initFXNodes() {
-		optionChoiceBox.setItems(FXCollections.observableArrayList("=", "<", ">"));
 
 		voteChoiceBox.setItems(FXCollections.observableArrayList("DescriptionPrecise", "DescriptionUnderstandable",
 				"DescriptionCorrect", "DescriptionComplete", "DescriptionAtomic", "RationalePrecise",

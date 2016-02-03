@@ -64,7 +64,6 @@ public class SearchRequirementCardControllerImpl implements Controller, SearchRe
 			rationaleConsistentComboBox;
 
 	public SearchRequirementCardControllerImpl() {
-		registerOnModel();
 	}
 
 	private void initiateComboBoxes() {

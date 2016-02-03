@@ -3,6 +3,7 @@ package swt.swl.topcard.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import swt.swl.topcard.controller.impl.LoginControllerImpl;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.model._Model;
 
@@ -63,6 +64,12 @@ public interface LoginController {
 	 * @param loginScene
 	 */
 	Scene getRequirementCardViewScene();
+
+	/**
+	 * 
+	 * @param hashMap
+	 */
+	void setScenes(Scene sc);
 
 	/**
 	 * 

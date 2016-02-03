@@ -1,8 +1,7 @@
 package swt.swl.topcard.logic.entitiy;
 
 /**
- * 
- * TODO: javadoc
+ * Interface for the Team-Entity
  * 
  * @author swt-041649
  *

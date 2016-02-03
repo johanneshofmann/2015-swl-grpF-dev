@@ -9,7 +9,7 @@ public interface ModuleDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Checks wheather a module already exists or not.
 	 * 
 	 * @param value
 	 * @return
@@ -18,7 +18,7 @@ public interface ModuleDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Inserts a module into the database.
 	 * 
 	 * @param value
 	 */

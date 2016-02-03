@@ -2,7 +2,8 @@ package swt.swl.topcard.logic.entitiy;
 
 /**
  * 
- * TODO: javadoc
+ * A simple Data-Object that holds the calculated vote result of a requirement
+ * card.
  * 
  * @author -steve-
  *
@@ -11,7 +12,7 @@ public interface OverallVoteScore {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple getter.
 	 * 
 	 * @return
 	 */
@@ -19,7 +20,7 @@ public interface OverallVoteScore {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple getter.
 	 * 
 	 * @return
 	 */
@@ -27,7 +28,7 @@ public interface OverallVoteScore {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple getter.
 	 * 
 	 * @return
 	 */
@@ -35,7 +36,7 @@ public interface OverallVoteScore {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * Simple getter.
 	 * 
 	 * @return
 	 */

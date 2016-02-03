@@ -6,6 +6,8 @@ import javafx.scene.chart.XYChart.Series;
 import swt.swl.topcard.logic.entitiy.SubmittedVoteSimple;
 
 /**
+ * The StatisticsHelper is responsible for generating statistics about the
+ * requirements and votes of TopCard Application.
  * 
  * @author swt-041649
  *
@@ -14,12 +16,10 @@ public interface StatisticsHelperDoc {
 
 	/**
 	 * 
-	 * TODO: javadoc
-	 * 
 	 * @param series
 	 * @param option
 	 * @param votesArray
-	 * @return
+	 * @return series for line chart
 	 */
 	Series<Number, Double> switchOption(Series<Number, Double> series, String option,
 			ArrayList<SubmittedVoteSimple> votesArray);

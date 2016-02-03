@@ -18,26 +18,6 @@
 							</children>
 						</HBox>
 						<PieChart fx:id="pieChart" layoutX="13.0" prefHeight="277.0" prefWidth="450.0" title="Pie Chart : " />
-                  <VBox layoutX="271.0" layoutY="301.0" prefHeight="31.0" prefWidth="100.0">
-                     <children>
-                        <TextField fx:id="whereStringTextField" prefHeight="26.0" prefWidth="97.0" promptText="String" />
-                        <TextField fx:id="whereIntegerTextField" prefHeight="26.0" prefWidth="97.0" promptText="Integer" />
-                     </children>
-                  </VBox>
-                  <HBox layoutY="314.0" prefHeight="26.0" prefWidth="272.0" spacing="5.0">
-                     <children>
-                        <Label prefHeight="16.0" prefWidth="112.0" text="DELETE FROM :" />
-                        <TextField fx:id="deleteFromTextField" prefHeight="26.0" prefWidth="97.0" />
-                        <Label prefHeight="16.0" prefWidth="53.0" text="WHERE " />
-                     </children>
-                  </HBox>
-                  <HBox layoutX="371.0" layoutY="314.0" prefHeight="26.0" prefWidth="227.0" spacing="5.0">
-                     <children>
-                        <ChoiceBox fx:id="optionChoiceBox" prefHeight="26.0" prefWidth="68.0" />
-                        <TextField fx:id="equalsTextField" prefHeight="26.0" prefWidth="73.0" />
-                        <Button fx:id="executeButton" mnemonicParsing="false" onAction="#executeDelete" text="Execute" />
-                     </children>
-                  </HBox>
 					</children>
 				</AnchorPane>
 			</content>

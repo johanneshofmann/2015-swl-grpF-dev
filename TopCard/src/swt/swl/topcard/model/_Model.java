@@ -2,7 +2,7 @@ package swt.swl.topcard.model;
 
 /**
  * 
- * TODO: javadoc
+ * TODO: Model interface
  * 
  * @author -steve-
  *

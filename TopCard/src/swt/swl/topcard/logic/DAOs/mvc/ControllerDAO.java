@@ -4,7 +4,7 @@ import swt.swl.topcard.controller.Controller;
 
 /**
  * 
- * TODO: javadoc description
+ * Interface for a DAO(Data-Access-Object) that deals with controllers.
  * 
  * @author -steve-
  *
@@ -13,7 +13,7 @@ public interface ControllerDAO {
 
 	/**
 	 * 
-	 * TODO: javadoc
+	 * The commom way to add an entity.
 	 * 
 	 * @param name
 	 * @param controller

@@ -2,8 +2,10 @@ package swt.swl.topcard;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import swt.swl.topcard.controller.LoginController;
 import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.controller.logic.ViewBuilderImpl;
+import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 
 public class MainAppImpl extends Application implements MainApp {
 
@@ -19,7 +21,7 @@ public class MainAppImpl extends Application implements MainApp {
 
 		// instanciate ViewBuilder
 
-		MainApp.drawDots();
+		// MainApp.drawDots();
 
 		vB = ViewBuilderImpl.INSTANCE;
 
@@ -30,7 +32,11 @@ public class MainAppImpl extends Application implements MainApp {
 
 	public void initLoginView() {
 
-		vB.buildView("Login");
+		String key = "Login";
+		vB.buildView(key);
+
+		((LoginController) ControllerDAOImpl.controllers.get(key))
+				.setScenes(vB.getSystemScenes().get("RequirementCard"));
 
 		System.out.println("Starting up Application at System Time: " + new java.util.Date());
 	}
