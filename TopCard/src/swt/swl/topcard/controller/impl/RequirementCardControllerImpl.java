@@ -36,6 +36,7 @@ import swt.swl.topcard.controller.logic.ViewBuilder;
 import swt.swl.topcard.controller.logic.ViewBuilderImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ControllerDAOImpl;
 import swt.swl.topcard.logic.DAOs.mvc.impl.ModelDAOImpl;
+import swt.swl.topcard.logic._impl.DatabaseHelper;
 import swt.swl.topcard.logic.entitiy.RequirementCardSimple;
 import swt.swl.topcard.logic.eventHandler.TeamChangeListener;
 import swt.swl.topcard.logic.eventHandler.impl.TeamChangeListenerImpl;
@@ -83,6 +84,11 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 	private ViewBuilder viewBuilder;
 
 	public RequirementCardControllerImpl() {
+		
+		if(!DatabaseHelper.hasConnection()){
+			new Alert(AlertType.ERROR , "TopCard could not connect to database!").showAndWait();
+			System.exit(1);
+		}
 
 		this.observableList = FXCollections.observableArrayList();
 
@@ -114,24 +120,14 @@ public class RequirementCardControllerImpl implements Observer, Controller, Requ
 
 	@FXML
 	void helpButtonClicked(ActionEvent event) {
-		/*
-		 * String pfad =
-		 * "/afs/swt.wiai.uni-bamberg.de/users/home.swt-040350/GIT Johannes/2015-swl-grpF-dev/TopCard/src/swt/swl/topcard/view/mozilla.pdf"
-		 * ; // "swt/swl/topcard/view/mozilla.pdf"; try {
-		 * Desktop.getDesktop().open(new File(pfad)); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 */
+		// not used..
 	}
 
 	public void repaint() {
 
-		System.out.println("repainting");
 		initTableView();
 		refrechTeams();
-		System.out.println("ready");
-
 		ViewBuilder.changeGUI(loginController.getRequirementCardViewScene());
-		System.out.println("gui changed");
 	}
 
 	private void refrechTeams() {

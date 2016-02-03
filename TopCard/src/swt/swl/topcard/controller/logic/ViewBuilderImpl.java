@@ -366,6 +366,7 @@ public enum ViewBuilderImpl implements ViewBuilder {
 
 	@Override
 	public void configureYourself() {
+		
 
 		buildView("RequirementCard", null, null);
 

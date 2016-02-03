@@ -444,6 +444,7 @@ public class DatabaseHelper {
 			}
 
 		} catch (SQLException e) {
+
 			e.printStackTrace();
 		}
 		return teams;
@@ -984,4 +985,17 @@ public class DatabaseHelper {
 		throw new IllegalStateException("Illegal state.");
 	}
 
+	public static boolean hasConnection() {
+
+		try (Connection conn = DriverManager.getConnection(connString, connUser, connPassword)) {
+
+			// simply try to open a connection..
+
+			return true;
+
+		} catch (SQLException e) {
+			// ignore and return false:
+		}
+		return false;
+	}
 }
